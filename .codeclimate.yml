@@ -1,0 +1,28 @@
+engines:
+  eslint:
+    enabled: true
+  csslint:
+    enabled: true
+  phpcodesniffer:
+    enabled: true
+    checks:
+      Squiz ControlStructures ControlSignature SpaceAfterCloseParenthesis:
+        enabled: false
+  duplication:
+    enabled: true
+    config:
+      languages:
+      - javascript:
+      - php:
+ratings:
+  paths:
+  - src/**
+  - app/**
+  - web/**
+
+exclude_paths:
+- "tests/"
+- "spec/"
+- "**/vendor/"
+- "var/"
+- "bin/"
