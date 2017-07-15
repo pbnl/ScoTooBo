@@ -14,5 +14,5 @@ echo "Exporting config..."
 slapcat -n 0 -l $SCRIPTPATH/ldap-test-database-config.ldif
 echo "OK"
 echo "Exporting data..."
-slapcat -n 1 -l $SCRIPTPATH/ldap-test-database-data.ldif
+slapcat -n 1 -l $SCRIPTPATH/ldap-test-database-data.ldif -a '(entryDN:dnSubtreeMatch:=dc=pbnl,dc=de)'
 echo "OK"
