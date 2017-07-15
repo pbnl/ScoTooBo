@@ -16,7 +16,7 @@ parameters:
     env(LDAP_BASE_DN): dc=pbnl,dc=de
     env(LDAP_USER_DN): cn=admin,dc=pbnl,dc=de
     env(LDAP_PASSWORD): admin
-    env(LDAP_SERVER): [127.0.0.1]
+    env(LDAP_SERVER): 127.0.0.1
 
 framework:
     #esi: ~
@@ -86,4 +86,4 @@ ldap_tools:
             base_dn: "%env(LDAP_BASE_DN)%"
             username: "%env(LDAP_USER_DN)%"
             password: "%env(LDAP_PASSWORD)%"
-            servers: "%env(LDAP_SERVER)%"
+            servers: ["%env(LDAP_SERVER)%"]
