@@ -61,14 +61,14 @@ dn: cn=buvo,ou=Group,dc=pbnl,dc=de
 cn: buvo
 gidNumber: 502
 objectClass: posixGroup
-memberUid: givenName=kassenmonster,ou=Minas Tirith,ou=People,dc=pbnl,dc=de
 structuralObjectClass: posixGroup
 entryUUID: 300f5856-07fc-1036-89cb-c9d07847b537
 creatorsName: cn=admin,dc=pbnl,dc=de
 createTimestamp: 20160905213353Z
-entryCSN: 20161125225707.175101Z#000000#000#000000
+memberUid: givenName=TestBuvoUser,ou=Ambronen,ou=People,dc=pbnl,dc=de
+entryCSN: 20170715204757.063096Z#000000#000#000000
 modifiersName: cn=admin,dc=pbnl,dc=de
-modifyTimestamp: 20161125225707Z
+modifyTimestamp: 20170715204757Z
 
 dn: cn=stavo,ou=Group,dc=pbnl,dc=de
 cn: stavo
@@ -78,10 +78,10 @@ structuralObjectClass: posixGroup
 entryUUID: 300fbae4-07fc-1036-89cc-c9d07847b537
 creatorsName: cn=admin,dc=pbnl,dc=de
 createTimestamp: 20160905213353Z
-memberUid: cn=uniedition,ou=Dummy,ou=People,dc=pbnl,dc=de
-entryCSN: 20170715002144.627831Z#000000#000#000000
+memberUid: givenName=TestAmbrone1,ou=Ambronen,ou=People,dc=pbnl,dc=de
+entryCSN: 20170715204737.323697Z#000000#000#000000
 modifiersName: cn=admin,dc=pbnl,dc=de
-modifyTimestamp: 20170715002144Z
+modifyTimestamp: 20170715204737Z
 
 dn: cn=schulung,ou=Group,dc=pbnl,dc=de
 cn: schulung
@@ -92,10 +92,10 @@ entryUUID: 30102074-07fc-1036-89cd-c9d07847b537
 creatorsName: cn=admin,dc=pbnl,dc=de
 createTimestamp: 20160905213353Z
 description: teamGroup
-memberUid: cn=uniedition,ou=Dummy,ou=People,dc=pbnl,dc=de
-entryCSN: 20170715002147.500040Z#000000#000#000000
+memberUid: givenName=TestAmbrone1,ou=Ambronen,ou=People,dc=pbnl,dc=de
+entryCSN: 20170715204743.920896Z#000000#000#000000
 modifiersName: cn=admin,dc=pbnl,dc=de
-modifyTimestamp: 20170715002147Z
+modifyTimestamp: 20170715204743Z
 
 dn: ou=Forward,dc=pbnl,dc=de
 objectClass: organizationalUnit
@@ -170,43 +170,18 @@ entryCSN: 20160905213353.728080Z#000000#000#000000
 modifiersName: cn=admin,dc=pbnl,dc=de
 modifyTimestamp: 20160905213353Z
 
-dn: cn=uniedition,ou=Dummy,ou=People,dc=pbnl,dc=de
-sn: uniedition
-cn: uniedition
-gidNumber: 0
-homeDirectory: /dev/null
-objectClass: person
-objectClass: posixAccount
-uid: uniedition
-uidNumber: 0
-userPassword:: e1NTSEF9UnppYVkrZDdINnRtUzNieXR6Yi84UUU0aVkzQnVSMzNGcWRUSFE9P
- Q==
-structuralObjectClass: person
-entryUUID: 301e58c4-07fc-1036-89f8-c9d07847b537
-creatorsName: cn=admin,dc=pbnl,dc=de
-createTimestamp: 20160905213353Z
-entryCSN: 20160905213353.782359Z#000000#000#000000
-modifiersName: cn=admin,dc=pbnl,dc=de
-modifyTimestamp: 20160905213353Z
-
 dn: cn=wiki,ou=Group,dc=pbnl,dc=de
 cn: wiki
 gidNumber: 0
 objectClass: posixGroup
-memberUid: givenName=hwd,ou=testStamm,ou=People,dc=pbnl,dc=de
-memberUid: givenName=wgthththzjzj,ou=testStamm,ou=People,dc=pbnl,dc=de
-memberUid: givenName=ukku,ou=testStamm,ou=People,dc=pbnl,dc=de
-memberUid: givenName=gergerg,ou=testStamm,ou=People,dc=pbnl,dc=de
-memberUid: givenName=rgerg,ou=testStamm,ou=People,dc=pbnl,dc=de
-memberUid: givenName=rg,ou=Ambronen,ou=People,dc=pbnl,dc=de
-memberUid: givenName=th84kr,ou=Hagen von Tronje,ou=People,dc=pbnl,dc=de
+memberUid: givenName=TestAmbrone1,ou=Ambronen,ou=People,dc=pbnl,dc=de
 structuralObjectClass: posixGroup
 entryUUID: 301eb24c-07fc-1036-89f9-c9d07847b537
 creatorsName: cn=admin,dc=pbnl,dc=de
 createTimestamp: 20160905213353Z
-entryCSN: 20170508190300.897874Z#000000#000#000000
+entryCSN: 20170715204813.991122Z#000000#000#000000
 modifiersName: cn=admin,dc=pbnl,dc=de
-modifyTimestamp: 20170508190300Z
+modifyTimestamp: 20170715204813Z
 
 dn: cn=webmaster@schulung.pbnl.de,ou=Group,dc=pbnl,dc=de
 cn: webmaster@schulung.pbnl.de
@@ -218,10 +193,10 @@ creatorsName: cn=admin,dc=pbnl,dc=de
 createTimestamp: 20160905213721Z
 description:: RGllc2UgR3J1cHBlIGhhdCBXZWJEQVYtWnVncmlmZiBmw7xyIHNjaHVsdW5nLn
  BibmwuZGUuIHRlYW1Hcm91cA==
-memberUid: cn=uniedition,ou=Dummy,ou=People,dc=pbnl,dc=de
-entryCSN: 20170715002134.352042Z#000000#000#000000
+memberUid: givenName=TestAmbrone1,ou=Ambronen,ou=People,dc=pbnl,dc=de
+entryCSN: 20170715204727.549103Z#000000#000#000000
 modifiersName: cn=admin,dc=pbnl,dc=de
-modifyTimestamp: 20170715002134Z
+modifyTimestamp: 20170715204727Z
 
 dn: mail=webmaster@ambronen.de,ou=Forward,dc=pbnl,dc=de
 mail: webmaster@ambronen.de
@@ -230,10 +205,10 @@ structuralObjectClass: pbnlMailAlias
 entryUUID: ac10dfc4-07fc-1036-8a7c-c9d07847b537
 creatorsName: cn=admin,dc=pbnl,dc=de
 createTimestamp: 20160905213721Z
-forward: wwd@pbnl.de
-entryCSN: 20161125222900.062959Z#000000#000#000000
+forward: TestAmbrone1@pbnl.de
+entryCSN: 20170715205029.502400Z#000000#000#000000
 modifiersName: cn=admin,dc=pbnl,dc=de
-modifyTimestamp: 20161125222900Z
+modifyTimestamp: 20170715205029Z
 
 dn: cn=webmaster@ambronen.pbnl.de,ou=Group,dc=pbnl,dc=de
 cn: webmaster@ambronen.pbnl.de
@@ -245,10 +220,10 @@ creatorsName: cn=admin,dc=pbnl,dc=de
 createTimestamp: 20160905213721Z
 description:: RGllc2UgR3J1cHBlIGhhdCBXZWJEQVYtWnVncmlmZiBmw7xyIGFtYnJvbmVuLn
  BibmwuZGUuIHRlYW1Hcm91cA==
-memberUid: cn=uniedition,ou=Dummy,ou=People,dc=pbnl,dc=de
-entryCSN: 20170715002140.587561Z#000000#000#000000
+memberUid: givenName=TestAmbrone1,ou=Ambronen,ou=People,dc=pbnl,dc=de
+entryCSN: 20170715204731.737636Z#000000#000#000000
 modifiersName: cn=admin,dc=pbnl,dc=de
-modifyTimestamp: 20170715002140Z
+modifyTimestamp: 20170715204731Z
 
 dn: givenName=TestBuvoUser,ou=Ambronen,ou=People,dc=pbnl,dc=de
 objectClass: inetOrgPerson
@@ -277,119 +252,24 @@ entryCSN: 20170712090556.350558Z#000000#000#000000
 modifiersName: cn=admin,dc=pbnl,dc=de
 modifyTimestamp: 20170712090556Z
 
-dn: cn=Harald,ou=Dummy,ou=People,dc=pbnl,dc=de
+dn: cn=TestDummy,ou=Dummy,ou=People,dc=pbnl,dc=de
 gidNumber: 0
 uidNumber: 0
 objectClass: person
 objectClass: posixAccount
 homeDirectory: /dev/null
-sn:: SsOka2Vs
-uid: harald
-cn: Harald
-userPassword:: e1NTSEF9U1ZvbGdwQWVOWWRoN21nY2JsTU5FNnlrMkFpQmhMSW9IS0d3cFE9P
- Q==
-structuralObjectClass: person
-entryUUID: ac1ec5d0-07fc-1036-8a94-c9d07847b537
-creatorsName: cn=admin,dc=pbnl,dc=de
-createTimestamp: 20160905213721Z
-entryCSN: 20160905213721.822627Z#000000#000#000000
-modifiersName: cn=admin,dc=pbnl,dc=de
-modifyTimestamp: 20160905213721Z
-
-dn: cn=Hartmut,ou=Dummy,ou=People,dc=pbnl,dc=de
-gidNumber: 0
-uidNumber: 0
-objectClass: person
-objectClass: posixAccount
-homeDirectory: /dev/null
-cn: Hartmut
-sn: Meis
-uid: hartmut
-userPassword:: e1NTSEF9bTFDNzhsdE1TTkpYWnpBOG5yL05FbE9CeDJDR1Q4dExaaHNsUHc9P
- Q==
-structuralObjectClass: person
-entryUUID: ac20be8a-07fc-1036-8a98-c9d07847b537
-creatorsName: cn=admin,dc=pbnl,dc=de
-createTimestamp: 20160905213721Z
-entryCSN: 20160905213721.835548Z#000000#000#000000
-modifiersName: cn=admin,dc=pbnl,dc=de
-modifyTimestamp: 20160905213721Z
-
-dn: cn=Guido,ou=Dummy,ou=People,dc=pbnl,dc=de
-gidNumber: 0
-uidNumber: 0
-objectClass: person
-objectClass: posixAccount
-homeDirectory: /dev/null
-cn: Guido
-sn: Junge
-uid: guido
-userPassword:: e1NTSEF9cGxaay85UTZVaTRjSlNFZUUvbW4wVWZReTVlS1ZCZzhvNHNSQWc9P
- Q==
-structuralObjectClass: person
-entryUUID: ac227c48-07fc-1036-8a99-c9d07847b537
-creatorsName: cn=admin,dc=pbnl,dc=de
-createTimestamp: 20160905213721Z
-entryCSN: 20160905213721.846958Z#000000#000#000000
-modifiersName: cn=admin,dc=pbnl,dc=de
-modifyTimestamp: 20160905213721Z
-
-dn: cn=Erwin,ou=Dummy,ou=People,dc=pbnl,dc=de
-gidNumber: 0
-uidNumber: 0
-objectClass: person
-objectClass: posixAccount
-homeDirectory: /dev/null
-cn: Erwin
-sn: Geyer
-uid: erwin
-userPassword:: e1NTSEF9bTZSTFliU3FhcGhZcDdTVEhqVXQyb1dtZWlmaWJheFVsV3RsUFE9P
- Q==
 structuralObjectClass: person
 entryUUID: ac22db5c-07fc-1036-8a9a-c9d07847b537
 creatorsName: cn=admin,dc=pbnl,dc=de
 createTimestamp: 20160905213721Z
-entryCSN: 20160905213721.849394Z#000000#000#000000
-modifiersName: cn=admin,dc=pbnl,dc=de
-modifyTimestamp: 20160905213721Z
-
-dn: cn=Martin,ou=Dummy,ou=People,dc=pbnl,dc=de
-gidNumber: 0
-uidNumber: 0
-objectClass: person
-objectClass: posixAccount
-homeDirectory: /dev/null
-cn: Martin
-sn: Sibbel
-uid: martin
-userPassword:: e1NTSEF9Mmx4TWNvZVYxQ2k5SjE2TlVSOEZQamdWWUFLK1dGWkpaTGlkR3c9P
+cn: TestDummy
+sn: TestDummy
+uid: TestDummy
+userPassword:: e3NzaGF9UGR3MW8vaXR5WG9ZUVQzMWRNVEF3c1JkeWJJODAzMFJQQmpnTGc9P
  Q==
-structuralObjectClass: person
-entryUUID: ac2331b0-07fc-1036-8a9b-c9d07847b537
-creatorsName: cn=admin,dc=pbnl,dc=de
-createTimestamp: 20160905213721Z
-entryCSN: 20160905213721.851605Z#000000#000#000000
+entryCSN: 20170715204526.879187Z#000000#000#000000
 modifiersName: cn=admin,dc=pbnl,dc=de
-modifyTimestamp: 20160905213721Z
-
-dn: cn=Rainer,ou=Dummy,ou=People,dc=pbnl,dc=de
-gidNumber: 0
-uidNumber: 0
-objectClass: person
-objectClass: posixAccount
-homeDirectory: /dev/null
-cn: Rainer
-sn: Storhas
-uid: rainer
-userPassword:: e1NTSEF9ck4zNGNnMjQrSE5uek1rTWtKbGVBV3NVZWxGUHlGa1ZnNU9yL0E9P
- Q==
-structuralObjectClass: person
-entryUUID: ac238c78-07fc-1036-8a9c-c9d07847b537
-creatorsName: cn=admin,dc=pbnl,dc=de
-createTimestamp: 20160905213721Z
-entryCSN: 20160905213721.853924Z#000000#000#000000
-modifiersName: cn=admin,dc=pbnl,dc=de
-modifyTimestamp: 20160905213721Z
+modifyTimestamp: 20170715204526Z
 
 dn: mail=ambronen@pbnl.de,ou=Forward,dc=pbnl,dc=de
 mail: ambronen@pbnl.de
@@ -409,51 +289,27 @@ modifyTimestamp: 20170712091959Z
 
 dn: mail=wiki@pbnl.de,ou=Forward,dc=pbnl,dc=de
 mail: wiki@pbnl.de
-forward: hwd@pbnl.de
-forward: wgthththzjzj@pbnl.de
-forward: ukku@pbnl.de
-forward: gergerg@pbnl.de
-forward: rgerg@pbnl.de
-forward: rg@pbnl.de
-forward: th84kr@pbnl.de
 objectClass: pbnlMailAlias
 structuralObjectClass: pbnlMailAlias
 entryUUID: d36f9b36-16d0-1036-8814-270bf2c77955
 creatorsName: cn=admin,dc=pbnl,dc=de
 createTimestamp: 20160924183117Z
-entryCSN: 20170508190300.900764Z#000000#000#000000
+forward: TestAmbrone1@pbnl.de
+entryCSN: 20170715205020.112057Z#000000#000#000000
 modifiersName: cn=admin,dc=pbnl,dc=de
-modifyTimestamp: 20170508190300Z
+modifyTimestamp: 20170715205020Z
 
 dn: mail=nordlichter@pbnl.de,ou=Forward,dc=pbnl,dc=de
-forward: hwd@pbnl.de
-forward: wgthththzjzj@pbnl.de
-forward: ukku@pbnl.de
-forward: gergerg@pbnl.de
-forward: rgerg@pbnl.de
-forward: rg@pbnl.de
-forward: th84kr@pbnl.de
 objectClass: pbnlMailAlias
 structuralObjectClass: pbnlMailAlias
 entryUUID: d9b7d418-16d0-1036-8816-270bf2c77955
 creatorsName: cn=admin,dc=pbnl,dc=de
 createTimestamp: 20160924183127Z
 mail: nordlichter@pbnl.de
-entryCSN: 20170508190300.896382Z#000000#000#000000
+forward: TestAmbrone1@pbnl.de
+entryCSN: 20170715205106.045793Z#000000#000#000000
 modifiersName: cn=admin,dc=pbnl,dc=de
-modifyTimestamp: 20170508190300Z
-
-dn: mail=testStamm@pbnl.de,ou=Forward,dc=pbnl,dc=de
-objectClass: pbnlMailAlias
-mail: testStamm@pbnl.de
-forward: testuser22@pbnl.de
-structuralObjectClass: pbnlMailAlias
-entryUUID: 9dff1cc8-53f3-1036-8c8a-fbe5f0dddb61
-creatorsName: cn=admin,dc=pbnl,dc=de
-createTimestamp: 20161211134401Z
-entryCSN: 20170508190300.905116Z#000000#000#000000
-modifiersName: cn=admin,dc=pbnl,dc=de
-modifyTimestamp: 20170508190300Z
+modifyTimestamp: 20170715205106Z
 
 dn: mail=stavo@pbnl.de,ou=Forward,dc=pbnl,dc=de
 objectClass: pbnlMailAlias
@@ -494,32 +350,32 @@ entryCSN: 20170712090815.607970Z#000000#000#000000
 modifiersName: cn=admin,dc=pbnl,dc=de
 modifyTimestamp: 20170712090815Z
 
-dn: givenName=th84kr,ou=Hagen von Tronje,ou=People,dc=pbnl,dc=de
+dn: givenName=TestTronjer,ou=Hagen von Tronje,ou=People,dc=pbnl,dc=de
 objectClass: inetOrgPerson
 objectClass: posixAccount
 objectClass: pbnlAccount
-cn: josef
 gidNumber: 501
 uidNumber: 815
 homeDirectory: /home/th84kr
-sn: kruse
-uid: th84kr
 l: 0
 mail: th84kr@pbnl.de
 mobile: 0
 postalCode: 0
 street: 0
 telephoneNumber: 0
-userPassword:: e1NTSEF9QVhpcU9NYWNVb2R4RVExOFg5a2pDaXRqQ2dGeUMyTnJQd20zeGc9P
- Q==
-givenName: th84kr
 structuralObjectClass: inetOrgPerson
 entryUUID: 5e2c4768-b3fe-1036-9850-a13902e903f4
 creatorsName: cn=admin,dc=pbnl,dc=de
 createTimestamp: 20170412190250Z
-entryCSN: 20170412190250.040023Z#000000#000#000000
+uid: TestTronjer
+givenName: TestTronjer
+sn: Nachname
+cn: vorname
+userPassword:: e3NzaGF9L2gwcTBVYUJ6Y0U1SlhhMnhUNVVDWmd5UkNFeXhlYVJzRU4yZkE9P
+ Q==
+entryCSN: 20170715204954.702971Z#000000#000#000000
 modifiersName: cn=admin,dc=pbnl,dc=de
-modifyTimestamp: 20170412190250Z
+modifyTimestamp: 20170715204954Z
 
 dn: cn=phpunituser,dc=pbnl,dc=de
 description: LDAP administrator
