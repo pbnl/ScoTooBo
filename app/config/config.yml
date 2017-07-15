@@ -6,7 +6,17 @@ imports:
 # Put parameters here that don't need to change on each machine where the app is deployed
 # https://symfony.com/doc/current/best_practices/configuration.html#application-related-configuration
 parameters:
-    locale: en
+    locale: de
+    env(DATABASE_HOST): localhost
+    env(DATABASE_PORT): 3306
+    env(DATABASE_NAME): pbnl_doctrine
+    env(DATABASE_USER): pbnl_doctrine
+    env(DATABASE_PWD): hucDuiixIZ69Th2U
+    env(LDAP_DOMAIN): pbnl.de
+    env(LDAP_BASE_DN): dc=pbnl,dc=de
+    env(LDAP_USER_DN): cn=admin,dc=pbnl,dc=de
+    env(LDAP_PASSWORD): admin
+    env(LDAP_SERVER): [127.0.0.1]
 
 framework:
     #esi: ~
@@ -41,13 +51,13 @@ twig:
 # Doctrine Configuration
 doctrine:
     dbal:
-        driver: pdo_mysql
-        host: '%database_host%'
-        port: '%database_port%'
-        dbname: '%database_name%'
-        user: '%database_user%'
-        password: '%database_password%'
-        charset: UTF8
+        driver:   pdo_mysql
+        host: '%env(DATABASE_HOST)%'
+        port: '%env(DATABASE_PORT)%'
+        dbname: '%env(DATABASE_NAME)%'
+        user: '%env(DATABASE_USER)%'
+        password: '%env(DATABASE_PWD)%'
+        charset:  UTF8
         # if using pdo_sqlite as your database driver:
         #   1. add the path in parameters.yml
         #     e.g. database_path: "%kernel.project_dir%/var/data/data.sqlite"
@@ -67,3 +77,13 @@ swiftmailer:
     username: '%mailer_user%'
     password: '%mailer_password%'
     spool: { type: memory }
+
+
+ldap_tools:
+    domains:
+        mainLDAP:
+            domain_name: "%env(LDAP_DOMAIN)%"
+            base_dn: "%env(LDAP_BASE_DN)%"
+            username: "%env(LDAP_USER_DN)%"
+            password: "%env(LDAP_PASSWORD)%"
+            servers: "%env(LDAP_SERVER)%"
