@@ -33,3 +33,6 @@ services:
     # AppBundle\Service\ExampleService:
     #     arguments:
     #         $someArgument: 'some_value'
+    myldap_entity_manager:
+        class: Ucsf\LdapOrmBundle\Ldap\LdapEntityManager
+        arguments: ["@logger", "@twig", "@annotation_reader", "%some_ldap_server%"]

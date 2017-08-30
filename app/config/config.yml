@@ -18,6 +18,15 @@ parameters:
     env(LDAP_PASSWORD): admin
     env(LDAP_SERVER): 127.0.0.1
 
+    some_ldap_server:
+          connection:
+              uri: "%env(LDAP_DOMAIN)%"
+              use_tls: false
+              bind_dn: "%env(LDAP_USER_DN)%"
+              password: "%env(LDAP_PASSWORD)%"
+              password_type: plaintext
+    ucsfldaporm_test: false
+
 framework:
     #esi: ~
     #translator: { fallbacks: ['%locale%'] }
@@ -77,13 +86,3 @@ swiftmailer:
     username: '%mailer_user%'
     password: '%mailer_password%'
     spool: { type: memory }
-
-
-ldap_tools:
-    domains:
-        mainLDAP:
-            domain_name: "%env(LDAP_DOMAIN)%"
-            base_dn: "%env(LDAP_BASE_DN)%"
-            username: "%env(LDAP_USER_DN)%"
-            password: "%env(LDAP_PASSWORD)%"
-            servers: ["%env(LDAP_SERVER)%"]
