@@ -37,7 +37,6 @@ class LoginControllerTest extends WebTestCase
         $form['_password'] = 'test';
 
         $crawler = $client->submit($form);
-        var_dump($client->getResponse()->getContent());
         $crawler = $client->followRedirect();
         $this->assertContains('Read the documentation to learn', $client->getResponse()->getContent());
         //TODO: Change if we have a real start page
