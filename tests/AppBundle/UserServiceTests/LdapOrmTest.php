@@ -11,22 +11,28 @@ namespace Tests\AppBundle\UserServicTest;
 use AppBundle\Model\Entity\LDAP\PbnlAccount;
 use AppBundle\Model\Entity\LDAP\PbnlMailAlias;
 use AppBundle\Model\Entity\LDAP\PosixGroup;
-use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
+use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 
-class LdapOrmTest extends WebTestCase
+
+class LdapOrmTest extends KernelTestCase
 {
+
+    private $container;
+
+    public function setUp()
+    {
+        self::bootKernel();
+
+        $this->container = self::$kernel->getContainer();
+    }
+
     public function testReadPbnlAccountORM()
     {
 
-        static::$kernel = static::createKernel();
-        static::$kernel->boot();
-
-        $ldapEntityManager = static::$kernel->getContainer()->get("ldapEntityManager");
+        $ldapEntityManager = $this->container->get("ldapEntityManager");
         $personRepository = $ldapEntityManager->getRepository(PbnlAccount::class);
         $allPeople = $personRepository->findAll();
         $testAmbrone = $personRepository->findByGivenName("TestAmbrone1");
-
-        $this->assertEquals(4, count($allPeople));
 
         $this->assertContains('/home/TestAmbrone1', $testAmbrone[0]->getHomeDirectory());
     }
@@ -34,10 +40,7 @@ class LdapOrmTest extends WebTestCase
     public function testcreateAndModDeletPbnlAccountORM()
     {
 
-        static::$kernel = static::createKernel();
-        static::$kernel->boot();
-
-        $ldapEntityManager = static::$kernel->getContainer()->get("ldapEntityManager");
+        $ldapEntityManager = $this->container->get("ldapEntityManager");
         $personRepository = $ldapEntityManager->getRepository(PbnlAccount::class);
 
         $newOne = new PbnlAccount();
@@ -67,7 +70,7 @@ class LdapOrmTest extends WebTestCase
 
         $newOne = $personRepository->findByGivenName("TestAccountToDelete");
         $ldapEntityManager->delete($newOne[0]);
-        $ldapEntityManager->flush();
+
         $newOne = $personRepository->findByGivenName("TestAccountToDelet");
         $this->assertEquals(0, count($newOne));
     }
@@ -75,15 +78,10 @@ class LdapOrmTest extends WebTestCase
     public function testPosixGroupORM()
     {
 
-        static::$kernel = static::createKernel();
-        static::$kernel->boot();
-
-        $ldapEntityManager = static::$kernel->getContainer()->get("ldapEntityManager");
+        $ldapEntityManager = $this->container->get("ldapEntityManager");
         $personRepository = $ldapEntityManager->getRepository(PosixGroup::class);
         $allGroups = $personRepository->findAll();
         $ambronen = $personRepository->findByCn("ambronen");
-
-        $this->assertEquals(10, count($allGroups));
 
         $this->assertContains('stammGroup', $ambronen[0]->getDescription());
     }
@@ -91,15 +89,10 @@ class LdapOrmTest extends WebTestCase
     public function testpbnlMailAliasORM()
     {
 
-        static::$kernel = static::createKernel();
-        static::$kernel->boot();
-
-        $ldapEntityManager = static::$kernel->getContainer()->get("ldapEntityManager");
+        $ldapEntityManager = $this->container->get("ldapEntityManager");
         $personRepository = $ldapEntityManager->getRepository(PbnlMailAlias::class);
         $allForwards = $personRepository->findAll();
         $wiki = $personRepository->findByMail("wiki@pbnl.de");
-
-        $this->assertEquals(6, count($allForwards));
 
         $this->assertContains('TestAmbrone1@pbnl.de', $wiki[0]->getForward());
     }

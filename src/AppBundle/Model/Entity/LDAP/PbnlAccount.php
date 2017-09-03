@@ -22,7 +22,7 @@ use Ucsf\LdapOrmBundle\Entity\Ldap\InetOrgPerson;
  * @ObjectClass("pbnlAccount")
  * @UniqueIdentifier("givenName")
  * @SearchDn("ou=people,dc=pbnl,dc=de")
- * @Dn("givenName={{ entity.givenName }},ou=ambronen,ou=people,dc=pbnl,dc=de")
+ * @Dn("givenName={{ entity.givenName }},ou={{ entity.ou }},ou=people,dc=pbnl,dc=de")
  */
 class PbnlAccount extends InetOrgPerson
 {
@@ -36,104 +36,104 @@ class PbnlAccount extends InetOrgPerson
      *
      * Is also the name of the LDAP entry
      */
-    protected $givenName;
+    protected $givenName = "";
 
     /**
      * also the username (should be the same as givenName)
      * @var string
      * @Attribute("uid")
      */
-    protected $uid;
+    protected $uid = "";
 
     /**
      *  real first name
      * @var string
      * @Attribute("cn")
      */
-    protected $cn;
+    protected $cn = "";
 
     /**
      *  real second name
      * @var string
      * @Attribute("sn")
      */
-    protected $sn;
+    protected $sn = "";
 
     /**
      *  the user number (should be unique)
      * @var int
      * @Attribute("uidNumber")
      */
-    protected $uidNumber;
+    protected $uidNumber = "";
 
     /**
      *  the internal "@pbnl" mail address
      * @var string
      * @Attribute("mail")
      */
-    protected $mail;
+    protected $mail = "";
 
     /**
      *  SSHA hashed user password
      * @var string
      * @Attribute("userPassword")
      */
-    protected $userPassword;
+    protected $userPassword = "";
 
     /**
      *  homeDirecotry on server (no usage)
      * @var string
      * @Attribute("homeDirectory")
      */
-    protected $homeDirectory;
+    protected $homeDirectory = "";
 
     /**
      *  the absolute path to the user (in the LDAP)
      * @var string
      */
-    protected $dn;
+    protected $dn = "";
 
     /**
      *  the mobile number
      * @var string
      * @Attribute("mobile")
      */
-    protected $mobile;
+    protected $mobile = "";
 
     /**
      *  the postal code (PLZ)
      * @var string
      * @Attribute("postalCode")
      */
-    protected $postalCode;
+    protected $postalCode = "";
 
     /**
      *  the full address of the user (without postal code)
      * @var string
      * @Attribute("street")
      */
-    protected $street;
+    protected $street = "";
 
     /**
      *  the telephone number of the users home
      * @var string
      * @Attribute("telephoneNumber")
      */
-    protected $telephoneNumber;
+    protected $telephoneNumber = "";
 
     /**
      *  the city the user lives in
      * @var string
      * @Attribute("l")
      */
-    protected $l;
+    protected $l = "";
 
     /**
      *  the internal unix gidNumer (not used)
      * @var int
      * @Attribute("gidNumber")
      */
-    protected $gidNumber;
+    protected $gidNumber = "";
 
 
     //All getters and setters
@@ -264,6 +264,12 @@ class PbnlAccount extends InetOrgPerson
     public function setDn($dn)
     {
         $this->dn = $dn;
+
+        $ldapDnParts = explode(",",$dn);
+        $ouPart = $ldapDnParts[1];
+        $ouName = explode("=",$ouPart)[1];
+
+        $this->setOu($ouName);
     }
 
     /**
