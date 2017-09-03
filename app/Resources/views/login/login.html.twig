@@ -1,0 +1,44 @@
+{% extends "includes/base.html.twig" %}
+
+{% block title %}Login{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+
+    <link href="{{ asset('css/loginPage.css') }}" rel="stylesheet" />
+{% endblock %}
+
+{% block body %}
+    <div class="container">
+        <br>
+        <br>
+
+        {% if error %}
+            <div class="flash-notice">
+                <div class="alert alert-danger" role="alert">
+                    <div>{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+                </div>
+            </div>
+        {% endif %}
+
+        {% include "includes/showFlashes.html.twig" %}
+
+        <form class="form-signin" action="{{ path('login') }}" method="post">
+            <h2 class="form-signin-heading">Bitte logge dich ein</h2>
+
+            <label for="username" class="sr-only">Benutzername:</label>
+            <input type="text" class="form-control" id="username" name="_username" value="{{ last_username }}" placeholder="Benutzername"  required autofocus>
+
+            <label for="password" class="sr-only"  required>Passwort:</label>
+            <input type="password" class="form-control" id="password" name="_password" placeholder="Passwort" required>
+            <div class="checkbox">
+                <label>
+                    <input type="checkbox" value="remember-me"> Remember me
+                </label>
+            </div>
+
+            <button class="btn btn-lg btn-primary btn-block" type="submit">Login</button>
+        </form>
+
+    </div>
+{% endblock %}

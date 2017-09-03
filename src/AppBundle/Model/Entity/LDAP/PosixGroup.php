@@ -15,6 +15,7 @@ use Ucsf\LdapOrmBundle\Annotation\Ldap\Dn;
 use Ucsf\LdapOrmBundle\Annotation\Ldap\Must;
 use Ucsf\LdapOrmBundle\Annotation\Ldap\ObjectClass;
 use Ucsf\LdapOrmBundle\Annotation\Ldap\SearchDn;
+use Ucsf\LdapOrmBundle\Annotation\Ldap\UniqueIdentifier;
 use Ucsf\LdapOrmBundle\Entity\Ldap\Group;
 
 /**
@@ -23,9 +24,16 @@ use Ucsf\LdapOrmBundle\Entity\Ldap\Group;
  * @ObjectClass("posixGroup")
  * @SearchDn("ou=group,dc=pbnl,dc=de")
  * @Dn("cn={{entity.cn}},ou=group,dc=pbnl,dc=de")
+ * @UniqueIdentifier("cn")
  */
 class PosixGroup extends Group
 {
+
+    /**
+     * @Attribute("cn")
+     * @Must()
+     */
+    protected $cn;
 
     /**
      * Array with all the DNs of the users who are members

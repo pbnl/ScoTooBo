@@ -24,6 +24,7 @@ use Ucsf\LdapOrmBundle\Entity\Ldap\LdapEntity;
  * @ObjectClass("pbnlMailAlias")
  * @SearchDn("ou=Forward,dc=pbnl,dc=de")
  * @Dn("mail={{entity.mail}},ou=forward,dc=pbnl,dc=de")
+ * @UniqueIdentifier("mail")
  */
 class PbnlMailAlias extends LdapEntity
 {
@@ -36,17 +37,16 @@ class PbnlMailAlias extends LdapEntity
      * @ArrayField()
      * @var string
      */
-    protected $forward;
+    protected $forward = array();
 
     /**
      * The address of the list
      *
      * @Attribute("mail")
      * @Must()
-     * @UniqueIdentifier
      * @var string
      */
-    protected $mail;
+    protected $mail = "";
 
 
 

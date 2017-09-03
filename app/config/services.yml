@@ -29,10 +29,17 @@ services:
         public: true
         tags: ['controller.service_arguments']
 
-    # add more services, or override services that need manual wiring
-    # AppBundle\Service\ExampleService:
-    #     arguments:
-    #         $someArgument: 'some_value'
-    myldap_entity_manager:
+
+    ldapEntityManager:
         class: Ucsf\LdapOrmBundle\Ldap\LdapEntityManager
-        arguments: ["@logger", "@twig", "@annotation_reader", "%some_ldap_server%"]
+        public: true
+        arguments: ["@logger","@annotation_reader", "%some_ldap_server%"]
+
+    data.userService:
+        class: AppBundle\Model\Services\UserService
+        public: true
+        arguments: ["@logger", "@ldapEntityManager"]
+
+    ssha_encoder:
+        public: true
+        class: AppBundle\Security\MessageDigestPasswordEncoder

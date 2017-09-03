@@ -7,24 +7,24 @@ imports:
 # https://symfony.com/doc/current/best_practices/configuration.html#application-related-configuration
 parameters:
     locale: de
+    security.encoder.digest.class: AppBundle\Security\MessageDigestPasswordEncoder
     env(DATABASE_HOST): localhost
     env(DATABASE_PORT): 3306
     env(DATABASE_NAME): pbnl_doctrine
     env(DATABASE_USER): pbnl_doctrine
     env(DATABASE_PWD): hucDuiixIZ69Th2U
-    env(LDAP_DOMAIN): pbnl.de
+    env(LDAP_DOMAIN): 127.0.0.1
     env(LDAP_BASE_DN): dc=pbnl,dc=de
     env(LDAP_USER_DN): cn=admin,dc=pbnl,dc=de
     env(LDAP_PASSWORD): admin
     env(LDAP_SERVER): 127.0.0.1
 
     some_ldap_server:
-          connection:
-              uri: "%env(LDAP_DOMAIN)%"
-              use_tls: false
-              bind_dn: "%env(LDAP_USER_DN)%"
-              password: "%env(LDAP_PASSWORD)%"
-              password_type: plaintext
+        uri: "%env(LDAP_DOMAIN)%"
+        use_tls: false
+        bind_dn: "%env(LDAP_USER_DN)%"
+        password: "%env(LDAP_PASSWORD)%"
+        password_type: plaintext
     ucsfldaporm_test: false
 
 framework:
