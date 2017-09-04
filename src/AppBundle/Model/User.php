@@ -424,6 +424,6 @@ class User implements UserInterface, EquatableInterface
         // the salt (given it is a 8byte one)
         $this->salt = substr($b64_dec, -8);
         // the sha1 part
-        $this->hashedPassword = substr($b64_dec, 0,20);
+        $this->hashedPassword = substr($b64_dec, 0, 20);
     }
 }

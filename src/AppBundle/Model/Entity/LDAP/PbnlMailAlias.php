@@ -8,7 +8,6 @@
 
 namespace AppBundle\Model\Entity\LDAP;
 
-
 use Ucsf\LdapOrmBundle\Annotation\Ldap\ArrayField;
 use Ucsf\LdapOrmBundle\Annotation\Ldap\Attribute;
 use Ucsf\LdapOrmBundle\Annotation\Ldap\Dn;

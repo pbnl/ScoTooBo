@@ -15,7 +15,6 @@ use Ucsf\LdapOrmBundle\Annotation\Ldap\SearchDn;
 use Ucsf\LdapOrmBundle\Annotation\Ldap\UniqueIdentifier;
 use Ucsf\LdapOrmBundle\Entity\Ldap\InetOrgPerson;
 
-
 /**
  * Represents a LDAPUser object class, which is a subclass of InetOrgPerson
  *
@@ -265,9 +264,9 @@ class PbnlAccount extends InetOrgPerson
     {
         $this->dn = $dn;
 
-        $ldapDnParts = explode(",",$dn);
+        $ldapDnParts = explode(",", $dn);
         $ouPart = $ldapDnParts[1];
-        $ouName = explode("=",$ouPart)[1];
+        $ouName = explode("=", $ouPart)[1];
 
         $this->setOu($ouName);
     }
@@ -367,6 +366,5 @@ class PbnlAccount extends InetOrgPerson
     {
         $this->gidNumber = $gidNumber;
     }
-
 
 }

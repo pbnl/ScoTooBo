@@ -28,7 +28,7 @@ class MessageDigestPasswordEncoder extends BaseMessageDigestPasswordEncoder
     }
     public function encodePassword($raw, $salt)
     {
-        $newSha = sha1($raw . $salt,TRUE);
+        $newSha = sha1($raw . $salt, true);
         return $newSha;
     }
     public function isPasswordValid($encoded, $raw, $salt)

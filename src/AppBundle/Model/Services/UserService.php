@@ -64,7 +64,7 @@ class UserService implements UserProviderInterface
         /** @var PbnlAccount $ldapPbnlAccount */
         $ldapPbnlAccount = $pbnlAccountRepository->findOneByGivenName($givenName);
 
-        if(count($ldapPbnlAccount) == 0) {
+        if (count($ldapPbnlAccount) == 0) {
             throw new UsernameNotFoundException(
                 sprintf('Username "%s" does not exist.', $givenName)
             );
@@ -93,10 +93,10 @@ class UserService implements UserProviderInterface
         // the salt (given it is a 8byte one)
         $salt = substr($b64_dec, -8);
         // the sha1 part
-        $hashedPassword = substr($b64_dec, 0,20);
+        $hashedPassword = substr($b64_dec, 0, 20);
 
         //Fill up the user
-        $user = new User($ldapPbnlAccount->getGivenName(),$hashedPassword,$salt,[]);
+        $user = new User($ldapPbnlAccount->getGivenName(), $hashedPassword, $salt, []);
         $user->setDn($ldapPbnlAccount->getDn());
         $user->setCity($ldapPbnlAccount->getL());
         $user->setFirstName($ldapPbnlAccount->getCn());
