@@ -393,15 +393,15 @@ class User implements UserInterface, EquatableInterface
             return false;
         }
 
-        if ($this->password !== $user->getPassword()) {
+        if ($this->getPassword() !== $user->getPassword()) {
             return false;
         }
 
-        if ($this->salt !== $user->getSalt()) {
+        if ($this->getSalt() !== $user->getSalt()) {
             return false;
         }
 
-        if ($this->username !== $user->getUsername()) {
+        if ($this->getUsername() !== $user->getUsername()) {
             return false;
         }
 
