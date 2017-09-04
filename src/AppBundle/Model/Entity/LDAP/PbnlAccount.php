@@ -366,5 +366,4 @@ class PbnlAccount extends InetOrgPerson
     {
         $this->gidNumber = $gidNumber;
     }
-
 }

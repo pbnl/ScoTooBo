@@ -80,6 +80,4 @@ class PbnlMailAlias extends LdapEntity
     {
         $this->mail = $mail;
     }
-
-
 }

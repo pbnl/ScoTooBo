@@ -98,5 +98,4 @@ class PosixGroup extends Group
     {
         $this->gidNumber = $gidNumber;
     }
-
 }
