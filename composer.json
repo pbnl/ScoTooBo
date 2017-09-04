@@ -21,7 +21,7 @@
     },
     "require": {
         "php": ">=5.5.9",
-        "ucsf/ldaporm-bundle": "dev-master",
+        "ucsf/ldaporm-bundle": "dev-dev-bugfix-entitypersist",
         "doctrine/doctrine-bundle": "^1.6",
         "doctrine/orm": "^2.5",
         "incenteev/composer-parameter-handler": "^2.0",
@@ -69,5 +69,11 @@
             "file": "app/config/parameters.yml"
         },
         "branch-alias": null
-    }
+    },
+    "repositories": [
+        {
+            "type": "vcs",
+            "url": "https://github.com/NKPmedia/UcsfLdapOrm"
+        }
+    ]
 }
