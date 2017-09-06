@@ -12,15 +12,18 @@ security:
         dev:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
             security: false
-
         main:
-            anonymous: ~
+            pattern: ^/
+            anonymous: true
             form_login:
                 login_path: login
                 check_path: login
             logout:
                 path:   /logout
                 target: /
+    access_control:
+        - { path: ^/login$, role: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/, role: ROLE_USER }
     encoders:
         AppBundle\Model\User:
             id: ssha_encoder
