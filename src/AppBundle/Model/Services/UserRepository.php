@@ -3,6 +3,7 @@
 namespace AppBundle\Model\Services;
 
 use AppBundle\Model\Entity\LDAP\PbnlAccount;
+use AppBundle\Model\Entity\LDAP\PosixGroup;
 use AppBundle\Model\User;
 use Monolog\Logger;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
@@ -91,8 +92,11 @@ class UserRepository implements UserProviderInterface
         // the sha1 part
         $hashedPassword = substr($b64_dec, 0, 20);
 
+        $roles = $this->getRolesOfPbnlAccount($ldapPbnlAccount);
+        array_push($roles,"ROLE_USER");
+
         //Fill up the user
-        $user = new User($ldapPbnlAccount->getGivenName(), $hashedPassword, $salt, ["ROLE_USER"]);
+        $user = new User($ldapPbnlAccount->getGivenName(), $hashedPassword, $salt, $roles);
         $user->setDn($ldapPbnlAccount->getDn());
         $user->setCity($ldapPbnlAccount->getL());
         $user->setFirstName($ldapPbnlAccount->getCn());
@@ -168,5 +172,27 @@ class UserRepository implements UserProviderInterface
     public function supportsClass($class)
     {
         return User::class === $class;
+    }
+
+    /**
+     * Returns an array with with all roles of a PbnlAccount ['ROLE_Groupname']
+     * It tries to find groups in the ldap database and check if the dn og the PbnlAccount is a member of this group
+     *
+     * @param PbnlAccount $ldapPbnlAccount
+     * @return array
+     */
+    private function getRolesOfPbnlAccount(PbnlAccount $ldapPbnlAccount)
+    {
+        $roles = array();
+        $personRepository = $this->ldapEntityManager->getRepository(PosixGroup::class);
+        $allGroups = $personRepository->findAll();
+
+        /** @var  $group PosixGroup */
+        foreach ($allGroups as $group) {
+            if($group->isDnMember($ldapPbnlAccount->getDn())) {
+                array_push($roles,"ROLE_".$group->getCn());
+            }
+        }
+        return $roles;
     }
 }
