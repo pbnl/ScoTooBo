@@ -1,12 +1,5 @@
 <?php
 
-/**
- * Created by PhpStorm.
- * User: paul
- * Date: 16.07.17
- * Time: 22:13
- */
-
 namespace AppBundle\Model\Services;
 
 use AppBundle\Model\Entity\LDAP\PbnlAccount;
@@ -20,19 +13,17 @@ use Symfony\Component\Security\Core\User\UserProviderInterface;
 use Ucsf\LdapOrmBundle\Ldap\LdapEntityManager;
 use Ucsf\LdapOrmBundle\Repository\Repository;
 
-class UserService implements UserProviderInterface
+class UserRepository implements UserProviderInterface
 {
 
     /**
-     * A Referec to the LdapEntityService to work with the ldap
+     * A reference to the LdapEntityService to work with the ldap
      *
      * @var LdapEntityManager
      */
     private $ldapEntityManager;
 
     /**
-     * Just the logger
-     *
      * @var Logger
      */
     private $logger;
@@ -61,7 +52,7 @@ class UserService implements UserProviderInterface
         /** @var Repository $pbnlAccountRepository */
         $pbnlAccountRepository = $this->ldapEntityManager->getRepository(PbnlAccount::class);
 
-        /** @var PbnlAccount $ldapPbnlAccount */
+        /** @var PbnlAccount $ldapPbnlAccount[] */
         $ldapPbnlAccount = $pbnlAccountRepository->findOneByGivenName($givenName);
 
         if (count($ldapPbnlAccount) == 0) {
@@ -70,9 +61,7 @@ class UserService implements UserProviderInterface
             );
         }
 
-        $user = $this->entitiesToUser($ldapPbnlAccount);
-
-        return $user;
+        return $this->entitiesToUser($ldapPbnlAccount);
     }
 
     /**
@@ -84,8 +73,7 @@ class UserService implements UserProviderInterface
      */
     private function entitiesToUser(PbnlAccount $ldapPbnlAccount)
     {
-        // skip the "{SSHA}"
-        $b64 = substr($ldapPbnlAccount->getUserPassword(), 6);
+        $b64 = substr($ldapPbnlAccount->getUserPassword(), strlen("{SSHA}"));
 
         // base64 decoded
         $b64_dec = base64_decode($b64);

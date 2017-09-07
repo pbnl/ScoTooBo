@@ -1,10 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: paul
- * Date: 03.09.17
- * Time: 22:31
- */
 
 namespace AppBundle\Controller\Login;
 
@@ -16,6 +10,8 @@ class LoginController extends Controller
 {
     /**
      * @Route("/login", name="login")
+     * @param Request $request
+     * @return \Symfony\Component\HttpFoundation\Response
      */
     public function loginAction(Request $request)
     {

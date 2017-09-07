@@ -1,10 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: paul
- * Date: 31.08.17
- * Time: 09:12
- */
 
 namespace Tests\AppBundle\UserServicTest;
 
@@ -12,11 +6,13 @@ use AppBundle\Model\Entity\LDAP\PbnlAccount;
 use AppBundle\Model\Entity\LDAP\PbnlMailAlias;
 use AppBundle\Model\Entity\LDAP\PosixGroup;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
-
+use Symfony\Component\DependencyInjection\Container;
+use Ucsf\LdapOrmBundle\Repository\Repository;
 
 class LdapOrmTest extends KernelTestCase
 {
 
+    /** @var  $container Container */
     private $container;
 
     public function setUp()
@@ -31,7 +27,6 @@ class LdapOrmTest extends KernelTestCase
 
         $ldapEntityManager = $this->container->get("ldapEntityManager");
         $personRepository = $ldapEntityManager->getRepository(PbnlAccount::class);
-        $allPeople = $personRepository->findAll();
         $testAmbrone = $personRepository->findByGivenName("TestAmbrone1");
 
         $this->assertContains('/home/TestAmbrone1', $testAmbrone[0]->getHomeDirectory());
@@ -91,7 +86,6 @@ class LdapOrmTest extends KernelTestCase
 
         $ldapEntityManager = $this->container->get("ldapEntityManager");
         $personRepository = $ldapEntityManager->getRepository(PbnlMailAlias::class);
-        $allForwards = $personRepository->findAll();
         $wiki = $personRepository->findByMail("wiki@pbnl.de");
 
         $this->assertContains('TestAmbrone1@pbnl.de', $wiki[0]->getForward());

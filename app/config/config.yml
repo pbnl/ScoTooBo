@@ -12,7 +12,7 @@ parameters:
     env(DATABASE_PORT): 3306
     env(DATABASE_NAME): pbnl_doctrine
     env(DATABASE_USER): pbnl_doctrine
-    env(DATABASE_PWD): hucDuiixIZ69Th2U
+    env(DATABASE_PWD): secret
     env(LDAP_DOMAIN): 127.0.0.1
     env(LDAP_BASE_DN): dc=pbnl,dc=de
     env(LDAP_USER_DN): cn=admin,dc=pbnl,dc=de
@@ -29,7 +29,7 @@ parameters:
 
 framework:
     #esi: ~
-    #translator: { fallbacks: ['%locale%'] }
+    translator: { fallbacks: ['%locale%'] }
     secret: '%secret%'
     router:
         resource: '%kernel.project_dir%/app/config/routing.yml'

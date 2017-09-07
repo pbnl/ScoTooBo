@@ -1,11 +1,5 @@
 <?php
 
-/**
- * Created by PhpStorm.
- * User: paul
- * Date: 16.07.17
- * Time: 21:55
- */
 namespace AppBundle\Model;
 
 use Symfony\Component\Security\Core\User\EquatableInterface;

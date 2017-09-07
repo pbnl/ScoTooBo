@@ -1,10 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: paul
- * Date: 31.08.17
- * Time: 10:47
- */
 
 namespace AppBundle\Model\Entity\LDAP;
 
@@ -16,6 +10,7 @@ use Ucsf\LdapOrmBundle\Annotation\Ldap\ObjectClass;
 use Ucsf\LdapOrmBundle\Annotation\Ldap\SearchDn;
 use Ucsf\LdapOrmBundle\Annotation\Ldap\UniqueIdentifier;
 use Ucsf\LdapOrmBundle\Entity\Ldap\LdapEntity;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Represents a pbnlMailAlias object class
@@ -44,6 +39,10 @@ class PbnlMailAlias extends LdapEntity
      * @Attribute("mail")
      * @Must()
      * @var string
+     * @Assert\Email(
+     *     message = "The email '{{ value }}' is not a valid email.",
+     *     checkMX = true
+     * )
      */
     protected $mail = "";
 

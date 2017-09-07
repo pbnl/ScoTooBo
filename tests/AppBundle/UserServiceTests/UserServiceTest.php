@@ -1,21 +1,14 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: paul
- * Date: 03.09.17
- * Time: 16:45
- */
 
 namespace Tests\AppBundle\UserServiceTests;
 
 use AppBundle\Model\Entity\LDAP\PbnlAccount;
-use AppBundle\Model\Services\UserService;
+use AppBundle\Model\Services\UserRepository;
 use Monolog\Logger;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\Security\Core\Exception\UsernameNotFoundException;
 use Ucsf\LdapOrmBundle\Ldap\LdapEntityManager;
 use Ucsf\LdapOrmBundle\Repository\Repository;
-
 
 class UserServiceTest extends WebTestCase
 {
@@ -37,7 +30,7 @@ class UserServiceTest extends WebTestCase
         $pbnlAccount->setHomeDirectory("/home/test");
         $pbnlAccount->setUidNumber("1234");
 
-        $pbnlAccountRepo = $this->createMock(Repository::class,["__call"]);
+        $pbnlAccountRepo = $this->createMock(Repository::class);
         $pbnlAccountRepo->expects($this->once())->method("__call")->with(
             $this->equalTo('findOneByGivenName'),
             $this->equalTo(["test"])
@@ -46,7 +39,7 @@ class UserServiceTest extends WebTestCase
         $ldapEntityManager = $this->createMock(LdapEntityManager::class);
         $ldapEntityManager->expects($this->once())->method("getRepository")->willReturn($pbnlAccountRepo);
 
-        $userService = new UserService(new Logger("main"),$ldapEntityManager);
+        $userService = new UserRepository(new Logger("main"),$ldapEntityManager);
         $user = $userService->getUserByGivenName("test");
 
         $this->assertEquals("hamburg",$user->getCity());
@@ -63,7 +56,7 @@ class UserServiceTest extends WebTestCase
     {
         $this->expectException(UsernameNotFoundException::class);
 
-        $pbnlAccountRepo = $this->createMock(Repository::class,["__call"]);
+        $pbnlAccountRepo = $this->createMock(Repository::class);
         $pbnlAccountRepo->expects($this->once())->method("__call")->with(
             $this->equalTo('findOneByGivenName'),
             $this->equalTo(["test"])
@@ -72,7 +65,7 @@ class UserServiceTest extends WebTestCase
         $ldapEntityManager = $this->createMock(LdapEntityManager::class);
         $ldapEntityManager->expects($this->once())->method("getRepository")->willReturn($pbnlAccountRepo);
 
-        $userService = new UserService(new Logger("main"),$ldapEntityManager);
-        $user = $userService->getUserByGivenName("test");
+        $userService = new UserRepository(new Logger("main"),$ldapEntityManager);
+        $userService->getUserByGivenName("test");
     }
 }
