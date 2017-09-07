@@ -108,7 +108,7 @@ class UserRepository implements UserProviderInterface
 
         $errors = $this->validator->validate($user);
 
-        if(count($errors) > 0) {
+        if (count($errors) > 0) {
             $this->logger->addAlert((string) $errors);
             throw new CorruptDataInDatabaseException();
         }
