@@ -27,7 +27,6 @@ class PbnlAccount extends InetOrgPerson
      * Username
      * @var string
      * @Attribute("givenName")
-     * @Assert\Regex("/^[\S]+$/") anything but space
      *
      * Is also the name of the LDAP entry
      */
