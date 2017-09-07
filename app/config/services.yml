@@ -35,10 +35,10 @@ services:
         public: true
         arguments: ["@logger","@annotation_reader", "%some_ldap_server%"]
 
-    data.userService:
-        class: AppBundle\Model\Services\UserService
+    data.userRepository:
+        class: AppBundle\Model\Services\UserRepository
         public: true
-        arguments: ["@logger", "@ldapEntityManager"]
+        arguments: ["@logger", "@ldapEntityManager","@validator"]
 
     ssha_encoder:
         public: true

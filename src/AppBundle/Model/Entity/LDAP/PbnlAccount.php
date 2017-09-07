@@ -1,10 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: paul
- * Date: 31.08.17
- * Time: 00:17
- */
 
 namespace AppBundle\Model\Entity\LDAP;
 
@@ -14,6 +8,7 @@ use Ucsf\LdapOrmBundle\Annotation\Ldap\ObjectClass;
 use Ucsf\LdapOrmBundle\Annotation\Ldap\SearchDn;
 use Ucsf\LdapOrmBundle\Annotation\Ldap\UniqueIdentifier;
 use Ucsf\LdapOrmBundle\Entity\Ldap\InetOrgPerson;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Represents a LDAPUser object class, which is a subclass of InetOrgPerson
@@ -29,71 +24,77 @@ class PbnlAccount extends InetOrgPerson
     protected $ou;
 
     /**
-     * the username
+     * Username
      * @var string
      * @Attribute("givenName")
+     * @Assert\Regex("/^[\S]+$/") anything but space
      *
      * Is also the name of the LDAP entry
      */
     protected $givenName = "";
 
     /**
-     * also the username (should be the same as givenName)
+     * Username (should be the same as givenName but in lowercase and without ö,ä,ü)
      * @var string
      * @Attribute("uid")
      */
     protected $uid = "";
 
     /**
-     *  real first name
+     * Real first name
      * @var string
      * @Attribute("cn")
      */
     protected $cn = "";
 
     /**
-     *  real second name
+     * Real last name
      * @var string
      * @Attribute("sn")
      */
     protected $sn = "";
 
     /**
-     *  the user number (should be unique)
+     * User number (should be unique)
      * @var int
      * @Attribute("uidNumber")
+     * @Assert\Type("integer")
      */
     protected $uidNumber = "";
 
     /**
-     *  the internal "@pbnl" mail address
+     * Internal "@pbnl" mail address
      * @var string
      * @Attribute("mail")
+     * @Assert\Email(
+     *     message = "The email '{{ value }}' is not a valid email.",
+     *     checkMX = true
+     * )
      */
     protected $mail = "";
 
     /**
-     *  SSHA hashed user password
+     * SSHA hashed user password
      * @var string
      * @Attribute("userPassword")
      */
     protected $userPassword = "";
 
     /**
-     *  homeDirecotry on server (no usage)
+     * HomeDirecotry on server (no usage)
      * @var string
      * @Attribute("homeDirectory")
      */
     protected $homeDirectory = "";
 
     /**
-     *  the absolute path to the user (in the LDAP)
+     * Absolute path to the user (in the LDAP)
      * @var string
      */
     protected $dn = "";
 
     /**
-     *  the mobile number
+     * Mobile number
      * @var string
      * @Attribute("mobile")
      */
@@ -103,34 +104,36 @@ class PbnlAccount extends InetOrgPerson
      *  the postal code (PLZ)
      * @var string
      * @Attribute("postalCode")
+     * @Assert\Regex("/^[0-9]*$/") only numbers
      */
     protected $postalCode = "";
 
     /**
-     *  the full address of the user (without postal code)
+     * Full address of the user (without postal code)
      * @var string
      * @Attribute("street")
      */
     protected $street = "";
 
     /**
-     *  the telephone number of the users home
+     * Telephone number of the users home
      * @var string
      * @Attribute("telephoneNumber")
      */
     protected $telephoneNumber = "";
 
     /**
-     *  the city the user lives in
+     * City the user lives in
      * @var string
      * @Attribute("l")
      */
     protected $l = "";
 
     /**
-     *  the internal unix gidNumer (not used)
+     * Internal unix gidNumer (not used)
      * @var int
      * @Attribute("gidNumber")
+     * @Assert\Type("integer")
      */
     protected $gidNumber = "";
 

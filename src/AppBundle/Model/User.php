@@ -1,15 +1,10 @@
 <?php
 
-/**
- * Created by PhpStorm.
- * User: paul
- * Date: 16.07.17
- * Time: 21:55
- */
 namespace AppBundle\Model;
 
 use Symfony\Component\Security\Core\User\EquatableInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Validator\Constraints as Assert;
 
 class User implements UserInterface, EquatableInterface
 {
@@ -19,6 +14,7 @@ class User implements UserInterface, EquatableInterface
      * Maps to the givenName and the uid
      *
      * @var string
+     * @Assert\Regex("/^[\S]+$/") anything but space
      */
     private $username = "";
 
@@ -26,12 +22,15 @@ class User implements UserInterface, EquatableInterface
      * Real first name
      *
      * @var string
+     * @Assert\Regex("/^[\S]+$/") anything but space
      */
     private $firstName = "";
 
     /**
      * Real second name
+     *
      * @var string
+     * @Assert\Regex("/^[\S]+$/") anything but space
      */
     private $secondName = "";
 
@@ -39,6 +38,7 @@ class User implements UserInterface, EquatableInterface
      * The user number (should be unique)
      *
      * @var int
+     * @Assert\Type("integer")
      */
     private $uidNumber = 0;
 
@@ -46,6 +46,10 @@ class User implements UserInterface, EquatableInterface
      * The internal "@pbnl" mail address
      *
      * @var string
+     * @Assert\Email(
+     *     message = "The email '{{ value }}' is not a valid email.",
+     *     checkMX = true
+     * )
      */
     private $mail = "";
 
@@ -82,6 +86,7 @@ class User implements UserInterface, EquatableInterface
      * The postal code (PLZ)
      *
      * @var string
+     * @Assert\Regex("/^[0-9]*$/") only numbers
      */
     private $postalCode = "0";
 

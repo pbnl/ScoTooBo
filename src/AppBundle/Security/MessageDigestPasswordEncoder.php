@@ -1,10 +1,5 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: paul
- * Date: 28.03.17
- * Time: 19:36
- */
+
 namespace AppBundle\Security;
 
 use Symfony\Component\Security\Core\Encoder\MessageDigestPasswordEncoder as BaseMessageDigestPasswordEncoder;
@@ -16,6 +11,7 @@ class MessageDigestPasswordEncoder extends BaseMessageDigestPasswordEncoder
 
     public function __construct($algorithm = 'sha512', $encodeHashAsBase64 = true, $iterations = 5000)
     {
+        parent::__construct();
         $this->algorithm = $algorithm;
         $this->encodeHashAsBase64 = $encodeHashAsBase64;
     }

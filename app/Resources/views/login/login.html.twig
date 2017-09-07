@@ -1,6 +1,6 @@
 {% extends "includes/base.html.twig" %}
 
-{% block title %}Login{% endblock %}
+{% block title %}{% trans %}login{% endtrans %}{% endblock %}
 
 {% block stylesheets %}
     {{ parent() }}
@@ -10,9 +10,6 @@
 
 {% block body %}
     <div class="container">
-        <br>
-        <br>
-
         {% if error %}
             <div class="flash-notice">
                 <div class="alert alert-danger" role="alert">
@@ -24,20 +21,18 @@
         {% include "includes/showFlashes.html.twig" %}
 
         <form class="form-signin" action="{{ path('login') }}" method="post">
-            <h2 class="form-signin-heading">Bitte logge dich ein</h2>
+            <h2 class="form-signin-heading">{% trans %}login.request{% endtrans %}</h2>
 
-            <label for="username" class="sr-only">Benutzername:</label>
-            <input type="text" class="form-control" id="username" name="_username" value="{{ last_username }}" placeholder="Benutzername"  required autofocus>
+            <input type="text" class="form-control" id="username" name="_username" value="{{ last_username }}" placeholder="{% trans %}username{% endtrans %}"  required autofocus>
 
-            <label for="password" class="sr-only"  required>Passwort:</label>
-            <input type="password" class="form-control" id="password" name="_password" placeholder="Passwort" required>
+            <input type="password" class="form-control" id="password" name="_password" placeholder="{% trans %}password{% endtrans %}" required>
             <div class="checkbox">
                 <label>
-                    <input type="checkbox" value="remember-me"> Remember me
+                    <input type="checkbox" value="remember-me"> {% trans %}login.remember.me{% endtrans %}
                 </label>
             </div>
 
-            <button class="btn btn-lg btn-primary btn-block" type="submit">Login</button>
+            <button class="btn btn-lg btn-primary btn-block" type="submit">{% trans %}login{% endtrans %}</button>
         </form>
 
     </div>

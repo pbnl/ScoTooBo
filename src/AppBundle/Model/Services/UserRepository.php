@@ -1,18 +1,11 @@
 <?php
 
-/**
- * Created by PhpStorm.
- * User: paul
- * Date: 16.07.17
- * Time: 22:13
- */
-
 namespace AppBundle\Model\Services;
 
 use AppBundle\Model\Entity\LDAP\PbnlAccount;
 use AppBundle\Model\User;
 use Monolog\Logger;
-use Symfony\Component\Intl\Data\Generator\LocaleDataGenerator;
+use Symfony\Component\Validator\Validator\ValidatorInterface;
 use Symfony\Component\Security\Core\Exception\UnsupportedUserException;
 use Symfony\Component\Security\Core\Exception\UsernameNotFoundException;
 use Symfony\Component\Security\Core\User\UserInterface;
@@ -20,33 +13,38 @@ use Symfony\Component\Security\Core\User\UserProviderInterface;
 use Ucsf\LdapOrmBundle\Ldap\LdapEntityManager;
 use Ucsf\LdapOrmBundle\Repository\Repository;
 
-class UserService implements UserProviderInterface
+class UserRepository implements UserProviderInterface
 {
 
     /**
-     * A Referec to the LdapEntityService to work with the ldap
+     * A reference to the LdapEntityService to work with the ldap
      *
      * @var LdapEntityManager
      */
     private $ldapEntityManager;
 
     /**
-     * Just the logger
-     *
      * @var Logger
      */
     private $logger;
 
     /**
+     * @var Validator
+     */
+    private $validator;
+
+    /**
      * The ldapManager of the LDAPBundle
      *
-     * @var Logger
-     * @var LocaleDataGenerator
+     * @param Logger $logger
+     * @param LdapEntityManager $ldapEntityManager
+     * @param ValidatorInterface $validator
      */
-    public function __construct(Logger $logger, LdapEntityManager $ldapEntityManager)
+    public function __construct(Logger $logger, LdapEntityManager $ldapEntityManager, ValidatorInterface $validator)
     {
         $this->ldapEntityManager = $ldapEntityManager;
         $this->logger = $logger;
+        $this->validator = $validator;
     }
 
     /**
@@ -61,7 +59,7 @@ class UserService implements UserProviderInterface
         /** @var Repository $pbnlAccountRepository */
         $pbnlAccountRepository = $this->ldapEntityManager->getRepository(PbnlAccount::class);
 
-        /** @var PbnlAccount $ldapPbnlAccount */
+        /** @var PbnlAccount $ldapPbnlAccount[] */
         $ldapPbnlAccount = $pbnlAccountRepository->findOneByGivenName($givenName);
 
         if (count($ldapPbnlAccount) == 0) {
@@ -70,9 +68,7 @@ class UserService implements UserProviderInterface
             );
         }
 
-        $user = $this->entitiesToUser($ldapPbnlAccount);
-
-        return $user;
+        return $this->entitiesToUser($ldapPbnlAccount);
     }
 
     /**
@@ -81,11 +77,11 @@ class UserService implements UserProviderInterface
      *
      * @param PbnlAccount $ldapPbnlAccount
      * @return User
+     * @throws CorruptDataInDatabaseException if the data in the database is corrupt
      */
     private function entitiesToUser(PbnlAccount $ldapPbnlAccount)
     {
-        // skip the "{SSHA}"
-        $b64 = substr($ldapPbnlAccount->getUserPassword(), 6);
+        $b64 = substr($ldapPbnlAccount->getUserPassword(), strlen("{SSHA}"));
 
         // base64 decoded
         $b64_dec = base64_decode($b64);
@@ -109,6 +105,13 @@ class UserService implements UserProviderInterface
         $user->setStreet($ldapPbnlAccount->getStreet());
         $user->generatePasswordAndSalt($ldapPbnlAccount->getUserPassword());
         $user->setHomePhoneNumber($ldapPbnlAccount->getTelephoneNumber());
+
+        $errors = $this->validator->validate($user);
+
+        if (count($errors) > 0) {
+            $this->logger->addAlert((string) $errors);
+            throw new CorruptDataInDatabaseException();
+        }
 
         return $user;
     }

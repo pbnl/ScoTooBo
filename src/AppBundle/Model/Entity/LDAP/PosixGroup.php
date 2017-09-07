@@ -1,10 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: paul
- * Date: 31.08.17
- * Time: 10:34
- */
 
 namespace AppBundle\Model\Entity\LDAP;
 
@@ -16,6 +10,7 @@ use Ucsf\LdapOrmBundle\Annotation\Ldap\ObjectClass;
 use Ucsf\LdapOrmBundle\Annotation\Ldap\SearchDn;
 use Ucsf\LdapOrmBundle\Annotation\Ldap\UniqueIdentifier;
 use Ucsf\LdapOrmBundle\Entity\Ldap\Group;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Represents a posixGroup object class, which is a subclass of Group
@@ -47,6 +42,8 @@ class PosixGroup extends Group
      * Unique gid for this group
      *
      * @Attribute("gidNumber")
+     * @Assert\Type("integer")
+     * @var int
      */
     protected $gidNumber;
 
