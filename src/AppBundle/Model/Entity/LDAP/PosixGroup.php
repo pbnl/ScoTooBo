@@ -26,7 +26,6 @@ class PosixGroup extends Group
     /**
      * @Attribute("cn")
      * @Must()
-     * @Assert\Regex("/^[\S]+$/") anything but space
      */
     protected $cn;
 
@@ -44,6 +43,7 @@ class PosixGroup extends Group
      *
      * @Attribute("gidNumber")
      * @Assert\Type("integer")
+     * @var int
      */
     protected $gidNumber;
 

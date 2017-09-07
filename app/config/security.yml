@@ -5,7 +5,7 @@ security:
     # https://symfony.com/doc/current/security.html#b-configuring-how-users-are-loaded
     providers:
         user-provider:
-            id: data.userService
+            id: data.userRepository
 
     firewalls:
         # disables authentication for assets and the profiler, adapt it according to your needs

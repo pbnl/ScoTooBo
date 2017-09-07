@@ -44,7 +44,6 @@ class PbnlAccount extends InetOrgPerson
      * Real first name
      * @var string
      * @Attribute("cn")
-     * @Assert\Regex("/^[\S]+$/") anything but space
      */
     protected $cn = "";
 
@@ -52,7 +51,6 @@ class PbnlAccount extends InetOrgPerson
      * Real last name
      * @var string
      * @Attribute("sn")
-     * @Assert\Regex("/^[\S]+$/") anything but space
      */
     protected $sn = "";
 
@@ -106,7 +104,7 @@ class PbnlAccount extends InetOrgPerson
      *  the postal code (PLZ)
      * @var string
      * @Attribute("postalCode")
-     * @Assert\Type("integer")
+     * @Assert\Regex("/^[0-9]*$/") only numbers
      */
     protected $postalCode = "";
 

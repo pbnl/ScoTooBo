@@ -5,7 +5,7 @@ namespace AppBundle\Model\Services;
 use AppBundle\Model\Entity\LDAP\PbnlAccount;
 use AppBundle\Model\User;
 use Monolog\Logger;
-use Symfony\Component\Intl\Data\Generator\LocaleDataGenerator;
+use Symfony\Component\Validator\Validator\ValidatorInterface;
 use Symfony\Component\Security\Core\Exception\UnsupportedUserException;
 use Symfony\Component\Security\Core\Exception\UsernameNotFoundException;
 use Symfony\Component\Security\Core\User\UserInterface;
@@ -29,15 +29,22 @@ class UserRepository implements UserProviderInterface
     private $logger;
 
     /**
+     * @var Validator
+     */
+    private $validator;
+
+    /**
      * The ldapManager of the LDAPBundle
      *
-     * @var Logger
-     * @var LocaleDataGenerator
+     * @param Logger $logger
+     * @param LdapEntityManager $ldapEntityManager
+     * @param ValidatorInterface $validator
      */
-    public function __construct(Logger $logger, LdapEntityManager $ldapEntityManager)
+    public function __construct(Logger $logger, LdapEntityManager $ldapEntityManager, ValidatorInterface $validator)
     {
         $this->ldapEntityManager = $ldapEntityManager;
         $this->logger = $logger;
+        $this->validator = $validator;
     }
 
     /**
@@ -70,6 +77,7 @@ class UserRepository implements UserProviderInterface
      *
      * @param PbnlAccount $ldapPbnlAccount
      * @return User
+     * @throws CorruptDataInDatabaseException if the data in the database is corrupt
      */
     private function entitiesToUser(PbnlAccount $ldapPbnlAccount)
     {
@@ -97,6 +105,13 @@ class UserRepository implements UserProviderInterface
         $user->setStreet($ldapPbnlAccount->getStreet());
         $user->generatePasswordAndSalt($ldapPbnlAccount->getUserPassword());
         $user->setHomePhoneNumber($ldapPbnlAccount->getTelephoneNumber());
+
+        $errors = $this->validator->validate($user);
+
+        if(count($errors) > 0) {
+            $this->logger->addAlert((string) $errors);
+            throw new CorruptDataInDatabaseException();
+        }
 
         return $user;
     }
