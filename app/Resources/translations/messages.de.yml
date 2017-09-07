@@ -4,3 +4,8 @@ username: Benutzername
 password: Passwort
 login.remember.me: Erinnere dich :)
 login: Login
+menu.userManagment.title: Usermanagment
+menu.userManagment.showAllusers: Alle Benutzer anzeigen
+delete: Löschen
+group: Gruppe
+search: Suchen
