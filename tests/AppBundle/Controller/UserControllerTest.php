@@ -28,7 +28,7 @@ class UserControllerTest extends WebTestCase
 
         $form = $crawler->selectButton('Suchen')->form();
 
-        $form['form[filterOption]'] = 'filterByName';
+        $form['form[filterOption]'] = 'filterByUid';
         $form['form[filterText]'] = '1';
 
         $this->loggedInClient->submit($form);

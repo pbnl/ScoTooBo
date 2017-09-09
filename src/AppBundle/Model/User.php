@@ -10,13 +10,19 @@ class User implements UserInterface, EquatableInterface
 {
 
     /**
-     * Is also the name of the LDAP entry
-     * Maps to the givenName and the uid
+     * Name of the LDAP entry
      *
      * @var string
-     * @Assert\Regex("/^[\S]+$/") anything but space
      */
-    private $username = "";
+    private $givenName = "";
+
+    /**
+     * Unique User id (same as givenName but without ' ' ä ö ü ß)
+     *
+     * @var string
+     * @Assert\Regex("/^[0-9,a-x,_]*$/")
+     */
+    private $uid = "";
 
     /**
      * Real first name
@@ -27,12 +33,12 @@ class User implements UserInterface, EquatableInterface
     private $firstName = "";
 
     /**
-     * Real second name
+     * Real last name
      *
      * @var string
      * @Assert\Regex("/^[\S]+$/") anything but space
      */
-    private $secondName = "";
+    private $lastName = "";
 
     /**
      * The user number (should be unique)
@@ -81,7 +87,7 @@ class User implements UserInterface, EquatableInterface
      *
      * @var string
      */
-    private $mobilePhoneNumber = "0";
+    private $mobilePhoneNumber = "";
 
     /**
      * The postal code (PLZ)
@@ -89,28 +95,28 @@ class User implements UserInterface, EquatableInterface
      * @var string
      * @Assert\Regex("/^[0-9]*$/") only numbers
      */
-    private $postalCode = "0";
+    private $postalCode = "";
 
     /**
      * The full address of the user (without postal code)
      *
      * @var string
      */
-    private $street = "0";
+    private $street = "";
 
     /**
      * The telephone number of the users home
      *
      * @var string
      */
-    private $homePhoneNumber = "0";
+    private $homePhoneNumber = "";
 
     /**
      * The city the user lives in
      *
      * @var string
      */
-    private $city = "0";
+    private $city = "";
 
     /**
      * The roles of the user
@@ -120,16 +126,37 @@ class User implements UserInterface, EquatableInterface
     private $roles;
 
     /**
+     * Attribute needed for the password generation at the addUser page
+     *
+     * @var string
+     */
+    private $clearPassword = "";
+
+    /**
+     * Attribute needed for the password generation at the addUser page
+     *
+     * @var string
+     */
+    private $generatedPassword = "";
+
+    /**
+     * Stamm of the user
+     * Will be the same as the ou the user is in
+     * @var
+     */
+    private $stamm;
+
+    /**
      * User constructor.
-     * @param $username
+     * @param $uid
      * @param $password
      * @param $salt
      * @param array $roles
      * @internal param string $dn
      */
-    public function __construct($username, $password, $salt, array $roles)
+    public function __construct($uid, $password, $salt, array $roles)
     {
-        $this->username = $username;
+        $this->uid = $uid;
         $this->password = $password;
         $this->salt = $salt;
         $this->roles = $roles;
@@ -138,20 +165,48 @@ class User implements UserInterface, EquatableInterface
     /**
      * @return mixed
      */
-    public function getUsername()
+    public function getUid()
     {
-        return $this->username;
+        return $this->uid;
     }
 
     /**
-     * @param mixed $username
+     * @param mixed $uid
      */
-    public function setUsername($username)
+    public function setUid($uid)
     {
-        $this->username = $username;
+        $unwanted_array = array(    'Š'=>'S', 'š'=>'s', 'Ž'=>'Z', 'ž'=>'z', 'À'=>'A', 'Á'=>'A', 'Â'=>'A', 'Ã'=>'A', 'Ä'=>'Ae', 'Å'=>'A', 'Æ'=>'A', 'Ç'=>'C', 'È'=>'E', 'É'=>'E',
+            'Ê'=>'E', 'Ë'=>'E', 'Ì'=>'I', 'Í'=>'I', 'Î'=>'I', 'Ï'=>'I', 'Ñ'=>'N', 'Ò'=>'O', 'Ó'=>'O', 'Ô'=>'O', 'Õ'=>'O', 'Ö'=>'Oe', 'Ø'=>'O', 'Ù'=>'U',
+            'Ú'=>'U', 'Û'=>'U', 'Ü'=>'Ue', 'Ý'=>'Y', 'Þ'=>'B', 'ß'=>'ss', 'à'=>'a', 'á'=>'a', 'â'=>'a', 'ã'=>'a', 'ä'=>'ae', 'å'=>'a', 'æ'=>'a', 'ç'=>'c',
+            'è'=>'e', 'é'=>'e', 'ê'=>'e', 'ë'=>'e', 'ì'=>'i', 'í'=>'i', 'î'=>'i', 'ï'=>'i', 'ð'=>'o', 'ñ'=>'n', 'ò'=>'o', 'ó'=>'o', 'ô'=>'o', 'õ'=>'o',
+            'ö'=>'oe', 'ø'=>'o', 'ù'=>'u', 'ú'=>'u', 'û'=>'u','ü'=>'ue', 'ý'=>'y', 'þ'=>'b', 'ÿ'=>'y',
+            'Ğ'=>'G', 'İ'=>'I', 'Ş'=>'S', 'ğ'=>'g', 'ı'=>'i',
+            'ă'=>'a', 'Ă'=>'A', 'ș'=>'s', 'Ș'=>'S', 'ț'=>'t', 'Ț'=>'T',
+            ' ' => '_');
+        $uid = strtr( $uid, $unwanted_array );
+
+        $uid = strtolower($uid);
+
+        $this->uid = $uid;
     }
 
     /**
+     * @return mixed
+     */
+    public function getGivenName()
+    {
+        return $this->givenName;
+    }
+
+    /**
+     * @param mixed $givenName
+     */
+    public function setGivenName($givenName)
+    {
+        $this->givenName = $givenName;
+    }
+
+        /**
      * @return mixed
      */
     public function getFirstName()
@@ -170,17 +225,17 @@ class User implements UserInterface, EquatableInterface
     /**
      * @return string
      */
-    public function getSecondName(): string
+    public function getLastName(): string
     {
-        return $this->secondName;
+        return $this->lastName;
     }
 
     /**
-     * @param string $secondName
+     * @param string $lastName
      */
-    public function setSecondName(string $secondName)
+    public function setLastName(string $lastName)
     {
-        $this->secondName = $secondName;
+        $this->lastName = $lastName;
     }
 
     /**
@@ -312,6 +367,68 @@ class User implements UserInterface, EquatableInterface
         $this->dn = $dn;
     }
 
+    /**
+     * Returns the username used to authenticate the user.
+     *
+     * @return string The username
+     */
+    public function getUsername()
+    {
+        return $this->uid;
+    }
+
+    /**
+     * @return string
+     */
+    public function getClearPassword()
+    {
+        return $this->clearPassword;
+    }
+
+    /**
+     * @param string $clearPassword
+     */
+    public function setClearPassword($clearPassword)
+    {
+        $this->clearPassword = $clearPassword;
+    }
+
+    /**
+     * @return string
+     */
+    public function getGeneratedPassword()
+    {
+        return $this->generatedPassword;
+    }
+
+    /**
+     * @param string $generatedPassword
+     */
+    public function setGeneratedPassword($generatedPassword)
+    {
+        $this->generatedPassword = $generatedPassword;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getStamm()
+    {
+        return $this->stamm;
+    }
+
+    /**
+     * @param mixed $stamm
+     */
+    public function setStamm($stamm)
+    {
+        $this->stamm = $stamm;
+    }
+
+
+
+
+
 
 
     /**
@@ -407,7 +524,7 @@ class User implements UserInterface, EquatableInterface
             return false;
         }
 
-        if ($this->getUsername() !== $user->getUsername()) {
+        if ($this->getUid() !== $user->getUid()) {
             return false;
         }
 

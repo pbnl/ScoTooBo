@@ -56,17 +56,17 @@ class UserRepository implements UserProviderInterface
      * @param string $givenName
      * @return User
      */
-    public function getUserByGivenName(String $givenName)
+    public function getUserByUid(String $givenName)
     {
         /** @var Repository $pbnlAccountRepository */
         $pbnlAccountRepository = $this->ldapEntityManager->getRepository(PbnlAccount::class);
 
         /** @var PbnlAccount $ldapPbnlAccount[] */
-        $ldapPbnlAccount = $pbnlAccountRepository->findOneByGivenName($givenName);
+        $ldapPbnlAccount = $pbnlAccountRepository->findOneByUid($givenName);
 
         if (count($ldapPbnlAccount) == 0) {
             throw new UsernameNotFoundException(
-                sprintf('Username "%s" does not exist.', $givenName)
+                sprintf('Uid "%s" does not exist.', $givenName)
             );
         }
 
@@ -101,21 +101,24 @@ class UserRepository implements UserProviderInterface
         $user->setDn($ldapPbnlAccount->getDn());
         $user->setCity($ldapPbnlAccount->getL());
         $user->setFirstName($ldapPbnlAccount->getCn());
-        $user->setSecondName($ldapPbnlAccount->getSn());
+        $user->setLastName($ldapPbnlAccount->getSn());
         $user->setUidNumber(intval($ldapPbnlAccount->getUidNumber()));
         $user->setMail($ldapPbnlAccount->getMail());
-        $user->setUsername($ldapPbnlAccount->getGivenName());
+        $user->setGivenName($ldapPbnlAccount->getGivenName());
+        $user->setUid($ldapPbnlAccount->getUid());
         $user->setPostalCode($ldapPbnlAccount->getPostalCode());
         $user->setMobilePhoneNumber($ldapPbnlAccount->getMobile());
         $user->setStreet($ldapPbnlAccount->getStreet());
         $user->generatePasswordAndSalt($ldapPbnlAccount->getUserPassword());
         $user->setHomePhoneNumber($ldapPbnlAccount->getTelephoneNumber());
+        $user->setStamm($ldapPbnlAccount->getOu());
+        //TODO maybe use something else as the ou to determine the stamm of the user
 
         $errors = $this->validator->validate($user);
 
         if (count($errors) > 0) {
             $this->logger->addError((string) $errors);
-            throw new CorruptDataInDatabaseException("The user ".$ldapPbnlAccount->getGivenName()." is corrupt! ".(string) $errors);
+            throw new CorruptDataInDatabaseException("The user ".$ldapPbnlAccount->getUid()." is corrupt! ".(string) $errors);
         }
 
         return $user;
@@ -135,7 +138,7 @@ class UserRepository implements UserProviderInterface
      */
     public function loadUserByUsername($username)
     {
-        return $this->getUserByGivenName($username);
+        return $this->getUserByUid($username);
     }
 
     /**
@@ -160,7 +163,7 @@ class UserRepository implements UserProviderInterface
             );
         }
 
-        return $this->loadUserByUsername($user->getUsername());
+        return $this->loadUserByUsername($user->getUid());
     }
 
     /**
@@ -205,7 +208,8 @@ class UserRepository implements UserProviderInterface
      * @return array
      * @throws GroupNotFoundException If the group of the Filter does not exist
      */
-    public function getAllUsers(Filter $filter) {
+    public function getAllUsers(Filter $filter)
+    {
         $users = array();
         $pbnlAccountRepository = $this->ldapEntityManager->getRepository(PbnlAccount::class);
 
@@ -213,8 +217,8 @@ class UserRepository implements UserProviderInterface
         /** @var $group PosixGroup*/
         $group = [];
         if(isset($filter->getFilterAttributes()[0])) {
-            if($filter->getFilterAttributes()[0] == "filterByName" && $filter->getFilterTexts()[0] != "") {
-                $pbnlAccounts = $pbnlAccountRepository->findByComplex(array("givenName" =>  '*'.$filter->getFilterTexts()[0].'*'));
+            if($filter->getFilterAttributes()[0] == "filterByUid" && $filter->getFilterTexts()[0] != "") {
+                $pbnlAccounts = $pbnlAccountRepository->findByComplex(array("uid" =>  '*'.$filter->getFilterTexts()[0].'*'));
             }
             else if($filter->getFilterAttributes()[0] == "filterByGroup" && $filter->getFilterTexts()[0] != "") {
                 $groupRepository = $this->ldapEntityManager->getRepository(PosixGroup::class);
@@ -247,5 +251,96 @@ class UserRepository implements UserProviderInterface
         }
 
         return $users;
+    }
+
+    /**
+     * Add a user to the database
+     *
+     * @param User $user
+     * @return User
+     */
+    public function addUser(User $user)
+    {
+        $ldapUserRepo = $this->ldapEntityManager->getRepository(PbnlAccount::class);
+        $pbnlAccount = $this->userToEntities($user);
+
+        if(!$this->doesUserExist($user)) {
+            $pbnlAccount->setUidNumber($this->getNewUidNumber());
+            $this->ldapEntityManager->persist($pbnlAccount);
+            $this->ldapEntityManager->flush();
+        }
+        else {
+            throw new UserAlreadyExistException("The user ".$user->getUid()." already exists.");
+        }
+
+        return $this->getUserByUid($user->getUid());
+    }
+
+    /**
+     * Checks if this user already exists
+     * For this the function uses the uid and the uidNumber
+     * @param $user
+     * @return bool
+     * @throws UserNotUniqueException if there are more than one users with the same uid or uidNumber
+     */
+    private function doesUserExist(User $user)
+    {
+        $ldapUserRepo = $this->ldapEntityManager->getRepository(PbnlAccount::class);
+
+        $users = $ldapUserRepo->findByUid($user->getUid());
+        if(count($users) == 1) return true;
+        if(count($users) > 1) throw new UserNotUniqueException("The user with the uid ".$user->getUid()." is not unique!");
+
+        $users = $ldapUserRepo->findByUidNumber($user->getUidNumber());
+        if(count($users) == 1) return true;
+        if(count($users) > 1) throw new UserNotUniqueException("The user with the uid ".$user->getUid()." is not unique!");;
+
+        return false;
+    }
+
+    /**
+     * Creates a PbnlAccount with the data of an User object
+     *
+     * @param $user
+     * @return PbnlAccount
+     */
+    private function userToEntities(User $user)
+    {
+        $pbnlAccount = new PbnlAccount();
+        $pbnlAccount->setL($user->getCity());
+        $pbnlAccount->setOu($user->getStamm());
+        $pbnlAccount->setStreet($user->getStreet());
+        $pbnlAccount->setPostalCode($user->getPostalCode());
+        $pbnlAccount->setGivenName($user->getGivenName());
+        $pbnlAccount->setUid($user->getUid());
+        $pbnlAccount->setCn($user->getFirstName());
+        $pbnlAccount->setSn($user->getLastName());
+        $pbnlAccount->setMail($user->getMail());
+        $pbnlAccount->setTelephoneNumber($user->getHomePhoneNumber());
+        $pbnlAccount->setMobile($user->getMobilePhoneNumber());
+        $pbnlAccount->setGidNumber("501");
+        $pbnlAccount->setHomeDirectory("/home/".$user->getUid());
+        $pbnlAccount->setUidNumber($user->getUidNumber());
+        $pbnlAccount->setObjectClass(["inetOrgPerson","posixAccount","pbnlAccount"]);
+
+        return $pbnlAccount;
+    }
+
+    /**
+     * Returns the next uidNumber
+     * Its the highest uidNumber of the pbnlAccounts + 1
+     * @return int
+     */
+    private function getNewUidNumber()
+    {
+        /** @var  $users User[]*/
+        $users = $this->ldapEntityManager->getRepository(PbnlAccount::class)->findAll();
+        $highesUidNumber = 0;
+        foreach ($users as $user) {
+            if($user->getUidNumber() > $highesUidNumber) {
+                $highesUidNumber = $user->getUidNumber();
+            }
+        }
+        return $highesUidNumber + 1;
     }
 }

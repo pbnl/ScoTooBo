@@ -24,6 +24,7 @@ class UserRepoTest extends WebTestCase
         $pbnlAccount->setStreet("street");
         $pbnlAccount->setPostalCode("12345");
         $pbnlAccount->setGivenName("test");
+        $pbnlAccount->setUid("test");
         $pbnlAccount->setCn("testcn");
         $pbnlAccount->setSn("testsn");
         $pbnlAccount->setMail("testmail@pbnl.de");
@@ -35,13 +36,13 @@ class UserRepoTest extends WebTestCase
 
 
         $userService = new UserRepository(new Logger("main"), $this->mockLdapEntityManager($pbnlAccount, []), Validation::createValidatorBuilder()->enableAnnotationMapping()->getValidator());
-        $user = $userService->getUserByGivenName("test");
+        $user = $userService->getUserByUid("test");
 
         $this->assertEquals("hamburg",$user->getCity());
         $this->assertEquals("street",$user->getStreet());
         $this->assertEquals("12345",$user->getPostalCode());
         $this->assertEquals("testcn",$user->getFirstName());
-        $this->assertEquals("testsn",$user->getSecondName());
+        $this->assertEquals("testsn",$user->getLastName());
         $this->assertEquals("123456789",$user->getHomePhoneNumber());
         $this->assertEquals("1234567890",$user->getMobilePhoneNumber());
         $this->assertEquals("1234",$user->getUidNumber());
@@ -53,7 +54,7 @@ class UserRepoTest extends WebTestCase
 
 
         $userService = new UserRepository(new Logger("main"), $this->mockLdapEntityManager([], [], false), Validation::createValidatorBuilder()->enableAnnotationMapping()->getValidator());
-        $userService->getUserByGivenName("test");
+        $userService->getUserByUid("test");
     }
 
     public function testCorruptDataInDatabaseExceptionMail()
@@ -61,23 +62,43 @@ class UserRepoTest extends WebTestCase
         $this->expectException(CorruptDataInDatabaseException::class);
 
         $pbnlAccount = new PbnlAccount();
-        $pbnlAccount->setL("hamburg");
-        $pbnlAccount->setOu("ambronen");
-        $pbnlAccount->setStreet("street");
-        $pbnlAccount->setPostalCode("12345");
-        $pbnlAccount->setGivenName("test");
-        $pbnlAccount->setCn("testcn");
-        $pbnlAccount->setSn("testsn");
         $pbnlAccount->setMail("wrongMail.de");
-        $pbnlAccount->setTelephoneNumber("123456789");
-        $pbnlAccount->setMobile("1234567890");
-        $pbnlAccount->setGidNumber("123");
-        $pbnlAccount->setHomeDirectory("/home/test");
-        $pbnlAccount->setUidNumber("1234");
-
 
         $userRepo = new UserRepository(new Logger("main"),$this->mockLdapEntityManager($pbnlAccount, []), Validation::createValidatorBuilder()->enableAnnotationMapping()->getValidator());
-        $userRepo->getUserByGivenName("test");
+        $userRepo->getUserByUid("test");
+    }
+
+    public function testCorruptDataInDatabaseExceptionUid()
+    {
+        $pbnlAccount = new PbnlAccount();
+        $pbnlAccount->setUid("Tefefg");
+
+        $userRepo = new UserRepository(new Logger("main"),$this->mockLdapEntityManager($pbnlAccount, []), Validation::createValidatorBuilder()->enableAnnotationMapping()->getValidator());
+        $userRepo->getUserByUid("test");
+    }
+    public function testCorruptDataInDatabaseExceptionUid2()
+    {
+        $pbnlAccount = new PbnlAccount();
+        $pbnlAccount->setUid("teäfefg");
+
+        $userRepo = new UserRepository(new Logger("main"),$this->mockLdapEntityManager($pbnlAccount, []), Validation::createValidatorBuilder()->enableAnnotationMapping()->getValidator());
+        $userRepo->getUserByUid("test");
+    }
+    public function testCorruptDataInDatabaseExceptionUid3()
+    {
+        $pbnlAccount = new PbnlAccount();
+        $pbnlAccount->setUid("tefßefg");
+
+        $userRepo = new UserRepository(new Logger("main"),$this->mockLdapEntityManager($pbnlAccount, []), Validation::createValidatorBuilder()->enableAnnotationMapping()->getValidator());
+        $userRepo->getUserByUid("test");
+    }
+    public function testCorruptDataInDatabaseExceptionUid4()
+    {
+        $pbnlAccount = new PbnlAccount();
+        $pbnlAccount->setUid("tef efg");
+
+        $userRepo = new UserRepository(new Logger("main"),$this->mockLdapEntityManager($pbnlAccount, []), Validation::createValidatorBuilder()->enableAnnotationMapping()->getValidator());
+        $userRepo->getUserByUid("test");
     }
 
     public function testCorruptDataInDatabaseExceptionPLZ()
@@ -85,23 +106,10 @@ class UserRepoTest extends WebTestCase
         $this->expectException(CorruptDataInDatabaseException::class);
 
         $pbnlAccount = new PbnlAccount();
-        $pbnlAccount->setL("hamburg");
-        $pbnlAccount->setOu("ambronen");
-        $pbnlAccount->setStreet("street");
         $pbnlAccount->setPostalCode("123w45");
-        $pbnlAccount->setGivenName("test");
-        $pbnlAccount->setCn("testcn");
-        $pbnlAccount->setSn("testsn");
-        $pbnlAccount->setMail("wrongMail@pbnl.de");
-        $pbnlAccount->setTelephoneNumber("123456789");
-        $pbnlAccount->setMobile("1234567890");
-        $pbnlAccount->setGidNumber("123");
-        $pbnlAccount->setHomeDirectory("/home/test");
-        $pbnlAccount->setUidNumber("1234");
-
 
         $userRepo = new UserRepository(new Logger("main"), $this->mockLdapEntityManager($pbnlAccount, []), Validation::createValidatorBuilder()->enableAnnotationMapping()->getValidator());
-        $userRepo->getUserByGivenName("test");
+        $userRepo->getUserByUid("test");
     }
 
     /**
@@ -120,7 +128,7 @@ class UserRepoTest extends WebTestCase
 
         $pbnlAccountRepo = $this->createMock(Repository::class);
         $pbnlAccountRepo->expects($this->any())->method("__call")->with(
-            $this->equalTo('findOneByGivenName'),
+            $this->equalTo('findOneByUid'),
             $this->equalTo(["test"])
         )->willReturn($pbnlAccount);
         $groupRepo = $this->createMock(Repository::class);

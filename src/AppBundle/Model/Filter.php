@@ -25,7 +25,8 @@ class Filter
      * @param string $attribute
      * @param string $text
      */
-    public function addFilter(string $attribute, $text = "") {
+    public function addFilter(string $attribute, $text = "")
+    {
         if($text == null) $text = "";
         array_push($this->filterAttributes, $attribute);
         array_push($this->filterTexts, $text);
