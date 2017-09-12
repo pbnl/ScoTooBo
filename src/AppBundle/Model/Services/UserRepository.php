@@ -5,6 +5,7 @@ namespace AppBundle\Model\Services;
 use AppBundle\Model\Entity\LDAP\PbnlAccount;
 use AppBundle\Model\Entity\LDAP\PosixGroup;
 use AppBundle\Model\Filter;
+use AppBundle\Model\SSHA;
 use AppBundle\Model\User;
 use Monolog\Logger;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
@@ -320,6 +321,9 @@ class UserRepository implements UserProviderInterface
         $pbnlAccount->setHomeDirectory("/home/".$user->getUid());
         $pbnlAccount->setUidNumber($user->getUidNumber());
         $pbnlAccount->setObjectClass(["inetOrgPerson","posixAccount","pbnlAccount"]);
+        if($user->getClearPassword() != "") {
+            $pbnlAccount->setUserPassword(SSHA::ssha_password_gen($user->getClearPassword()));
+        }
 
         return $pbnlAccount;
     }
