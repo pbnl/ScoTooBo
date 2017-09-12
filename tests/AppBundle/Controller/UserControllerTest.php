@@ -15,7 +15,8 @@ class UserControllerTest extends WebTestCase
         $this->loggedInClient = TestTools::getLoggedInUser();
     }
 
-    public function testShowAllUsers() {
+    public function testShowAllUsers()
+    {
         $this->loggedInClient->request('GET', '/users/show/all');
 
         $this->assertContains('givenName=TestBuvoUser,ou=Ambronen,ou=People,dc=pbnl,dc=de', $this->loggedInClient->getResponse()->getContent());
@@ -23,7 +24,8 @@ class UserControllerTest extends WebTestCase
 
     }
 
-    public function testShowAllUsersSearchName() {
+    public function testShowAllUsersSearchName()
+    {
         $crawler = $this->loggedInClient->request('GET', '/users/show/all');
 
         $form = $crawler->selectButton('Suchen')->form();
@@ -36,7 +38,8 @@ class UserControllerTest extends WebTestCase
         $this->assertContains('givenName=TestAmbrone1,ou=Ambronen,ou=People,dc=pbnl,dc=de', $this->loggedInClient->getResponse()->getContent());
     }
 
-    public function testShowAllUsersSearchGroup() {
+    public function testShowAllUsersSearchGroup()
+    {
         $crawler = $this->loggedInClient->request('GET', '/users/show/all');
 
         $form = $crawler->selectButton('Suchen')->form();
@@ -50,7 +53,8 @@ class UserControllerTest extends WebTestCase
         $this->assertContains('givenName=TestBuvoUser,ou=Ambronen,ou=People,dc=pbnl,dc=de', $this->loggedInClient->getResponse()->getContent());
     }
 
-    public function testShowAllUsersGroupNotFound() {
+    public function testShowAllUsersGroupNotFound()
+    {
         $crawler = $this->loggedInClient->request('GET', '/users/show/all');
 
         $form = $crawler->selectButton('Suchen')->form();
@@ -61,5 +65,41 @@ class UserControllerTest extends WebTestCase
         $this->loggedInClient->submit($form);
 
         $this->assertContains('We cant find the group WEgregg', $this->loggedInClient->getResponse()->getContent());
+    }
+
+    public function testAddUser()
+    {
+        $crawler = $this->loggedInClient->request('GET', '/users/add');
+
+        $form = $crawler->selectButton('Erstellen')->form();
+
+        $form['form[firstName]'] = 'firstName123';
+        $form['form[lastName]'] = 'lastName123';
+        $form['form[givenName]'] = 'givenName123';
+        $form['form[clearPassword]'] = 'password123';
+        $form['form[stamm]'] = 'Ambronen';
+
+        $this->loggedInClient->submit($form);
+        $respons = $this->loggedInClient->getResponse()->getContent();
+
+        $this->assertContains('Benutzer givenname123 hinzugefügt', $this->loggedInClient->getResponse()->getContent());
+    }
+
+    public function testAddUserUserAlreadyExistException()
+    {
+        $crawler = $this->loggedInClient->request('GET', '/users/add');
+
+        $form = $crawler->selectButton('Erstellen')->form();
+
+        $form['form[firstName]'] = 'firstName123';
+        $form['form[lastName]'] = 'lastName123';
+        $form['form[givenName]'] = 'TestAmbrone1';
+        $form['form[clearPassword]'] = 'password123';
+        $form['form[stamm]'] = 'Ambronen';
+
+        $this->loggedInClient->submit($form);
+        $respons = $this->loggedInClient->getResponse()->getContent();
+
+        $this->assertContains('The user testambrone1 already exists.', $this->loggedInClient->getResponse()->getContent());
     }
 }

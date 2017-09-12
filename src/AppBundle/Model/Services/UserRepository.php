@@ -261,19 +261,17 @@ class UserRepository implements UserProviderInterface
      */
     public function addUser(User $user)
     {
-        $ldapUserRepo = $this->ldapEntityManager->getRepository(PbnlAccount::class);
         $pbnlAccount = $this->userToEntities($user);
 
-        if(!$this->doesUserExist($user)) {
-            $pbnlAccount->setUidNumber($this->getNewUidNumber());
-            $this->ldapEntityManager->persist($pbnlAccount);
-            $this->ldapEntityManager->flush();
-        }
-        else {
+        if($this->doesUserExist($user)) {
             throw new UserAlreadyExistException("The user ".$user->getUid()." already exists.");
         }
 
-        return $this->getUserByUid($user->getUid());
+        $pbnlAccount->setUidNumber($this->getNewUidNumber());
+        $this->ldapEntityManager->persist($pbnlAccount);
+        $this->ldapEntityManager->flush();
+
+        return $user;
     }
 
     /**
@@ -281,7 +279,7 @@ class UserRepository implements UserProviderInterface
      * For this the function uses the uid and the uidNumber
      * @param $user
      * @return bool
-     * @throws UserNotUniqueException if there are more than one users with the same uid or uidNumber
+     * @throws UserNotUniqueException if there are more than one user with the same uid or uidNumber
      */
     private function doesUserExist(User $user)
     {
@@ -336,6 +334,7 @@ class UserRepository implements UserProviderInterface
         /** @var  $users User[]*/
         $users = $this->ldapEntityManager->getRepository(PbnlAccount::class)->findAll();
         $highesUidNumber = 0;
+
         foreach ($users as $user) {
             if($user->getUidNumber() > $highesUidNumber) {
                 $highesUidNumber = $user->getUidNumber();

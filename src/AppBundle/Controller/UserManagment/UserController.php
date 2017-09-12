@@ -107,7 +107,7 @@ class UserController extends Controller
             //Create the new user
             try {
                 $user = $userRepo->addUser($user);
-                $this->addFlash("succsess", "Benutzer hinzugefügt");
+                $this->addFlash("success", "Benutzer ".$user->getUid()." hinzugefügt");
                 $addedSomeone = true;
             }
             catch (UserAlreadyExistException $e) {
