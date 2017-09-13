@@ -326,7 +326,7 @@ class UserRepository implements UserProviderInterface
         $pbnlAccount->setUidNumber($user->getUidNumber());
         $pbnlAccount->setObjectClass(["inetOrgPerson","posixAccount","pbnlAccount"]);
         if ($user->getClearPassword() != "") {
-            $pbnlAccount->setUserPassword(SSHA::ssha_password_gen($user->getClearPassword()));
+            $pbnlAccount->setUserPassword(SSHA::sshaPasswordGen($user->getClearPassword()));
         }
 
         return $pbnlAccount;
