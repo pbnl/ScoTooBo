@@ -95,7 +95,7 @@ class UserRepository implements UserProviderInterface
         $hashedPassword = substr($b64_dec, 0, 20);
 
         $roles = $this->getRolesOfPbnlAccount($ldapPbnlAccount);
-        array_push($roles,"ROLE_USER");
+        array_push($roles, "ROLE_USER");
 
         //Fill up the user
         $user = new User($ldapPbnlAccount->getGivenName(), $hashedPassword, $salt, $roles);
@@ -194,8 +194,8 @@ class UserRepository implements UserProviderInterface
 
         /** @var  $group PosixGroup */
         foreach ($allGroups as $group) {
-            if($group->isDnMember($ldapPbnlAccount->getDn())) {
-                array_push($roles,"ROLE_".$group->getCn());
+            if ($group->isDnMember($ldapPbnlAccount->getDn())) {
+                array_push($roles, "ROLE_".$group->getCn());
             }
         }
         return $roles;
@@ -217,14 +217,14 @@ class UserRepository implements UserProviderInterface
         //If there is a filter we can use
         /** @var $group PosixGroup*/
         $group = [];
-        if(isset($filter->getFilterAttributes()[0])) {
+        if (isset($filter->getFilterAttributes()[0])) {
             if($filter->getFilterAttributes()[0] == "filterByUid" && $filter->getFilterTexts()[0] != "") {
                 $pbnlAccounts = $pbnlAccountRepository->findByComplex(array("uid" =>  '*'.$filter->getFilterTexts()[0].'*'));
             }
-            else if($filter->getFilterAttributes()[0] == "filterByGroup" && $filter->getFilterTexts()[0] != "") {
+            elseif ($filter->getFilterAttributes()[0] == "filterByGroup" && $filter->getFilterTexts()[0] != "") {
                 $groupRepository = $this->ldapEntityManager->getRepository(PosixGroup::class);
                 $group = $groupRepository->findByCn($filter->getFilterTexts()[0]);
-                if($group == []) {
+                if ($group == []) {
                     throw new GroupNotFoundException("We cant find the group ".$filter->getFilterTexts()[0]);
                 }
                 $pbnlAccounts = $pbnlAccountRepository->findAll();
@@ -241,8 +241,8 @@ class UserRepository implements UserProviderInterface
         foreach ($pbnlAccounts as $pbnlAccount) {
             $user = $this->entitiesToUser($pbnlAccount);
 
-            if($group != []) {
-                if($group[0]->isDnMember($user->getDn())){
+            if ($group != []) {
+                if ($group[0]->isDnMember($user->getDn())){
                     array_push($users, $user);
                 }
             }
@@ -287,12 +287,20 @@ class UserRepository implements UserProviderInterface
         $ldapUserRepo = $this->ldapEntityManager->getRepository(PbnlAccount::class);
 
         $users = $ldapUserRepo->findByUid($user->getUid());
-        if(count($users) == 1) return true;
-        if(count($users) > 1) throw new UserNotUniqueException("The user with the uid ".$user->getUid()." is not unique!");
+        if (count($users) == 1) {
+            return true;
+        }
+        if (count($users) > 1) {
+            throw new UserNotUniqueException("The user with the uid ".$user->getUid()." is not unique!");
+        }
 
         $users = $ldapUserRepo->findByUidNumber($user->getUidNumber());
-        if(count($users) == 1) return true;
-        if(count($users) > 1) throw new UserNotUniqueException("The user with the uid ".$user->getUid()." is not unique!");;
+        if (count($users) == 1) {
+            return true;
+        }
+        if (count($users) > 1) {
+            throw new UserNotUniqueException("The user with the uid ".$user->getUid()." is not unique!");
+        }
 
         return false;
     }
@@ -321,7 +329,7 @@ class UserRepository implements UserProviderInterface
         $pbnlAccount->setHomeDirectory("/home/".$user->getUid());
         $pbnlAccount->setUidNumber($user->getUidNumber());
         $pbnlAccount->setObjectClass(["inetOrgPerson","posixAccount","pbnlAccount"]);
-        if($user->getClearPassword() != "") {
+        if ($user->getClearPassword() != "") {
             $pbnlAccount->setUserPassword(SSHA::ssha_password_gen($user->getClearPassword()));
         }
 

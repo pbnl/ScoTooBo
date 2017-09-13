@@ -106,7 +106,7 @@ class PosixGroup extends Group
      */
     public function isDnMember(String $dn)
     {
-        if(in_array($dn, $this->getMemberUid())) {
+        if (in_array($dn, $this->getMemberUid())) {
             return true;
         }
         return false;

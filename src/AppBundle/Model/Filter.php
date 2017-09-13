@@ -2,7 +2,6 @@
 
 namespace AppBundle\Model;
 
-
 class Filter
 {
     /**
@@ -27,7 +26,9 @@ class Filter
      */
     public function addFilter(string $attribute, $text = "")
     {
-        if($text == null) $text = "";
+        if ($text == null) {
+            $text = "";
+        }
         array_push($this->filterAttributes, $attribute);
         array_push($this->filterTexts, $text);
     }
