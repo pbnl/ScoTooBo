@@ -1,0 +1,21 @@
+welcome: Willkommen
+login.request: Bitte logge dich ein
+username: Benutzername
+password: Passwort
+login.remember.me: Erinnere dich :)
+login: Login
+menu.userManagment.title: Usermanagment
+menu.userManagment.showAllusers: Alle Benutzer anzeigen
+menu.userManagment.addUser: Benutzer hinzufügen
+delete: Löschen
+group: Gruppe
+search: Suchen
+addUser.addedUser: Hinzugefügter User
+addUser.addedUserText: Füge einen neuen User hinzu
+addUser.generatedPassword: Generiertes Passwort
+addUser.generatePassword: Generiere ein Passwort
+addUser.nameValue: Name des Wertes
+addUser.value: Wert
+firstName: Vorname
+lastName: Nachname
+create: Erstellen

@@ -93,9 +93,9 @@ creatorsName: cn=admin,dc=pbnl,dc=de
 createTimestamp: 20160905213353Z
 description: teamGroup
 memberUid: givenName=TestAmbrone1,ou=Ambronen,ou=People,dc=pbnl,dc=de
-entryCSN: 20170715204743.920896Z#000000#000#000000
+entryCSN: 20170831083824.129022Z#000000#000#000000
 modifiersName: cn=admin,dc=pbnl,dc=de
-modifyTimestamp: 20170715204743Z
+modifyTimestamp: 20170831083824Z
 
 dn: ou=Forward,dc=pbnl,dc=de
 objectClass: organizationalUnit
@@ -158,17 +158,6 @@ memberUid: BadInput
 entryCSN: 20170712091402.564967Z#000000#000#000000
 modifiersName: cn=admin,dc=pbnl,dc=de
 modifyTimestamp: 20170712091402Z
-
-dn: ou=Dummy,ou=People,dc=pbnl,dc=de
-objectClass: organizationalUnit
-ou: Dummy
-structuralObjectClass: organizationalUnit
-entryUUID: 30161088-07fc-1036-89e1-c9d07847b537
-creatorsName: cn=admin,dc=pbnl,dc=de
-createTimestamp: 20160905213353Z
-entryCSN: 20160905213353.728080Z#000000#000#000000
-modifiersName: cn=admin,dc=pbnl,dc=de
-modifyTimestamp: 20160905213353Z
 
 dn: cn=wiki,ou=Group,dc=pbnl,dc=de
 cn: wiki
@@ -242,34 +231,15 @@ l: Hans
 cn: TestBuvoUser
 homeDirectory: /home/TestBuvoUser
 sn: Test
-uid: TestBuvoUser
 givenName: TestBuvoUser
 mail: testbuvouser@pbnl.de
 postalCode: 33245
 userPassword:: e3NzaGF9N3c0RjZqNHkrcW1qWE5EY09uZ0hIK0NLbnRMTnkrVkFYSmVqM3c9P
  Q==
-entryCSN: 20170712090556.350558Z#000000#000#000000
+uid: testbuvouser
+entryCSN: 20170909141452.287607Z#000000#000#000000
 modifiersName: cn=admin,dc=pbnl,dc=de
-modifyTimestamp: 20170712090556Z
-
-dn: cn=TestDummy,ou=Dummy,ou=People,dc=pbnl,dc=de
-gidNumber: 0
-uidNumber: 0
-objectClass: person
-objectClass: posixAccount
-homeDirectory: /dev/null
-structuralObjectClass: person
-entryUUID: ac22db5c-07fc-1036-8a9a-c9d07847b537
-creatorsName: cn=admin,dc=pbnl,dc=de
-createTimestamp: 20160905213721Z
-cn: TestDummy
-sn: TestDummy
-uid: TestDummy
-userPassword:: e3NzaGF9UGR3MW8vaXR5WG9ZUVQzMWRNVEF3c1JkeWJJODAzMFJQQmpnTGc9P
- Q==
-entryCSN: 20170715204526.879187Z#000000#000#000000
-modifiersName: cn=admin,dc=pbnl,dc=de
-modifyTimestamp: 20170715204526Z
+modifyTimestamp: 20170909141452Z
 
 dn: mail=ambronen@pbnl.de,ou=Forward,dc=pbnl,dc=de
 mail: ambronen@pbnl.de
@@ -332,7 +302,6 @@ uidNumber: 814
 sn: ef
 l: 0
 mobile: 0
-postalCode: 0
 street: 0
 telephoneNumber: 0
 structuralObjectClass: inetOrgPerson
@@ -342,13 +311,14 @@ createTimestamp: 20170319212754Z
 givenName: TestAmbrone1
 cn: TestAmbrone1
 homeDirectory: /home/TestAmbrone1
-uid: TestAmbrone1
-mail: TestAmbrone1@pbnl.de
-userPassword:: e3NzaGF9dGZNYXZjZkYvQnlvRnZZTk5tdllnYVVHV3JBcFMxQ2FqZHNnemc9P
+userPassword:: e3NzaGF9Vnh5ekZscWZXK01mYUczRGdoUlgweisrc2o0SlhrYW1xS1ZCVWc9P
  Q==
-entryCSN: 20170712090815.607970Z#000000#000#000000
+postalCode: 5698
+mail: TestAmbrone1@pbnl.de
+uid: testambrone1
+entryCSN: 20170909142029.118167Z#000000#000#000000
 modifiersName: cn=admin,dc=pbnl,dc=de
-modifyTimestamp: 20170712090815Z
+modifyTimestamp: 20170909142029Z
 
 dn: givenName=TestTronjer,ou=Hagen von Tronje,ou=People,dc=pbnl,dc=de
 objectClass: inetOrgPerson
@@ -367,15 +337,15 @@ structuralObjectClass: inetOrgPerson
 entryUUID: 5e2c4768-b3fe-1036-9850-a13902e903f4
 creatorsName: cn=admin,dc=pbnl,dc=de
 createTimestamp: 20170412190250Z
-uid: TestTronjer
-givenName: TestTronjer
 sn: Nachname
 cn: vorname
 userPassword:: e3NzaGF9L2gwcTBVYUJ6Y0U1SlhhMnhUNVVDWmd5UkNFeXhlYVJzRU4yZkE9P
  Q==
-entryCSN: 20170715204954.702971Z#000000#000#000000
+givenName: TestTronjer
+uid: testtronjer
+entryCSN: 20170909141502.198669Z#000000#000#000000
 modifiersName: cn=admin,dc=pbnl,dc=de
-modifyTimestamp: 20170715204954Z
+modifyTimestamp: 20170909141502Z
 
 dn: cn=phpunituser,dc=pbnl,dc=de
 description: LDAP administrator
@@ -405,19 +375,19 @@ userPassword:: e3NzaGF9dGZNYXZjZkYvQnlvRnZZTk5tdllnYVVHV3JBcFMxQ2FqZHNnemc9P
 uidNumber: 814
 givenName: TestAmbrone2
 street: 0
-postalCode: 0
 sn: ef
 structuralObjectClass: inetOrgPerson
 entryUUID: 724eb0d4-fb2d-1036-80ff-fd1a01a1a3a0
 creatorsName: cn=admin,dc=pbnl,dc=de
 createTimestamp: 20170712090842Z
 homeDirectory: /home/TestAmbrone2
-uid: TestAmbrone2
 cn: TestAmbrone2
 mail: testAmbrone2FalscheMail@gmx.de
-entryCSN: 20170712090956.746342Z#000000#000#000000
+postalCode: 252
+uid: testambrone2
+entryCSN: 20170909142148.600565Z#000000#000#000000
 modifiersName: cn=admin,dc=pbnl,dc=de
-modifyTimestamp: 20170712090956Z
+modifyTimestamp: 20170909142148Z
 
 dn: cn=groupWithMailingList,ou=Group,dc=pbnl,dc=de
 memberUid: givenName=TestAmbrone2,ou=Ambronen,ou=People,dc=pbnl,dc=de
@@ -470,4 +440,60 @@ createTimestamp: 20170712092035Z
 entryCSN: 20170712092035.740084Z#000000#000#000000
 modifiersName: cn=admin,dc=pbnl,dc=de
 modifyTimestamp: 20170712092035Z
+
+dn: cn=elder,ou=Group,dc=pbnl,dc=de
+memberUid: givenName=TestAmbrone2,ou=Ambronen,ou=People,dc=pbnl,dc=de
+memberUid: givenName=TestAmbrone1,ou=Ambronen,ou=People,dc=pbnl,dc=de
+memberUid: givenName=TestBuvoUser,ou=Ambronen,ou=People,dc=pbnl,dc=de
+memberUid: givenName=NotExistingUser,ou=Ambronen,ou=People,dc=pbnl,dc=de
+memberUid: givenName=TestAmbrone2,ou=NotExistingOU,ou=People,dc=pbnl,dc=de
+gidNumber: 503
+cn: elder
+objectClass: posixGroup
+structuralObjectClass: posixGroup
+entryUUID: fc44fc30-2832-1037-8fe5-a126d63cd650
+creatorsName: cn=admin,dc=pbnl,dc=de
+createTimestamp: 20170907161143Z
+entryCSN: 20170907161220.719818Z#000000#000#000000
+modifiersName: cn=admin,dc=pbnl,dc=de
+modifyTimestamp: 20170907161220Z
+
+dn: givenName=ef,ou=Ambronen,ou=People,dc=pbnl,dc=de
+objectClass: inetOrgPerson
+objectClass: posixAccount
+objectClass: pbnlAccount
+givenName: ef
+uid: ef
+cn: ef
+sn: ef
+uidNumber: 816
+homeDirectory: /home/ef
+gidNumber: 501
+structuralObjectClass: inetOrgPerson
+entryUUID: 8c58f7aa-29db-1037-8c52-4771166b11b5
+creatorsName: cn=admin,dc=pbnl,dc=de
+createTimestamp: 20170909185052Z
+entryCSN: 20170909185052.330349Z#000000#000#000000
+modifiersName: cn=admin,dc=pbnl,dc=de
+modifyTimestamp: 20170909185052Z
+
+dn:: Z2l2ZW5OYW1lPcOkw7xlZWcgMmVnw59GZXJnLG91PUFtYnJvbmVuLG91PVBlb3BsZSxkYz1
+ wYm5sLGRjPWRl
+objectClass: inetOrgPerson
+objectClass: posixAccount
+objectClass: pbnlAccount
+givenName:: w6TDvGVlZyAyZWfDn0Zlcmc=
+uid: aeueeeg_2egssferg
+cn: rt
+sn: rt
+uidNumber: 817
+homeDirectory: /home/aeueeeg_2egssferg
+gidNumber: 501
+structuralObjectClass: inetOrgPerson
+entryUUID: b2557b7a-29e2-1037-8c59-4771166b11b5
+creatorsName: cn=admin,dc=pbnl,dc=de
+createTimestamp: 20170909194202Z
+entryCSN: 20170909194202.538035Z#000000#000#000000
+modifiersName: cn=admin,dc=pbnl,dc=de
+modifyTimestamp: 20170909194202Z
 

@@ -1,0 +1,40 @@
+{% extends "includes/base.html.twig" %}
+
+{% block title %}{% trans %}login{% endtrans %}{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+
+    <link href="{{ asset('css/loginPage.css') }}" rel="stylesheet" />
+{% endblock %}
+
+{% block body %}
+    <div class="container">
+        {% if error %}
+            <div class="flash-notice">
+                <div class="alert alert-danger" role="alert">
+                    <div>{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+                    <div>{{ error.message}}</div>
+                </div>
+            </div>
+        {% endif %}
+
+        {% include "includes/showFlashes.html.twig" %}
+
+        <form class="form-signin" action="{{ path('login') }}" method="post">
+            <h2 class="form-signin-heading">{% trans %}login.request{% endtrans %}</h2>
+
+            <input type="text" class="form-control" id="username" name="_username" value="{{ last_username }}" placeholder="{% trans %}username{% endtrans %}"  required autofocus>
+
+            <input type="password" class="form-control" id="password" name="_password" placeholder="{% trans %}password{% endtrans %}" required>
+            <div class="checkbox">
+                <label>
+                    <input type="checkbox" value="remember-me"> {% trans %}login.remember.me{% endtrans %}
+                </label>
+            </div>
+
+            <button class="btn btn-lg btn-primary btn-block" type="submit">{% trans %}login{% endtrans %}</button>
+        </form>
+
+    </div>
+{% endblock %}
