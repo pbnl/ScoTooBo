@@ -35,11 +35,11 @@ class UserController extends Controller
                 'label'=>false,
                 'required' => false,
                 'data'=>"filterByUid"))
-            ->add("filterText", TextType::class,array(
+            ->add("filterText", TextType::class, array(
                 "attr"=>["placeholder"=>"search"],
                 'label'=>false,
                 'required' => false))
-            ->add("send", SubmitType::class,array(
+            ->add("send", SubmitType::class, array(
                 "label"=>"search",
                 "attr"=>["class"=>"btn btn-lg btn-primary btn-block"]))
             ->setMethod("get")
@@ -57,8 +57,7 @@ class UserController extends Controller
         $userRepo = $this->get("data.userRepository");
         try {
             $users = $userRepo->getAllUsers($filter);
-        }
-        catch (GroupNotFoundException $e) {
+        } catch (GroupNotFoundException $e) {
             $users = [];
             $this->addFlash("info", $e->getMessage());
         }
@@ -113,7 +112,7 @@ class UserController extends Controller
 
         //Handel the form input
         $addUserForm->handleRequest($request);
-        if($addUserForm->isSubmitted() && $addUserForm->isValid()) {
+        if ($addUserForm->isSubmitted() && $addUserForm->isValid()) {
             //Prepare User
             $user->setUid($user->getGivenName());
 
@@ -122,11 +121,9 @@ class UserController extends Controller
                 $user = $userRepo->addUser($user);
                 $this->addFlash("success", "Benutzer ".$user->getUid()." hinzugefügt");
                 $addedSomeone = true;
-            }
-            catch (UserAlreadyExistException $e) {
+            } catch (UserAlreadyExistException $e) {
                 $this->addFlash("error", $e->getMessage());
-            }
-            catch (ContextErrorException $e) {
+            } catch (ContextErrorException $e) {
                 $this->addFlash("error", $e->getMessage()." This probably means that this stamm (ou) does not exist.");
             }
         }

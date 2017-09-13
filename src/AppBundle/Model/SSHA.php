@@ -18,7 +18,7 @@ class SSHA
         $sha = substr($b64_dec, 0, 20);
 
         // now compare
-        $newSha = base64_encode( sha1($password . $salt, TRUE) . $salt );
+        $newSha = base64_encode(sha1($password . $salt, true) . $salt);
 
         if ($b64 == $newSha) {
             return true;
@@ -30,6 +30,6 @@ class SSHA
     public static function sshaPasswordGen($password)
     {
         $salt = openssl_random_pseudo_bytes(8, $cryptoStrong);
-        return "{SSHA}".base64_encode( sha1($password . $salt, TRUE) . $salt );
+        return "{SSHA}".base64_encode( sha1($password . $salt, true) . $salt);
     }
 }

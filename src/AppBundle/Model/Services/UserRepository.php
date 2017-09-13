@@ -218,22 +218,19 @@ class UserRepository implements UserProviderInterface
         /** @var $group PosixGroup*/
         $group = [];
         if (isset($filter->getFilterAttributes()[0])) {
-            if($filter->getFilterAttributes()[0] == "filterByUid" && $filter->getFilterTexts()[0] != "") {
+            if ($filter->getFilterAttributes()[0] == "filterByUid" && $filter->getFilterTexts()[0] != "") {
                 $pbnlAccounts = $pbnlAccountRepository->findByComplex(array("uid" =>  '*'.$filter->getFilterTexts()[0].'*'));
-            }
-            elseif ($filter->getFilterAttributes()[0] == "filterByGroup" && $filter->getFilterTexts()[0] != "") {
+            } elseif ($filter->getFilterAttributes()[0] == "filterByGroup" && $filter->getFilterTexts()[0] != "") {
                 $groupRepository = $this->ldapEntityManager->getRepository(PosixGroup::class);
                 $group = $groupRepository->findByCn($filter->getFilterTexts()[0]);
                 if ($group == []) {
                     throw new GroupNotFoundException("We cant find the group ".$filter->getFilterTexts()[0]);
                 }
                 $pbnlAccounts = $pbnlAccountRepository->findAll();
-            }
-            else {
+            } else {
                 $pbnlAccounts = $pbnlAccountRepository->findAll();
             }
-        }
-        else {
+        } else {
             $pbnlAccounts = $pbnlAccountRepository->findAll();
         }
 
@@ -245,8 +242,7 @@ class UserRepository implements UserProviderInterface
                 if ($group[0]->isDnMember($user->getDn())){
                     array_push($users, $user);
                 }
-            }
-            else {
+            } else {
                 array_push($users, $user);
             }
         }
@@ -264,7 +260,7 @@ class UserRepository implements UserProviderInterface
     {
         $pbnlAccount = $this->userToEntities($user);
 
-        if($this->doesUserExist($user)) {
+        if ($this->doesUserExist($user)) {
             throw new UserAlreadyExistException("The user ".$user->getUid()." already exists.");
         }
 

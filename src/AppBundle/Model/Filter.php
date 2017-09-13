@@ -48,10 +48,4 @@ class Filter
     {
         return $this->filterTexts;
     }
-
-
-
-
-
-
 }
