@@ -30,6 +30,6 @@ class SSHA
     public static function sshaPasswordGen($password)
     {
         $salt = openssl_random_pseudo_bytes(8, $cryptoStrong);
-        return "{SSHA}".base64_encode( sha1($password . $salt, true) . $salt);
+        return "{SSHA}".base64_encode(sha1($password . $salt, true) . $salt);
     }
 }

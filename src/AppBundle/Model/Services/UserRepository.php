@@ -344,7 +344,7 @@ class UserRepository implements UserProviderInterface
         $highesUidNumber = 0;
 
         foreach ($users as $user) {
-            if($user->getUidNumber() > $highesUidNumber) {
+            if ($user->getUidNumber() > $highesUidNumber) {
                 $highesUidNumber = $user->getUidNumber();
             }
         }
