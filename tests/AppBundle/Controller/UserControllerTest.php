@@ -102,4 +102,46 @@ class UserControllerTest extends WebTestCase
 
         $this->assertContains('The user testambrone1 already exists.', $this->loggedInClient->getResponse()->getContent());
     }
+
+    public function testgetUserDetailsOfOwnUser()
+    {
+        $crawler = $this->loggedInClient->request('GET', '/users/detail');
+
+        $this->assertContains('givenName=TestAmbrone1,ou=Ambronen,ou=People,dc=pbnl,dc=de', $this->loggedInClient->getResponse()->getContent());
+    }
+
+    public function testgetUserDetailsOfOtherUser()
+    {
+        $crawler = $this->loggedInClient->request('GET', '/users/detail?uid=testambrone2');
+
+        $this->assertContains('givenName=TestAmbrone2,ou=Ambronen,ou=People,dc=pbnl,dc=de', $this->loggedInClient->getResponse()->getContent());
+    }
+
+    public function testgetUserDetailsOfOwenUserAndEdit()
+    {
+        $crawler = $this->loggedInClient->request('GET', '/users/detail');
+
+        $form = $crawler->selectButton('Speichern')->form();
+
+        $form['form[firstName]'] = 'testFirstNameA';
+        $form['form[lastName]'] = 'testLastNameB';
+        $form['form[postalCode]'] = '89345';
+        $form['form[city]'] = 'testCityD';
+        $form['form[street]'] = 'testStreetE';
+        $form['form[mobilePhoneNumber]'] = 'testMobileF';
+        $form['form[homePhoneNumber]'] = 'testPhoneG';
+
+        $this->loggedInClient->submit($form);
+        $respons = $this->loggedInClient->getResponse()->getContent();
+
+        $this->assertContains('Änderungen gespeichert', $this->loggedInClient->getResponse()->getContent());
+
+        $this->assertContains('testFirstNameA', $this->loggedInClient->getResponse()->getContent());
+        $this->assertContains('testLastNameB', $this->loggedInClient->getResponse()->getContent());
+        $this->assertContains('89345', $this->loggedInClient->getResponse()->getContent());
+        $this->assertContains('testCityD', $this->loggedInClient->getResponse()->getContent());
+        $this->assertContains('testStreetE', $this->loggedInClient->getResponse()->getContent());
+        $this->assertContains('testMobileF', $this->loggedInClient->getResponse()->getContent());
+        $this->assertContains('testPhoneG', $this->loggedInClient->getResponse()->getContent());
+    }
 }

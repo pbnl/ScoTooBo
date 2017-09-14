@@ -23,6 +23,8 @@ class UserController extends Controller
     /**
      * @Route("/users/show/all", name="showAllUser")
      * @Security("has_role('ROLE_elder')")
+     * @param Request $request
+     * @return \Symfony\Component\HttpFoundation\Response
      */
     public function showAllUser(Request $request)
     {
@@ -71,6 +73,8 @@ class UserController extends Controller
     /**
      * @Route("/users/add", name="addUser")
      * @Security("has_role('ROLE_elder')")
+     * @param Request $request
+     * @return \Symfony\Component\HttpFoundation\Response
      */
     public function addUser(Request $request)
     {
@@ -133,6 +137,84 @@ class UserController extends Controller
             "addAUserForm" => $addUserForm->createView(),
             "addedPerson" => $user,
             "addedSomeone" => $addedSomeone
+        ));
+    }
+
+    /**
+     * @Route("/users/detail", name="detailUser")
+     * @param Request $request
+     * @return \Symfony\Component\HttpFoundation\Response
+     */
+    public function showDetailUser(Request $request)
+    {
+        $loggedInUser = $this->get('security.token_storage')->getToken()->getUser();
+        $userRepo = $this->get("data.userRepository");
+
+        if ($request->get("uid", "") != "" && $request->get("uid", "") != $loggedInUser) {
+            $this->denyAccessUnlessGranted("ROLE_elder", null, "You are not allowed to edit this user");
+            //TODO maybe add a better security restriction
+
+            $userToShow = $userRepo->getUserByUid($request->get("uid"));
+        } else {
+            $userToShow = $loggedInUser;
+        }
+
+        $editUserForm = false;
+        //is the user allowed to edit this user?
+        //TODO maybe add a better security restriction
+        if ($userToShow->getUid() == $loggedInUser->getUid()) {
+            $editUserForm = $this->createFormBuilder($userToShow, ['attr' => ['class' => 'form-addAUser']])
+                ->add("firstName", TextType::class, array(
+                    "attr" => ["placeholder" => "firstName"],
+                    'label' => "firstName",
+                    "required" => true))
+                ->add("lastName", TextType::class, array(
+                    "attr" => ["placeholder" => "lastName"],
+                    'label' => "lastName",
+                    "required" => true))
+                ->add("city", TextType::class,array(
+                    "attr" => ["placeholder" => "city"],
+                    'label' => "city",
+                    "required" => false))
+                ->add("postalCode", TextType::class,array(
+                    "attr" => ["placeholder" => "postalCode"],
+                    'label' => "postalCode",
+                    "required" => false))
+                ->add("street", TextType::class,array(
+                    "attr" => ["placeholder" => "street"],
+                    'label' => "street",
+                    "required" => false))
+                ->add("homePhoneNumber", TextType::class,array(
+                    "attr" => ["placeholder" => "phoneNumber.home"],
+                    'label' => "phoneNumber.home",
+                    "required" => false))
+                ->add("mobilePhoneNumber", TextType::class,array(
+                    "attr" => ["placeholder" => "phoneNumber.mobile"],
+                    'label' => "phoneNumber.mobil",
+                    "required" => false))
+                ->add("send", SubmitType::class, array(
+                    "label" => "save",
+                    "attr" => ["class" => "btn btn-lg btn-primary btn-block"]))
+                ->getForm();
+
+            //Handel the form input
+            $editUserForm->handleRequest($request);
+            if($editUserForm->isSubmitted() && $editUserForm->isValid()) {
+                $userRepo->updateUser($userToShow);
+                $this->addFlash("success", "Änderungen gespeichert");
+            } elseif ($editUserForm->isSubmitted() && !$editUserForm->isValid()) {
+                $this->addFlash("error", "Falsche Werte!");
+                $userToShow = $userRepo->getUserByUid($request->get("uid", $loggedInUser->getUid()));
+            }
+
+            $editUserForm = $editUserForm->createView();
+        }
+
+
+        //Render the page
+        return $this->render("userManagment/detailUser.html.twig", array(
+            "user"=>$userToShow,
+            "editUserForm" => $editUserForm,
         ));
     }
 }

@@ -28,7 +28,6 @@ class User implements UserInterface, EquatableInterface
      * Real first name
      *
      * @var string
-     * @Assert\Regex("/^[\S]+$/") anything but space
      */
     private $firstName = "";
 
@@ -36,7 +35,6 @@ class User implements UserInterface, EquatableInterface
      * Real last name
      *
      * @var string
-     * @Assert\Regex("/^[\S]+$/") anything but space
      */
     private $lastName = "";
 

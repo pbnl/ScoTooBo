@@ -65,7 +65,7 @@ class PbnlAccount extends InetOrgPerson
      * @Attribute("uidNumber")
      * @Must()
      */
-    protected $uidNumber = "";
+    protected $uidNumber = "0";
 
     /**
      * Internal "@pbnl" mail address
@@ -143,6 +143,14 @@ class PbnlAccount extends InetOrgPerson
      * @Must()
      */
     protected $gidNumber = "";
+
+    /**
+     * PbnlAccount constructor.
+     */
+    public function __construct()
+    {
+        $this->setNotRetrieveAttributes(array());
+    }
 
 
     //All getters and setters

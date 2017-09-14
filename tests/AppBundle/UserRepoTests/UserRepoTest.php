@@ -6,6 +6,8 @@ use AppBundle\Model\Entity\LDAP\PbnlAccount;
 use AppBundle\Model\Entity\LDAP\PosixGroup;
 use AppBundle\Model\Services\CorruptDataInDatabaseException;
 use AppBundle\Model\Services\UserAlreadyExistException;
+use AppBundle\Model\Services\UserDoesNotExistException;
+use AppBundle\Model\Services\UserNotUniqueException;
 use AppBundle\Model\Services\UserRepository;
 use AppBundle\Model\User;
 use Monolog\Logger;
@@ -259,6 +261,7 @@ class UserRepoTest extends WebTestCase
     {
         $this->expectException(UserAlreadyExistException::class);
 
+        /** @var PbnlAccount $expectedPbnlAccount */
         $expectedPbnlAccount = new PbnlAccount();
         $expectedPbnlAccount->setObjectClass(["inetOrgPerson","posixAccount","pbnlAccount"]);
         $expectedPbnlAccount->setL("hamburg");
@@ -310,6 +313,99 @@ class UserRepoTest extends WebTestCase
 
         $userBack = $userRepo->addUser($user);
         $this->assertEquals($user,$userBack);
+    }
+
+    public function testupdateUser()
+    {
+        $oldPbnlAccount = new PbnlAccount();
+        $oldPbnlAccount->setL("teststadtOld");
+        $oldPbnlAccount->setUid("testuid");
+
+        $newPbnlAccount = new PbnlAccount();
+        $newPbnlAccount->setL("teststadtNew");
+        $newPbnlAccount->setUid("testuid");
+        $newPbnlAccount->setGidNumber("501");
+        $newPbnlAccount->setHomeDirectory("/home/testuid");
+        $newPbnlAccount->setObjectClass(["inetOrgPerson","posixAccount","pbnlAccount"]);
+
+
+        $newUser = new User("testuid", "hash", "salt", []);
+        $newUser->setCity("teststadtNew");
+
+        $pbnlAccountRepo = $this->createMock(Repository::class);
+        $pbnlAccountRepo->expects($this->any())
+            ->method("__call")
+            ->withConsecutive(
+                [$this->equalTo('findByUid'), $this->equalTo(["testuid"])])
+            ->willReturnOnConsecutiveCalls($oldPbnlAccount);
+
+        $ldapEntityManager = $this->createMock(LdapEntityManager::class);
+        $ldapEntityManager->expects($this->any())
+            ->method("getRepository")
+            ->withConsecutive(
+                [$this->equalTo(PbnlAccount::class)])
+            ->willReturnOnConsecutiveCalls($pbnlAccountRepo);
+        $ldapEntityManager->expects($this->once())
+            ->method("persist")
+            ->with($this->equalTo($newPbnlAccount));
+
+        $userRepo = new UserRepository(new Logger("main"), $ldapEntityManager, Validation::createValidatorBuilder()->enableAnnotationMapping()->getValidator());
+
+        $userRepo->updateUser($newUser);
+    }
+
+    public function testupdateUserUserDoesNotExistException()
+    {
+        $this->expectException(UserDoesNotExistException::class);
+
+        $newUser = new User("testuid", "hash", "salt", []);
+        $newUser->setCity("teststadtNew");
+
+        $pbnlAccountRepo = $this->createMock(Repository::class);
+        $pbnlAccountRepo->expects($this->any())
+            ->method("__call")
+            ->withConsecutive(
+                [$this->equalTo('findByUid'), $this->equalTo(["testuid"])],
+                [$this->equalTo('findByUidNumber'), $this->equalTo(["0"])])
+            ->willReturnOnConsecutiveCalls([],[]);
+
+        $ldapEntityManager = $this->createMock(LdapEntityManager::class);
+        $ldapEntityManager->expects($this->any())
+            ->method("getRepository")
+            ->withConsecutive(
+                [$this->equalTo(PbnlAccount::class)])
+            ->willReturnOnConsecutiveCalls($pbnlAccountRepo);
+
+        $userRepo = new UserRepository(new Logger("main"), $ldapEntityManager, Validation::createValidatorBuilder()->enableAnnotationMapping()->getValidator());
+
+        $userRepo->updateUser($newUser);
+    }
+
+    public function testupdateUserUserNotUniqueException()
+    {
+        $this->expectException(UserNotUniqueException::class);
+
+        $newUser = new User("testuid", "hash", "salt", []);
+        $newUser->setCity("teststadtNew");
+
+        $pbnlAccountRepo = $this->createMock(Repository::class);
+        $pbnlAccountRepo->expects($this->any())
+            ->method("__call")
+            ->withConsecutive(
+                [$this->equalTo('findByUid'), $this->equalTo(["testuid"])],
+                [$this->equalTo('findByUidNumber'), $this->equalTo(["0"])])
+            ->willReturnOnConsecutiveCalls(["",""],["",""]);
+
+        $ldapEntityManager = $this->createMock(LdapEntityManager::class);
+        $ldapEntityManager->expects($this->any())
+            ->method("getRepository")
+            ->withConsecutive(
+                [$this->equalTo(PbnlAccount::class)])
+            ->willReturnOnConsecutiveCalls($pbnlAccountRepo);
+
+        $userRepo = new UserRepository(new Logger("main"), $ldapEntityManager, Validation::createValidatorBuilder()->enableAnnotationMapping()->getValidator());
+
+        $userRepo->updateUser($newUser);
     }
 
     public function testGetNewUidNumber()

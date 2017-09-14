@@ -310,6 +310,7 @@ class UserRepository implements UserProviderInterface
     private function userToEntities(User $user)
     {
         $pbnlAccount = new PbnlAccount();
+        $pbnlAccount->setNotRetrieveAttributes(array());
         $pbnlAccount->setL($user->getCity());
         $pbnlAccount->setOu($user->getStamm());
         $pbnlAccount->setStreet($user->getStreet());
@@ -349,5 +350,22 @@ class UserRepository implements UserProviderInterface
             }
         }
         return $highesUidNumber + 1;
+    }
+
+    /**
+     * Updates the data of a user in the database if the user exist
+     *
+     * @throws UserDoesNotExistException if you want to update a user that does not exist
+     *
+     * @param User $userToUpdate
+     */
+    public function updateUser(User $userToUpdate)
+    {
+        if(!$this->doesUserExist($userToUpdate)) {
+            throw new UserDoesNotExistException("The user ".$userToUpdate->getUid()." does not exist.");
+        }
+
+        $pbnlAccountToUpdate = $this->userToEntities($userToUpdate);
+        $this->ldapEntityManager->persist($pbnlAccountToUpdate);
     }
 }
