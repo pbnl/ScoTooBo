@@ -497,3 +497,25 @@ entryCSN: 20170909194202.538035Z#000000#000#000000
 modifiersName: cn=admin,dc=pbnl,dc=de
 modifyTimestamp: 20170909194202Z
 
+dn:: Z2l2ZW5OYW1lPVRlc3RHcsO8cHBsaW5nLG91PUFtYnJvbmVuLG91PVBlb3BsZSxkYz1wYm5
+ sLGRjPWRl
+objectClass: inetOrgPerson
+objectClass: posixAccount
+objectClass: pbnlAccount
+givenName:: VGVzdEdyw7xwcGxpbmc=
+uid: testgrueppling
+cn:: VGVzdEdyw7xwcGxpbmc=
+sn:: VGVzdEdyw7xwcGxpbmc=
+uidNumber: 818
+userPassword:: e1NTSEF9TzVEZ0c2cXBrMUhpMElnUW1Ca3hxTTZIWmtDVDN0Qmh6eFdrc1E9P
+ Q==
+homeDirectory: /home/testgrueppling
+gidNumber: 501
+structuralObjectClass: inetOrgPerson
+entryUUID: 29bb0b26-2de4-1037-8290-4bcb1557ebb1
+creatorsName: cn=admin,dc=pbnl,dc=de
+createTimestamp: 20170914220237Z
+entryCSN: 20170914220237.000327Z#000000#000#000000
+modifiersName: cn=admin,dc=pbnl,dc=de
+modifyTimestamp: 20170914220237Z
+

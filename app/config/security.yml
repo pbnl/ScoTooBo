@@ -27,3 +27,12 @@ security:
     encoders:
         AppBundle\Model\User:
             id: ssha_encoder
+
+    role_hierarchy:
+        ROLE_ADMIN: [ROLE_buvo]
+        ROLE_buvo: [ROLE_stavo, ROLE_EDIT_ALL_USERS]
+        ROLE_stavo: [ROLE_groupleader]
+        ROLE_groupleader: [ROLE_elder]
+        ROLE_elder: [ROLE_nordlicht, ROLE_wiki]
+
+        ROLE_EDIT_ALL_USERS:

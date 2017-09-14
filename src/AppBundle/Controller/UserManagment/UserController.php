@@ -72,7 +72,7 @@ class UserController extends Controller
 
     /**
      * @Route("/users/add", name="addUser")
-     * @Security("has_role('ROLE_elder')")
+     * @Security("has_role('ROLE_stavo')")
      * @param Request $request
      * @return \Symfony\Component\HttpFoundation\Response
      */
@@ -150,9 +150,8 @@ class UserController extends Controller
         $loggedInUser = $this->get('security.token_storage')->getToken()->getUser();
         $userRepo = $this->get("data.userRepository");
 
-        if ($request->get("uid", "") != "" && $request->get("uid", "") != $loggedInUser) {
-            $this->denyAccessUnlessGranted("ROLE_elder", null, "You are not allowed to edit this user");
-            //TODO maybe add a better security restriction
+        if ($request->get("uid", $loggedInUser->getUid()) != $loggedInUser->getUid()) {
+            $this->denyAccessUnlessGranted("ROLE_elder", null, "You are not allowed to see this user");
 
             $userToShow = $userRepo->getUserByUid($request->get("uid"));
         } else {
@@ -161,36 +160,46 @@ class UserController extends Controller
 
         $editUserForm = false;
         //is the user allowed to edit this user?
-        //TODO maybe add a better security restriction
-        if ($userToShow->getUid() == $loggedInUser->getUid()) {
+        //TODO add the ability for groupleaders to edit their users
+        if ($userToShow->getUid() == $loggedInUser->getUid()
+            || $this->get('security.authorization_checker')->isGranted('ROLE_EDIT_ALL_USERS')
+            || ($this->get('security.authorization_checker')->isGranted('ROLE_stavo')
+                && $userToShow->getStamm() == $loggedInUser->getStamm())) {
             $editUserForm = $this->createFormBuilder($userToShow, ['attr' => ['class' => 'form-addAUser']])
                 ->add("firstName", TextType::class, array(
                     "attr" => ["placeholder" => "firstName"],
                     'label' => "firstName",
+                    'empty_data' => '',
                     "required" => true))
                 ->add("lastName", TextType::class, array(
                     "attr" => ["placeholder" => "lastName"],
                     'label' => "lastName",
+                    'empty_data' => '',
                     "required" => true))
                 ->add("city", TextType::class,array(
                     "attr" => ["placeholder" => "city"],
                     'label' => "city",
+                    'empty_data' => '',
                     "required" => false))
                 ->add("postalCode", TextType::class,array(
                     "attr" => ["placeholder" => "postalCode"],
                     'label' => "postalCode",
+                    'empty_data' => '',
                     "required" => false))
                 ->add("street", TextType::class,array(
                     "attr" => ["placeholder" => "street"],
                     'label' => "street",
+                    'empty_data' => '',
                     "required" => false))
                 ->add("homePhoneNumber", TextType::class,array(
                     "attr" => ["placeholder" => "phoneNumber.home"],
                     'label' => "phoneNumber.home",
+                    'empty_data' => '',
                     "required" => false))
                 ->add("mobilePhoneNumber", TextType::class,array(
                     "attr" => ["placeholder" => "phoneNumber.mobile"],
                     'label' => "phoneNumber.mobil",
+                    'empty_data' => '',
                     "required" => false))
                 ->add("send", SubmitType::class, array(
                     "label" => "save",
