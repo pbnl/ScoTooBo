@@ -43,7 +43,7 @@
                         {{ loop.index}}
                     </td>
                     <td>
-                        {{ user.getUsername}}
+                        <a href="{{ path('detailUser', {'uid': user.getUid}) }}">{{ user.getUsername}}</a>
                     </td>
                     <td>
                         {{user.getDn}}
