@@ -188,8 +188,9 @@ class UserRepoTest extends WebTestCase
                 [$this->equalTo(PbnlAccount::class)],
                 [$this->equalTo(PbnlAccount::class)],
                 [$this->equalTo(PbnlAccount::class)],
+                [$this->equalTo(PbnlAccount::class)],
                 [$this->equalTo(PosixGroup::class)])
-            ->willReturnOnConsecutiveCalls($pbnlAccountRepo, $pbnlAccountRepo, $groupRepo);
+            ->willReturnOnConsecutiveCalls($pbnlAccountRepo, $pbnlAccountRepo, $pbnlAccountRepo, $groupRepo);
         $ldapEntityManager->expects($this->once())
             ->method("persist")
             ->with($this->equalTo($expectedPbnlAccount));
@@ -306,8 +307,9 @@ class UserRepoTest extends WebTestCase
         $ldapEntityManager->expects($this->any())
             ->method("getRepository")
             ->withConsecutive(
+                [$this->equalTo(PbnlAccount::class)],
                 [$this->equalTo(PbnlAccount::class)])
-            ->willReturnOnConsecutiveCalls($pbnlAccountRepo);
+            ->willReturnOnConsecutiveCalls($pbnlAccountRepo, $pbnlAccountRepo);
 
         $userRepo = new UserRepository(new Logger("main"), $ldapEntityManager, Validation::createValidatorBuilder()->enableAnnotationMapping()->getValidator());
 
@@ -315,7 +317,7 @@ class UserRepoTest extends WebTestCase
         $this->assertEquals($user,$userBack);
     }
 
-    public function testupdateUser()
+    public function testUpdateUser()
     {
         $oldPbnlAccount = new PbnlAccount();
         $oldPbnlAccount->setL("teststadtOld");
@@ -354,7 +356,7 @@ class UserRepoTest extends WebTestCase
         $userRepo->updateUser($newUser);
     }
 
-    public function testupdateUserUserDoesNotExistException()
+    public function testUpdateUserUserDoesNotExistException()
     {
         $this->expectException(UserDoesNotExistException::class);
 
@@ -373,15 +375,16 @@ class UserRepoTest extends WebTestCase
         $ldapEntityManager->expects($this->any())
             ->method("getRepository")
             ->withConsecutive(
+                [$this->equalTo(PbnlAccount::class)],
                 [$this->equalTo(PbnlAccount::class)])
-            ->willReturnOnConsecutiveCalls($pbnlAccountRepo);
+            ->willReturnOnConsecutiveCalls($pbnlAccountRepo, $pbnlAccountRepo);
 
         $userRepo = new UserRepository(new Logger("main"), $ldapEntityManager, Validation::createValidatorBuilder()->enableAnnotationMapping()->getValidator());
 
         $userRepo->updateUser($newUser);
     }
 
-    public function testupdateUserUserNotUniqueException()
+    public function testUpdateUserUserNotUniqueException()
     {
         $this->expectException(UserNotUniqueException::class);
 
@@ -433,12 +436,117 @@ class UserRepoTest extends WebTestCase
         $this->assertEquals(8,$uidNumber);
     }
 
+    public function testRemoveUser()
+    {
+        $toDeleteUser = new User("testuid", "hash", "salt", []);
+
+        $toDeletePbnlAccount = new PbnlAccount();
+        $toDeletePbnlAccount->setUid("testuid");
+        $toDeletePbnlAccount->setGidNumber("501");
+        $toDeletePbnlAccount->setHomeDirectory("/home/testuid");
+        $toDeletePbnlAccount->setObjectClass(["inetOrgPerson","posixAccount","pbnlAccount"]);
+        $toDeletePbnlAccount->setUidNumber("0");
+
+        $pbnlAccountRepo = $this->createMock(Repository::class);
+        $pbnlAccountRepo->expects($this->any())
+            ->method("__call")
+            ->withConsecutive(
+                [$this->equalTo('findByUid'), $this->equalTo(["testuid"])],
+                [$this->equalTo('findByUidNumber'), $this->equalTo(["0"])])
+            ->willReturnOnConsecutiveCalls([""],[""]);
+
+        $ldapEntityManager = $this->createMock(LdapEntityManager::class);
+        $ldapEntityManager->expects($this->any())
+            ->method("getRepository")
+            ->withConsecutive(
+                [$this->equalTo(PbnlAccount::class)],
+                [$this->equalTo(PbnlAccount::class)])
+            ->willReturnOnConsecutiveCalls($pbnlAccountRepo,$pbnlAccountRepo);
+        $ldapEntityManager->expects($this->once())
+            ->method("delete")
+            ->with($this->equalTo($toDeletePbnlAccount));
+
+        $userRepo = new UserRepository(new Logger("main"), $ldapEntityManager, Validation::createValidatorBuilder()->enableAnnotationMapping()->getValidator());
+
+        $userRepo->removeUser($toDeleteUser);
+    }
+
+    public function testRemoveUserUserDoesNotExist()
+    {
+        $toDeleteUser = new User("testuid", "hash", "salt", []);
+
+        $toDeletePbnlAccount = new PbnlAccount();
+        $toDeletePbnlAccount->setUid("testuid");
+        $toDeletePbnlAccount->setGidNumber("501");
+        $toDeletePbnlAccount->setHomeDirectory("/home/testuid");
+        $toDeletePbnlAccount->setObjectClass(["inetOrgPerson","posixAccount","pbnlAccount"]);
+        $toDeletePbnlAccount->setUidNumber("0");
+
+        $pbnlAccountRepo = $this->createMock(Repository::class);
+        $pbnlAccountRepo->expects($this->any())
+            ->method("__call")
+            ->withConsecutive(
+                [$this->equalTo('findByUid'), $this->equalTo(["testuid"])],
+                [$this->equalTo('findByUidNumber'), $this->equalTo(["0"])])
+            ->willReturnOnConsecutiveCalls([],[]);
+
+        $ldapEntityManager = $this->createMock(LdapEntityManager::class);
+        $ldapEntityManager->expects($this->any())
+            ->method("getRepository")
+            ->withConsecutive(
+                [$this->equalTo(PbnlAccount::class)],
+                [$this->equalTo(PbnlAccount::class)])
+            ->willReturnOnConsecutiveCalls($pbnlAccountRepo,$pbnlAccountRepo);
+        $ldapEntityManager->expects($this->never())
+            ->method("delete");
+
+        $userRepo = new UserRepository(new Logger("main"), $ldapEntityManager, Validation::createValidatorBuilder()->enableAnnotationMapping()->getValidator());
+
+        $userRepo->removeUser($toDeleteUser);
+    }
+
+    public function testRemoveUserUserNotUniqueException()
+    {
+        $this->expectException(UserNotUniqueException::class);
+
+        $toDeleteUser = new User("testuid", "hash", "salt", []);
+
+        $toDeletePbnlAccount = new PbnlAccount();
+        $toDeletePbnlAccount->setUid("testuid");
+        $toDeletePbnlAccount->setGidNumber("501");
+        $toDeletePbnlAccount->setHomeDirectory("/home/testuid");
+        $toDeletePbnlAccount->setObjectClass(["inetOrgPerson","posixAccount","pbnlAccount"]);
+        $toDeletePbnlAccount->setUidNumber("0");
+
+        $pbnlAccountRepo = $this->createMock(Repository::class);
+        $pbnlAccountRepo->expects($this->any())
+            ->method("__call")
+            ->withConsecutive(
+                [$this->equalTo('findByUid'), $this->equalTo(["testuid"])],
+                [$this->equalTo('findByUidNumber'), $this->equalTo(["0"])])
+            ->willReturnOnConsecutiveCalls(["",""],[]);
+
+        $ldapEntityManager = $this->createMock(LdapEntityManager::class);
+        $ldapEntityManager->expects($this->any())
+            ->method("getRepository")
+            ->withConsecutive(
+                [$this->equalTo(PbnlAccount::class)],
+                [$this->equalTo(PbnlAccount::class)])
+            ->willReturnOnConsecutiveCalls($pbnlAccountRepo,$pbnlAccountRepo);
+        $ldapEntityManager->expects($this->never())
+            ->method("delete");
+
+        $userRepo = new UserRepository(new Logger("main"), $ldapEntityManager, Validation::createValidatorBuilder()->enableAnnotationMapping()->getValidator());
+
+        $userRepo->removeUser($toDeleteUser);
+    }
+
     /**
      * Creates a mocked ldapEntityManager witch is able to return
      *  a user
      *  some groups (the ROLES of the user)
      *
-     * $userExists must be false of the user does not exist
+     * $userExists must be false if the user does not exist
      *
      * @param $pbnlAccount
      * @param $groups

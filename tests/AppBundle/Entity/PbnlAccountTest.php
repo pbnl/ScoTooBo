@@ -2,10 +2,10 @@
 
 namespace Tests\AppBundle\Entity;
 
-use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use AppBundle\Model\Entity\LDAP\PbnlAccount;
+use Symfony\Bundle\FrameworkBundle\Tests\TestCase;
 
-class PbnlAccountTest extends WebTestCase
+class PbnlAccountTest extends TestCase
 {
     public function testSetOuWithDn()
     {

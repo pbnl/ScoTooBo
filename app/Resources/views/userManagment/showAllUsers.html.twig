@@ -49,7 +49,7 @@
                         {{user.getDn}}
                     </td>
                     <td>
-
+                        {% include  'includes/removeUserButtonWithConfirmDialog.html.twig' with {"user":user} %}
 
                     </td>
                 </tr>

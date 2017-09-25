@@ -280,24 +280,9 @@ class UserRepository implements UserProviderInterface
      */
     private function doesUserExist(User $user)
     {
-        $ldapUserRepo = $this->ldapEntityManager->getRepository(PbnlAccount::class);
-
-        $users = $ldapUserRepo->findByUid($user->getUid());
-        if (count($users) == 1) {
+        if($this->doesUserUidExist($user->getUid()) || $this->doesUserUidNumberExist($user->getUidNumber())) {
             return true;
         }
-        if (count($users) > 1) {
-            throw new UserNotUniqueException("The user with the uid ".$user->getUid()." is not unique!");
-        }
-
-        $users = $ldapUserRepo->findByUidNumber($user->getUidNumber());
-        if (count($users) == 1) {
-            return true;
-        }
-        if (count($users) > 1) {
-            throw new UserNotUniqueException("The user with the uid ".$user->getUid()." is not unique!");
-        }
-
         return false;
     }
 
@@ -361,11 +346,69 @@ class UserRepository implements UserProviderInterface
      */
     public function updateUser(User $userToUpdate)
     {
-        if(!$this->doesUserExist($userToUpdate)) {
+        if (!$this->doesUserExist($userToUpdate)) {
             throw new UserDoesNotExistException("The user ".$userToUpdate->getUid()." does not exist.");
         }
 
         $pbnlAccountToUpdate = $this->userToEntities($userToUpdate);
         $this->ldapEntityManager->persist($pbnlAccountToUpdate);
+    }
+
+    /**
+     * Deletes the user with the given uid
+     *
+     * @param $userToRemove
+     */
+    public function removeUser($userToRemove)
+    {
+        if ($this->doesUserExist($userToRemove))
+        {
+            $pbnlAccountToURemove = $this->userToEntities($userToRemove);
+            $this->ldapEntityManager->delete($pbnlAccountToURemove);
+        }
+    }
+
+    /**
+     * Looks if a user with given uid exists
+     *
+     * @param $getUid
+     * @return bool
+     * @throws UserNotUniqueException if there are more than one user with the same uid
+     */
+    private function doesUserUidExist($getUid)
+    {
+        $ldapUserRepo = $this->ldapEntityManager->getRepository(PbnlAccount::class);
+
+        $users = $ldapUserRepo->findByUid($getUid);
+        if (count($users) == 1) {
+            return true;
+        }
+        if (count($users) > 1) {
+            throw new UserNotUniqueException("The user with the uid ".$getUid." is not unique!");
+        }
+
+        return false;
+    }
+
+    /**
+     * Looks if a user with given uidNumber exists
+     *
+     * @param $getUidNumber
+     * @return bool
+     * @throws UserNotUniqueException if there are more than one user with the same uidNumber
+     */
+    private function doesUserUidNumberExist($getUidNumber)
+    {
+        $ldapUserRepo = $this->ldapEntityManager->getRepository(PbnlAccount::class);
+
+        $users = $ldapUserRepo->findByUidNumber($getUidNumber);
+        if (count($users) == 1) {
+            return true;
+        }
+        if (count($users) > 1) {
+            throw new UserNotUniqueException("The user with the uid ".$getUidNumber." is not unique!");
+        }
+
+        return false;
     }
 }

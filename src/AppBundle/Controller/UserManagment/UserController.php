@@ -6,6 +6,8 @@ use AppBundle\ArrayMethods;
 use AppBundle\Model\Filter;
 use AppBundle\Model\Services\GroupNotFoundException;
 use AppBundle\Model\Services\UserAlreadyExistException;
+use AppBundle\Model\Services\UserDoesNotExistException;
+use AppBundle\Model\Services\UserNotUniqueException;
 use AppBundle\Model\User;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
@@ -17,6 +19,7 @@ use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 
 class UserController extends Controller
 {
@@ -165,6 +168,7 @@ class UserController extends Controller
             || $this->get('security.authorization_checker')->isGranted('ROLE_EDIT_ALL_USERS')
             || ($this->get('security.authorization_checker')->isGranted('ROLE_stavo')
                 && $userToShow->getStamm() == $loggedInUser->getStamm())) {
+
             $editUserForm = $this->createFormBuilder($userToShow, ['attr' => ['class' => 'form-addAUser']])
                 ->add("firstName", TextType::class, array(
                     "attr" => ["placeholder" => "firstName"],
@@ -225,5 +229,40 @@ class UserController extends Controller
             "user"=>$userToShow,
             "editUserForm" => $editUserForm,
         ));
+    }
+
+    /**
+     * @Route("/users/remove", name="removeUser")
+     * @param Request $request
+     * @return Response
+     */
+    public function removeUser(Request $request)
+    {
+        $uid = $request->get("uid", "");
+        $loggedInUser = $this->get('security.token_storage')->getToken()->getUser();
+
+        try {
+            $userRepo = $this->get("data.userRepository");
+            $userToRemove = $userRepo->getUserByUid($uid);
+
+            if ($this->get('security.authorization_checker')->isGranted('ROLE_REMOVE_ALL_USERS')
+                || ($this->get('security.authorization_checker')->isGranted('ROLE_stavo')
+                    && $userToRemove->getStamm() == $loggedInUser->getStamm())) {
+
+                $userRepo->removeUser($userToRemove);
+
+                $this->addFlash("success", $uid." wurde gelöscht");
+            } else {
+                throw $this->createAccessDeniedException("You are not allowed to remove the user $uid");
+            }
+
+
+        } catch (UserDoesNotExistException $e) {
+            $this->addFlash("error", "The user $uid does not exist!");
+        } catch (UserNotUniqueException $e) {
+            $this->addFlash("error", "The user $uid is not unique!");
+        }
+
+        return $this->redirectToRoute("showAllUser");
     }
 }

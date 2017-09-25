@@ -35,3 +35,5 @@ city: Stadt
 street: Straße
 
 not.editable: Nicht änderbar
+
+removeUserConfirmDialogText: Wollen sie wirklich den User %name% löschen?

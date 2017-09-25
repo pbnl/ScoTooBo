@@ -43,3 +43,8 @@ services:
     ssha_encoder:
         public: true
         class: AppBundle\Security\MessageDigestPasswordEncoder
+
+    accessdeniedhandler:
+            public: true
+            class: AppBundle\Security\AccessDeniedHandler
+            arguments: ["@twig"]
