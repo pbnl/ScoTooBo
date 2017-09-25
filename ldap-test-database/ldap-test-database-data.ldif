@@ -519,3 +519,22 @@ entryCSN: 20170914220237.000327Z#000000#000#000000
 modifiersName: cn=admin,dc=pbnl,dc=de
 modifyTimestamp: 20170914220237Z
 
+dn: givenName=deleteTestAmbrone,ou=Ambronen,ou=People,dc=pbnl,dc=de
+givenName: deleteTestAmbrone
+gidNumber: 501
+objectClass: inetOrgPerson
+objectClass: posixAccount
+objectClass: pbnlAccount
+structuralObjectClass: inetOrgPerson
+entryUUID: 39b23a74-33ff-1037-9c13-eb4c6a0d2b2c
+creatorsName: cn=admin,dc=pbnl,dc=de
+createTimestamp: 20170922163127Z
+cn: deleteTestAmbrone
+homeDirectory: /home/deleteTestAmbrone
+sn: deleteTestAmbrone
+uid: deleteTestAmbrone
+uidNumber: 100
+entryCSN: 20170922163147.777246Z#000000#000#000000
+modifiersName: cn=admin,dc=pbnl,dc=de
+modifyTimestamp: 20170922163147Z
+
