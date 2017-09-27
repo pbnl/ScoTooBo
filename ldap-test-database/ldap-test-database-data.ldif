@@ -234,12 +234,12 @@ sn: Test
 givenName: TestBuvoUser
 mail: testbuvouser@pbnl.de
 postalCode: 33245
-userPassword:: e3NzaGF9N3c0RjZqNHkrcW1qWE5EY09uZ0hIK0NLbnRMTnkrVkFYSmVqM3c9P
- Q==
 uid: testbuvouser
-entryCSN: 20170909141452.287607Z#000000#000#000000
+userPassword:: e3NzaGF9bWF4L3ZETitJbENBN2xSV3cveUFzTU8xTFBLeHFRSlhKdXloVFE9P
+ Q==
+entryCSN: 20170927170918.083397Z#000000#000#000000
 modifiersName: cn=admin,dc=pbnl,dc=de
-modifyTimestamp: 20170909141452Z
+modifyTimestamp: 20170927170918Z
 
 dn: mail=ambronen@pbnl.de,ou=Forward,dc=pbnl,dc=de
 mail: ambronen@pbnl.de
@@ -339,13 +339,13 @@ creatorsName: cn=admin,dc=pbnl,dc=de
 createTimestamp: 20170412190250Z
 sn: Nachname
 cn: vorname
-userPassword:: e3NzaGF9L2gwcTBVYUJ6Y0U1SlhhMnhUNVVDWmd5UkNFeXhlYVJzRU4yZkE9P
- Q==
 givenName: TestTronjer
 uid: testtronjer
-entryCSN: 20170909141502.198669Z#000000#000#000000
+userPassword:: e3NzaGF9TE00dzFod1kySGF0dVJuOGU3OUFmeFYzZHQ0M3AzekI5YXNzMGc9P
+ Q==
+entryCSN: 20170927171056.316670Z#000000#000#000000
 modifiersName: cn=admin,dc=pbnl,dc=de
-modifyTimestamp: 20170909141502Z
+modifyTimestamp: 20170927171056Z
 
 dn: cn=phpunituser,dc=pbnl,dc=de
 description: LDAP administrator
@@ -447,6 +447,7 @@ memberUid: givenName=TestAmbrone1,ou=Ambronen,ou=People,dc=pbnl,dc=de
 memberUid: givenName=TestBuvoUser,ou=Ambronen,ou=People,dc=pbnl,dc=de
 memberUid: givenName=NotExistingUser,ou=Ambronen,ou=People,dc=pbnl,dc=de
 memberUid: givenName=TestAmbrone2,ou=NotExistingOU,ou=People,dc=pbnl,dc=de
+memberUid: givenName=TestTronjer,ou=Hagen von Tronje,ou=People,dc=pbnl,dc=de
 gidNumber: 503
 cn: elder
 objectClass: posixGroup
@@ -454,9 +455,9 @@ structuralObjectClass: posixGroup
 entryUUID: fc44fc30-2832-1037-8fe5-a126d63cd650
 creatorsName: cn=admin,dc=pbnl,dc=de
 createTimestamp: 20170907161143Z
-entryCSN: 20170907161220.719818Z#000000#000#000000
+entryCSN: 20170927171123.737964Z#000000#000#000000
 modifiersName: cn=admin,dc=pbnl,dc=de
-modifyTimestamp: 20170907161220Z
+modifyTimestamp: 20170927171123Z
 
 dn: givenName=ef,ou=Ambronen,ou=People,dc=pbnl,dc=de
 objectClass: inetOrgPerson

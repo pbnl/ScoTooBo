@@ -40,6 +40,11 @@ services:
         public: true
         arguments: ["@logger", "@ldapEntityManager","@validator"]
 
+    data.groupRepository:
+            class: AppBundle\Model\Services\GroupRepository
+            public: true
+            arguments: ["@logger", "@ldapEntityManager","@validator"]
+
     ssha_encoder:
         public: true
         class: AppBundle\Security\MessageDigestPasswordEncoder

@@ -97,6 +97,14 @@ class PosixGroup extends Group
     }
 
     /**
+     * @return mixed
+     */
+    public function getName()
+    {
+        return $this->cn;
+    }
+
+    /**
      * True, if the dn is a member of this group
      *
      * Uses the memberUid attribute of the ldapGroups

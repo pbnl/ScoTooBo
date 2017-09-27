@@ -1,0 +1,53 @@
+{% extends "includes/base.html.twig" %}
+
+{% block title %}Alle Gruppen{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+{% endblock %}
+
+{% block body %}
+    {% include 'includes/navbar.html.twig' %}
+    <div class="container">
+        <br><br>
+    {% include 'includes/showFlashes.html.twig' %}
+    <h2>{% trans %}showAllGroups.myGroups{% endtrans %}</h2>
+    <div class="col-sm-6">
+        <table class="table table-striped">
+            <thead>
+            <tr>
+                <th>
+                    {% trans %}nr{% endtrans %}
+                </th>
+                <th>
+                    {% trans %}gid{% endtrans %}
+                </th>
+                <th>
+                    {% trans %}name{% endtrans %}
+                </th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for group in groups %}
+                <tr>
+                    <td>
+                        {{ loop.index}}
+                    </td>
+                    <td>
+                        {{group.gidNumber}}
+                    </td>
+                    <td>
+                        {{group.name}}
+                    </td>
+                    <td>
+
+                    </td>
+                    <td>
+
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% endblock %}

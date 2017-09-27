@@ -11,6 +11,9 @@ menu.userManagment.showAllusers: Alle Benutzer anzeigen
 menu.userManagment.addUser: Benutzer hinzufügen
 menu.userManagment.detailUser: Benutzerdetails
 
+menu.groupManagment.title: Gruppenmanagment
+menu.groupManagment.showAllGroups: Gruppenübersicht
+
 delete: Löschen
 group: Gruppe
 search: Suchen
@@ -19,13 +22,9 @@ create: Erstellen
 value: Wert
 edit: Ändern
 name: Name
+nr: Nr
+gid: Gid
 
-addUser.addedUser: Hinzugefügter User
-addUser.addedUserText: Füge einen neuen User hinzu
-addUser.generatedPassword: Generiertes Passwort
-addUser.generatePassword: Generiere ein Passwort
-addUser.nameValue: Name des Wertes
-addUser.value: Wert
 firstName: Vorname
 lastName: Nachname
 postalCode: PLZ
@@ -33,6 +32,15 @@ phoneNumber.home: Telefonnummer
 phoneNumber.mobile: Mobile
 city: Stadt
 street: Straße
+
+addUser.addedUser: Hinzugefügter User
+addUser.addedUserText: Füge einen neuen User hinzu
+addUser.generatedPassword: Generiertes Passwort
+addUser.generatePassword: Generiere ein Passwort
+addUser.nameValue: Name des Wertes
+addUser.value: Wert
+
+showAllGroups.myGroups: Meine Gruppen
 
 not.editable: Nicht änderbar
 
