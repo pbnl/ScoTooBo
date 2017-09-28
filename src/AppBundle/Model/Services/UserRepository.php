@@ -27,6 +27,12 @@ class UserRepository implements UserProviderInterface
     private $ldapEntityManager;
 
     /**
+     * no direct ldap access. Pls use the group repo
+     * @var
+     */
+    private $groupRepository;
+
+    /**
      * @var Logger
      */
     private $logger;
@@ -43,11 +49,12 @@ class UserRepository implements UserProviderInterface
      * @param LdapEntityManager $ldapEntityManager
      * @param ValidatorInterface $validator
      */
-    public function __construct(Logger $logger, LdapEntityManager $ldapEntityManager, ValidatorInterface $validator)
+    public function __construct(Logger $logger, LdapEntityManager $ldapEntityManager, ValidatorInterface $validator, GroupRepository $groupRepository)
     {
         $this->ldapEntityManager = $ldapEntityManager;
         $this->logger = $logger;
         $this->validator = $validator;
+        $this->groupRepository = $groupRepository;
     }
 
     /**
@@ -189,8 +196,7 @@ class UserRepository implements UserProviderInterface
     private function getRolesOfPbnlAccount(PbnlAccount $ldapPbnlAccount)
     {
         $roles = array();
-        $groupRepository = $this->ldapEntityManager->getRepository(PosixGroup::class);
-        $allGroups = $groupRepository->findAll();
+        $allGroups = $this->groupRepository->findAll();
 
         /** @var  $group PosixGroup */
         foreach ($allGroups as $group) {
@@ -221,8 +227,7 @@ class UserRepository implements UserProviderInterface
             if ($filter->getFilterAttributes()[0] == "filterByUid" && $filter->getFilterTexts()[0] != "") {
                 $pbnlAccounts = $pbnlAccountRepository->findByComplex(array("uid" =>  '*'.$filter->getFilterTexts()[0].'*'));
             } elseif ($filter->getFilterAttributes()[0] == "filterByGroup" && $filter->getFilterTexts()[0] != "") {
-                $groupRepository = $this->ldapEntityManager->getRepository(PosixGroup::class);
-                $group = $groupRepository->findByCn($filter->getFilterTexts()[0]);
+                $group = $this->groupRepository->findByCn($filter->getFilterTexts()[0]);
                 if ($group == []) {
                     throw new GroupNotFoundException("We cant find the group ".$filter->getFilterTexts()[0]);
                 }
@@ -239,7 +244,7 @@ class UserRepository implements UserProviderInterface
             $user = $this->entitiesToUser($pbnlAccount);
 
             if ($group != []) {
-                if ($group[0]->isDnMember($user->getDn())){
+                if ($group->isDnMember($user->getDn())){
                     array_push($users, $user);
                 }
             } else {

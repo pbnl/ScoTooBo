@@ -534,19 +534,11 @@ class User implements UserInterface, EquatableInterface
     /**
      * Splits up the ldap SSHA hash into the salt and the hash and saves it in the fields
      *
-     * @param $getUserPassword
+     * @param $ssha
      */
-    public function generatePasswordAndSalt($getUserPassword)
+    public function generatePasswordAndSalt($ssha)
     {
-        // skip the "{SSHA}"
-        $b64 = substr($getUserPassword, 6);
-
-        // base64 decoded
-        $b64_dec = base64_decode($b64);
-
-        // the salt (given it is a 8byte one)
-        $this->salt = substr($b64_dec, -8);
-        // the sha1 part
-        $this->hashedPassword = substr($b64_dec, 0, 20);
+        $this->salt = SSHA::sshaGetSalt($ssha);
+        $this->hashedPassword = SSHA::sshaGetHash($ssha);
     }
 }

@@ -29,7 +29,13 @@ class GroupRepository
      */
     private $validator;
 
+    /**
+     * @var \Ucsf\LdapOrmBundle\Ldap\EntityRepository
+     */
+    private $groupLdapRepository;
+
     const filterByDnInGroup = "filterByDnInGroup";
+
 
     /**
      * The ldapManager of the LDAPBundle
@@ -43,6 +49,7 @@ class GroupRepository
         $this->ldapEntityManager = $ldapEntityManager;
         $this->logger = $logger;
         $this->validator = $validator;
+        $this->groupLdapRepository = $this->ldapEntityManager->getRepository(PosixGroup::class);
     }
 
     /**
@@ -51,8 +58,7 @@ class GroupRepository
      */
     public function getAllGroupsByComplexFilter(Filter $filter)
     {
-        $groupLdapRepository = $this->ldapEntityManager->getRepository(PosixGroup::class);
-        $allGroups = $groupLdapRepository->findAll();
+        $allGroups = $this->groupLdapRepository->findAll();
         $phpFilteredGroups = $this->getGroupsThatFullFillPhpFilter($allGroups, $filter);
 
         return $phpFilteredGroups;
@@ -91,5 +97,22 @@ class GroupRepository
             }
         }
         return $groupsThatFullFillFilter;
+    }
+
+    /**
+     * @return array
+     */
+    public function findAll()
+    {
+        return $this->getAllGroupsByComplexFilter(new Filter());
+    }
+
+    public function findByCn($cn)
+    {
+        $group = $this->groupLdapRepository->findByCn($cn);
+        if ($group == []) {
+            throw new GroupNotFoundException("We cant find the group ".$cn);
+        }
+        return $group[0];
     }
 }
