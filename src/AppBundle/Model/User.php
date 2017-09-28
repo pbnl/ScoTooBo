@@ -59,11 +59,11 @@ class User implements UserInterface, EquatableInterface
     private $mail = "";
 
     /**
-     * SSHA hashed user password
+     * SHA hashed user password
      *
      * @var string
      */
-    private $hashedPassword = "";
+    private $shaHashedPassword = "";
 
     /**
      * The salt of the password
@@ -152,10 +152,10 @@ class User implements UserInterface, EquatableInterface
      * @param array $roles
      * @internal param string $dn
      */
-    public function __construct($uid, $password, $salt, array $roles)
+    public function __construct($uid, $shaHashedPassword, $salt, array $roles)
     {
         $this->uid = $uid;
-        $this->password = $password;
+        $this->shaHashedPassword = $shaHashedPassword;
         $this->salt = $salt;
         $this->roles = $roles;
     }
@@ -462,7 +462,7 @@ class User implements UserInterface, EquatableInterface
      */
     public function getPassword(): string
     {
-        return $this->hashedPassword;
+        return $this->shaHashedPassword;
     }
 
     /**
@@ -470,7 +470,7 @@ class User implements UserInterface, EquatableInterface
      */
     public function setPassword(string $hashedPassword)
     {
-        $this->hashedPassword = $hashedPassword;
+        $this->shaHashedPassword = $hashedPassword;
     }
 
     /**
@@ -539,6 +539,6 @@ class User implements UserInterface, EquatableInterface
     public function generatePasswordAndSalt($ssha)
     {
         $this->salt = SSHA::sshaGetSalt($ssha);
-        $this->hashedPassword = SSHA::sshaGetHash($ssha);
+        $this->shaHashedPassword = SSHA::sshaGetHash($ssha);
     }
 }

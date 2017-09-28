@@ -68,4 +68,9 @@ class SSHA
 
         return $sha;
     }
+
+    public static function buildSsha($shaHashedPassword, $salt)
+    {
+        return "{SSHA}".base64_encode($shaHashedPassword.$salt);
+    }
 }

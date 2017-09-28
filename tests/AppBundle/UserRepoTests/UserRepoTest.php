@@ -397,10 +397,12 @@ class UserRepoTest extends WebTestCase
 
     public function testUpdateUser()
     {
+        $sshaPassword = SSHA::sshaPasswordGenWithGivenSalt("passwort","12345678");
+
         $oldPbnlAccount = new PbnlAccount();
         $oldPbnlAccount->setL("teststadtOld");
         $oldPbnlAccount->setUid("testuid");
-        $oldPbnlAccount->setPassword("test");
+        $oldPbnlAccount->setUserPassword();
 
         $newPbnlAccount = new PbnlAccount();
         $newPbnlAccount->setL("teststadtNew");
@@ -408,9 +410,13 @@ class UserRepoTest extends WebTestCase
         $newPbnlAccount->setGidNumber("501");
         $newPbnlAccount->setHomeDirectory("/home/testuid");
         $newPbnlAccount->setObjectClass(["inetOrgPerson","posixAccount","pbnlAccount"]);
+        $newPbnlAccount->setUserPassword($sshaPassword);
 
 
-        $newUser = new User("testuid", "password", "asdfasdf", []);
+        $newUser = new User("testuid",
+            SSHA::sshaGetHash($sshaPassword),
+            SSHA::sshaGetSalt($sshaPassword),
+            []);
         $newUser->setCity("teststadtNew");
 
         $pbnlAccountRepo = $this->createMock(Repository::class);

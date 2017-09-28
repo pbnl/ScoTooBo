@@ -91,21 +91,15 @@ class UserRepository implements UserProviderInterface
      */
     private function entitiesToUser(PbnlAccount $ldapPbnlAccount)
     {
-        $b64 = substr($ldapPbnlAccount->getUserPassword(), strlen("{SSHA}"));
+        $salt = SSHA::sshaGetSalt($ldapPbnlAccount->getUserPassword());
 
-        // base64 decoded
-        $b64_dec = base64_decode($b64);
-
-        // the salt (given it is a 8byte one)
-        $salt = substr($b64_dec, -8);
-        // the sha1 part
-        $hashedPassword = substr($b64_dec, 0, 20);
+        $shaHashedPassword = SSHA::sshaGetHash($ldapPbnlAccount->getUserPassword());
 
         $roles = $this->getRolesOfPbnlAccount($ldapPbnlAccount);
         array_push($roles, "ROLE_USER");
 
         //Fill up the user
-        $user = new User($ldapPbnlAccount->getGivenName(), $hashedPassword, $salt, $roles);
+        $user = new User($ldapPbnlAccount->getGivenName(), $shaHashedPassword, $salt, $roles);
         $user->setDn($ldapPbnlAccount->getDn());
         $user->setCity($ldapPbnlAccount->getL());
         $user->setFirstName($ldapPbnlAccount->getCn());
@@ -117,7 +111,6 @@ class UserRepository implements UserProviderInterface
         $user->setPostalCode($ldapPbnlAccount->getPostalCode());
         $user->setMobilePhoneNumber($ldapPbnlAccount->getMobile());
         $user->setStreet($ldapPbnlAccount->getStreet());
-        $user->generatePasswordAndSalt($ldapPbnlAccount->getUserPassword());
         $user->setHomePhoneNumber($ldapPbnlAccount->getTelephoneNumber());
         $user->setStamm($ldapPbnlAccount->getOu());
         //TODO maybe use something else as the ou to determine the stamm of the user
@@ -318,6 +311,8 @@ class UserRepository implements UserProviderInterface
         $pbnlAccount->setObjectClass(["inetOrgPerson","posixAccount","pbnlAccount"]);
         if ($user->getClearPassword() != "") {
             $pbnlAccount->setUserPassword(SSHA::sshaPasswordGen($user->getClearPassword()));
+        } else {
+            $pbnlAccount->setUserPassword(SSHA::buildSsha($user->getPassword(), $user->getSalt()));
         }
 
         return $pbnlAccount;
