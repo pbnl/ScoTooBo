@@ -16,7 +16,6 @@ menu.eventManagement.showAllevents: Alle Events anzeigen
 menu.eventManagement.addEvent: Event hinzufügen
 menu.eventManagement.detailEvent: Eventdetails
 
-general_name: Name
 general_create: Erstellen
 create: Erstellen
 general_date: Datum
