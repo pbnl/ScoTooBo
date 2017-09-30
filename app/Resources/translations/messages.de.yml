@@ -16,6 +16,14 @@ menu.eventManagement.showAllevents: Alle Events anzeigen
 menu.eventManagement.addEvent: Event hinzufügen
 menu.eventManagement.detailEvent: Eventdetails
 
+event.name: Name:
+event.description: Beschreibung
+event.price: Preis
+event.date: Datum
+event.date_from: Datum von
+event.date_to: Datum bis
+event.place: Ort
+
 delete: Löschen
 group: Gruppe
 search: Suchen

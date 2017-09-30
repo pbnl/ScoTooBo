@@ -28,7 +28,8 @@ jobs:
                     sudo debconf-set-selections <<< 'mysql-server mysql-server/root_password_again password secret' ; \
                     sudo DEBIAN_FRONTEND=noninteractive apt-get -yq --no-install-suggests --no-install-recommends install php7.0-mysql mysql-server ; \
                     sudo service mysql start ; \
-                    mysql -u root -psecret < ./mysql-test-database/create-mysql-database.sql
+                    mysql -u root -psecret < ./mysql-test-database/create-mysql-database.sql ; \
+                    phpenmod pdo_mysql
             - run: php composer.phar install --no-interaction --dev
             - run: ./vendor/bin/phpunit
             - run: CODECLIMATE_REPO_TOKEN=1332fe188e0bb31283eeed1c18696c4e1a4b4be231ff9393e569c8b02a2f73d7 ./vendor/bin/test-reporter

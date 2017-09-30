@@ -1,6 +1,8 @@
 <?php
 
-namespace AppBundle\Model\Entity\MySQL\Events;
+namespace AppBundle\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
 
 /**
  * Event

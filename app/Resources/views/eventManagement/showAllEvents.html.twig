@@ -10,8 +10,8 @@
     {% include 'includes/navbar.html.twig' %}
     <div class="container">
         <br><br>
-        <!--
         {% include 'includes/showFlashes.html.twig' %}
+        <!--
         <h3>Such Optionen</h3>
         <div class="col-sm-6">
             {% if peopleSearchForm is defined %}
@@ -28,30 +28,48 @@
                     Nr
                 </th>
                 <th>
-                    {% trans %}username{% endtrans %}
+                    {% trans %}event.name{% endtrans %}
                 </th>
                 <th>
-                    DN
+                    {% trans %}event.description{% endtrans %}
                 </th>
                 <th>
-                    {% trans %}delete{% endtrans %}
+                    {% trans %}event.price{% endtrans %}
+                </th>
+                <th>
+                    {% trans %}event.date{% endtrans %}
+                </th>
+                <th>
+                    {% trans %}event.place{% endtrans %}
+                </th>
+                <th>
+                    &nbsp; (Bearbeiten/Löschen)
                 </th>
             </tr>
             </thead>
             <tbody>
-            {% for user in users %}
+            {% for event in events %}
                 <tr>
                     <td>
                         {{ loop.index}}
                     </td>
                     <td>
-                        <a href="{{ path('detailUser', {'uid': user.getUid}) }}">{{ user.getUsername}}</a>
+                        <a href="{{ path('detailEvent', {'uid': event.getId}) }}">{{ event.getName}}</a>
                     </td>
                     <td>
-                        {{user.getDn}}
+                        {{event.getDescription}}
                     </td>
                     <td>
-                        {% include  'includes/removeUserButtonWithConfirmDialog.html.twig' with {"user":user} %}
+                        {{event.getPrice}}
+                    </td>
+                    <td>
+                        {{event.getDate_from}} - {{event.getDate_to}}
+                    </td>
+                    <td>
+                        {{event.getPlace}}
+                    </td>
+                    <td>
+                        {% include  'includes/removeUserButtonWithConfirmDialog.html.twig' with {"user":event} %}
 
                     </td>
                 </tr>
