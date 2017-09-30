@@ -4,41 +4,52 @@ namespace AppBundle\Model\Entity\MySQL\Events;
 
 /**
  * Event
+ * @ORM\Entity
+ * @ORM\Table(name="event")
  */
 class Event
 {
     /**
      * @var int
+     * @ORM\Column(type="integer")
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="AUTO")
      */
     private $id;
 
     /**
      * @var string
+     * @ORM\Column(type="string", length=255)
      */
     private $name;
 
     /**
      * @var string
+     * @ORM\Column(type="text")
      */
     private $description;
 
     /**
      * @var int
+     * @ORM\Column(type="integer")
      */
     private $price;
 
     /**
      * @var \DateTime
+     * @ORM\Column(type="datetime")
      */
     private $dateFrom;
 
     /**
      * @var \DateTime
+     * @ORM\Column(type="datetime")
      */
     private $dateTo;
 
     /**
      * @var string
+     * @ORM\Column(type="text")
      */
     private $place;
 
