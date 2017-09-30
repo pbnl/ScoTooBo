@@ -6,10 +6,15 @@ mail: Mailadresse
 password: Passwort
 login.remember.me: Erinnere dich :)
 login: Login
-menu.userManagment.title: Usermanagment
-menu.userManagment.showAllusers: Alle Benutzer anzeigen
-menu.userManagment.addUser: Benutzer hinzufügen
-menu.userManagment.detailUser: Benutzerdetails
+menu.userManagement.title: Benutzerverwaltung
+menu.userManagement.showAllusers: Alle Benutzer anzeigen
+menu.userManagement.addUser: Benutzer hinzufügen
+menu.userManagement.detailUser: Benutzerdetails
+
+menu.eventManagement.title: Eventmanagement
+menu.eventManagement.showAllevents: Alle Events anzeigen
+menu.eventManagement.addEvent: Event hinzufügen
+menu.eventManagement.detailEvent: Eventdetails
 
 delete: Löschen
 group: Gruppe
