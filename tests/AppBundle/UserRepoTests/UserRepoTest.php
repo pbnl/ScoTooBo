@@ -195,6 +195,7 @@ class UserRepoTest extends WebTestCase
      */
     public function testAddUser()
     {
+        $ssha = SSHA::sshaPasswordGenWithGivenSalt("password","12345678");
         $expectedPbnlAccount = new PbnlAccount();
         $expectedPbnlAccount->setObjectClass(["inetOrgPerson","posixAccount","pbnlAccount"]);
         $expectedPbnlAccount->setL("hamburg");
@@ -211,8 +212,9 @@ class UserRepoTest extends WebTestCase
         $expectedPbnlAccount->setGidNumber("501");
         $expectedPbnlAccount->setHomeDirectory("/home/testuid");
         $expectedPbnlAccount->setUidNumber("8");
+        $expectedPbnlAccount->setUserPassword($ssha);
 
-        $user = new User("test", "hash", "salt", []);
+        $user = new User("test", SSHA::sshaGetHash($ssha), SSHA::sshaGetSalt($ssha), []);
         $user->setDn("givenName=TestAmbrone1,ou=Ambronen,ou=People,dc=pbnl,dc=de");
         $user->setCity("hamburg");
         $user->setFirstName("testcn");
@@ -541,7 +543,8 @@ class UserRepoTest extends WebTestCase
 
     public function testRemoveUser()
     {
-        $toDeleteUser = new User("testuid", "hash", "salt", []);
+        $ssha = SSHA::sshaPasswordGenWithGivenSalt("password","12345678");
+        $toDeleteUser = new User("testuid", SSHA::sshaGetHash($ssha), SSHA::sshaGetSalt($ssha), []);
 
         $toDeletePbnlAccount = new PbnlAccount();
         $toDeletePbnlAccount->setUid("testuid");
@@ -549,6 +552,7 @@ class UserRepoTest extends WebTestCase
         $toDeletePbnlAccount->setHomeDirectory("/home/testuid");
         $toDeletePbnlAccount->setObjectClass(["inetOrgPerson","posixAccount","pbnlAccount"]);
         $toDeletePbnlAccount->setUidNumber("0");
+        $toDeletePbnlAccount->setUserPassword($ssha);
 
         $pbnlAccountRepo = $this->createMock(Repository::class);
         $pbnlAccountRepo->expects($this->any())
