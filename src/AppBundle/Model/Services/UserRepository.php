@@ -8,6 +8,7 @@ use AppBundle\Model\Filter;
 use AppBundle\Model\SSHA;
 use AppBundle\Model\User;
 use Monolog\Logger;
+use Symfony\Component\Debug\Exception\ContextErrorException;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 use Symfony\Component\Security\Core\Exception\UnsupportedUserException;
 use Symfony\Component\Security\Core\Exception\UsernameNotFoundException;
@@ -208,7 +209,7 @@ class UserRepository implements UserProviderInterface
      * @return array
      * @throws GroupNotFoundException If the group of the Filter does not exist
      */
-    public function getAllUsers(Filter $filter)
+    public function findAllUsersByComplexFilter(Filter $filter)
     {
         $users = array();
         $pbnlAccountRepository = $this->ldapEntityManager->getRepository(PbnlAccount::class);
@@ -410,5 +411,29 @@ class UserRepository implements UserProviderInterface
         }
 
         return false;
+    }
+
+    /**
+     * @param $dn
+     * @return User
+     * @throws UserDoesNotExistException if the user does not exist
+     */
+    public function findUserByDn($dn)
+    {
+        try {
+            $ldapPbnlAccount = $this->ldapEntityManager->retrieveByDn($dn, PbnlAccount::class);
+        } catch (ContextErrorException $e) {
+            throw new UserDoesNotExistException("The user with the dn: " . $dn . " does not exist!");
+        }
+        $user = $this->entitiesToUser($ldapPbnlAccount[0]);
+
+        return $user;
+    }
+
+    private function throwsUserDoesNotExistExceptionIfArrayEmty($array)
+    {
+        if (count($array) == 0) {
+            throw new UserDoesNotExistException();
+        }
     }
 }

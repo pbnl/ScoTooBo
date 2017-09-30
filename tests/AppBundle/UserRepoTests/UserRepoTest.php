@@ -657,6 +657,33 @@ class UserRepoTest extends WebTestCase
         $userRepo->removeUser($toDeleteUser);
     }
 
+    public function testFindUserByDn()
+    {
+        $expectedUser = new User("uid", "", "", ["ROLE_USER"]);
+
+        $pbnlAccount = new PbnlAccount();
+        $pbnlAccount->setUid("uid");
+
+        $ldapEntityManager = $this->createMock(LdapEntityManager::class);
+        $ldapEntityManager->expects($this->once())
+            ->method("retrieveByDn")
+            ->with("testDn")
+            ->willReturn([$pbnlAccount]);
+
+        $groupRepo = $this->createMock(GroupRepository::class);
+        $groupRepo->expects($this->any())
+            ->method("findAll")
+            ->willReturn([]);
+
+        $userRepo = $userRepo = new UserRepository(new Logger("main"),
+            $ldapEntityManager,
+            Validation::createValidatorBuilder()->enableAnnotationMapping()->getValidator(),
+            $groupRepo);
+
+        $actualUser = $userRepo->findUserByDn("testDn");
+        $this->assertEquals($expectedUser, $actualUser);
+    }
+
     /**
      * Creates a mocked ldapEntityManager witch is able to return
      *  a user

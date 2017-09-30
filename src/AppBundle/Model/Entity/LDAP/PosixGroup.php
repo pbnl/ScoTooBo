@@ -2,6 +2,7 @@
 
 namespace AppBundle\Model\Entity\LDAP;
 
+use AppBundle\Model\Services\UserRepository;
 use Ucsf\LdapOrmBundle\Annotation\Ldap\ArrayField;
 use Ucsf\LdapOrmBundle\Annotation\Ldap\Attribute;
 use Ucsf\LdapOrmBundle\Annotation\Ldap\Dn;
@@ -47,6 +48,22 @@ class PosixGroup extends Group
      */
     protected $gidNumber;
 
+    /**
+     * Array with all members but as User objects
+     * @var array
+     */
+    private $memberUserObjects = array();
+
+    /**
+     * @return array
+     */
+    public function getMemberUserObjects()
+    {
+        if($this->memberUserObjects == []) {
+            throw new UsersNotFetched("You have to fetch the users first!");
+        }
+        return $this->memberUserObjects;
+    }
 
     /**
      * @return mixed
@@ -118,5 +135,13 @@ class PosixGroup extends Group
             return true;
         }
         return false;
+    }
+
+    public function fetchGroupMemberUserObjects(UserRepository $userRepository)
+    {
+        foreach ($this->getMemberUid() as $dn) {
+            $user = $userRepository->findUserByDn($dn);
+            $this->memberUserObjects[$dn] = $user;
+        }
     }
 }

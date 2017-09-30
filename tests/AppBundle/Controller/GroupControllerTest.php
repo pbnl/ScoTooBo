@@ -35,4 +35,43 @@ class GroupControllerTest extends WebTestCase
         $crawler = TestTools::getLoggedInTestGrueppling()->request('GET', '/groups/show/all');
         $this->assertEquals("403",TestTools::getLoggedInTestGrueppling()->getResponse()->getStatusCode());
     }
+
+    /**
+     * @Issue #36
+     */
+    public function testShowDetailGroup()
+    {
+        $crawler = TestTools::getLoggedInStavoAmbrone()->request("GET","/groups/detail?groupCn=schulung");
+
+        $this->assertEquals("200",TestTools::getLoggedInStavoAmbrone()->getResponse()->getStatusCode());
+
+        $this->assertContains("TestAmbrone1", TestTools::getLoggedInStavoAmbrone()->getResponse()->getContent());
+
+        $crawler = TestTools::getLoggedInStavoAmbrone()->request("GET","/groups/detail?groupCn=groupWithMailingList");
+
+        var_dump(TestTools::getLoggedInStavoAmbrone()->getResponse()->getContent());
+
+        $this->assertEquals("200",TestTools::getLoggedInStavoAmbrone()->getResponse()->getStatusCode());
+
+        $this->assertContains("TestAmbrone2", TestTools::getLoggedInStavoAmbrone()->getResponse()->getContent());
+        $this->assertContains("TestBuvoUser", TestTools::getLoggedInStavoAmbrone()->getResponse()->getContent());
+        $this->assertContains("TestAmbrone1", TestTools::getLoggedInStavoAmbrone()->getResponse()->getContent());
+    }
+
+    /**
+     * @Issue #36
+     */
+    public function testShowDetailGroupUserDoesNotExist()
+    {
+        $crawler = TestTools::getLoggedInStavoAmbrone()->request("GET","/groups/detail?groupCn=groupWithMailingList");
+
+        $this->assertEquals("200",TestTools::getLoggedInStavoAmbrone()->getResponse()->getStatusCode());
+
+        $this->assertContains("TestAmbrone2", TestTools::getLoggedInStavoAmbrone()->getResponse()->getContent());
+        $this->assertContains("TestBuvoUser", TestTools::getLoggedInStavoAmbrone()->getResponse()->getContent());
+        $this->assertContains("TestAmbrone1", TestTools::getLoggedInStavoAmbrone()->getResponse()->getContent());
+        $this->assertContains(
+            "The user with the dn: givenName=NotExistingUser,ou=Ambronen,ou=People,dc=pbnl,dc=de does not exist!",
+            TestTools::getLoggedInStavoAmbrone()->getResponse()->getContent());
+    }
 }

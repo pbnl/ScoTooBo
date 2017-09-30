@@ -1,0 +1,77 @@
+{% extends "includes/base.html.twig" %}
+
+{% block title %}group{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+{% endblock %}
+
+{% block body %}
+    {% include 'includes/navbar.html.twig' %}
+    <div class="container">
+        <br><br>
+        {% include 'includes/showFlashes.html.twig' %}
+        <h2>{% trans %}group{% endtrans %}</h2>
+        <div class="col-sm-8">
+            <table class="table table-striped">
+                <thead>
+                <tr>
+                    <th>
+                        {% trans %}name{% endtrans %}
+                    </th>
+                    <th>
+                        {% trans %}value{% endtrans %}
+                    </th>
+                    <th>
+                        {% trans %}delete{% endtrans %}
+                    </th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <th>
+                        {% trans %}name{% endtrans %}
+                    </th>
+                    <td>
+                        {{group.cn}}
+                    </td>
+                    <td>
+                        -
+                    </td>
+                </tr>
+                <th>
+                    {% trans %}gid{% endtrans %}
+                </th>
+                <td>
+                    {{group.gidNumber}}
+                </td>
+                <td>
+                    -
+                </td>
+                </tr>
+                {% for member in group.memberUserObjects %}
+                    <tr>
+                        <th>
+                            {% trans %}member{% endtrans %}
+                        </th>
+                        <td>
+                            {{member.givenName}}
+                        </td>
+                        <td>
+
+                        </td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+    </div>
+
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script src="{{ asset('js/teamDetails.js') }}"></script>
+
+{% endblock %}

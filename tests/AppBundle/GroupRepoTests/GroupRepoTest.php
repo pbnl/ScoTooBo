@@ -38,7 +38,7 @@ class GroupRepoTest extends TestCase
 
         $groupRepo = new GroupRepository(new Logger("main"), $ldapEntityManager, Validation::createValidatorBuilder()->enableAnnotationMapping()->getValidator());
 
-        $actualGroups = $groupRepo->getAllGroupsByComplexFilter(new Filter());
+        $actualGroups = $groupRepo->findAllGroupsByComplexFilter(new Filter());
 
         $this->assertEquals($groups, $actualGroups);
     }
@@ -73,7 +73,7 @@ class GroupRepoTest extends TestCase
 
         $filter = new Filter();
         $filter->addFilter(GroupRepository::filterByDnInGroup, "pleaseFindMe");
-        $actualGroups = $groupRepo->getAllGroupsByComplexFilter($filter);
+        $actualGroups = $groupRepo->findAllGroupsByComplexFilter($filter);
 
         $this->assertEquals($groups, $actualGroups);
     }

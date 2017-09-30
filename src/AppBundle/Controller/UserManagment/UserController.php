@@ -61,7 +61,7 @@ class UserController extends Controller
 
         $userRepo = $this->get("data.userRepository");
         try {
-            $users = $userRepo->getAllUsers($filter);
+            $users = $userRepo->findAllUsersByComplexFilter($filter);
         } catch (GroupNotFoundException $e) {
             $users = [];
             $this->addFlash("info", $e->getMessage());

@@ -24,6 +24,7 @@ edit: Ändern
 name: Name
 nr: Nr
 gid: Gid
+member: Mitglied
 
 firstName: Vorname
 lastName: Nachname
@@ -45,3 +46,5 @@ showAllGroups.myGroups: Meine Gruppen
 not.editable: Nicht änderbar
 
 removeUserConfirmDialogText: Wollen sie wirklich den User %name% löschen?
+
+detailGroup.myGroups: Meine Gruppen

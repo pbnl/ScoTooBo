@@ -56,7 +56,7 @@ class GroupRepository
      * @param Filter $filter
      * @return array
      */
-    public function getAllGroupsByComplexFilter(Filter $filter)
+    public function findAllGroupsByComplexFilter(Filter $filter)
     {
         $allGroups = $this->groupLdapRepository->findAll();
         $phpFilteredGroups = $this->getGroupsThatFullFillPhpFilter($allGroups, $filter);
@@ -104,7 +104,7 @@ class GroupRepository
      */
     public function findAll()
     {
-        return $this->getAllGroupsByComplexFilter(new Filter());
+        return $this->findAllGroupsByComplexFilter(new Filter());
     }
 
     public function findByCn($cn)
