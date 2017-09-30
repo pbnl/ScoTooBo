@@ -2,11 +2,6 @@
 
 {% block title %}{% trans %}menu.eventManagement.addEvent{% endtrans %}{% endblock %}
 
-{% block stylesheets %}
-    {{ parent() }}
-{% endblock %}
-
-
 {% form_theme addEventForm 'bootstrap_3_horizontal_layout.html.twig' %}
 {% block body %}
     {% include 'includes/navbar.html.twig' %}

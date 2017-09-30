@@ -2,10 +2,6 @@
 
 {% block title %}{% trans %}menu.eventManagement.title{% endtrans %}{% endblock %}
 
-{% block stylesheets %}
-    {{ parent() }}
-{% endblock %}
-
 {% block body %}
     {% include 'includes/navbar.html.twig' %}
     <div class="container">
@@ -28,19 +24,19 @@
                     Nr
                 </th>
                 <th>
-                    {% trans %}event.name{% endtrans %}
+                    {% trans %}general_name{% endtrans %}
                 </th>
                 <th>
-                    {% trans %}event.description{% endtrans %}
+                    {% trans %}general_description{% endtrans %}
                 </th>
                 <th>
-                    {% trans %}event.price{% endtrans %}
+                    {% trans %}general_price{% endtrans %}
                 </th>
                 <th>
-                    {% trans %}event.date{% endtrans %}
+                    {% trans %}general_date{% endtrans %}
                 </th>
                 <th>
-                    {% trans %}event.place{% endtrans %}
+                    {% trans %}general_place{% endtrans %}
                 </th>
                 <th>
                     &nbsp;

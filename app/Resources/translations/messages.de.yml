@@ -16,22 +16,28 @@ menu.eventManagement.showAllevents: Alle Events anzeigen
 menu.eventManagement.addEvent: Event hinzufügen
 menu.eventManagement.detailEvent: Eventdetails
 
-event.name: Name:
-event.description: Beschreibung
-event.price: Preis
-event.date: Datum
-event.date_from: Datum von
-event.date_to: Datum bis
-event.place: Ort
-
-delete: Löschen
-group: Gruppe
-search: Suchen
-save: Speichern
+general_name: Name
+general_create: Erstellen
 create: Erstellen
-value: Wert
+general_date: Datum
+general_delete: Löschen
+delete: Löschen
+general_description: Beschreibung
+general_edit: Ändern
 edit: Ändern
+general_group: Gruppe
+group: Gruppe
+general_name: Name
 name: Name
+general_place: Ort
+general_price: Preis
+general_save: Speichern
+save: Speichern
+general_search: Suchen
+search: Suchen
+general_value: Wert
+value: Wert
+
 
 addUser.addedUser: Hinzugefügter User
 addUser.addedUserText: Füge einen neuen User hinzu

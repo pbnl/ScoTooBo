@@ -84,9 +84,8 @@ class EventController extends Controller
         // actually executes the queries (i.e. the INSERT query)
         $em->flush();
 
-        return $this->render('eventManagement/addedSuccessfullyEvent.html.twig', [
-            "event"=>$event,
-        ]);
+        $this->addFlash("success", "Saved new random event with id ".$event->getId());
+        return $this->redirectToRoute("allEvents");
     }
 
     /**
