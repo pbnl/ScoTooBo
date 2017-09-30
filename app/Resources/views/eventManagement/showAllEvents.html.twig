@@ -43,7 +43,7 @@
                     {% trans %}event.place{% endtrans %}
                 </th>
                 <th>
-                    &nbsp; (Bearbeiten/Löschen)
+                    &nbsp;
                 </th>
             </tr>
             </thead>
@@ -54,22 +54,22 @@
                         {{ loop.index}}
                     </td>
                     <td>
-                        <a href="{{ path('detailEvent', {'uid': event.getId}) }}">{{ event.getName}}</a>
+                        <a href="{{ path('detailEvent', {'id': event.getId}) }}">{{ event.getName}}</a>
                     </td>
                     <td>
                         {{event.getDescription}}
                     </td>
                     <td>
-                        {{event.getPrice}}
+                        {{event.getPriceInEuro}}
                     </td>
                     <td>
-                        {{event.getDate_from}} - {{event.getDate_to}}
+                        {{event.getDateFromToAsString}}
                     </td>
                     <td>
                         {{event.getPlace}}
                     </td>
                     <td>
-                        {% include  'includes/removeUserButtonWithConfirmDialog.html.twig' with {"user":event} %}
+                        Bearbeiten / Löschen (folgt)
 
                     </td>
                 </tr>

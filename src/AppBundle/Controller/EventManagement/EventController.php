@@ -3,6 +3,7 @@
 namespace AppBundle\Controller\EventManagement;
 
 use AppBundle\Entity\Event;
+use DateTime;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
@@ -56,5 +57,55 @@ class EventController extends Controller
 
 
 
+    /**
+     * @Route("/events/add", name="addEvent")
+     * @Security("has_role('ROLE_stavo')")
+     * @param Request $request
+     * @return \Symfony\Component\HttpFoundation\Response
+     */
+    public function addEvent(Request $request)
+    {
+        // you can fetch the EntityManager via $this->getDoctrine()
+        // or you can add an argument to your action: createAction(EntityManagerInterface $em)
+        $em = $this->getDoctrine()->getManager();
 
+        $event = new Event();
+        $event->setName("Test");
+        $event->setDescription("qwertzu qwertz qwertzu");
+        $event->setPriceInCent(rand(1,200));
+        $date = new DateTime(rand(2000,2020).'-01-01');
+        $event->setDateFrom($date);
+        $event->setDateTo($date);
+        $event->setPlace("at home");
+
+        // tells Doctrine you want to (eventually) save the Product (no queries yet)
+        $em->persist($event);
+
+        // actually executes the queries (i.e. the INSERT query)
+        $em->flush();
+
+        return $this->render('eventManagement/addedSuccessfullyEvent.html.twig', [
+            "event"=>$event,
+        ]);
+    }
+
+    /**
+     * @Route("/events/detail", name="detailEvent")
+     * @param Request $request
+     * @return \Symfony\Component\HttpFoundation\Response
+     */
+    public function showDetailUser(Request $request)
+    {
+        return;
+    }
+
+    /**
+     * @Route("/events/remove", name="removeEvent")
+     * @param Request $request
+     * @return Response
+     */
+    public function removeUser(Request $request)
+    {
+        return;
+    }
 }

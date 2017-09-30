@@ -121,7 +121,7 @@ class Event
      *
      * @return Events
      */
-    public function setPrice($price)
+    public function setPriceInCent($price)
     {
         $this->price = $price;
 
@@ -129,13 +129,28 @@ class Event
     }
 
     /**
-     * Get price
+     * Get price in Cent
      *
      * @return int
      */
-    public function getPrice()
+    public function getPriceInCent()
     {
         return $this->price;
+    }
+
+    /**
+     * Get price in Euro
+     *
+     * @return string
+     */
+    public function getPriceInEuro()
+    {
+        if ($this->price<100) {
+            return "0,".$this->price."€";
+        } else {
+            $txt=strval($this->price);
+            return substr_replace($txt, ',', -2, 0).'€';
+        }
     }
 
     /**
@@ -198,6 +213,16 @@ class Event
         $this->place = $place;
 
         return $this;
+    }
+
+    /**
+     * Get dateFromToAsString
+     *
+     * @return \String
+     */
+    public function getDateFromToAsString()
+    {
+        return $this->dateFrom->format('Y-m-d H:i:s').' - '.$this->dateTo->format('Y-m-d H:i:s');
     }
 
     /**
