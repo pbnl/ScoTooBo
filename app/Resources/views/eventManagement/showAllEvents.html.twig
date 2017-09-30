@@ -1,6 +1,6 @@
 {% extends "includes/base.html.twig" %}
 
-{% block title %}{% trans %}menu.userManagement.title{% endtrans %}{% endblock %}
+{% block title %}{% trans %}menu.eventManagement.title{% endtrans %}{% endblock %}
 
 {% block stylesheets %}
     {{ parent() }}
@@ -10,6 +10,7 @@
     {% include 'includes/navbar.html.twig' %}
     <div class="container">
         <br><br>
+        <!--
         {% include 'includes/showFlashes.html.twig' %}
         <h3>Such Optionen</h3>
         <div class="col-sm-6">
@@ -19,6 +20,7 @@
                 {{ form_end(peopleSearchForm) }}
             {% endif %}
         </div>
+        -->
         <table class="table table-striped">
             <thead>
             <tr>

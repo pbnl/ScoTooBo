@@ -1,0 +1,97 @@
+{% extends "includes/base.html.twig" %}
+
+{% block title %}{% trans %}menu.eventManagement.addEvent{% endtrans %}{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+{% endblock %}
+
+
+{% form_theme addAUserForm 'bootstrap_3_horizontal_layout.html.twig' %}
+{% block body %}
+    {% include 'includes/navbar.html.twig' %}
+    <div class="container">
+        <br><br>
+        {% include 'includes/showFlashes.html.twig' %}
+        {% if addedSomeone %}
+            <h2 class="form-signin-heading">{% trans %}addUser.addedUser{% endtrans %}</h2>
+            <table class="table table-striped">
+                <thead>
+                <tr>
+                    <th>
+                        {% trans %}addUser.nameValue{% endtrans %}
+                    </th>
+                    <th>
+                        {% trans %}addUser.value{% endtrans %}
+                    </th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <th>
+                        {% trans %}username{% endtrans %}
+                    </th>
+                    <td>
+                        {{ addedPerson.uid }}
+                    </td>
+                </tr>
+                <tr>
+                    <th>
+                        {% trans %}firstName{% endtrans %}
+                    </th>
+                    <td>
+                        {{ addedPerson.firstName }}
+                    </td>
+                </tr>
+                <tr>
+                    <th>
+                        {% trans %}lastName{% endtrans %}
+                    </th>
+                    <td>
+                        {{ addedPerson.lastName }}
+                    </td>
+                </tr>
+                <tr>
+                    <th>
+                        {% trans %}mail{% endtrans %}
+                    </th>
+                    <td>
+                        {{ addedPerson.mail }}
+                    </td>
+                </tr>
+                <tr>
+                    <th>
+                        uidNumber
+                    </th>
+                    <td>
+                        {{ addedPerson.uidNumber }}
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        {% endif %}
+
+        <br><br>
+
+        <h2 class="form-signin-heading">{% trans %}addUser.addedUserText{% endtrans %}</h2>
+        <div class="col-sm-8">
+            {{ form_start(addAUserForm) }}
+            {{ form_row(addAUserForm.firstName) }}
+            {{ form_row(addAUserForm.lastName) }}
+            {{ form_row(addAUserForm.givenName) }}
+            {{ form_row(addAUserForm.clearPassword) }}
+            <div class="form-group">
+                {{ form_label(addAUserForm.generatedPassword) }}
+                <div class="col-md-6">{{ form_widget(addAUserForm.generatedPassword) }}</div>
+                <div class="col-md4"> {{ form_widget(addAUserForm.generatePassword) }}</div>
+            </div>
+            {{ form_end(addAUserForm) }}
+        </div>
+
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script src="{{ asset('js/addUser.js') }}"></script>
+
+{% endblock %}
