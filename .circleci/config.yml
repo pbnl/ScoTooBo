@@ -13,7 +13,7 @@ jobs:
             - run:
                 name: Install LDAP
                 command: |
-                    sudo DEBIAN_FRONTEND=noninteractive apt-get -yq --no-install-suggests --no-install-recommends --force-yes install ldap-utils slapd php7.0-ldap ; \
+                    sudo DEBIAN_FRONTEND=noninteractive apt-get -yq --no-install-suggests --no-install-recommends install ldap-utils slapd php7.0-ldap ; \
                     sudo service slapd stop ; \
                     sudo rm /etc/ldap/slapd.d/* -R ; \
                     sudo slapadd -n 0 -F /etc/ldap/slapd.d -l ./ldap-test-database/ldap-test-database-config.ldif ; \
@@ -24,7 +24,10 @@ jobs:
             - run:
                 name: Install MySQL
                 command: |
-                    sudo DEBIAN_FRONTEND=noninteractive apt-get -yq --no-install-suggests --no-install-recommends --force-yes install php7.0-mysql mysql-server ; \
+                    sudo debconf-set-selections <<< 'mysql-server mysql-server/root_password password secret' ; \
+                    sudo debconf-set-selections <<< 'mysql-server mysql-server/root_password_again password secret' ; \
+                    sudo DEBIAN_FRONTEND=noninteractive apt-get -yq --no-install-suggests --no-install-recommends install php7.0-mysql mysql-server ; \
+                    sudo service mysql start ; \
                     mysql < ./mysql-test-database/create-mysql-database.sql
             - run: php composer.phar install --no-interaction --dev
             - run: ./vendor/bin/phpunit
