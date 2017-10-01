@@ -103,7 +103,7 @@ class EventController extends Controller
             ->add('DateFrom', DateTimeType::class)
             ->add('DateTo', DateTimeType::class)
             ->add('Place',TextareaType::class)
-            ->add('save', SubmitType::class, array('label' => 'Erstelle Event'))
+            ->add('save', SubmitType::class, array('label' => 'Erstellen'))
             ->getForm();
 
         $addAnEventForm->handleRequest($request);
@@ -133,7 +133,7 @@ class EventController extends Controller
      * @param Request $request
      * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function showDetailUser(Request $request)
+    public function showDetailEvent(Request $request)
     {
         $this->addFlash("success", "This function is comming soon!");
         return $this->redirectToRoute("allEvents");
@@ -144,7 +144,7 @@ class EventController extends Controller
      * @param Request $request
      * @return Response
      */
-    public function removeUser(Request $request)
+    public function removeEvent(Request $request)
     {
         $this->addFlash("success", "This function is comming soon!");
         return $this->redirectToRoute("allEvents");
