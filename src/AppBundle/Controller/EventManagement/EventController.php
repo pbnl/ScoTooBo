@@ -95,7 +95,8 @@ class EventController extends Controller
      */
     public function showDetailUser(Request $request)
     {
-        return;
+        $this->addFlash("success", "This function is comming soon!");
+        return $this->redirectToRoute("allEvents");
     }
 
     /**
@@ -105,6 +106,7 @@ class EventController extends Controller
      */
     public function removeUser(Request $request)
     {
-        return;
+        $this->addFlash("success", "This function is comming soon!");
+        return $this->redirectToRoute("allEvents");
     }
 }
