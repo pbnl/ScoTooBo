@@ -137,12 +137,13 @@ class PbnlAccount extends InetOrgPerson
     protected $l = "";
 
     /**
-     * Internal unix gidNumber (not used)
-     * @var string
+     * Internal unix gidNumer (not used)
+     * default value is "501"
+     * @var int
      * @Attribute("gidNumber")
      * @Must()
      */
-    protected $gidNumber = "";
+    protected $gidNumber = "501";
 
     /**
      * PbnlAccount constructor.
