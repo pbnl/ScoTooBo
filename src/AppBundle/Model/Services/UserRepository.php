@@ -92,7 +92,7 @@ class UserRepository implements UserProviderInterface
         $hashedPassword = substr($b64_dec, 0, 20);
 
         //Fill up the user
-        $user = new User($ldapPbnlAccount->getGivenName(), $hashedPassword, $salt, []);
+        $user = new User($ldapPbnlAccount->getGivenName(), $hashedPassword, $salt, ["ROLE_USER"]);
         $user->setDn($ldapPbnlAccount->getDn());
         $user->setCity($ldapPbnlAccount->getL());
         $user->setFirstName($ldapPbnlAccount->getCn());
