@@ -44,6 +44,9 @@ addUser.generatedPassword: Generiertes Passwort
 addUser.generatePassword: Generiere ein Passwort
 addUser.nameValue: Name des Wertes
 addUser.value: Wert
+
+event_addForm_UserText: Füge ein neues Event hinzu
+
 firstName: Vorname
 lastName: Nachname
 postalCode: PLZ

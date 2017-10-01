@@ -6,6 +6,12 @@ use AppBundle\Entity\Event;
 use DateTime;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
+use Symfony\Component\Form\Extension\Core\Type\DateType;
+use Symfony\Component\Form\Extension\Core\Type\IntegerType;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -70,6 +76,7 @@ class EventController extends Controller
         $em = $this->getDoctrine()->getManager();
 
         $event = new Event();
+        /*
         $event->setName("Test");
         $event->setDescription("qwertzu qwertz qwertzu");
         $event->setPriceInCent(rand(1,200));
@@ -86,6 +93,39 @@ class EventController extends Controller
 
         $this->addFlash("success", "Saved new random event with id ".$event->getId());
         return $this->redirectToRoute("allEvents");
+        */
+
+
+        $addAnEventForm = $this->createFormBuilder($event)
+            ->add('Name', TextType::class)
+            ->add('Description',TextareaType::class)
+            ->add('PriceInCent',IntegerType::class)
+            ->add('DateFrom', DateTimeType::class)
+            ->add('DateTo', DateTimeType::class)
+            ->add('Place',TextareaType::class)
+            ->add('save', SubmitType::class, array('label' => 'Erstelle Event'))
+            ->getForm();
+
+        $addAnEventForm->handleRequest($request);
+
+        if ($addAnEventForm->isSubmitted() && $addAnEventForm->isValid()) {
+            // $form->getData() holds the submitted values
+            // but, the original `$task` variable has also been updated
+            $event_data = $addAnEventForm->getData();
+
+            // ... perform some action, such as saving the task to the database
+            // for example, if Task is a Doctrine entity, save it!
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($event_data);
+            $em->flush();
+
+            $this->addFlash("success", "Event wurde mit der Id ".$event_data->getId()." erstellt.");
+            return $this->redirectToRoute('allEvents');
+        }
+
+        return $this->render('eventManagement/addEvent.html.twig', array(
+            'addAnEventForm' => $addAnEventForm->createView(),
+        ));
     }
 
     /**
