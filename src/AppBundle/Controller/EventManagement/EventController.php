@@ -18,7 +18,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class EventController extends Controller
 {
     /**
-     * @Route("/events/show/all", name="allEvents")
+     * @Route("/events/show/all", name="showAllEvents")
      * @Security("has_role('ROLE_elder')")
      * @param Request $request
      * @return \Symfony\Component\HttpFoundation\Response
@@ -120,7 +120,7 @@ class EventController extends Controller
             $em->flush();
 
             $this->addFlash("success", "Event wurde mit der Id ".$event_data->getId()." erstellt.");
-            return $this->redirectToRoute('allEvents');
+            return $this->redirectToRoute('showAllEvents');
         }
 
         return $this->render('eventManagement/addEvent.html.twig', array(
@@ -133,10 +133,10 @@ class EventController extends Controller
      * @param Request $request
      * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function showDetailEvent(Request $request)
+    public function detailEvent(Request $request)
     {
         $this->addFlash("success", "This function is comming soon!");
-        return $this->redirectToRoute("allEvents");
+        return $this->redirectToRoute("showAllEvents");
     }
 
     /**
@@ -147,6 +147,6 @@ class EventController extends Controller
     public function removeEvent(Request $request)
     {
         $this->addFlash("success", "This function is comming soon!");
-        return $this->redirectToRoute("allEvents");
+        return $this->redirectToRoute("showAllEvents");
     }
 }
