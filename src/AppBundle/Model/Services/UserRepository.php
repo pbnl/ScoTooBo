@@ -3,6 +3,8 @@
 namespace AppBundle\Model\Services;
 
 use AppBundle\Model\Entity\LDAP\PbnlAccount;
+use AppBundle\Model\Entity\LDAP\PosixGroup;
+use AppBundle\Model\Filter;
 use AppBundle\Model\User;
 use Monolog\Logger;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
@@ -91,8 +93,11 @@ class UserRepository implements UserProviderInterface
         // the sha1 part
         $hashedPassword = substr($b64_dec, 0, 20);
 
+        $roles = $this->getRolesOfPbnlAccount($ldapPbnlAccount);
+        array_push($roles,"ROLE_USER");
+
         //Fill up the user
-        $user = new User($ldapPbnlAccount->getGivenName(), $hashedPassword, $salt, []);
+        $user = new User($ldapPbnlAccount->getGivenName(), $hashedPassword, $salt, $roles);
         $user->setDn($ldapPbnlAccount->getDn());
         $user->setCity($ldapPbnlAccount->getL());
         $user->setFirstName($ldapPbnlAccount->getCn());
@@ -109,8 +114,8 @@ class UserRepository implements UserProviderInterface
         $errors = $this->validator->validate($user);
 
         if (count($errors) > 0) {
-            $this->logger->addAlert((string) $errors);
-            throw new CorruptDataInDatabaseException();
+            $this->logger->addError((string) $errors);
+            throw new CorruptDataInDatabaseException("The user ".$ldapPbnlAccount->getGivenName()." is corrupt! ".(string) $errors);
         }
 
         return $user;
@@ -168,5 +173,79 @@ class UserRepository implements UserProviderInterface
     public function supportsClass($class)
     {
         return User::class === $class;
+    }
+
+    /**
+     * Returns an array with with all roles of a PbnlAccount ['ROLE_Groupname']
+     * It tries to find groups in the ldap database and check if the dn og the PbnlAccount is a member of this group
+     *
+     * @param PbnlAccount $ldapPbnlAccount
+     * @return array
+     */
+    private function getRolesOfPbnlAccount(PbnlAccount $ldapPbnlAccount)
+    {
+        $roles = array();
+        $groupRepository = $this->ldapEntityManager->getRepository(PosixGroup::class);
+        $allGroups = $groupRepository->findAll();
+
+        /** @var  $group PosixGroup */
+        foreach ($allGroups as $group) {
+            if($group->isDnMember($ldapPbnlAccount->getDn())) {
+                array_push($roles,"ROLE_".$group->getCn());
+            }
+        }
+        return $roles;
+    }
+
+    /**
+     * Returns all Users
+     * You can filterByGroup or filterByName with the filter Object
+     *
+     * @param Filter $filter
+     * @return array
+     * @throws GroupNotFoundException If the group of the Filter does not exist
+     */
+    public function getAllUsers(Filter $filter) {
+        $users = array();
+        $pbnlAccountRepository = $this->ldapEntityManager->getRepository(PbnlAccount::class);
+
+        //If there is a filter we can use
+        /** @var $group PosixGroup*/
+        $group = [];
+        if(isset($filter->getFilterAttributes()[0])) {
+            if($filter->getFilterAttributes()[0] == "filterByName" && $filter->getFilterTexts()[0] != "") {
+                $pbnlAccounts = $pbnlAccountRepository->findByComplex(array("givenName" =>  '*'.$filter->getFilterTexts()[0].'*'));
+            }
+            else if($filter->getFilterAttributes()[0] == "filterByGroup" && $filter->getFilterTexts()[0] != "") {
+                $groupRepository = $this->ldapEntityManager->getRepository(PosixGroup::class);
+                $group = $groupRepository->findByCn($filter->getFilterTexts()[0]);
+                if($group == []) {
+                    throw new GroupNotFoundException("We cant find the group ".$filter->getFilterTexts()[0]);
+                }
+                $pbnlAccounts = $pbnlAccountRepository->findAll();
+            }
+            else {
+                $pbnlAccounts = $pbnlAccountRepository->findAll();
+            }
+        }
+        else {
+            $pbnlAccounts = $pbnlAccountRepository->findAll();
+        }
+
+        /** @var $pbnlAccount PbnlAccount[] */
+        foreach ($pbnlAccounts as $pbnlAccount) {
+            $user = $this->entitiesToUser($pbnlAccount);
+
+            if($group != []) {
+                if($group[0]->isDnMember($user->getDn())){
+                    array_push($users, $user);
+                }
+            }
+            else {
+                array_push($users, $user);
+            }
+        }
+
+        return $users;
     }
 }

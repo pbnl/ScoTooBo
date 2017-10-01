@@ -14,6 +14,7 @@
             <div class="flash-notice">
                 <div class="alert alert-danger" role="alert">
                     <div>{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+                    <div>{{ error.message}}</div>
                 </div>
             </div>
         {% endif %}

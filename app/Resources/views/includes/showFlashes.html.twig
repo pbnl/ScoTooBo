@@ -7,3 +7,13 @@
         </div>
     {% endif %}
 {% endfor %}
+
+{% for message in app.flashes('info') %}
+    {% if message != "" %}
+        <div class="flash-notice">
+            <div class="alert alert-info" role="alert">
+                {{ message }}
+            </div>
+        </div>
+    {% endif %}
+{% endfor %}

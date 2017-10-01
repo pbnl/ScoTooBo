@@ -3,6 +3,7 @@
 namespace Tests\AppBundle\UserServiceTests;
 
 use AppBundle\Model\Entity\LDAP\PbnlAccount;
+use AppBundle\Model\Entity\LDAP\PosixGroup;
 use AppBundle\Model\Services\CorruptDataInDatabaseException;
 use AppBundle\Model\Services\UserRepository;
 use Monolog\Logger;
@@ -12,7 +13,7 @@ use Ucsf\LdapOrmBundle\Ldap\LdapEntityManager;
 use Ucsf\LdapOrmBundle\Repository\Repository;
 use Symfony\Component\Validator\Validation;
 
-class UserServiceTest extends WebTestCase
+class UserRepoTest extends WebTestCase
 {
 
     public function testGetUserByGivenName()
@@ -32,16 +33,8 @@ class UserServiceTest extends WebTestCase
         $pbnlAccount->setHomeDirectory("/home/test");
         $pbnlAccount->setUidNumber("1234");
 
-        $pbnlAccountRepo = $this->createMock(Repository::class);
-        $pbnlAccountRepo->expects($this->once())->method("__call")->with(
-            $this->equalTo('findOneByGivenName'),
-            $this->equalTo(["test"])
-            )->willReturn($pbnlAccount);
 
-        $ldapEntityManager = $this->createMock(LdapEntityManager::class);
-        $ldapEntityManager->expects($this->once())->method("getRepository")->willReturn($pbnlAccountRepo);
-
-        $userService = new UserRepository(new Logger("main"),$ldapEntityManager, Validation::createValidatorBuilder()->enableAnnotationMapping()->getValidator());
+        $userService = new UserRepository(new Logger("main"), $this->mockLdapEntityManager($pbnlAccount, []), Validation::createValidatorBuilder()->enableAnnotationMapping()->getValidator());
         $user = $userService->getUserByGivenName("test");
 
         $this->assertEquals("hamburg",$user->getCity());
@@ -58,16 +51,8 @@ class UserServiceTest extends WebTestCase
     {
         $this->expectException(UsernameNotFoundException::class);
 
-        $pbnlAccountRepo = $this->createMock(Repository::class);
-        $pbnlAccountRepo->expects($this->once())->method("__call")->with(
-            $this->equalTo('findOneByGivenName'),
-            $this->equalTo(["test"])
-        )->willReturn([]);
 
-        $ldapEntityManager = $this->createMock(LdapEntityManager::class);
-        $ldapEntityManager->expects($this->once())->method("getRepository")->willReturn($pbnlAccountRepo);
-
-        $userService = new UserRepository(new Logger("main"),$ldapEntityManager, Validation::createValidatorBuilder()->enableAnnotationMapping()->getValidator());
+        $userService = new UserRepository(new Logger("main"), $this->mockLdapEntityManager([], [], false), Validation::createValidatorBuilder()->enableAnnotationMapping()->getValidator());
         $userService->getUserByGivenName("test");
     }
 
@@ -90,16 +75,8 @@ class UserServiceTest extends WebTestCase
         $pbnlAccount->setHomeDirectory("/home/test");
         $pbnlAccount->setUidNumber("1234");
 
-        $pbnlAccountRepo = $this->createMock(Repository::class);
-        $pbnlAccountRepo->expects($this->once())->method("__call")->with(
-            $this->equalTo('findOneByGivenName'),
-            $this->equalTo(["test"])
-        )->willReturn($pbnlAccount);
 
-        $ldapEntityManager = $this->createMock(LdapEntityManager::class);
-        $ldapEntityManager->expects($this->once())->method("getRepository")->willReturn($pbnlAccountRepo);
-
-        $userRepo = new UserRepository(new Logger("main"),$ldapEntityManager, Validation::createValidatorBuilder()->enableAnnotationMapping()->getValidator());
+        $userRepo = new UserRepository(new Logger("main"),$this->mockLdapEntityManager($pbnlAccount, []), Validation::createValidatorBuilder()->enableAnnotationMapping()->getValidator());
         $userRepo->getUserByGivenName("test");
     }
 
@@ -122,16 +99,41 @@ class UserServiceTest extends WebTestCase
         $pbnlAccount->setHomeDirectory("/home/test");
         $pbnlAccount->setUidNumber("1234");
 
+
+        $userRepo = new UserRepository(new Logger("main"), $this->mockLdapEntityManager($pbnlAccount, []), Validation::createValidatorBuilder()->enableAnnotationMapping()->getValidator());
+        $userRepo->getUserByGivenName("test");
+    }
+
+    /**
+     * Creates a mocked ldapEntityManager witch is able to return
+     *  a user
+     *  some groups (the ROLES of the user)
+     *
+     * $userExists must be false of the user does not exist
+     *
+     * @param $pbnlAccount
+     * @param $groups
+     * @param bool $userExists
+     * @return \PHPUnit_Framework_MockObject_MockObject|LdapEntityManager
+     */
+    public function mockLdapEntityManager($pbnlAccount, $groups, $userExists = true) {
+
         $pbnlAccountRepo = $this->createMock(Repository::class);
-        $pbnlAccountRepo->expects($this->once())->method("__call")->with(
+        $pbnlAccountRepo->expects($this->any())->method("__call")->with(
             $this->equalTo('findOneByGivenName'),
             $this->equalTo(["test"])
         )->willReturn($pbnlAccount);
+        $groupRepo = $this->createMock(Repository::class);
+        $groupRepo->expects($this->any())->method("findAll")->willReturn($groups);
 
         $ldapEntityManager = $this->createMock(LdapEntityManager::class);
-        $ldapEntityManager->expects($this->once())->method("getRepository")->willReturn($pbnlAccountRepo);
+        $ldapEntityManager->expects($this->at(0))->method("getRepository")->with($this->equalTo(PbnlAccount::class))->willReturn($pbnlAccountRepo);
 
-        $userRepo = new UserRepository(new Logger("main"),$ldapEntityManager, Validation::createValidatorBuilder()->enableAnnotationMapping()->getValidator());
-        $userRepo->getUserByGivenName("test");
+        if($userExists == true) {
+            $ldapEntityManager->expects($this->at(1))->method("getRepository")->with(
+                $this->equalTo(PosixGroup::class)
+            )->willReturn($groupRepo);
+        }
+        return $ldapEntityManager;
     }
 }

@@ -95,4 +95,20 @@ class PosixGroup extends Group
     {
         $this->gidNumber = $gidNumber;
     }
+
+    /**
+     * True, if the dn is a member of this group
+     *
+     * Uses the memberUid attribute of the ldapGroups
+     *
+     * @param String $dn
+     * @return bool
+     */
+    public function isDnMember(String $dn)
+    {
+        if(in_array($dn, $this->getMemberUid())) {
+            return true;
+        }
+        return false;
+    }
 }
