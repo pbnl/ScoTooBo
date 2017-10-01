@@ -58,3 +58,12 @@ street: Straße
 not.editable: Nicht änderbar
 
 removeUserConfirmDialogText: Wollen sie wirklich den User %name% löschen?
+
+feedback_label: Fehler / Feedback
+feedback_header: Sende Feedback
+feedback_nextLabel: Weiter
+feedback_reviewLabel: Vorschau
+feedback_sendLabel: Senden
+feedback_closeLabel: Schließen
+feedback_messageSuccess: Dein Feedback hat uns erfolgreich erreicht und wird in Kürze bearbeitet.
+feedback_messageError: Es trat leider ein Fehler auf, schreib uns am besten persönlich an.
