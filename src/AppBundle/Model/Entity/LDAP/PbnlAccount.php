@@ -131,11 +131,12 @@ class PbnlAccount extends InetOrgPerson
 
     /**
      * Internal unix gidNumer (not used)
+     * default value is "501"
      * @var int
      * @Attribute("gidNumber")
      * @Assert\Type("integer")
      */
-    protected $gidNumber = "";
+    protected $gidNumber = "501";
 
 
     //All getters and setters
