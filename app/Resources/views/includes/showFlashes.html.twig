@@ -1,0 +1,9 @@
+{% for message in app.flashes('error') %}
+    {% if message != "" %}
+        <div class="flash-notice">
+            <div class="alert alert-danger" role="alert">
+                {{ message }}
+            </div>
+        </div>
+    {% endif %}
+{% endfor %}

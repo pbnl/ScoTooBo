@@ -93,9 +93,9 @@ creatorsName: cn=admin,dc=pbnl,dc=de
 createTimestamp: 20160905213353Z
 description: teamGroup
 memberUid: givenName=TestAmbrone1,ou=Ambronen,ou=People,dc=pbnl,dc=de
-entryCSN: 20170715204743.920896Z#000000#000#000000
+entryCSN: 20170831083824.129022Z#000000#000#000000
 modifiersName: cn=admin,dc=pbnl,dc=de
-modifyTimestamp: 20170715204743Z
+modifyTimestamp: 20170831083824Z
 
 dn: ou=Forward,dc=pbnl,dc=de
 objectClass: organizationalUnit
@@ -344,11 +344,11 @@ cn: TestAmbrone1
 homeDirectory: /home/TestAmbrone1
 uid: TestAmbrone1
 mail: TestAmbrone1@pbnl.de
-userPassword:: e3NzaGF9dGZNYXZjZkYvQnlvRnZZTk5tdllnYVVHV3JBcFMxQ2FqZHNnemc9P
+userPassword:: e3NzaGF9Vnh5ekZscWZXK01mYUczRGdoUlgweisrc2o0SlhrYW1xS1ZCVWc9P
  Q==
-entryCSN: 20170712090815.607970Z#000000#000#000000
+entryCSN: 20170903215531.817708Z#000000#000#000000
 modifiersName: cn=admin,dc=pbnl,dc=de
-modifyTimestamp: 20170712090815Z
+modifyTimestamp: 20170903215531Z
 
 dn: givenName=TestTronjer,ou=Hagen von Tronje,ou=People,dc=pbnl,dc=de
 objectClass: inetOrgPerson
