@@ -18,40 +18,13 @@ use Symfony\Component\Routing\Annotation\Route;
 class EventController extends Controller
 {
     /**
-     * @Route("/events/show/all", name="allEvents")
+     * @Route("/events/show/all", name="showAllEvents")
      * @Security("has_role('ROLE_elder')")
      * @param Request $request
      * @return \Symfony\Component\HttpFoundation\Response
      */
     public function showAllEvents(Request $request)
     {
-#        //Create search form
-#        $defaultData = array();
-#        $userSearchForm = $this->createFormBuilder($defaultData)
-#            ->add("filterOption", ChoiceType::class, array(
-#                "choices"=>array("username"=>"filterByUid", "group"=>"filterByGroup"),
-#                'label'=>false,
-#                'required' => false,
-#                'data'=>"filterByUid"))
-#            ->add("filterText", TextType::class, array(
-#                "attr"=>["placeholder"=>"search"],
-#                'label'=>false,
-#                'required' => false))
-#            ->add("send", SubmitType::class, array(
-#                "label"=>"search",
-#                "attr"=>["class"=>"btn btn-lg btn-primary btn-block"]))
-#            ->setMethod("get")
-#            ->getForm();
-#
-#        $filter = new Filter();
-#
-#        //Handel the form input
-#        $userSearchForm->handleRequest($request);
-#        if ($userSearchForm->isSubmitted() && $userSearchForm->isValid()) {
-#            $data = $userSearchForm->getData();
-#            $filter->addFilter($data["filterOption"], $data["filterText"]);
-#        }
-
         $repository = $this->getDoctrine()->getRepository(Event::class);
         $events = $repository->findAll();
 
@@ -65,62 +38,61 @@ class EventController extends Controller
 
     /**
      * @Route("/events/add", name="addEvent")
-     * @Security("has_role('ROLE_stavo')")
+     * @Security("has_role('ROLE_elder')")
      * @param Request $request
      * @return \Symfony\Component\HttpFoundation\Response
      */
     public function addEvent(Request $request)
     {
-        // you can fetch the EntityManager via $this->getDoctrine()
-        // or you can add an argument to your action: createAction(EntityManagerInterface $em)
-        $em = $this->getDoctrine()->getManager();
-
         $event = new Event();
-        /*
-        $event->setName("Test");
-        $event->setDescription("qwertzu qwertz qwertzu");
-        $event->setPriceInCent(rand(1,200));
-        $date = new DateTime(rand(2000,2020).'-01-01');
-        $event->setDateFrom($date);
-        $event->setDateTo($date);
-        $event->setPlace("at home");
-
-        // tells Doctrine you want to (eventually) save the Product (no queries yet)
-        $em->persist($event);
-
-        // actually executes the queries (i.e. the INSERT query)
-        $em->flush();
-
-        $this->addFlash("success", "Saved new random event with id ".$event->getId());
-        return $this->redirectToRoute("allEvents");
-        */
-
 
         $addAnEventForm = $this->createFormBuilder($event)
-            ->add('Name', TextType::class)
-            ->add('Description',TextareaType::class)
-            ->add('PriceInCent',IntegerType::class)
-            ->add('DateFrom', DateTimeType::class)
-            ->add('DateTo', DateTimeType::class)
-            ->add('Place',TextareaType::class)
-            ->add('save', SubmitType::class, array('label' => 'Erstellen'))
+            ->add('Name', TextType::class, array(
+                "attr" => ["placeholder" => "addEvent.Name"],
+                'label' => "addEvent.Name",
+                'empty_data' => '',
+                "required" => true))
+            ->add('Description',TextareaType::class, array(
+                "attr" => ["placeholder" => "addEvent.Beschreibung"],
+                'label' => "addEvent.Beschreibung",
+                'empty_data' => '',
+                "required" => true))
+            ->add('PriceInCent',IntegerType::class, array(
+                "attr" => ["placeholder" => "addEvent.PriceInCent"],
+                'label' => "addEvent.PriceInCent",
+                'empty_data' => '',
+                "required" => true))
+            ->add('DateFrom', DateTimeType::class, array(
+                'attr' => ["placeholder" => "addEvent.DateFrom"],
+                'label' => "addEvent.DateFrom",
+                'empty_data' => '',
+                // ToDo: bessere Auswahlmöglichkeit bieten
+                "required" => true))
+            ->add('DateTo', DateTimeType::class, array(
+                'attr' => ["placeholder" => "addEvent.DateTo"],
+                'label' => "addEvent.DateTo",
+                'empty_data' => '',
+                // ToDo: bessere Auswahlmöglichkeit bieten
+                "required" => true))
+            ->add('Place',TextareaType::class, array(
+                "attr" => ["placeholder" => "addEvent.Place"],
+                'label' => "addEvent.Place",
+                'empty_data' => '',
+                "required" => true))
+            ->add('save', SubmitType::class, array('label' => 'addEvent.Submit'))
             ->getForm();
 
         $addAnEventForm->handleRequest($request);
 
         if ($addAnEventForm->isSubmitted() && $addAnEventForm->isValid()) {
-            // $form->getData() holds the submitted values
-            // but, the original `$task` variable has also been updated
             $event_data = $addAnEventForm->getData();
-
-            // ... perform some action, such as saving the task to the database
-            // for example, if Task is a Doctrine entity, save it!
             $em = $this->getDoctrine()->getManager();
-            $em->persist($event_data);
-            $em->flush();
+
+            $em->persist($event_data); // tells Doctrine you want to (eventually) save the Product (no queries yet)
+            $em->flush(); // actually executes the queries (i.e. the INSERT query)
 
             $this->addFlash("success", "Event wurde mit der Id ".$event_data->getId()." erstellt.");
-            return $this->redirectToRoute('allEvents');
+            return $this->redirectToRoute('showAllEvents');
         }
 
         return $this->render('eventManagement/addEvent.html.twig', array(
@@ -136,7 +108,7 @@ class EventController extends Controller
     public function showDetailEvent(Request $request)
     {
         $this->addFlash("success", "This function is comming soon!");
-        return $this->redirectToRoute("allEvents");
+        return $this->redirectToRoute("showAllEvents");
     }
 
     /**
@@ -147,6 +119,6 @@ class EventController extends Controller
     public function removeEvent(Request $request)
     {
         $this->addFlash("success", "This function is comming soon!");
-        return $this->redirectToRoute("allEvents");
+        return $this->redirectToRoute("showAllEvents");
     }
 }

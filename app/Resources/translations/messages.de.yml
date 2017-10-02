@@ -46,6 +46,14 @@ addUser.generatePassword: Generiere ein Passwort
 addUser.nameValue: Name des Wertes
 addUser.value: Wert
 
+addEvent.Name: Name
+addEvent.Beschreibung: Beschreibung
+addEvent.PriceInCent: Preis in Cent
+addEvent.DateFrom: Von
+addEvent.DateTo: Bis
+addEvent.Place: Ort
+addEvent.Submit: Erstellen
+
 event_addForm_UserText: Füge ein neues Event hinzu
 
 firstName: Vorname
