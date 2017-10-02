@@ -26,4 +26,5 @@ exclude_paths:
 - "**/vendor/"
 - "var/"
 - "bin/"
-- "web/js/feedback.js"
+- "web/css/feedback.css"
+- "web/js/html2canvas.js"

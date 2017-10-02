@@ -148,7 +148,7 @@
     background-color: #e6e6e6;
 }
 .feedback-btn:active, .feedback-btn.active {
-    background-color: #cccccc \9;
+    background-color: #cccccc;
 }
 .feedback-btn:first-child {
     *margin-left: 0;
@@ -175,7 +175,7 @@
     -moz-box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.15), 0 1px 2px rgba(0, 0, 0, 0.05);
     box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.15), 0 1px 2px rgba(0, 0, 0, 0.05);
     background-color: #e6e6e6;
-    background-color: #d9d9d9 \9;
+    background-color: #d9d9d9;
     outline: 0;
 }
 .feedback-btn.disabled, .feedback-btn[disabled] {
@@ -227,7 +227,7 @@
     background-color: #262626;
 }
 .feedback-btn-inverse:active, .feedback-btn-inverse.active {
-    background-color: #0c0c0c \9;
+    background-color: #0c0c0c;
 }
 button.feedback-btn, input[type="submit"].feedback-btn {
     *padding-top: 2px;
