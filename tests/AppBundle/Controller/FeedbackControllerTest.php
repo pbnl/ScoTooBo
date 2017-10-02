@@ -4,6 +4,7 @@ namespace Tests\AppBundle\Controller;
 
 
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
+use Tests\AppBundle\TestTools;
 
 class FeedbackControllerTest extends WebTestCase
 {
@@ -20,6 +21,20 @@ class FeedbackControllerTest extends WebTestCase
 
         $this->assertEquals("200", $client->getResponse()->getStatusCode());
     }
+
+    public function testCreateFeedbackDatabaseEntryWithLoggedInUser()
+    {
+        TestTools::getLoggedInStavoAmbrone()->request("POST", "/feedback/send", array(
+            "data"=>"[{\"Text\":\"asdf\"},
+            \"picture\",
+            {\"href\":\"http://127.0.0.1:8000/\",\"ancestorOrigins\":{},\"origin\":\"http://127.0.0.1:8000\",\"protocol\":\"http:\",\"host\":\"127.0.0.1:8000\",\"hostname\":\"127.0.0.1\",\"port\":\"8000\",\"pathname\":\"/\",\"search\":\"\",\"hash\":\"\"},
+            \"browser\",
+            \"htmlText\",1506893323093]"
+        ));
+
+        $this->assertEquals("200", TestTools::getLoggedInStavoAmbrone()->getResponse()->getStatusCode());
+    }
+
     public function testCreateFeedbackDatabaseEntryNotValidData500()
     {
         $client = static::createClient();
