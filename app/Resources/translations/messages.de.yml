@@ -16,6 +16,9 @@ menu.eventManagement.showAllevents: Alle Events anzeigen
 menu.eventManagement.addEvent: Event hinzufügen
 menu.eventManagement.detailEvent: Eventdetails
 
+menu.feedbackManagement.title: Feedback
+menu.feedbackManagement.showAllFeedback: Zeige jedes Feedback
+
 general_create: Erstellen
 create: Erstellen
 general_date: Datum
@@ -36,6 +39,11 @@ general_search: Suchen
 search: Suchen
 general_value: Wert
 value: Wert
+text: Text
+picture: Bild
+date: Datum
+url: URL
+stamm: Stamm
 
 
 addUser.addedUser: Hinzugefügter User

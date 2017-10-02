@@ -538,3 +538,37 @@ entryCSN: 20170922163147.777246Z#000000#000#000000
 modifiersName: cn=admin,dc=pbnl,dc=de
 modifyTimestamp: 20170922163147Z
 
+dn: givenName=testAdmin,ou=Ambronen,ou=People,dc=pbnl,dc=de
+givenName: testAdmin
+gidNumber: 501
+objectClass: inetOrgPerson
+objectClass: posixAccount
+objectClass: pbnlAccount
+structuralObjectClass: inetOrgPerson
+entryUUID: fdcaf072-3c0b-1037-8334-c57c8ac1b63e
+creatorsName: cn=admin,dc=pbnl,dc=de
+createTimestamp: 20171002222259Z
+cn: testAdmin
+uidNumber: 105
+sn: testAdmin
+uid: testAdmin
+homeDirectory: /home/testAdmin
+userPassword:: e3NzaGF9eXdhS0VlQ3lFUUVrTzRyY3FQUlBJcFJaaU15b1pKYzZCOTNuOGc9P
+ Q==
+entryCSN: 20171002222640.430971Z#000000#000#000000
+modifiersName: cn=admin,dc=pbnl,dc=de
+modifyTimestamp: 20171002222640Z
+
+dn: cn=admin,ou=Group,dc=pbnl,dc=de
+gidNumber: 502
+cn: admin
+objectClass: posixGroup
+structuralObjectClass: posixGroup
+entryUUID: 3c27f838-3c0c-1037-8336-c57c8ac1b63e
+creatorsName: cn=admin,dc=pbnl,dc=de
+createTimestamp: 20171002222444Z
+memberUid: givenName=testAdmin,ou=Ambronen,ou=People,dc=pbnl,dc=de
+entryCSN: 20171002222459.014831Z#000000#000#000000
+modifiersName: cn=admin,dc=pbnl,dc=de
+modifyTimestamp: 20171002222459Z
+
