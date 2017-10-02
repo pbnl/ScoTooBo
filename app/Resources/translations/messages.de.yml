@@ -6,6 +6,7 @@ mail: Mailadresse
 password: Passwort
 login.remember.me: Erinnere dich :)
 login: Login
+logout: Logout
 menu.userManagment.title: Usermanagment
 menu.userManagment.showAllusers: Alle Benutzer anzeigen
 menu.userManagment.addUser: Benutzer hinzufügen
@@ -37,3 +38,8 @@ street: Straße
 not.editable: Nicht änderbar
 
 removeUserConfirmDialogText: Wollen sie wirklich den User %name% löschen?
+
+403ErrorPage.head: Diese Aktion ist für dich verboten ERROR 403
+403ErrorPage.feedBackReference: Wenn du uns Feedback geben willst, oder ein Problem hast, benutze den Button in der rechten unteren Ecke!
+403ErrorPage.logoutFirst: Logge dich zuerst aus.
+403ErrorPage.thenLoginWithCorrectUser: Logge dich danach mit dem korrektem User ein
