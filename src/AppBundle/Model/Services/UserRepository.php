@@ -54,24 +54,25 @@ class UserRepository implements UserProviderInterface
      * Searches the PbnlAccount (ldap) and returns a User
      * Find by GivenName
      *
-     * @param string $givenName
+     * @param string $uid
      * @return User
      */
-    public function getUserByUid(String $givenName)
+    public function getUserByUid(String $uid)
     {
         /** @var Repository $pbnlAccountRepository */
         $pbnlAccountRepository = $this->ldapEntityManager->getRepository(PbnlAccount::class);
 
-        /** @var PbnlAccount $ldapPbnlAccount[] */
-        $ldapPbnlAccount = $pbnlAccountRepository->findOneByUid($givenName);
+        $ldapPbnlAccount = $pbnlAccountRepository->findByUid($uid);
 
         if (count($ldapPbnlAccount) == 0) {
-            throw new UsernameNotFoundException(
-                sprintf('Uid "%s" does not exist.', $givenName)
+            throw new UserDoesNotExistException(
+                sprintf('Uid "%s" does not exist.', $uid)
             );
+        } elseif (count($ldapPbnlAccount) > 1) {
+            throw new UserNotUniqueException("Der User mit der Uid " . $uid . " ist nicht einzigartig");
         }
 
-        return $this->entitiesToUser($ldapPbnlAccount);
+        return $this->entitiesToUser($ldapPbnlAccount[0]);
     }
 
     /**

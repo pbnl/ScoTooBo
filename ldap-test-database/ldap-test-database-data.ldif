@@ -538,3 +538,57 @@ entryCSN: 20170922163147.777246Z#000000#000#000000
 modifiersName: cn=admin,dc=pbnl,dc=de
 modifyTimestamp: 20170922163147Z
 
+dn: givenName=notUnique,ou=Hagen von Tronje,ou=People,dc=pbnl,dc=de
+telephoneNumber: 0
+mail: th84kr@pbnl.de
+gidNumber: 501
+mobile: 0
+l: 0
+objectClass: inetOrgPerson
+objectClass: posixAccount
+objectClass: pbnlAccount
+userPassword:: e3NzaGF9L2gwcTBVYUJ6Y0U1SlhhMnhUNVVDWmd5UkNFeXhlYVJzRU4yZkE9P
+ Q==
+uidNumber: 815
+homeDirectory: /home/th84kr
+givenName: notUnique
+street: 0
+postalCode: 0
+structuralObjectClass: inetOrgPerson
+entryUUID: 119ecbfc-3be7-1037-8c92-6bfe387ded7d
+creatorsName: cn=admin,dc=pbnl,dc=de
+createTimestamp: 20171002175841Z
+cn: notUnique
+sn: notUnique
+uid: notUnique
+entryCSN: 20171002175855.413719Z#000000#000#000000
+modifiersName: cn=admin,dc=pbnl,dc=de
+modifyTimestamp: 20171002175855Z
+
+dn: givenName=notUnique,ou=Ambronen,ou=People,dc=pbnl,dc=de
+telephoneNumber: 0
+mail: th84kr@pbnl.de
+gidNumber: 501
+mobile: 0
+cn: notUnique
+l: 0
+objectClass: inetOrgPerson
+objectClass: posixAccount
+objectClass: pbnlAccount
+userPassword:: e3NzaGF9L2gwcTBVYUJ6Y0U1SlhhMnhUNVVDWmd5UkNFeXhlYVJzRU4yZkE9P
+ Q==
+uid: notUnique
+uidNumber: 815
+homeDirectory: /home/th84kr
+givenName: notUnique
+street: 0
+postalCode: 0
+sn: notUnique
+structuralObjectClass: inetOrgPerson
+entryUUID: 1ce70f2e-3be7-1037-8c93-6bfe387ded7d
+creatorsName: cn=admin,dc=pbnl,dc=de
+createTimestamp: 20171002175900Z
+entryCSN: 20171002175900.247491Z#000000#000#000000
+modifiersName: cn=admin,dc=pbnl,dc=de
+modifyTimestamp: 20171002175900Z
+

@@ -131,7 +131,7 @@ class UserController extends Controller
             } catch (UserAlreadyExistException $e) {
                 $this->addFlash("error", $e->getMessage());
             } catch (ContextErrorException $e) {
-                $this->addFlash("error", $e->getMessage()." This probably means that this stamm (ou) does not exist.");
+                $this->addFlash("error", $e->getMessage()." Das bedeutet wahrscheinlich, dass der Stamm (ou) nicht existiert");
             }
         }
 
@@ -164,10 +164,7 @@ class UserController extends Controller
         $editUserForm = false;
         //is the user allowed to edit this user?
         //TODO add the ability for groupleaders to edit their users
-        if ($userToShow->getUid() == $loggedInUser->getUid()
-            || $this->get('security.authorization_checker')->isGranted('ROLE_EDIT_ALL_USERS')
-            || ($this->get('security.authorization_checker')->isGranted('ROLE_stavo')
-                && $userToShow->getStamm() == $loggedInUser->getStamm())) {
+        if ($this->isLoggedInUserAllowedToEditShowenUser($loggedInUser, $userToShow)) {
 
             $editUserForm = $this->createFormBuilder($userToShow, ['attr' => ['class' => 'form-addAUser']])
                 ->add("firstName", TextType::class, array(
@@ -231,6 +228,19 @@ class UserController extends Controller
         ));
     }
 
+    private function isLoggedInUserAllowedToEditShowenUser($loggedInUser, $userToShow)
+    {
+        if($userToShow->getUid() == $loggedInUser->getUid()){
+            return true;
+        } elseif ($this->get('security.authorization_checker')->isGranted('ROLE_EDIT_ALL_USERS')) {
+            return true;
+        } elseif ($this->get('security.authorization_checker')->isGranted('ROLE_stavo')
+            && $userToShow->getStamm() == $loggedInUser->getStamm()) {
+            return true;
+        }
+        return false;
+    }
+
     /**
      * @Route("/users/remove", name="removeUser")
      * @param Request $request
@@ -245,9 +255,7 @@ class UserController extends Controller
             $userRepo = $this->get("data.userRepository");
             $userToRemove = $userRepo->getUserByUid($uid);
 
-            if ($this->get('security.authorization_checker')->isGranted('ROLE_REMOVE_ALL_USERS')
-                || ($this->get('security.authorization_checker')->isGranted('ROLE_stavo')
-                    && $userToRemove->getStamm() == $loggedInUser->getStamm())) {
+            if ($this->isLoggedInUserAllowedToDeleteUser($loggedInUser, $userToRemove)) {
 
                 $userRepo->removeUser($userToRemove);
 
@@ -258,11 +266,22 @@ class UserController extends Controller
 
 
         } catch (UserDoesNotExistException $e) {
-            $this->addFlash("error", "The user $uid does not exist!");
+            $this->addFlash("error", "Der User $uid existiert nicht!");
         } catch (UserNotUniqueException $e) {
-            $this->addFlash("error", "The user $uid is not unique!");
+            $this->addFlash("error", "Der User $uid ist nicht einzigartig!");
         }
 
         return $this->redirectToRoute("showAllUser");
+    }
+
+    private function isLoggedInUserAllowedToDeleteUser($loggedInUser, $userToRemove)
+    {
+        if ($this->get('security.authorization_checker')->isGranted('ROLE_REMOVE_ALL_USERS')) {
+           return true;
+        } elseif ($this->get('security.authorization_checker')->isGranted('ROLE_stavo')
+            && $userToRemove->getStamm() == $loggedInUser->getStamm()) {
+            return true;
+        }
+        return false;
     }
 }
