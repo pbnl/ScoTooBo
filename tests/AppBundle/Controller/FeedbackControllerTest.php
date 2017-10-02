@@ -19,6 +19,8 @@ class FeedbackControllerTest extends WebTestCase
             \"htmlText\",1506893323093]"
         ));
 
+        var_dump($client->getResponse()->getContent());
+
         $this->assertEquals("200", $client->getResponse()->getStatusCode());
     }
 
