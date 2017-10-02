@@ -229,7 +229,7 @@ class UserController extends Controller
 
     private function isLoggedInUserAllowedToEditShowenUser($loggedInUser, $userToShow)
     {
-        if($userToShow->getUid() == $loggedInUser->getUid()){
+        if ($userToShow->getUid() == $loggedInUser->getUid()){
             return true;
         } elseif ($this->get('security.authorization_checker')->isGranted('ROLE_EDIT_ALL_USERS')) {
             return true;
@@ -275,7 +275,7 @@ class UserController extends Controller
     private function isLoggedInUserAllowedToDeleteUser($loggedInUser, $userToRemove)
     {
         if ($this->get('security.authorization_checker')->isGranted('ROLE_REMOVE_ALL_USERS')) {
-           return true;
+            return true;
         } elseif ($this->get('security.authorization_checker')->isGranted('ROLE_stavo')
             && $userToRemove->getStamm() == $loggedInUser->getStamm()) {
             return true;
