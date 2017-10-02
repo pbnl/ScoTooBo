@@ -29,7 +29,7 @@ class LdapOrmTest extends KernelTestCase
         $personRepository = $ldapEntityManager->getRepository(PbnlAccount::class);
         $testAmbrone = $personRepository->findByGivenName("TestAmbrone1");
 
-        $this->assertContains('/home/TestAmbrone1', $testAmbrone[0]->getHomeDirectory());
+        $this->assertContains('/home/testambrone1', $testAmbrone[0]->getHomeDirectory());
     }
 
     public function testcreateAndModDeletPbnlAccountORM()

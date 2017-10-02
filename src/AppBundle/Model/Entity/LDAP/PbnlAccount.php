@@ -4,6 +4,7 @@ namespace AppBundle\Model\Entity\LDAP;
 
 use Ucsf\LdapOrmBundle\Annotation\Ldap\Attribute;
 use Ucsf\LdapOrmBundle\Annotation\Ldap\Dn;
+use Ucsf\LdapOrmBundle\Annotation\Ldap\Must;
 use Ucsf\LdapOrmBundle\Annotation\Ldap\ObjectClass;
 use Ucsf\LdapOrmBundle\Annotation\Ldap\SearchDn;
 use Ucsf\LdapOrmBundle\Annotation\Ldap\UniqueIdentifier;
@@ -24,7 +25,7 @@ class PbnlAccount extends InetOrgPerson
     protected $ou;
 
     /**
-     * Username
+     * GivenName
      * @var string
      * @Attribute("givenName")
      *
@@ -33,9 +34,12 @@ class PbnlAccount extends InetOrgPerson
     protected $givenName = "";
 
     /**
-     * Username (should be the same as givenName but in lowercase and without ö,ä,ü)
+     * uid (should be the same as givenName but in lowercase and without ö,ä,ü and with _ for ' ')
+     * Must be unique !!!! Add a number at the end if there is someone with the same uid
      * @var string
      * @Attribute("uid")
+     * @Assert\Regex("/^[0-9,a-x,_]*$/")
+     * @Must()
      */
     protected $uid = "";
 
@@ -43,6 +47,7 @@ class PbnlAccount extends InetOrgPerson
      * Real first name
      * @var string
      * @Attribute("cn")
+     * @Must()
      */
     protected $cn = "";
 
@@ -50,16 +55,17 @@ class PbnlAccount extends InetOrgPerson
      * Real last name
      * @var string
      * @Attribute("sn")
+     * @Must()
      */
     protected $sn = "";
 
     /**
-     * User number (should be unique)
-     * @var int
+     * User number (must be unique)
+     * @var string
      * @Attribute("uidNumber")
-     * @Assert\Type("integer")
+     * @Must()
      */
-    protected $uidNumber = "";
+    protected $uidNumber = "0";
 
     /**
      * Internal "@pbnl" mail address
@@ -83,6 +89,8 @@ class PbnlAccount extends InetOrgPerson
      * HomeDirecotry on server (no usage)
      * @var string
      * @Attribute("homeDirectory")
+     * @Assert\Regex("/^[0-9,a-x,A-X,_,\/]*$/")
+     * @Must()
      */
     protected $homeDirectory = "";
 
@@ -108,7 +116,7 @@ class PbnlAccount extends InetOrgPerson
     protected $postalCode = "";
 
     /**
-     * Full address of the user (without postal code)
+     * Full address of the user (without postal code and city)
      * @var string
      * @Attribute("street")
      */
@@ -133,9 +141,17 @@ class PbnlAccount extends InetOrgPerson
      * default value is "501"
      * @var int
      * @Attribute("gidNumber")
-     * @Assert\Type("integer")
+     * @Must()
      */
     protected $gidNumber = "501";
+
+    /**
+     * PbnlAccount constructor.
+     */
+    public function __construct()
+    {
+        $this->setNotRetrieveAttributes(array());
+    }
 
 
     //All getters and setters
@@ -205,7 +221,7 @@ class PbnlAccount extends InetOrgPerson
     }
 
     /**
-     * @return int
+     * @return string
      */
     public function getUidNumber()
     {
@@ -213,9 +229,9 @@ class PbnlAccount extends InetOrgPerson
     }
 
     /**
-     * @param int $uidNumber
+     * @param string $uidNumber
      */
-    public function setUidNumber($uidNumber)
+    public function setUidNumber(string $uidNumber)
     {
         $this->uidNumber = $uidNumber;
     }
@@ -355,7 +371,7 @@ class PbnlAccount extends InetOrgPerson
     }
 
     /**
-     * @return int
+     * @return string
      */
     public function getGidNumber()
     {
@@ -363,7 +379,7 @@ class PbnlAccount extends InetOrgPerson
     }
 
     /**
-     * @param int $gidNumber
+     * @param string $gidNumber
      */
     public function setGidNumber($gidNumber)
     {

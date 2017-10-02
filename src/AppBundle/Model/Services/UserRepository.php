@@ -3,6 +3,9 @@
 namespace AppBundle\Model\Services;
 
 use AppBundle\Model\Entity\LDAP\PbnlAccount;
+use AppBundle\Model\Entity\LDAP\PosixGroup;
+use AppBundle\Model\Filter;
+use AppBundle\Model\SSHA;
 use AppBundle\Model\User;
 use Monolog\Logger;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
@@ -51,24 +54,25 @@ class UserRepository implements UserProviderInterface
      * Searches the PbnlAccount (ldap) and returns a User
      * Find by GivenName
      *
-     * @param string $givenName
+     * @param string $uid
      * @return User
      */
-    public function getUserByGivenName(String $givenName)
+    public function getUserByUid(String $uid)
     {
         /** @var Repository $pbnlAccountRepository */
         $pbnlAccountRepository = $this->ldapEntityManager->getRepository(PbnlAccount::class);
 
-        /** @var PbnlAccount $ldapPbnlAccount[] */
-        $ldapPbnlAccount = $pbnlAccountRepository->findOneByGivenName($givenName);
+        $ldapPbnlAccount = $pbnlAccountRepository->findByUid($uid);
 
         if (count($ldapPbnlAccount) == 0) {
-            throw new UsernameNotFoundException(
-                sprintf('Username "%s" does not exist.', $givenName)
+            throw new UserDoesNotExistException(
+                sprintf('Uid "%s" does not exist.', $uid)
             );
+        } elseif (count($ldapPbnlAccount) > 1) {
+            throw new UserNotUniqueException("Der User mit der Uid " . $uid . " ist nicht einzigartig");
         }
 
-        return $this->entitiesToUser($ldapPbnlAccount);
+        return $this->entitiesToUser($ldapPbnlAccount[0]);
     }
 
     /**
@@ -91,26 +95,32 @@ class UserRepository implements UserProviderInterface
         // the sha1 part
         $hashedPassword = substr($b64_dec, 0, 20);
 
+        $roles = $this->getRolesOfPbnlAccount($ldapPbnlAccount);
+        array_push($roles, "ROLE_USER");
+
         //Fill up the user
-        $user = new User($ldapPbnlAccount->getGivenName(), $hashedPassword, $salt, ["ROLE_USER"]);
+        $user = new User($ldapPbnlAccount->getGivenName(), $hashedPassword, $salt, $roles);
         $user->setDn($ldapPbnlAccount->getDn());
         $user->setCity($ldapPbnlAccount->getL());
         $user->setFirstName($ldapPbnlAccount->getCn());
-        $user->setSecondName($ldapPbnlAccount->getSn());
+        $user->setLastName($ldapPbnlAccount->getSn());
         $user->setUidNumber(intval($ldapPbnlAccount->getUidNumber()));
         $user->setMail($ldapPbnlAccount->getMail());
-        $user->setUsername($ldapPbnlAccount->getGivenName());
+        $user->setGivenName($ldapPbnlAccount->getGivenName());
+        $user->setUid($ldapPbnlAccount->getUid());
         $user->setPostalCode($ldapPbnlAccount->getPostalCode());
         $user->setMobilePhoneNumber($ldapPbnlAccount->getMobile());
         $user->setStreet($ldapPbnlAccount->getStreet());
         $user->generatePasswordAndSalt($ldapPbnlAccount->getUserPassword());
         $user->setHomePhoneNumber($ldapPbnlAccount->getTelephoneNumber());
+        $user->setStamm($ldapPbnlAccount->getOu());
+        //TODO maybe use something else as the ou to determine the stamm of the user
 
         $errors = $this->validator->validate($user);
 
         if (count($errors) > 0) {
-            $this->logger->addAlert((string) $errors);
-            throw new CorruptDataInDatabaseException();
+            $this->logger->addError((string) $errors);
+            throw new CorruptDataInDatabaseException("The user ".$ldapPbnlAccount->getUid()." is corrupt! ".(string) $errors);
         }
 
         return $user;
@@ -130,7 +140,7 @@ class UserRepository implements UserProviderInterface
      */
     public function loadUserByUsername($username)
     {
-        return $this->getUserByGivenName($username);
+        return $this->getUserByUid($username);
     }
 
     /**
@@ -155,7 +165,7 @@ class UserRepository implements UserProviderInterface
             );
         }
 
-        return $this->loadUserByUsername($user->getUsername());
+        return $this->loadUserByUsername($user->getUid());
     }
 
     /**
@@ -168,5 +178,238 @@ class UserRepository implements UserProviderInterface
     public function supportsClass($class)
     {
         return User::class === $class;
+    }
+
+    /**
+     * Returns an array with with all roles of a PbnlAccount ['ROLE_Groupname']
+     * It tries to find groups in the ldap database and check if the dn og the PbnlAccount is a member of this group
+     *
+     * @param PbnlAccount $ldapPbnlAccount
+     * @return array
+     */
+    private function getRolesOfPbnlAccount(PbnlAccount $ldapPbnlAccount)
+    {
+        $roles = array();
+        $groupRepository = $this->ldapEntityManager->getRepository(PosixGroup::class);
+        $allGroups = $groupRepository->findAll();
+
+        /** @var  $group PosixGroup */
+        foreach ($allGroups as $group) {
+            if ($group->isDnMember($ldapPbnlAccount->getDn())) {
+                array_push($roles, "ROLE_".$group->getCn());
+            }
+        }
+        return $roles;
+    }
+
+    /**
+     * Returns all Users
+     * You can filterByGroup or filterByName with the filter Object
+     *
+     * @param Filter $filter
+     * @return array
+     * @throws GroupNotFoundException If the group of the Filter does not exist
+     */
+    public function getAllUsers(Filter $filter)
+    {
+        $users = array();
+        $pbnlAccountRepository = $this->ldapEntityManager->getRepository(PbnlAccount::class);
+
+        //If there is a filter we can use
+        /** @var $group PosixGroup*/
+        $group = [];
+        if (isset($filter->getFilterAttributes()[0])) {
+            if ($filter->getFilterAttributes()[0] == "filterByUid" && $filter->getFilterTexts()[0] != "") {
+                $pbnlAccounts = $pbnlAccountRepository->findByComplex(array("uid" =>  '*'.$filter->getFilterTexts()[0].'*'));
+            } elseif ($filter->getFilterAttributes()[0] == "filterByGroup" && $filter->getFilterTexts()[0] != "") {
+                $groupRepository = $this->ldapEntityManager->getRepository(PosixGroup::class);
+                $group = $groupRepository->findByCn($filter->getFilterTexts()[0]);
+                if ($group == []) {
+                    throw new GroupNotFoundException("We cant find the group ".$filter->getFilterTexts()[0]);
+                }
+                $pbnlAccounts = $pbnlAccountRepository->findAll();
+            } else {
+                $pbnlAccounts = $pbnlAccountRepository->findAll();
+            }
+        } else {
+            $pbnlAccounts = $pbnlAccountRepository->findAll();
+        }
+
+        /** @var $pbnlAccount PbnlAccount[] */
+        foreach ($pbnlAccounts as $pbnlAccount) {
+            $user = $this->entitiesToUser($pbnlAccount);
+
+            if ($group != []) {
+                if ($group[0]->isDnMember($user->getDn())){
+                    array_push($users, $user);
+                }
+            } else {
+                array_push($users, $user);
+            }
+        }
+
+        return $users;
+    }
+
+    /**
+     * Add a user to the database
+     *
+     * @param User $user
+     * @return User
+     */
+    public function addUser(User $user)
+    {
+        $pbnlAccount = $this->userToEntities($user);
+
+        if ($this->doesUserExist($user)) {
+            throw new UserAlreadyExistException("The user ".$user->getUid()." already exists.");
+        }
+
+        $pbnlAccount->setUidNumber($this->getNewUidNumber());
+        $this->ldapEntityManager->persist($pbnlAccount);
+        $this->ldapEntityManager->flush();
+
+        return $user;
+    }
+
+    /**
+     * Checks if this user already exists
+     * For this the function uses the uid and the uidNumber
+     * @param $user
+     * @return bool
+     * @throws UserNotUniqueException if there are more than one user with the same uid or uidNumber
+     */
+    private function doesUserExist(User $user)
+    {
+        if ($this->doesUserUidExist($user->getUid()) || $this->doesUserUidNumberExist($user->getUidNumber())) {
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * Creates a PbnlAccount with the data of an User object
+     *
+     * @param $user
+     * @return PbnlAccount
+     */
+    private function userToEntities(User $user)
+    {
+        $pbnlAccount = new PbnlAccount();
+        $pbnlAccount->setNotRetrieveAttributes(array());
+        $pbnlAccount->setL($user->getCity());
+        $pbnlAccount->setOu($user->getStamm());
+        $pbnlAccount->setStreet($user->getStreet());
+        $pbnlAccount->setPostalCode($user->getPostalCode());
+        $pbnlAccount->setGivenName($user->getGivenName());
+        $pbnlAccount->setUid($user->getUid());
+        $pbnlAccount->setCn($user->getFirstName());
+        $pbnlAccount->setSn($user->getLastName());
+        $pbnlAccount->setMail($user->getMail());
+        $pbnlAccount->setTelephoneNumber($user->getHomePhoneNumber());
+        $pbnlAccount->setMobile($user->getMobilePhoneNumber());
+        $pbnlAccount->setGidNumber("501");
+        $pbnlAccount->setHomeDirectory("/home/".$user->getUid());
+        $pbnlAccount->setUidNumber($user->getUidNumber());
+        $pbnlAccount->setObjectClass(["inetOrgPerson","posixAccount","pbnlAccount"]);
+        if ($user->getClearPassword() != "") {
+            $pbnlAccount->setUserPassword(SSHA::sshaPasswordGen($user->getClearPassword()));
+        }
+
+        return $pbnlAccount;
+    }
+
+    /**
+     * Returns the next uidNumber
+     * Its the highest uidNumber of the pbnlAccounts + 1
+     * @return int
+     */
+    private function getNewUidNumber()
+    {
+        /** @var  $users User[]*/
+        $users = $this->ldapEntityManager->getRepository(PbnlAccount::class)->findAll();
+        $highesUidNumber = 0;
+
+        foreach ($users as $user) {
+            if ($user->getUidNumber() > $highesUidNumber) {
+                $highesUidNumber = $user->getUidNumber();
+            }
+        }
+        return $highesUidNumber + 1;
+    }
+
+    /**
+     * Updates the data of a user in the database if the user exist
+     *
+     * @throws UserDoesNotExistException if you want to update a user that does not exist
+     *
+     * @param User $userToUpdate
+     */
+    public function updateUser(User $userToUpdate)
+    {
+        if (!$this->doesUserExist($userToUpdate)) {
+            throw new UserDoesNotExistException("The user ".$userToUpdate->getUid()." does not exist.");
+        }
+
+        $pbnlAccountToUpdate = $this->userToEntities($userToUpdate);
+        $this->ldapEntityManager->persist($pbnlAccountToUpdate);
+    }
+
+    /**
+     * Deletes the user with the given uid
+     *
+     * @param $userToRemove
+     */
+    public function removeUser($userToRemove)
+    {
+        if ($this->doesUserExist($userToRemove))
+        {
+            $pbnlAccountToURemove = $this->userToEntities($userToRemove);
+            $this->ldapEntityManager->delete($pbnlAccountToURemove);
+        }
+    }
+
+    /**
+     * Looks if a user with given uid exists
+     *
+     * @param $getUid
+     * @return bool
+     * @throws UserNotUniqueException if there are more than one user with the same uid
+     */
+    private function doesUserUidExist($getUid)
+    {
+        $ldapUserRepo = $this->ldapEntityManager->getRepository(PbnlAccount::class);
+
+        $users = $ldapUserRepo->findByUid($getUid);
+        if (count($users) == 1) {
+            return true;
+        }
+        if (count($users) > 1) {
+            throw new UserNotUniqueException("The user with the uid ".$getUid." is not unique!");
+        }
+
+        return false;
+    }
+
+    /**
+     * Looks if a user with given uidNumber exists
+     *
+     * @param $getUidNumber
+     * @return bool
+     * @throws UserNotUniqueException if there are more than one user with the same uidNumber
+     */
+    private function doesUserUidNumberExist($getUidNumber)
+    {
+        $ldapUserRepo = $this->ldapEntityManager->getRepository(PbnlAccount::class);
+
+        $users = $ldapUserRepo->findByUidNumber($getUidNumber);
+        if (count($users) == 1) {
+            return true;
+        }
+        if (count($users) > 1) {
+            throw new UserNotUniqueException("The user with the uid ".$getUidNumber." is not unique!");
+        }
+
+        return false;
     }
 }

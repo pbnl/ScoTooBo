@@ -1,0 +1,57 @@
+{% extends "includes/base.html.twig" %}
+
+{% block title %}Alle Benutzer{% endblock %}
+
+{% block body %}
+    {% include 'includes/navbar.html.twig' %}
+    <div class="container">
+        <br><br>
+        {% include 'includes/showFlashes.html.twig' %}
+        <h3>Such Optionen</h3>
+        <div class="col-sm-6">
+            {% if peopleSearchForm is defined %}
+                {% form_theme peopleSearchForm 'bootstrap_3_horizontal_layout.html.twig' %}
+                {{ form_start(peopleSearchForm) }}
+                {{ form_end(peopleSearchForm) }}
+            {% endif %}
+        </div>
+        <table class="table table-striped">
+            <thead>
+            <tr>
+                <th>
+                    Nr
+                </th>
+                <th>
+                    {% trans %}username{% endtrans %}
+                </th>
+                <th>
+                    DN
+                </th>
+                <th>
+                    {% trans %}delete{% endtrans %}
+                </th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for user in users %}
+                <tr>
+                    <td>
+                        {{ loop.index}}
+                    </td>
+                    <td>
+                        <a href="{{ path('detailUser', {'uid': user.getUid}) }}">{{ user.getUsername}}</a>
+                    </td>
+                    <td>
+                        {{user.getDn}}
+                    </td>
+                    <td>
+                        {% include  'includes/removeUserButtonWithConfirmDialog.html.twig' with {"user":user} %}
+
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+{% endblock %}

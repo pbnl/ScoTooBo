@@ -1,6 +1,45 @@
 welcome: Willkommen
 login.request: Bitte logge dich ein
 username: Benutzername
+uidNumber: Benutzer ID
+mail: Mailadresse
 password: Passwort
 login.remember.me: Erinnere dich :)
 login: Login
+logout: Logout
+menu.userManagment.title: Usermanagment
+menu.userManagment.showAllusers: Alle Benutzer anzeigen
+menu.userManagment.addUser: Benutzer hinzufügen
+menu.userManagment.detailUser: Benutzerdetails
+
+delete: Löschen
+group: Gruppe
+search: Suchen
+save: Speichern
+create: Erstellen
+value: Wert
+edit: Ändern
+name: Name
+
+addUser.addedUser: Hinzugefügter User
+addUser.addedUserText: Füge einen neuen User hinzu
+addUser.generatedPassword: Generiertes Passwort
+addUser.generatePassword: Generiere ein Passwort
+addUser.nameValue: Name des Wertes
+addUser.value: Wert
+firstName: Vorname
+lastName: Nachname
+postalCode: PLZ
+phoneNumber.home: Telefonnummer
+phoneNumber.mobile: Mobile
+city: Stadt
+street: Straße
+
+not.editable: Nicht änderbar
+
+removeUserConfirmDialogText: Wollen sie wirklich den User %name% löschen?
+
+403ErrorPage.head: Diese Aktion ist für dich verboten ERROR 403
+403ErrorPage.feedBackReference: Wenn du uns Feedback geben willst, oder ein Problem hast, benutze den Button in der rechten unteren Ecke!
+403ErrorPage.logoutFirst: Logge dich zuerst aus.
+403ErrorPage.thenLoginWithCorrectUser: Logge dich danach mit dem korrektem User ein

@@ -1,0 +1,17 @@
+{% extends 'includes/base.html.twig' %}
+
+{% block body %}
+    <div class="container">
+        <h1>{% trans %}403ErrorPage.head{% endtrans %}</h1>
+
+        {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+            <a href="{{ path('logout') }}">{% trans %}403ErrorPage.logoutFirst{% endtrans %}</a>
+        {% endif %}
+
+        <p>
+            {% trans %}403ErrorPage.thenLoginWithCorrectUser{% endtrans %} <a href="{{ path('login') }}">{% trans %}login{% endtrans %}</a>.
+
+            {% trans %}403ErrorPage.feedBackReference{% endtrans %}
+        </p>
+    </div>
+{% endblock %}

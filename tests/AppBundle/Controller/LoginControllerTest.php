@@ -6,7 +6,7 @@ use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
 class LoginControllerTest extends WebTestCase
 {
-    public function testLogout()
+    public function  testLogout()
     {
         $client = static::createClient();
         $client->request('GET', '/logout');
