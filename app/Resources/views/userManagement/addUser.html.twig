@@ -2,11 +2,6 @@
 
 {% block title %}{% trans %}menu.userManagement.addUser{% endtrans %}{% endblock %}
 
-{% block stylesheets %}
-    {{ parent() }}
-{% endblock %}
-
-
 {% form_theme addAUserForm 'bootstrap_3_horizontal_layout.html.twig' %}
 {% block body %}
     {% include 'includes/navbar.html.twig' %}
@@ -87,6 +82,7 @@
             </div>
             {{ form_end(addAUserForm) }}
         </div>
+    </div>
 
 {% endblock %}
 
