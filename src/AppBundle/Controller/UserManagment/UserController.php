@@ -165,7 +165,6 @@ class UserController extends Controller
         //is the user allowed to edit this user?
         //TODO add the ability for groupleaders to edit their users
         if ($this->isLoggedInUserAllowedToEditShowenUser($loggedInUser, $userToShow)) {
-
             $editUserForm = $this->createFormBuilder($userToShow, ['attr' => ['class' => 'form-addAUser']])
                 ->add("firstName", TextType::class, array(
                     "attr" => ["placeholder" => "firstName"],
@@ -177,27 +176,27 @@ class UserController extends Controller
                     'label' => "lastName",
                     'empty_data' => '',
                     "required" => true))
-                ->add("city", TextType::class,array(
+                ->add("city", TextType::class, array(
                     "attr" => ["placeholder" => "city"],
                     'label' => "city",
                     'empty_data' => '',
                     "required" => false))
-                ->add("postalCode", TextType::class,array(
+                ->add("postalCode", TextType::class, array(
                     "attr" => ["placeholder" => "postalCode"],
                     'label' => "postalCode",
                     'empty_data' => '',
                     "required" => false))
-                ->add("street", TextType::class,array(
+                ->add("street", TextType::class, array(
                     "attr" => ["placeholder" => "street"],
                     'label' => "street",
                     'empty_data' => '',
                     "required" => false))
-                ->add("homePhoneNumber", TextType::class,array(
+                ->add("homePhoneNumber", TextType::class, array(
                     "attr" => ["placeholder" => "phoneNumber.home"],
                     'label' => "phoneNumber.home",
                     'empty_data' => '',
                     "required" => false))
-                ->add("mobilePhoneNumber", TextType::class,array(
+                ->add("mobilePhoneNumber", TextType::class, array(
                     "attr" => ["placeholder" => "phoneNumber.mobile"],
                     'label' => "phoneNumber.mobil",
                     'empty_data' => '',
@@ -209,7 +208,7 @@ class UserController extends Controller
 
             //Handel the form input
             $editUserForm->handleRequest($request);
-            if($editUserForm->isSubmitted() && $editUserForm->isValid()) {
+            if ($editUserForm->isSubmitted() && $editUserForm->isValid()) {
                 $userRepo->updateUser($userToShow);
                 $this->addFlash("success", "Änderungen gespeichert");
             } elseif ($editUserForm->isSubmitted() && !$editUserForm->isValid()) {
@@ -256,7 +255,6 @@ class UserController extends Controller
             $userToRemove = $userRepo->getUserByUid($uid);
 
             if ($this->isLoggedInUserAllowedToDeleteUser($loggedInUser, $userToRemove)) {
-
                 $userRepo->removeUser($userToRemove);
 
                 $this->addFlash("success", $uid." wurde gelöscht");

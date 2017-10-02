@@ -281,7 +281,7 @@ class UserRepository implements UserProviderInterface
      */
     private function doesUserExist(User $user)
     {
-        if($this->doesUserUidExist($user->getUid()) || $this->doesUserUidNumberExist($user->getUidNumber())) {
+        if ($this->doesUserUidExist($user->getUid()) || $this->doesUserUidNumberExist($user->getUidNumber())) {
             return true;
         }
         return false;
