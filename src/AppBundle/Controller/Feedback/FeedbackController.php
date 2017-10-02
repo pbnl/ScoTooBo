@@ -21,7 +21,7 @@ class FeedbackController extends Controller
     public function sendFeedback(Request $request)
     {
         $data = json_decode($request->get("data"), true);
-        $feedbacktext = $data[0]["Text"];
+        $feedbackText = $data[0]["Text"];
         $feedbackSitePicureAsBase64 = $data[1];
         $feedbackUrlInfo = $data[2];
         $feedbackBrowserInfo = $data[3];
@@ -33,7 +33,7 @@ class FeedbackController extends Controller
         $href = $feedbackUrlInfo["href"];
 
         $userFeedback = new UserFeedback();
-        $userFeedback->setText($feedbacktext);
+        $userFeedback->setText($feedbackText);
         $userFeedback->setBrowserData($feedbackBrowserInfo);
         $userFeedback->setDate($feedbackDate);
         $userFeedback->setHtmlContent($feedbackHtmlContent);
