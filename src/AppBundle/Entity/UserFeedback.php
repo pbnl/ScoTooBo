@@ -56,7 +56,7 @@ class UserFeedback
 
     /**
      * @Assert\NotBlank()
-     * @ORM\Column(type="blob")
+     * @ORM\Column(type="text")
      */
     private $picture;
 
@@ -246,6 +246,16 @@ class UserFeedback
     public function setPicture($picture)
     {
         $this->picture = $picture;
+    }
+
+    /**
+     *Returns
+     *
+     * @return string
+     */
+    public function getPictureAsBase64()
+    {
+        return substr(base64_encode(stream_get_contents($this->picture)), 19);
     }
 
 
