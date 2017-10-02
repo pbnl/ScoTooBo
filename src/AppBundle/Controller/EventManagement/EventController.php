@@ -52,12 +52,12 @@ class EventController extends Controller
                 'label' => "addEvent.Name",
                 'empty_data' => '',
                 "required" => true))
-            ->add('Description',TextareaType::class, array(
+            ->add('Description', TextareaType::class, array(
                 "attr" => ["placeholder" => "addEvent.Beschreibung"],
                 'label' => "addEvent.Beschreibung",
                 'empty_data' => '',
                 "required" => true))
-            ->add('PriceInCent',IntegerType::class, array(
+            ->add('PriceInCent', IntegerType::class, array(
                 "attr" => ["placeholder" => "addEvent.PriceInCent"],
                 'label' => "addEvent.PriceInCent",
                 'empty_data' => '',
@@ -74,7 +74,7 @@ class EventController extends Controller
                 'empty_data' => '',
                 // ToDo: bessere Auswahlmöglichkeit bieten
                 "required" => true))
-            ->add('Place',TextareaType::class, array(
+            ->add('Place', TextareaType::class, array(
                 "attr" => ["placeholder" => "addEvent.Place"],
                 'label' => "addEvent.Place",
                 'empty_data' => '',

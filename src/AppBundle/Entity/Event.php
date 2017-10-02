@@ -4,11 +4,13 @@ namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
  * Event
  * @ORM\Entity
  * @ORM\Table(name="event")
+ * @UniqueEntity("name")
  */
 class Event
 {
@@ -24,7 +26,7 @@ class Event
      * @Assert\NotBlank()
      * @Assert\Length(min=3)
      * @var string
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=255, unique=true)
      */
     private $name;
 
@@ -242,4 +244,3 @@ class Event
         return $this->place;
     }
 }
-
