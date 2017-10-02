@@ -1,0 +1,18 @@
+<script src="{{ asset('js/feedback.js') }}"></script>
+
+<script type="text/javascript">
+    $(document).ready(function() {
+        Feedback({
+            h2cPath:'{{ asset('js/html2canvas.js') }}',
+            url:'/',
+            label:'{% trans %}feedback_label{% endtrans %}',
+            header:'{% trans %}feedback_header{% endtrans %}',
+            nextLabel:'{% trans %}feedback_nextLabel{% endtrans %}',
+            reviewLabel:'{% trans %}feedback_reviewLabel{% endtrans %}',
+            sendLabel:'{% trans %}feedback_sendLabel{% endtrans %}',
+            closeLabel:'{% trans %}feedback_closeLabel{% endtrans %}',
+            messageSuccess:'{% trans %}feedback_messageSuccess{% endtrans %}',
+            messageError:'{% trans %}feedback_messageError{% endtrans %}'
+        });
+    });
+</script>

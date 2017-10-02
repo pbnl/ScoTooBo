@@ -7,19 +7,37 @@ password: Passwort
 login.remember.me: Erinnere dich :)
 login: Login
 logout: Logout
-menu.userManagment.title: Usermanagment
-menu.userManagment.showAllusers: Alle Benutzer anzeigen
-menu.userManagment.addUser: Benutzer hinzufügen
-menu.userManagment.detailUser: Benutzerdetails
+menu.userManagement.title: Benutzerverwaltung
+menu.userManagement.showAllusers: Alle Benutzer anzeigen
+menu.userManagement.addUser: Benutzer hinzufügen
+menu.userManagement.detailUser: Benutzerdetails
 
-delete: Löschen
-group: Gruppe
-search: Suchen
-save: Speichern
+menu.eventManagement.title: Eventmanagement
+menu.eventManagement.showAllevents: Alle Events anzeigen
+menu.eventManagement.addEvent: Event hinzufügen
+menu.eventManagement.detailEvent: Eventdetails
+
+general_create: Erstellen
 create: Erstellen
-value: Wert
+general_date: Datum
+general_delete: Löschen
+delete: Löschen
+general_description: Beschreibung
+general_edit: Ändern
 edit: Ändern
+general_group: Gruppe
+group: Gruppe
+general_name: Name
 name: Name
+general_place: Ort
+general_price: Preis
+general_save: Speichern
+save: Speichern
+general_search: Suchen
+search: Suchen
+general_value: Wert
+value: Wert
+
 
 addUser.addedUser: Hinzugefügter User
 addUser.addedUserText: Füge einen neuen User hinzu
@@ -27,6 +45,17 @@ addUser.generatedPassword: Generiertes Passwort
 addUser.generatePassword: Generiere ein Passwort
 addUser.nameValue: Name des Wertes
 addUser.value: Wert
+
+addEvent.Name: Name
+addEvent.Beschreibung: Beschreibung
+addEvent.PriceInCent: Preis in Cent
+addEvent.DateFrom: Von
+addEvent.DateTo: Bis
+addEvent.Place: Ort
+addEvent.Submit: Erstellen
+
+event_addForm_UserText: Füge ein neues Event hinzu
+
 firstName: Vorname
 lastName: Nachname
 postalCode: PLZ
@@ -38,6 +67,15 @@ street: Straße
 not.editable: Nicht änderbar
 
 removeUserConfirmDialogText: Wollen sie wirklich den User %name% löschen?
+
+feedback_label: Fehler / Feedback
+feedback_header: Sende Feedback
+feedback_nextLabel: Weiter
+feedback_reviewLabel: Vorschau
+feedback_sendLabel: Senden
+feedback_closeLabel: Schließen
+feedback_messageSuccess: Dein Feedback hat uns erfolgreich erreicht und wird in Kürze bearbeitet.
+feedback_messageError: Es trat leider ein Fehler auf, schreib uns am besten persönlich an.
 
 403ErrorPage.head: Diese Aktion ist für dich verboten ERROR 403
 403ErrorPage.feedBackReference: Wenn du uns Feedback geben willst, oder ein Problem hast, benutze den Button in der rechten unteren Ecke!

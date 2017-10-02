@@ -67,7 +67,7 @@ class UserController extends Controller
             $this->addFlash("info", $e->getMessage());
         }
 
-        return $this->render('userManagment/showAllUsers.html.twig', [
+        return $this->render('userManagement/showAllUsers.html.twig', [
             "peopleSearchForm" => $userSearchForm->createView(),
             "users"=>$users,
         ]);
@@ -136,7 +136,7 @@ class UserController extends Controller
         }
 
         //Render the page
-        return $this->render("userManagment/addUser.html.twig", array(
+        return $this->render("userManagement/addUser.html.twig", array(
             "addAUserForm" => $addUserForm->createView(),
             "addedPerson" => $user,
             "addedSomeone" => $addedSomeone
@@ -221,7 +221,7 @@ class UserController extends Controller
 
 
         //Render the page
-        return $this->render("userManagment/detailUser.html.twig", array(
+        return $this->render("userManagement/detailUser.html.twig", array(
             "user"=>$userToShow,
             "editUserForm" => $editUserForm,
         ));

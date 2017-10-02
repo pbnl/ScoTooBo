@@ -1,6 +1,6 @@
 {% extends "includes/base.html.twig" %}
 
-{% block title %}{% trans %}menu.userManagment.addUser{% endtrans %}{% endblock %}
+{% block title %}{% trans %}menu.userManagement.addUser{% endtrans %}{% endblock %}
 
 {% form_theme addAUserForm 'bootstrap_3_horizontal_layout.html.twig' %}
 {% block body %}
@@ -78,7 +78,7 @@
             <div class="form-group">
                 {{ form_label(addAUserForm.generatedPassword) }}
                 <div class="col-md-6">{{ form_widget(addAUserForm.generatedPassword) }}</div>
-                <div class="col-md4"> {{ form_widget(addAUserForm.generatePassword) }}</div>
+                <div class="col-md-4">{{ form_widget(addAUserForm.generatePassword) }}</div>
             </div>
             {{ form_end(addAUserForm) }}
         </div>

@@ -1,0 +1,10 @@
+
+
+feedback_label: Send Feedback
+feedback_header: Send Feedback
+feedback_nextLabel: Continue
+feedback_reviewLabel: Review
+feedback_sendLabel: Send
+feedback_closeLabel: Close
+feedback_messageSuccess: Your feedback was sent succesfully.
+feedback_messageError: There was an error sending your feedback to the server.
