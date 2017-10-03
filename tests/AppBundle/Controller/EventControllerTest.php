@@ -12,6 +12,7 @@ class EventControllerTest extends WebTestCase
     {
         TestTools::getLoggedInStavoAmbrone()->request('GET', '/events/show/all');
 
+        $this->assertEquals(200, TestTools::getLoggedInStavoAmbrone()->getResponse()->getStatusCode());
         $this->assertContains('TestEvent1', TestTools::getLoggedInStavoAmbrone()->getResponse()->getContent());
         $this->assertContains('TestEvent2', TestTools::getLoggedInStavoAmbrone()->getResponse()->getContent());
         $this->assertContains('TestEvent3', TestTools::getLoggedInStavoAmbrone()->getResponse()->getContent());
@@ -50,6 +51,7 @@ class EventControllerTest extends WebTestCase
         TestTools::getLoggedInStavoAmbrone()->followRedirect();
         $respons = TestTools::getLoggedInStavoAmbrone()->getResponse()->getContent();
 
+        $this->assertEquals(200, TestTools::getLoggedInStavoAmbrone()->getResponse()->getStatusCode());
         $this->assertContains('Event wurde mit der Id 11 erstellt.', $respons);
         $this->assertContains('Test Name', $respons);
         $this->assertContains('Test Beschreibung', $respons);

@@ -105,7 +105,7 @@ class EventController extends Controller
      * @param Request $request
      * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function showDetailEvent(Request $request)
+    public function detailEvent(Request $request)
     {
         $this->addFlash("success", "This function is comming soon!");
         return $this->redirectToRoute("showAllEvents");
