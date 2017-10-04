@@ -30,7 +30,16 @@
                     {% trans %}username{% endtrans %}
                 </th>
                 <th>
+                    {% trans %}ip{% endtrans %}
+                </th>
+                <th>
                     {% trans %}stamm{% endtrans %}
+                </th>
+                <th>
+                    {% trans %}browserdata{% endtrans %}
+                </th>
+                <th>
+                    {% trans %}html{% endtrans %}
                 </th>
             </tr>
             </thead>
@@ -50,13 +59,23 @@
                         {{feedback.date.format('Y-m-d H:i')}}
                     </td>
                     <td>
-                        {{feedback.url}}
+                        <a href="{{feedback.url}}">{{feedback.url}}</a>
                     </td>
                     <td>
                         {{feedback.userUid}}
                     </td>
                     <td>
+                        {{feedback.userIp}}
+                    </td>
+                    <td>
                         {{feedback.userStamm}}
+                    </td>
+                    <td>
+                        <textarea rows="3">{{feedback.browserData}}</textarea>
+                    </td>
+                    <td>
+                        <textarea rows="3">{{feedback.htmlContent}}</textarea>
+
                     </td>
                 </tr>
             {% endfor %}

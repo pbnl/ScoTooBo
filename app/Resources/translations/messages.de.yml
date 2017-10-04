@@ -44,6 +44,9 @@ picture: Bild
 date: Datum
 url: URL
 stamm: Stamm
+ip: IP
+browserdata: Browserdaten
+html: HTML
 
 
 addUser.addedUser: Hinzugefügter User
