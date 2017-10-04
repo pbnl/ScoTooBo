@@ -10,7 +10,7 @@ use Tests\AppBundle\TestTools;
 class FeedbackControllerTest extends WebTestCase
 {
     /**
-     * @Legacy
+     * @group legacy
      */
     public function testCreateFeedbackDatabaseEntry()
     {
@@ -40,7 +40,7 @@ class FeedbackControllerTest extends WebTestCase
     }
 
     /**
-     * @Legacy
+     * @group legacy
      */
     public function testCreateFeedbackDatabaseEntryWithLoggedInUser()
     {
