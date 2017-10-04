@@ -96,6 +96,8 @@ window.Feedback = function( options ) {
     
     options.messageSuccess = options.messageSuccess || "Your feedback was sent succesfully.";
     options.messageError = options.messageError || "There was an error sending your feedback to the server.";
+
+    options.labelAfterSend = options.labelAfterSend || "Thank you!";
     
   
     if (options.pages === undefined ) {
@@ -233,6 +235,9 @@ window.Feedback = function( options ) {
                 options.pages[ i ].close();
             }
 
+            $('#feedback_start').html( options.labelAfterSend );
+            $('#feedback_start').prop('disabled', true);
+
             return false;
 
         },
@@ -302,6 +307,7 @@ window.Feedback = function( options ) {
 
     button = element( "button", options.label );
     button.className = "feedback-btn feedback-bottom-right";
+    button.id = "feedback_start";
 
     button.setAttribute(H2C_IGNORE, true);
 
@@ -419,7 +425,7 @@ window.Feedback.Form.prototype.review = function( dom ) {
         item = this.elements[ i ];
 
         if (item.element.value.length > 0) {
-            dom.appendChild( element("label", item.name + ":") );
+            dom.appendChild( element("label", item.name + ": ") );
             /* dom.appendChild( document.createTextNode( item.element.value.length ) ); */
             dom.appendChild( document.createTextNode( item.element.value ) );
             dom.appendChild( document.createElement( "hr" ) );
@@ -881,7 +887,7 @@ window.Feedback.Screenshot.prototype.review = function( dom ) {
         img.style.width = "300px";
         dom.appendChild( img );
     }
-    
+
 };
 window.Feedback.XHR = function( url ) {
     
