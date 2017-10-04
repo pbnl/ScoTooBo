@@ -16,7 +16,8 @@ class FeedbackControllerTest extends WebTestCase
             \"picture\",
             {\"href\":\"http://127.0.0.1:8000/\",\"ancestorOrigins\":{},\"origin\":\"http://127.0.0.1:8000\",\"protocol\":\"http:\",\"host\":\"127.0.0.1:8000\",\"hostname\":\"127.0.0.1\",\"port\":\"8000\",\"pathname\":\"/\",\"search\":\"\",\"hash\":\"\"},
             \"browser\",
-            \"htmlText\",1506893323093]"
+            \"htmlText\",1506893323093,
+            \"gukvzccukvuk\"]"
         ));
 
         $this->assertEquals("200", $client->getResponse()->getStatusCode());
@@ -29,7 +30,8 @@ class FeedbackControllerTest extends WebTestCase
             \"picture\",
             {\"href\":\"http://127.0.0.1:8000/\",\"ancestorOrigins\":{},\"origin\":\"http://127.0.0.1:8000\",\"protocol\":\"http:\",\"host\":\"127.0.0.1:8000\",\"hostname\":\"127.0.0.1\",\"port\":\"8000\",\"pathname\":\"/\",\"search\":\"\",\"hash\":\"\"},
             \"browser\",
-            \"htmlText\",1506893323093]"
+            \"htmlText\",1506893323093,
+            \"ewfwewgerg\"]"
         ));
 
         $this->assertEquals("200", TestTools::getLoggedInStavoAmbrone()->getResponse()->getStatusCode());
@@ -43,7 +45,9 @@ class FeedbackControllerTest extends WebTestCase
             \"\",
             {\"href\":\"\",\"ancestorOrigins\":{},\"origin\":\"http://127.0.0.1:8000\",\"protocol\":\"http:\",\"host\":\"127.0.0.1:8000\",\"hostname\":\"127.0.0.1\",\"port\":\"8000\",\"pathname\":\"/\",\"search\":\"\",\"hash\":\"\"},
             \"\",
-            \"efef\",]"
+            \"efef\",
+            ,
+            \"ewfwewgerg\"]"
         ));
 
         var_dump($client->getResponse()->getContent());
