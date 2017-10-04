@@ -39,7 +39,7 @@ class UserRepoTest extends WebTestCase
         $pbnlAccount->setUidNumber("1234");
 
 
-        $userService = new UserRepository(new Logger("main"), $this->mockLdapEntityManager($pbnlAccount, []), Validation::createValidatorBuilder()->enableAnnotationMapping()->getValidator());
+        $userService = new UserRepository(new Logger("main"), $this->mockLdapEntityManager([$pbnlAccount], []), Validation::createValidatorBuilder()->enableAnnotationMapping()->getValidator());
         $user = $userService->getUserByUid("test");
 
         $this->assertEquals("hamburg",$user->getCity());
@@ -68,7 +68,7 @@ class UserRepoTest extends WebTestCase
         $pbnlAccount = new PbnlAccount();
         $pbnlAccount->setMail("wrongMail.de");
 
-        $userRepo = new UserRepository(new Logger("main"),$this->mockLdapEntityManager($pbnlAccount, []), Validation::createValidatorBuilder()->enableAnnotationMapping()->getValidator());
+        $userRepo = new UserRepository(new Logger("main"),$this->mockLdapEntityManager([$pbnlAccount], []), Validation::createValidatorBuilder()->enableAnnotationMapping()->getValidator());
         $userRepo->getUserByUid("test");
     }
 
@@ -77,7 +77,7 @@ class UserRepoTest extends WebTestCase
         $pbnlAccount = new PbnlAccount();
         $pbnlAccount->setUid("Tefefg");
 
-        $userRepo = new UserRepository(new Logger("main"),$this->mockLdapEntityManager($pbnlAccount, []), Validation::createValidatorBuilder()->enableAnnotationMapping()->getValidator());
+        $userRepo = new UserRepository(new Logger("main"),$this->mockLdapEntityManager([$pbnlAccount], []), Validation::createValidatorBuilder()->enableAnnotationMapping()->getValidator());
         $user = $userRepo->getUserByUid("test");
         $this->assertEquals("tefefg", $user->getUid());
     }
@@ -86,7 +86,7 @@ class UserRepoTest extends WebTestCase
         $pbnlAccount = new PbnlAccount();
         $pbnlAccount->setUid("teäfefg");
 
-        $userRepo = new UserRepository(new Logger("main"),$this->mockLdapEntityManager($pbnlAccount, []), Validation::createValidatorBuilder()->enableAnnotationMapping()->getValidator());
+        $userRepo = new UserRepository(new Logger("main"),$this->mockLdapEntityManager([$pbnlAccount], []), Validation::createValidatorBuilder()->enableAnnotationMapping()->getValidator());
         $user = $userRepo->getUserByUid("test");
         $this->assertEquals("teaefefg", $user->getUid());
     }
@@ -95,7 +95,7 @@ class UserRepoTest extends WebTestCase
         $pbnlAccount = new PbnlAccount();
         $pbnlAccount->setUid("tefßefg");
 
-        $userRepo = new UserRepository(new Logger("main"),$this->mockLdapEntityManager($pbnlAccount, []), Validation::createValidatorBuilder()->enableAnnotationMapping()->getValidator());
+        $userRepo = new UserRepository(new Logger("main"),$this->mockLdapEntityManager([$pbnlAccount], []), Validation::createValidatorBuilder()->enableAnnotationMapping()->getValidator());
         $user = $userRepo->getUserByUid("test");
         $this->assertEquals("tefssefg", $user->getUid());
     }
@@ -104,7 +104,7 @@ class UserRepoTest extends WebTestCase
         $pbnlAccount = new PbnlAccount();
         $pbnlAccount->setUid("tef efg");
 
-        $userRepo = new UserRepository(new Logger("main"),$this->mockLdapEntityManager($pbnlAccount, []), Validation::createValidatorBuilder()->enableAnnotationMapping()->getValidator());
+        $userRepo = new UserRepository(new Logger("main"),$this->mockLdapEntityManager([$pbnlAccount], []), Validation::createValidatorBuilder()->enableAnnotationMapping()->getValidator());
         $user = $userRepo->getUserByUid("test");
         $this->assertEquals("tef_efg", $user->getUid());
     }
@@ -116,7 +116,7 @@ class UserRepoTest extends WebTestCase
         $pbnlAccount = new PbnlAccount();
         $pbnlAccount->setPostalCode("123w45");
 
-        $userRepo = new UserRepository(new Logger("main"), $this->mockLdapEntityManager($pbnlAccount, []), Validation::createValidatorBuilder()->enableAnnotationMapping()->getValidator());
+        $userRepo = new UserRepository(new Logger("main"), $this->mockLdapEntityManager([$pbnlAccount], []), Validation::createValidatorBuilder()->enableAnnotationMapping()->getValidator());
         $userRepo->getUserByUid("test");
     }
 
@@ -543,24 +543,25 @@ class UserRepoTest extends WebTestCase
 
     /**
      * Creates a mocked ldapEntityManager witch is able to return
-     *  a user
+     *  a some users
      *  some groups (the ROLES of the user)
      *
      * $userExists must be false if the user does not exist
      *
-     * @param $pbnlAccount
+     * @param $pbnlAccounts
      * @param $groups
      * @return \PHPUnit_Framework_MockObject_MockObject|LdapEntityManager
+     * @internal param $pbnlAccount []
      */
-    public function mockLdapEntityManager($pbnlAccount, $groups) {
+    public function mockLdapEntityManager($pbnlAccounts, $groups) {
 
         $pbnlAccountRepo = $this->createMock(Repository::class);
         $pbnlAccountRepo->expects($this->any())
             ->method("__call")
             ->with(
-                $this->equalTo('findOneByUid'),
+                $this->equalTo('findByUid'),
                 $this->equalTo(["test"]))
-            ->willReturn($pbnlAccount);
+            ->willReturn($pbnlAccounts);
 
         $groupRepo = $this->createMock(Repository::class);
         $groupRepo->expects($this->any())

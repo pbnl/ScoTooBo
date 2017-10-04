@@ -97,6 +97,23 @@ class UserControllerTest extends WebTestCase
         $this->assertContains('The user testambrone1 already exists.', TestTools::getLoggedInStavoAmbrone()->getResponse()->getContent());
     }
 
+    public function testAddUserUserWrongStamm()
+    {
+        $crawler = TestTools::getLoggedInStavoAmbrone()->request('GET', '/users/add');
+
+        $form = $crawler->selectButton('Erstellen')->form();
+
+        $form['form[firstName]'] = 'firstName123';
+        $form['form[lastName]'] = 'lastName123';
+        $form['form[givenName]'] = 'testName55';
+        $form['form[clearPassword]'] = 'password123';
+        $form->get('form[stamm]')->disableValidation()->setValue("wrong");
+
+        TestTools::getLoggedInStavoAmbrone()->submit($form);
+
+        $this->assertNotContains('testName55 hinzugefügt', TestTools::getLoggedInStavoAmbrone()->getResponse()->getContent());
+    }
+
     public function testgetUserDetailsOfOwnUser()
     {
         $crawler = TestTools::getLoggedInStavoAmbrone()->request('GET', '/users/detail');
@@ -146,6 +163,20 @@ class UserControllerTest extends WebTestCase
         TestTools::getLoggedInStavoAmbrone()->request('GET', '/users/show/all');
 
         $this->assertNotContains('givenName=deleteTestAmbrone,ou=Ambronen,ou=People,dc=pbnl,dc=de', TestTools::getLoggedInStavoAmbrone()->getResponse()->getContent());
+    }
+
+    public function testDelUserUserDoesNotExist()
+    {
+        $crawler = TestTools::getLoggedInStavoAmbrone()->request('GET', '/users/remove?uid=notExisting');
+
+        $this->assertNotContains('Der User notExisting existiert nicht!', TestTools::getLoggedInStavoAmbrone()->getResponse()->getContent());
+    }
+
+    public function testDelUserUserNotUnique()
+    {
+        $crawler = TestTools::getLoggedInStavoAmbrone()->request('GET', '/users/remove?uid=notunique');
+
+        $this->assertNotContains('Der User notunique ist nicht einzigartig!', TestTools::getLoggedInStavoAmbrone()->getResponse()->getContent());
     }
 
     public function testDelUserNotAllowedException()

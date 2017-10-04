@@ -29,8 +29,12 @@ class LoginControllerTest extends WebTestCase
         $form['_password'] = 'test';
 
         $client->submit($form);
+        $this->assertEquals(302, $client->getResponse()->getStatusCode());
         $client->followRedirect();
-        $this->assertContains('Read the documentation to learn', $client->getResponse()->getContent());
+        $client->followRedirect();
+        $this->assertEquals(200, $client->getResponse()->getStatusCode());
+        $this->assertContains('Logout', $client->getResponse()->getContent());
+        $this->assertContains('Das wird mal das Dashboard!', $client->getResponse()->getContent());
         //TODO: Change if we have a real start page
     }
 

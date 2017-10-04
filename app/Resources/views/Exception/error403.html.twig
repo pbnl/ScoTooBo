@@ -2,15 +2,16 @@
 
 {% block body %}
     <div class="container">
-        <h1>You are not allowed to do this! ERROR 403</h1>
+        <h1>{% trans %}403ErrorPage.head{% endtrans %}</h1>
 
         {% if is_granted('IS_AUTHENTICATED_FULLY') %}
-            <h2>Ask the admin why you are not allowed to do that</h2>
+            <a href="{{ path('logout') }}">{% trans %}403ErrorPage.logoutFirst{% endtrans %}</a>
         {% endif %}
 
         <p>
-            You are not allowed to do that!<br>
-            Login with the correct user first <a href="{{ path('login') }}">Login</a>.
+            {% trans %}403ErrorPage.thenLoginWithCorrectUser{% endtrans %} <a href="{{ path('login') }}">{% trans %}login{% endtrans %}</a>.
+
+            {% trans %}403ErrorPage.feedBackReference{% endtrans %}
         </p>
     </div>
 {% endblock %}

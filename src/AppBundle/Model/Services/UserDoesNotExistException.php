@@ -2,10 +2,9 @@
 
 namespace AppBundle\Model\Services;
 
+use Symfony\Component\Security\Core\Exception\UsernameNotFoundException;
 
-use Symfony\Component\Config\Definition\Exception\Exception;
-
-class UserDoesNotExistException extends Exception
+class UserDoesNotExistException extends UsernameNotFoundException
 {
 
 }

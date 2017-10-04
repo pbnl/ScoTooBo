@@ -7,16 +7,6 @@
     <div class="container">
         <br><br>
         {% include 'includes/showFlashes.html.twig' %}
-        <!--
-        <h3>Such Optionen</h3>
-        <div class="col-sm-6">
-            {% if peopleSearchForm is defined %}
-                {% form_theme peopleSearchForm 'bootstrap_3_horizontal_layout.html.twig' %}
-                {{ form_start(peopleSearchForm) }}
-                {{ form_end(peopleSearchForm) }}
-            {% endif %}
-        </div>
-        -->
         <table class="table table-striped">
             <thead>
             <tr>
@@ -56,7 +46,7 @@
                         {{event.getDescription}}
                     </td>
                     <td>
-                        {{event.getPriceInEuro}}
+                        {{event.getPriceInEuroWithEuroCharacter}}
                     </td>
                     <td>
                         {{event.getDateFromToAsString}}
