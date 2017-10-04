@@ -3,6 +3,7 @@
 namespace Tests\AppBundle\Controller;
 
 
+use AppBundle\Model\Services\ReCaptchaService;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Tests\AppBundle\TestTools;
 
@@ -11,6 +12,18 @@ class FeedbackControllerTest extends WebTestCase
     public function testCreateFeedbackDatabaseEntry()
     {
         $client = static::createClient();
+
+        $reCaptcha = $this->getMockBuilder(ReCaptchaService::class)
+            ->disableOriginalConstructor()
+            ->getMock();
+        $reCaptcha->expects($this->once())
+            ->method("validateReCaptcha")
+            ->willReturn(true);
+
+        static::$kernel->setKernelModifier(function($kernel) use ($reCaptcha) {
+            $kernel->getContainer()->set('reCaptcha', $reCaptcha);
+        });
+
         $client->request("POST", "/feedback/send", array(
             "data"=>"[{\"Text\":\"asdf\"},
             \"picture\",
@@ -25,7 +38,31 @@ class FeedbackControllerTest extends WebTestCase
 
     public function testCreateFeedbackDatabaseEntryWithLoggedInUser()
     {
-        TestTools::getLoggedInStavoAmbrone()->request("POST", "/feedback/send", array(
+        $reCaptcha = $this->getMockBuilder(ReCaptchaService::class)
+            ->disableOriginalConstructor()
+            ->getMock();
+        $reCaptcha->expects($this->once())
+            ->method("validateReCaptcha")
+            ->willReturn(true);
+
+        $client = static::createClient();
+        $client->request('GET', '/logout');
+
+        $crawler = $client->request('GET', '/login');
+        $form = $crawler->selectButton('Login')->form();
+
+        $form['_username'] = 'TestAmbrone1';
+        $form['_password'] = 'test';
+
+        $client->submit($form);
+        $client->followRedirect();
+
+        static::$kernel->setKernelModifier(function($kernel) use ($reCaptcha) {
+            $kernel->getContainer()->set('reCaptcha', $reCaptcha);
+        });
+
+
+        $client->request("POST", "/feedback/send", array(
             "data"=>"[{\"Text\":\"asdf\"},
             \"picture\",
             {\"href\":\"http://127.0.0.1:8000/\",\"ancestorOrigins\":{},\"origin\":\"http://127.0.0.1:8000\",\"protocol\":\"http:\",\"host\":\"127.0.0.1:8000\",\"hostname\":\"127.0.0.1\",\"port\":\"8000\",\"pathname\":\"/\",\"search\":\"\",\"hash\":\"\"},
@@ -34,7 +71,9 @@ class FeedbackControllerTest extends WebTestCase
             \"ewfwewgerg\"]"
         ));
 
-        $this->assertEquals("200", TestTools::getLoggedInStavoAmbrone()->getResponse()->getStatusCode());
+        var_dump($client->getResponse()->getContent());
+
+        $this->assertEquals("200", $client->getResponse()->getStatusCode());
     }
 
     public function testCreateFeedbackDatabaseEntryNotValidData500()
@@ -49,8 +88,6 @@ class FeedbackControllerTest extends WebTestCase
             ,
             \"ewfwewgerg\"]"
         ));
-
-        var_dump($client->getResponse()->getContent());
 
         $this->assertContains("Object(AppBundle\Entity\UserFeedback).browserData:", $client->getResponse()->getContent());
         $this->assertContains("Dieser Wert sollte nicht leer sein.", $client->getResponse()->getContent());

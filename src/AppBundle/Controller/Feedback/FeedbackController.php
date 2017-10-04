@@ -58,7 +58,7 @@ class FeedbackController extends Controller
             return new Response($errorsString,500);
         }
 
-        if (!$this->validateReCaptcha($feedbackReCaptcha))
+        if (!$this->get("reCaptcha")->validateReCaptcha($feedbackReCaptcha, $this->container->getParameter('recaptcha.secret')))
         {
              return new Response("Error with re-captcha",500);
         }
@@ -90,30 +90,5 @@ class FeedbackController extends Controller
         return $this->render("feedback/showAllFeedback.html.twig", array(
             "feedbacks"=> $userFeedbacks,
         ));
-    }
-
-    private function validateReCaptcha($feedbackReCaptcha)
-    {
-        $reCaptchaSiteSecret = $this->container->getParameter('recaptcha.secret');
-
-        $url = 'https://www.google.com/recaptcha/api/siteverify';
-        $data = array('secret' => $reCaptchaSiteSecret, 'response' => $feedbackReCaptcha);
-
-        $options = array(
-            'http' => array(
-                'header'  => "Content-type: application/x-www-form-urlencoded\r\n",
-                'method'  => 'POST',
-                'content' => http_build_query($data)
-            )
-        );
-        $context  = stream_context_create($options);
-        $result = file_get_contents($url, false, $context);
-        $jsonResult = json_decode($result, true);
-
-        if ($jsonResult["success"] == "true") {
-            return true;
-        }
-        return false;
-
     }
 }
