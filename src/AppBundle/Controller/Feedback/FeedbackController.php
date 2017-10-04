@@ -30,7 +30,7 @@ class FeedbackController extends Controller
         $feedbackTimestamp = $this->millisecTimstempToSecTimestemp($data[5]);
         $feedbackDate = new DateTime();
         $feedbackDate->setTimestamp($feedbackTimestamp);
-        // $feedbackReCaptcha = $data[6];
+        $feedbackReCaptcha = $data[6];
 
         $href = $feedbackUrlInfo["href"];
 
@@ -58,10 +58,10 @@ class FeedbackController extends Controller
             return new Response($errorsString,500);
         }
 
-        // if (!$this->validateReCaptcha($feedbackReCaptcha))
-        // {
-        //     return new Response("Error with re-captcha",500);
-        // }
+        if (!$this->validateReCaptcha($feedbackReCaptcha))
+        {
+             return new Response("Error with re-captcha",500);
+        }
 
         $em = $this->getDoctrine()->getManager();
 
