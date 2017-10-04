@@ -75,3 +75,4 @@ feedback_sendLabel: Senden
 feedback_closeLabel: Schließen
 feedback_messageSuccess: Dein Feedback hat uns erfolgreich erreicht und wird in Kürze bearbeitet.
 feedback_messageError: Es trat leider ein Fehler auf, schreib uns am besten persönlich an.
+feedback_labelAfterSend: Danke für dein Feedback!
