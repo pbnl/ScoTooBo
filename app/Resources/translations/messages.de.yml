@@ -27,11 +27,9 @@ general_delete: Löschen
 delete: Löschen
 general_description: Beschreibung
 general_edit: Ändern
-edit: Ändern
 general_group: Gruppe
 group: Gruppe
 general_name: Name
-name: Name
 general_place: Ort
 general_price: Preis
 general_save: Speichern
@@ -71,13 +69,6 @@ phoneNumber.home: Telefonnummer
 phoneNumber.mobile: Mobile
 city: Stadt
 street: Straße
-
-addUser.addedUser: Hinzugefügter User
-addUser.addedUserText: Füge einen neuen User hinzu
-addUser.generatedPassword: Generiertes Passwort
-addUser.generatePassword: Generiere ein Passwort
-addUser.nameValue: Name des Wertes
-addUser.value: Wert
 
 showAllGroups.myGroups: Meine Gruppen
 
