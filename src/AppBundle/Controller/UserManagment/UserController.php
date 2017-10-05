@@ -83,7 +83,7 @@ class UserController extends Controller
     {
         //Create the form
         $userRepo = $this->get("data.userRepository");
-        $staemme = ["general.stamm.Ambronen","general.stamm.Hagen_von_Tronje","general.stamm.Anduril"];
+        $staemme = ["Ambronen","Hagen von Tronje","Anduril"];
         //TODO We need a better way to save or determine the names of the staemme!
 
         $user = new User("", "", "", []);
