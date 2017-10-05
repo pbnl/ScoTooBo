@@ -36,9 +36,7 @@ class GroupControllerTest extends WebTestCase
         $this->assertEquals("403",TestTools::getLoggedInTestGrueppling()->getResponse()->getStatusCode());
     }
 
-    /**
-     * @Issue #36
-     */
+
     public function testShowDetailGroup()
     {
         $crawler = TestTools::getLoggedInStavoAmbrone()->request("GET","/groups/detail?groupCn=schulung");
@@ -58,9 +56,6 @@ class GroupControllerTest extends WebTestCase
         $this->assertContains("TestAmbrone1", TestTools::getLoggedInStavoAmbrone()->getResponse()->getContent());
     }
 
-    /**
-     * @Issue #36
-     */
     public function testShowDetailGroupUserDoesNotExist()
     {
         $crawler = TestTools::getLoggedInStavoAmbrone()->request("GET","/groups/detail?groupCn=groupWithMailingList");

@@ -11,9 +11,6 @@ use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
 class PosixGroupTest extends WebTestCase
 {
-    /**
-     * @issue #36
-     */
     public function testGetMembersUserObjectsException()
     {
         $this->expectException(UsersNotFetched::class);
@@ -22,9 +19,6 @@ class PosixGroupTest extends WebTestCase
         $group->getMemberUserObjects();
     }
 
-    /**
-     * @issue #36
-     */
     public function testFetchGroupMemberUserObjects()
     {
         $user = new User("uid","asdf","asdfasdf",[]);

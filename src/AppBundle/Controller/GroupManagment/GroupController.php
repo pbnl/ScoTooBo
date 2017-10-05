@@ -54,7 +54,8 @@ class GroupController extends Controller
             $this->addFlash("error", "Group not found");
             return $this->redirectToRoute("showAllGroups");
         }
-        //Security stuff
+
+        //Allow access if you are a member of this group
         $this->denyAccessUnlessGranted(
             'ROLE_'.$group->getCn(),
             null,
