@@ -2,7 +2,6 @@
 
 namespace AppBundle\Model\Services;
 
-
 class ReCaptchaService
 {
     public function validateReCaptcha($feedbackReCaptcha, $reCaptchaSiteSecret)
@@ -25,6 +24,5 @@ class ReCaptchaService
             return true;
         }
         return false;
-
     }
 }

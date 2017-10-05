@@ -2,7 +2,6 @@
 
 namespace AppBundle;
 
-
 class IpTools
 {
     public static function getClientIp()

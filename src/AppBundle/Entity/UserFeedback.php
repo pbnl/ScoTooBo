@@ -257,6 +257,4 @@ class UserFeedback
     {
         return substr(base64_encode(stream_get_contents($this->picture)), 19);
     }
-
-
 }

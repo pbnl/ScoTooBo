@@ -43,7 +43,7 @@ class FeedbackController extends Controller
         $userFeedback->setPicture($feedbackSitePicureAsBase64);
         $userFeedback->setUserIp(IpTools::getClientIp());
 
-        if($this->get('security.authorization_checker')->isGranted('ROLE_USER')) {
+        if ($this->get('security.authorization_checker')->isGranted('ROLE_USER')) {
             $loggedInUser = $this->get('security.token_storage')->getToken()->getUser();
             $userFeedback->setUserUid($loggedInUser->getUid());
             $userFeedback->setUserStamm($loggedInUser->getStamm());
@@ -55,12 +55,13 @@ class FeedbackController extends Controller
         if (count($errors) > 0) {
             $errorsString = (string) $errors;
 
-            return new Response($errorsString,500);
+            return new Response($errorsString, 500);
         }
 
-        if (!$this->get("reCaptcha")->validateReCaptcha($feedbackReCaptcha, $this->container->getParameter('recaptcha.secret')))
+        $reCaptchaSecret = $this->container->getParameter('recaptcha.secret');
+        if (!$this->get("reCaptcha")->validateReCaptcha($feedbackReCaptcha, $reCaptchaSecret))
         {
-             return new Response("Error with re-captcha",500);
+             return new Response("Error with re-captcha", 500);
         }
 
         $em = $this->getDoctrine()->getManager();
@@ -68,7 +69,7 @@ class FeedbackController extends Controller
         $em->persist($userFeedback);
         $em->flush();
 
-        return new Response("",200);
+        return new Response("", 200);
     }
 
     private function millisecTimstempToSecTimestemp($millsecTimestep)
