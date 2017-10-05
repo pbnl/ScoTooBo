@@ -59,7 +59,7 @@ class PosixGroup extends Group
      */
     public function getMemberUserObjects()
     {
-        if($this->memberUserObjects == []) {
+        if ($this->memberUserObjects == []) {
             throw new UsersNotFetched("You have to fetch the users first!");
         }
         return $this->memberUserObjects;

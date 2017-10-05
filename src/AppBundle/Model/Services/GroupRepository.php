@@ -2,7 +2,6 @@
 
 namespace AppBundle\Model\Services;
 
-
 use AppBundle\Model\Entity\LDAP\PosixGroup;
 use AppBundle\Model\Filter;
 use Monolog\Logger;
@@ -34,7 +33,7 @@ class GroupRepository
      */
     private $groupLdapRepository;
 
-    const filterByDnInGroup = "filterByDnInGroup";
+    const FILTERBYDNINGROUP = "filterByDnInGroup";
 
 
     /**
@@ -69,12 +68,12 @@ class GroupRepository
      * @param Filter $filter
      * @return array
      */
-    private function getGroupsThatFullFillPhpFilter(Array $groups, Filter $filter)
+    private function getGroupsThatFullFillPhpFilter(array $groups, Filter $filter)
     {
         $i = 0;
         foreach ($filter->getFilterAttributes() as $filterAttribute)
         {
-            if($filterAttribute == GroupRepository::filterByDnInGroup) {
+            if ($filterAttribute == GroupRepository::FILTERBYDNINGROUP) {
                 $groups = $this->filterGroupsByDnInGroup($groups, $filter->getFilterTexts()[$i]);
             }
         }
@@ -92,7 +91,7 @@ class GroupRepository
         $groupsThatFullFillFilter = array();
 
         foreach ($groups as $group) {
-            if($group->isDnMember($dn)) {
+            if ($group->isDnMember($dn)) {
                 array_push($groupsThatFullFillFilter, $group);
             }
         }

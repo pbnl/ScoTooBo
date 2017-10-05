@@ -52,7 +52,7 @@ $(document).ready(function() {
             filter_reset : ".reset",
 
             // extra css class name (string or array) added to the filter element (input or select)
-            filter_cssFilter: "form-control",
+            filter_cssFilter: "form-control"
 
             // set the uitheme widget to use the bootstrap theme class names
             // this is no longer required, if theme is set

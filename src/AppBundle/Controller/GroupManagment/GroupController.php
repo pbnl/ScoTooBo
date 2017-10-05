@@ -2,7 +2,6 @@
 
 namespace AppBundle\Controller\GroupManagment;
 
-
 use AppBundle\Model\Filter;
 use AppBundle\Model\Services\GroupNotFoundException;
 use AppBundle\Model\Services\GroupRepository;
@@ -27,8 +26,8 @@ class GroupController extends Controller
         $groupRepo = $this->get("data.groupRepository");
 
         $filter = new Filter();
-        if(!$this->get('security.authorization_checker')->isGranted('ROLE_buvo')) {
-            $filter->addFilter(GroupRepository::filterByDnInGroup, $loggedInUser->getDn());
+        if (!$this->get('security.authorization_checker')->isGranted('ROLE_buvo')) {
+            $filter->addFilter(GroupRepository::FILTERBYDNINGROUP, $loggedInUser->getDn());
         }
 
         $groups = $groupRepo->findAllGroupsByComplexFilter($filter);
@@ -46,21 +45,21 @@ class GroupController extends Controller
      */
     public function showDetailGroup(Request $request)
     {
-        $groupCn = $request->get("groupCn","");
+        $groupCn = $request->get("groupCn", "");
 
         $groupRepo = $this->get("data.groupRepository");
-        try
-        {
+        try {
             $group = $groupRepo->findByCn($groupCn);
-        }
-        catch (GroupNotFoundException $e)
-        {
-            $this->addFlash("error","Group not found");
+        } catch (GroupNotFoundException $e) {
+            $this->addFlash("error", "Group not found");
             return $this->redirectToRoute("showAllGroups");
         }
         //Security stuff
-        $this->denyAccessUnlessGranted('ROLE_'.$group->getCn(), null,
-            'You are not allowed to see the group ' . $group->getCn());
+        $this->denyAccessUnlessGranted(
+            'ROLE_'.$group->getCn(),
+            null,
+            'You are not allowed to see the group ' . $group->getCn()
+        );
 
         $userRepo = $this->get("data.userRepository");
         try {
@@ -69,7 +68,7 @@ class GroupController extends Controller
             $this->addFlash("error", $e->getMessage());
         }
 
-        return $this->render("groupManagment/detailGroup.html.twig",array(
+        return $this->render("groupManagment/detailGroup.html.twig", array(
             "group" => $group,
         ));
     }
