@@ -55,8 +55,7 @@ class UserRepository implements UserProviderInterface
         LdapEntityManager $ldapEntityManager,
         ValidatorInterface $validator,
         GroupRepository $groupRepository
-    )
-    {
+    ) {
         $this->ldapEntityManager = $ldapEntityManager;
         $this->logger = $logger;
         $this->validator = $validator;
