@@ -50,11 +50,12 @@ class UserRepository implements UserProviderInterface
      * @param LdapEntityManager $ldapEntityManager
      * @param ValidatorInterface $validator
      */
-    public function __construct (
+    public function __construct(
         Logger $logger,
         LdapEntityManager $ldapEntityManager,
         ValidatorInterface $validator,
-        GroupRepository $groupRepository)
+        GroupRepository $groupRepository
+    )
     {
         $this->ldapEntityManager = $ldapEntityManager;
         $this->logger = $logger;
