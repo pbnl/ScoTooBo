@@ -8,6 +8,7 @@ use AppBundle\Model\Filter;
 use AppBundle\Model\SSHA;
 use AppBundle\Model\User;
 use Monolog\Logger;
+use Symfony\Component\Debug\Exception\ContextErrorException;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 use Symfony\Component\Security\Core\Exception\UnsupportedUserException;
 use Symfony\Component\Security\Core\Exception\UsernameNotFoundException;
@@ -27,6 +28,12 @@ class UserRepository implements UserProviderInterface
     private $ldapEntityManager;
 
     /**
+     * no direct ldap access. Pls use the group repo
+     * @var
+     */
+    private $groupRepository;
+
+    /**
      * @var Logger
      */
     private $logger;
@@ -43,11 +50,16 @@ class UserRepository implements UserProviderInterface
      * @param LdapEntityManager $ldapEntityManager
      * @param ValidatorInterface $validator
      */
-    public function __construct(Logger $logger, LdapEntityManager $ldapEntityManager, ValidatorInterface $validator)
-    {
+    public function __construct(
+        Logger $logger,
+        LdapEntityManager $ldapEntityManager,
+        ValidatorInterface $validator,
+        GroupRepository $groupRepository
+    ) {
         $this->ldapEntityManager = $ldapEntityManager;
         $this->logger = $logger;
         $this->validator = $validator;
+        $this->groupRepository = $groupRepository;
     }
 
     /**
@@ -62,7 +74,7 @@ class UserRepository implements UserProviderInterface
         /** @var Repository $pbnlAccountRepository */
         $pbnlAccountRepository = $this->ldapEntityManager->getRepository(PbnlAccount::class);
 
-        $ldapPbnlAccount = $pbnlAccountRepository->findByUid($uid);
+        $ldapPbnlAccount = $pbnlAccountRepository->findOneByUid($uid);
 
         if (count($ldapPbnlAccount) == 0) {
             throw new UserDoesNotExistException(
@@ -72,7 +84,7 @@ class UserRepository implements UserProviderInterface
             throw new UserNotUniqueException("Der User mit der Uid " . $uid . " ist nicht einzigartig");
         }
 
-        return $this->entitiesToUser($ldapPbnlAccount[0]);
+        return $this->entitiesToUser($ldapPbnlAccount);
     }
 
     /**
@@ -85,21 +97,15 @@ class UserRepository implements UserProviderInterface
      */
     private function entitiesToUser(PbnlAccount $ldapPbnlAccount)
     {
-        $b64 = substr($ldapPbnlAccount->getUserPassword(), strlen("{SSHA}"));
+        $salt = SSHA::sshaGetSalt($ldapPbnlAccount->getUserPassword());
 
-        // base64 decoded
-        $b64_dec = base64_decode($b64);
-
-        // the salt (given it is a 8byte one)
-        $salt = substr($b64_dec, -8);
-        // the sha1 part
-        $hashedPassword = substr($b64_dec, 0, 20);
+        $shaHashedPassword = SSHA::sshaGetHash($ldapPbnlAccount->getUserPassword());
 
         $roles = $this->getRolesOfPbnlAccount($ldapPbnlAccount);
         array_push($roles, "ROLE_USER");
 
         //Fill up the user
-        $user = new User($ldapPbnlAccount->getGivenName(), $hashedPassword, $salt, $roles);
+        $user = new User($ldapPbnlAccount->getGivenName(), $shaHashedPassword, $salt, $roles);
         $user->setDn($ldapPbnlAccount->getDn());
         $user->setCity($ldapPbnlAccount->getL());
         $user->setFirstName($ldapPbnlAccount->getCn());
@@ -111,7 +117,6 @@ class UserRepository implements UserProviderInterface
         $user->setPostalCode($ldapPbnlAccount->getPostalCode());
         $user->setMobilePhoneNumber($ldapPbnlAccount->getMobile());
         $user->setStreet($ldapPbnlAccount->getStreet());
-        $user->generatePasswordAndSalt($ldapPbnlAccount->getUserPassword());
         $user->setHomePhoneNumber($ldapPbnlAccount->getTelephoneNumber());
         $user->setStamm($ldapPbnlAccount->getOu());
         //TODO maybe use something else as the ou to determine the stamm of the user
@@ -190,8 +195,7 @@ class UserRepository implements UserProviderInterface
     private function getRolesOfPbnlAccount(PbnlAccount $ldapPbnlAccount)
     {
         $roles = array();
-        $groupRepository = $this->ldapEntityManager->getRepository(PosixGroup::class);
-        $allGroups = $groupRepository->findAll();
+        $allGroups = $this->groupRepository->findAll();
 
         /** @var  $group PosixGroup */
         foreach ($allGroups as $group) {
@@ -210,7 +214,7 @@ class UserRepository implements UserProviderInterface
      * @return array
      * @throws GroupNotFoundException If the group of the Filter does not exist
      */
-    public function getAllUsers(Filter $filter)
+    public function findAllUsersByComplexFilter(Filter $filter)
     {
         $users = array();
         $pbnlAccountRepository = $this->ldapEntityManager->getRepository(PbnlAccount::class);
@@ -222,8 +226,7 @@ class UserRepository implements UserProviderInterface
             if ($filter->getFilterAttributes()[0] == "filterByUid" && $filter->getFilterTexts()[0] != "") {
                 $pbnlAccounts = $pbnlAccountRepository->findByComplex(array("uid" =>  '*'.$filter->getFilterTexts()[0].'*'));
             } elseif ($filter->getFilterAttributes()[0] == "filterByGroup" && $filter->getFilterTexts()[0] != "") {
-                $groupRepository = $this->ldapEntityManager->getRepository(PosixGroup::class);
-                $group = $groupRepository->findByCn($filter->getFilterTexts()[0]);
+                $group = $this->groupRepository->findByCn($filter->getFilterTexts()[0]);
                 if ($group == []) {
                     throw new GroupNotFoundException("We cant find the group ".$filter->getFilterTexts()[0]);
                 }
@@ -240,7 +243,7 @@ class UserRepository implements UserProviderInterface
             $user = $this->entitiesToUser($pbnlAccount);
 
             if ($group != []) {
-                if ($group[0]->isDnMember($user->getDn())){
+                if ($group->isDnMember($user->getDn())){
                     array_push($users, $user);
                 }
             } else {
@@ -314,6 +317,8 @@ class UserRepository implements UserProviderInterface
         $pbnlAccount->setObjectClass(["inetOrgPerson","posixAccount","pbnlAccount"]);
         if ($user->getClearPassword() != "") {
             $pbnlAccount->setUserPassword(SSHA::sshaPasswordGen($user->getClearPassword()));
+        } else {
+            $pbnlAccount->setUserPassword(SSHA::buildSsha($user->getPassword(), $user->getSalt()));
         }
 
         return $pbnlAccount;
@@ -411,5 +416,34 @@ class UserRepository implements UserProviderInterface
         }
 
         return false;
+    }
+
+    /**
+     * @param $dn
+     * @return User
+     * @throws UserDoesNotExistException if the user does not exist
+     */
+    public function findUserByDn($dn)
+    {
+        try {
+            //TODO the @ is to supress the ldap_search warning. Find a better way after we have rewritten the ldap lib
+            $ldapPbnlAccount = @$this->ldapEntityManager->retrieveByDn($dn, PbnlAccount::class);
+        } catch (ErrorException $e) {
+            throw new UserDoesNotExistException("The user with the dn: " . $dn . " does not exist!");
+        }
+        if (count($ldapPbnlAccount) == 0)
+        {
+            throw new UserDoesNotExistException("The user with the dn: " . $dn . " does not exist!");
+        }
+        $user = $this->entitiesToUser($ldapPbnlAccount[0]);
+
+        return $user;
+    }
+
+    private function throwsUserDoesNotExistExceptionIfArrayEmty($array)
+    {
+        if (count($array) == 0) {
+            throw new UserDoesNotExistException();
+        }
     }
 }

@@ -2,7 +2,6 @@
 
 namespace Tests\AppBundle;
 
-
 use AppBundle\Model\Filter;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 

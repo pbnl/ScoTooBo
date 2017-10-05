@@ -23,6 +23,12 @@
                         <li><a href="/events/detail">{% trans %}menu.eventManagement.detailEvent{% endtrans %}</a></li>
                     </ul>
                 </li>
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">{% trans %}menu.groupManagment.title{% endtrans %}<span class="caret"></span></a>
+                    <ul class="dropdown-menu">
+                        <li><a href="/groups/show/all">{% trans %}menu.groupManagment.showAllGroups{% endtrans %}</a></li>
+                    </ul>
+                </li>
             </ul>
             <li>
                 <a class="btn btn-danger pull-right navbar-btn" href="/logout">Logout</a>
