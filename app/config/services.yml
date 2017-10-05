@@ -38,7 +38,12 @@ services:
     data.userRepository:
         class: AppBundle\Model\Services\UserRepository
         public: true
-        arguments: ["@logger", "@ldapEntityManager","@validator"]
+        arguments: ["@logger", "@ldapEntityManager","@validator", "@data.groupRepository"]
+
+    data.groupRepository:
+            class: AppBundle\Model\Services\GroupRepository
+            public: true
+            arguments: ["@logger", "@ldapEntityManager","@validator"]
 
     ssha_encoder:
         public: true

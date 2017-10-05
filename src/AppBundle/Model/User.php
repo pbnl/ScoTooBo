@@ -59,11 +59,11 @@ class User implements UserInterface, EquatableInterface
     private $mail = "";
 
     /**
-     * SSHA hashed user password
+     * SHA hashed user password
      *
      * @var string
      */
-    private $hashedPassword = "";
+    private $shaHashedPassword = "";
 
     /**
      * The salt of the password
@@ -152,10 +152,10 @@ class User implements UserInterface, EquatableInterface
      * @param array $roles
      * @internal param string $dn
      */
-    public function __construct($uid, $password, $salt, array $roles)
+    public function __construct($uid, $shaHashedPassword, $salt, array $roles)
     {
         $this->uid = $uid;
-        $this->password = $password;
+        $this->shaHashedPassword = $shaHashedPassword;
         $this->salt = $salt;
         $this->roles = $roles;
     }
@@ -462,7 +462,7 @@ class User implements UserInterface, EquatableInterface
      */
     public function getPassword(): string
     {
-        return $this->hashedPassword;
+        return $this->shaHashedPassword;
     }
 
     /**
@@ -470,7 +470,7 @@ class User implements UserInterface, EquatableInterface
      */
     public function setPassword(string $hashedPassword)
     {
-        $this->hashedPassword = $hashedPassword;
+        $this->shaHashedPassword = $hashedPassword;
     }
 
     /**
@@ -534,19 +534,11 @@ class User implements UserInterface, EquatableInterface
     /**
      * Splits up the ldap SSHA hash into the salt and the hash and saves it in the fields
      *
-     * @param $getUserPassword
+     * @param $ssha
      */
-    public function generatePasswordAndSalt($getUserPassword)
+    public function generatePasswordAndSalt($ssha)
     {
-        // skip the "{SSHA}"
-        $b64 = substr($getUserPassword, 6);
-
-        // base64 decoded
-        $b64_dec = base64_decode($b64);
-
-        // the salt (given it is a 8byte one)
-        $this->salt = substr($b64_dec, -8);
-        // the sha1 part
-        $this->hashedPassword = substr($b64_dec, 0, 20);
+        $this->salt = SSHA::sshaGetSalt($ssha);
+        $this->shaHashedPassword = SSHA::sshaGetHash($ssha);
     }
 }

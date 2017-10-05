@@ -12,6 +12,9 @@ menu.userManagement.showAllusers: Alle Benutzer anzeigen
 menu.userManagement.addUser: Benutzer hinzufügen
 menu.userManagement.detailUser: Benutzerdetails
 
+menu.groupManagment.title: Gruppenmanagment
+menu.groupManagment.showAllGroups: Gruppenübersicht
+
 menu.eventManagement.title: Eventmanagement
 menu.eventManagement.showAllevents: Alle Events anzeigen
 menu.eventManagement.addEvent: Event hinzufügen
@@ -27,11 +30,9 @@ general_delete: Löschen
 delete: Löschen
 general_description: Beschreibung
 general_edit: Ändern
-edit: Ändern
 general_group: Gruppe
 group: Gruppe
 general_name: Name
-name: Name
 general_place: Ort
 general_price: Preis
 general_save: Speichern
@@ -48,6 +49,11 @@ stamm: Stamm
 ip: IP
 browserdata: Browserdaten
 html: HTML
+edit: Ändern
+name: Name
+nr: Nr
+gid: Gid
+member: Mitglied
 
 
 addUser.addedUser: Hinzugefügter User
@@ -75,9 +81,14 @@ phoneNumber.mobile: Mobile
 city: Stadt
 street: Straße
 
+showAllGroups.myGroups: Meine Gruppen
+
 not.editable: Nicht änderbar
 
 removeUserConfirmDialogText: Wollen sie wirklich den User %name% löschen?
+
+
+detailGroup.myGroups: Meine Gruppen
 
 feedback_label: Fehler / Feedback
 feedback_header: Sende Feedback
