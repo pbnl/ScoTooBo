@@ -24,15 +24,13 @@ class FeedbackController extends Controller
         $data = json_decode($request->get("data"), true);
         $feedbackText = htmlspecialchars($data[0]["Text"]);
         $feedbackSitePicureAsBase64 = htmlspecialchars($data[1]);
-        $feedbackUrlInfo = htmlspecialchars($data[2]);
+        $href = htmlspecialchars($data[2]["href"]);
         $feedbackBrowserInfo = htmlspecialchars($data[3]);
         $feedbackHtmlContent = htmlspecialchars($data[4]);
         $feedbackTimestamp = htmlspecialchars($this->millisecTimstempToSecTimestemp($data[5]));
         $feedbackDate = new DateTime();
         $feedbackDate->setTimestamp($feedbackTimestamp);
         $feedbackReCaptcha = htmlspecialchars($data[6]);
-
-        $href = $feedbackUrlInfo["href"];
 
         $userFeedback = new UserFeedback();
         $userFeedback->setText($feedbackText);
