@@ -74,7 +74,7 @@ class UserRepository implements UserProviderInterface
         /** @var Repository $pbnlAccountRepository */
         $pbnlAccountRepository = $this->ldapEntityManager->getRepository(PbnlAccount::class);
 
-        $ldapPbnlAccount = $pbnlAccountRepository->findByUid($uid);
+        $ldapPbnlAccount = $pbnlAccountRepository->findOneByUid($uid);
 
         if (count($ldapPbnlAccount) == 0) {
             throw new UserDoesNotExistException(
@@ -84,7 +84,7 @@ class UserRepository implements UserProviderInterface
             throw new UserNotUniqueException("Der User mit der Uid " . $uid . " ist nicht einzigartig");
         }
 
-        return $this->entitiesToUser($ldapPbnlAccount[0]);
+        return $this->entitiesToUser($ldapPbnlAccount);
     }
 
     /**

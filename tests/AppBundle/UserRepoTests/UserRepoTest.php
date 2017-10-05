@@ -700,7 +700,7 @@ class UserRepoTest extends WebTestCase
         $pbnlAccountRepo->expects($this->any())
             ->method("__call")
             ->with(
-                $this->equalTo('findByUid'),
+                $this->equalTo('findOneByUid'),
                 $this->equalTo(["test"]))
             ->willReturn($pbnlAccounts);
 
