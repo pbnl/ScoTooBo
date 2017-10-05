@@ -16,12 +16,13 @@ class AccessDeniedHandler implements AccessDeniedHandlerInterface
      */
     private $twig;
 
-    function __construct($twig) {
+    public function __construct($twig)
+    {
         $this->twig = $twig;
     }
 
     public function handle(Request $request, AccessDeniedException $accessDeniedException)
     {
-        return new Response($this->twig->render(':Exception:error403.html.twig',[]),403);
+        return new Response($this->twig->render(':Exception:error403.html.twig', []), 403);
     }
 }

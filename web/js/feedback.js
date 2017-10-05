@@ -98,7 +98,6 @@ window.Feedback = function( options ) {
     options.messageError = options.messageError || "There was an error sending your feedback to the server.";
 
     options.labelAfterSend = options.labelAfterSend || "Thank you!";
-    
   
     if (options.pages === undefined ) {
         options.pages = [
@@ -157,6 +156,7 @@ window.Feedback = function( options ) {
 
             nextButton.className =  "feedback-btn";
             nextButton.setAttribute("id","feedbackNextButton")
+
             nextButton.onclick = function() {
                 
                 if (currentPage > 0 ) {
@@ -196,7 +196,6 @@ window.Feedback = function( options ) {
                         nextButton.firstChild.nodeValue = options.reviewLabel;
                     }
 
-
                 }
 
             };
@@ -231,6 +230,7 @@ window.Feedback = function( options ) {
             }
 
             // call close events for all pages
+
             for (var i = 0, len = options.pages.length; i < len; i++) {
                 options.pages[ i ].close();
             }
@@ -244,13 +244,13 @@ window.Feedback = function( options ) {
 
         // send data
         send: function( adapter ) {
-
             // make sure send adapter is of right prototype
             if ( !(adapter instanceof window.Feedback.Send) ) {
                 throw new Error( "Adapter is not an instance of Feedback.Send" );
             }
 
             // fetch data from all pages
+
             for (var i = 0, len = options.pages.length, data = [], p = 0, tmp; i < len; i++) {
                 if ( (tmp = options.pages[ i ].data()) !== false ) {
                     data[ p++ ] = tmp;
@@ -269,7 +269,7 @@ window.Feedback = function( options ) {
 
             // send data to adapter for processing
             adapter.send( data, function( success ) {
-
+              
                 emptyElements( modalBody );
                 nextButton.disabled = false;
 
@@ -404,7 +404,6 @@ window.Feedback.Form.prototype.data = function() {
         // return cached value
         return this._data;
     }
-
     var i = 0, len = this.elements.length, item, data = {};
 
     for (; i < len; i++) {
@@ -426,6 +425,7 @@ window.Feedback.Form.prototype.review = function( dom ) {
 
         if (item.element.value.length > 0) {
             dom.appendChild( element("label", item.name + ": ") );
+
             /* dom.appendChild( document.createTextNode( item.element.value.length ) ); */
             dom.appendChild( document.createTextNode( item.element.value ) );
             dom.appendChild( document.createElement( "hr" ) );

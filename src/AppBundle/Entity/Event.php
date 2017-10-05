@@ -3,11 +3,14 @@
 namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
  * Event
  * @ORM\Entity
  * @ORM\Table(name="event")
+ * @UniqueEntity("name")
  */
 class Event
 {
@@ -20,12 +23,16 @@ class Event
     private $id;
 
     /**
+     * @Assert\NotBlank()
+     * @Assert\Length(min=3)
      * @var string
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=255, unique=true)
      */
     private $name;
 
     /**
+     * @Assert\NotBlank()
+     * @Assert\Length(min=3)
      * @var string
      * @ORM\Column(type="text")
      */
@@ -50,6 +57,8 @@ class Event
     private $dateTo;
 
     /**
+     * @Assert\NotBlank()
+     * @Assert\Length(min=3)
      * @var string
      * @ORM\Column(type="text")
      */
@@ -143,7 +152,7 @@ class Event
      *
      * @return string
      */
-    public function getPriceInEuro()
+    public function getPriceInEuroWithEuroCharacter()
     {
         if ($this->price<100) {
             return "0,".$this->price."€";
@@ -235,4 +244,3 @@ class Event
         return $this->place;
     }
 }
-
