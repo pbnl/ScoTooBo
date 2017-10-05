@@ -2,7 +2,7 @@
 
 {% block title %}{% trans %}menu.userManagement.addUser{% endtrans %}{% endblock %}
 
-{% form_theme addAUserForm 'bootstrap_3_horizontal_layout.html.twig' %}
+{% form_theme addAUserForm 'bootstrap_4_horizontal_layout.html.twig' %}
 {% block body %}
     {% include 'includes/navbar.html.twig' %}
     <div class="container">
@@ -11,7 +11,7 @@
         {% if addedSomeone %}
             <h2 class="form-signin-heading">{% trans %}addUser.addedUser{% endtrans %}</h2>
             <table class="table table-striped">
-                <thead>
+                <thead class="">
                 <tr>
                     <th>
                         {% trans %}addUser.nameValue{% endtrans %}
@@ -75,10 +75,10 @@
             {{ form_row(addAUserForm.lastName) }}
             {{ form_row(addAUserForm.givenName) }}
             {{ form_row(addAUserForm.clearPassword) }}
-            <div class="form-group">
+            <div class="form-row form-group">
                 {{ form_label(addAUserForm.generatedPassword) }}
-                <div class="col-md-6">{{ form_widget(addAUserForm.generatedPassword) }}</div>
-                <div class="col-md-4">{{ form_widget(addAUserForm.generatePassword) }}</div>
+                <div class="col">{{ form_widget(addAUserForm.generatedPassword) }}</div>
+                <div class="col">{{ form_widget(addAUserForm.generatePassword) }}</div>
             </div>
             {{ form_end(addAUserForm) }}
         </div>

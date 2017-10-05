@@ -79,7 +79,9 @@ class EventController extends Controller
                 'label' => "addEvent.Place",
                 'empty_data' => '',
                 "required" => true))
-            ->add('save', SubmitType::class, array('label' => 'addEvent.Submit'))
+            ->add('save', SubmitType::class, array(
+                'label' => 'addEvent.Submit',
+                "attr"=>["class"=>"btn btn-primary"]))
             ->getForm();
 
         $addAnEventForm->handleRequest($request);

@@ -58,6 +58,7 @@ twig:
     strict_variables: '%kernel.debug%'
     globals:
         reCaptchaGlobalCode: '%recaptcha.globalcode%'
+    form_themes: ['bootstrap_4_layout.html.twig']
 
 # Doctrine Configuration
 doctrine:
