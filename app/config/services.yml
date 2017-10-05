@@ -53,3 +53,7 @@ services:
             public: true
             class: AppBundle\Security\AccessDeniedHandler
             arguments: ["@twig"]
+
+    reCaptcha:
+        public: true
+        class: AppBundle\Model\Services\ReCaptchaService

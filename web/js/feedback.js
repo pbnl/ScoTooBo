@@ -77,6 +77,8 @@ H2C_IGNORE = "data-html2canvas-ignore",
 currentPage,
 modalBody = document.createElement("div");
 
+var reCaptchaToken = "";
+
 window.Feedback = function( options ) {
 
     options = options || {};
@@ -94,7 +96,8 @@ window.Feedback = function( options ) {
     
     options.messageSuccess = options.messageSuccess || "Your feedback was sent succesfully.";
     options.messageError = options.messageError || "There was an error sending your feedback to the server.";
-    
+
+    options.labelAfterSend = options.labelAfterSend || "Thank you!";
   
     if (options.pages === undefined ) {
         options.pages = [
@@ -152,6 +155,8 @@ window.Feedback = function( options ) {
             nextButton = element( "button", options.nextLabel );
 
             nextButton.className =  "feedback-btn";
+            nextButton.setAttribute("id","feedbackNextButton")
+
             nextButton.onclick = function() {
                 
                 if (currentPage > 0 ) {
@@ -163,17 +168,21 @@ window.Feedback = function( options ) {
                 
                 emptyElements( modalBody );
 
+                console.log(currentPage);
+
                 if ( currentPage === len ) {
                     returnMethods.send( options.adapter );
                 } else {
 
                     options.pages[ currentPage ].start( modal, modalHeader, modalFooter, nextButton );
-                    
+
                     if ( options.pages[ currentPage ] instanceof window.Feedback.Review ) {
                         // create DOM for review page, based on collected data
-                        options.pages[ currentPage ].render( options.pages );
+                        options.pages[ currentPage ].render( options.pages);
+                        options.pages[currentPage].addReCaptcha(options, nextButton);
+                        nextButton.disabled = true;
                     }
-                    
+
                     // add page DOM to modal
                     modalBody.appendChild( options.pages[ currentPage++ ].dom );
 
@@ -181,12 +190,11 @@ window.Feedback = function( options ) {
                     if ( currentPage === len ) {
                         nextButton.firstChild.nodeValue = options.sendLabel;
                     }
-                    
+
                     // if next page is review page, change button label
-                    if ( options.pages[ currentPage ] instanceof window.Feedback.Review ) {   
+                    if ( options.pages[ currentPage ] instanceof window.Feedback.Review ) {
                         nextButton.firstChild.nodeValue = options.reviewLabel;
                     }
-                        
 
                 }
 
@@ -220,25 +228,29 @@ window.Feedback = function( options ) {
             if (currentPage > 0 ) {
                 options.pages[ currentPage - 1 ].end( modal );
             }
-                
-            // call close events for all pages    
+
+            // call close events for all pages
+
             for (var i = 0, len = options.pages.length; i < len; i++) {
                 options.pages[ i ].close();
             }
 
+            $('#feedback_start').html( options.labelAfterSend );
+            $('#feedback_start').prop('disabled', true);
+
             return false;
 
         },
-        
+
         // send data
         send: function( adapter ) {
-            
             // make sure send adapter is of right prototype
             if ( !(adapter instanceof window.Feedback.Send) ) {
                 throw new Error( "Adapter is not an instance of Feedback.Send" );
             }
-            
-            // fetch data from all pages   
+
+            // fetch data from all pages
+
             for (var i = 0, len = options.pages.length, data = [], p = 0, tmp; i < len; i++) {
                 if ( (tmp = options.pages[ i ].data()) !== false ) {
                     data[ p++ ] = tmp;
@@ -248,25 +260,26 @@ window.Feedback = function( options ) {
 			data[ p++ ] = navigator.userAgent;
 			data[ p++ ] = document.documentElement.innerHTML;
 			data[ p++ ] = Date.now();
+            data[ p++ ] = reCaptchaToken;
 
             nextButton.disabled = true;
-                
+
             emptyElements( modalBody );
             modalBody.appendChild( loader() );
 
             // send data to adapter for processing
             adapter.send( data, function( success ) {
-                
+              
                 emptyElements( modalBody );
                 nextButton.disabled = false;
-                
+
                 nextButton.firstChild.nodeValue = options.closeLabel;
-                
+
                 nextButton.onclick = function() {
                     returnMethods.close();
-                    return false;  
+                    return false;
                 };
-                
+
                 if ( success === true ) {
                     modalBody.appendChild( document.createTextNode( options.messageSuccess ) );
                 } else {
@@ -280,9 +293,9 @@ window.Feedback = function( options ) {
                 $('.feedback-blackedout').each(function(i, obj) {
                     $( this ).remove();
                 });
-                
+
             } );
-  
+
         }
     };
 
@@ -294,15 +307,16 @@ window.Feedback = function( options ) {
 
     button = element( "button", options.label );
     button.className = "feedback-btn feedback-bottom-right";
+    button.id = "feedback_start";
 
     button.setAttribute(H2C_IGNORE, true);
 
     button.onclick = returnMethods.open;
-    
+
     if ( options.appendTo !== null ) {
         ((options.appendTo !== undefined) ? options.appendTo : document.body).appendChild( button );
     }
-    
+
     return returnMethods;
 };
 window.Feedback.Page = function() {};
@@ -320,7 +334,8 @@ window.Feedback.Page.prototype = {
     review: function() {
         return null;
     },
-    end: function() { return true; }
+    end: function() { return true; },
+    addReCaptcha: function () {}
 
 };
 window.Feedback.Send = function() {};
@@ -365,7 +380,7 @@ window.Feedback.Form.prototype.render = function() {
 };
 
 window.Feedback.Form.prototype.end = function() {
-    // form validation  
+    // form validation
     var i = 0, len = this.elements.length, item;
     for (; i < len; i++) {
         item = this.elements[ i ];
@@ -378,48 +393,48 @@ window.Feedback.Form.prototype.end = function() {
             item.element.className = "";
         }
     }
-    
+
     return true;
-    
+
 };
 
 window.Feedback.Form.prototype.data = function() {
-    
+
     if ( this._data !== undefined ) {
         // return cached value
         return this._data;
     }
-    
     var i = 0, len = this.elements.length, item, data = {};
-    
+
     for (; i < len; i++) {
         item = this.elements[ i ];
         data[ item.name ] = item.element.value;
     }
-    
+
     // cache and return data
     return ( this._data = data );
 };
 
 
 window.Feedback.Form.prototype.review = function( dom ) {
-  
+
     var i = 0, item, len = this.elements.length;
-      
+
     for (; i < len; i++) {
         item = this.elements[ i ];
-        
+
         if (item.element.value.length > 0) {
-            dom.appendChild( element("label", item.name + ":") );
+            dom.appendChild( element("label", item.name + ": ") );
+
             /* dom.appendChild( document.createTextNode( item.element.value.length ) ); */
             dom.appendChild( document.createTextNode( item.element.value ) );
             dom.appendChild( document.createElement( "hr" ) );
         }
-        
+
     }
-    
+
     return dom;
-     
+
 };
 window.Feedback.Review = function() {
 
@@ -434,9 +449,9 @@ window.Feedback.Review.prototype.render = function( pages ) {
 
     var i = 0, len = pages.length, item;
     emptyElements( this.dom );
-    
+
     for (; i < len; i++) {
-        
+
         // get preview DOM items
         pages[ i ].review( this.dom );
 
@@ -445,7 +460,19 @@ window.Feedback.Review.prototype.render = function( pages ) {
     return this;
 
 };
-
+window.Feedback.Review.prototype.addReCaptcha = function (options, nextButton) {
+    var captcher = document.createElement( "div" );
+    grecaptcha.render(
+        captcher,
+        {"sitekey":options.reCaptchaGlobalCoe,
+            "callback":function (token) {
+                nextButton.disabled = false;
+                reCaptchaToken = token;
+            }}
+    );
+    captcher.setAttribute("id","feedbackReCaptcha")
+    this.dom.appendChild( captcher );
+};
 
 
 
@@ -860,7 +887,7 @@ window.Feedback.Screenshot.prototype.review = function( dom ) {
         img.style.width = "300px";
         dom.appendChild( img );
     }
-    
+
 };
 window.Feedback.XHR = function( url ) {
     

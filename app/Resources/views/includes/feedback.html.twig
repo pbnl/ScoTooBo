@@ -4,7 +4,7 @@
     $(document).ready(function() {
         Feedback({
             h2cPath:'{{ asset('js/html2canvas.js') }}',
-            url:'/',
+            url:'/feedback/send',
             label:'{% trans %}feedback_label{% endtrans %}',
             header:'{% trans %}feedback_header{% endtrans %}',
             nextLabel:'{% trans %}feedback_nextLabel{% endtrans %}',
@@ -12,7 +12,9 @@
             sendLabel:'{% trans %}feedback_sendLabel{% endtrans %}',
             closeLabel:'{% trans %}feedback_closeLabel{% endtrans %}',
             messageSuccess:'{% trans %}feedback_messageSuccess{% endtrans %}',
-            messageError:'{% trans %}feedback_messageError{% endtrans %}'
+            messageError:'{% trans %}feedback_messageError{% endtrans %}',
+            reCaptchaGlobalCoe:"{{ reCaptchaGlobalCode }}",
+            labelAfterSend:'{% trans %}feedback_labelAfterSend{% endtrans %}'
         });
     });
 </script>

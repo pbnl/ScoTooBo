@@ -20,6 +20,9 @@ menu.eventManagement.showAllevents: Alle Events anzeigen
 menu.eventManagement.addEvent: Event hinzufügen
 menu.eventManagement.detailEvent: Eventdetails
 
+menu.feedbackManagement.title: Feedback
+menu.feedbackManagement.showAllFeedback: Zeige jedes Feedback
+
 general_create: Erstellen
 create: Erstellen
 general_date: Datum
@@ -38,6 +41,14 @@ general_search: Suchen
 search: Suchen
 general_value: Wert
 value: Wert
+text: Text
+picture: Bild
+date: Datum
+url: URL
+stamm: Stamm
+ip: IP
+browserdata: Browserdaten
+html: HTML
 edit: Ändern
 name: Name
 nr: Nr
@@ -87,6 +98,7 @@ feedback_sendLabel: Senden
 feedback_closeLabel: Schließen
 feedback_messageSuccess: Dein Feedback hat uns erfolgreich erreicht und wird in Kürze bearbeitet.
 feedback_messageError: Es trat leider ein Fehler auf, schreib uns am besten persönlich an.
+feedback_labelAfterSend: Danke für dein Feedback!
 
 403ErrorPage.head: Diese Aktion ist für dich verboten ERROR 403
 403ErrorPage.feedBackReference: Wenn du uns Feedback geben willst, oder ein Problem hast, benutze den Button in der rechten unteren Ecke!

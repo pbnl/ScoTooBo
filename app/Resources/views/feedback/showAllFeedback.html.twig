@@ -1,0 +1,91 @@
+{% extends "includes/base.html.twig" %}
+
+{% block title %}{% trans %}menu.feedbackManagement.title{% endtrans %}{% endblock %}
+
+{% block body %}
+    {% include 'includes/navbar.html.twig' %}
+    <div class="container">
+        <br><br>
+        {% include 'includes/showFlashes.html.twig' %}
+
+        <table class="table table-striped">
+            <thead>
+            <tr>
+                <th>
+                    Nr
+                </th>
+                <th>
+                    {% trans %}text{% endtrans %}
+                </th>
+                <th>
+                    {% trans %}picture{% endtrans %}
+                </th>
+                <th>
+                    {% trans %}date{% endtrans %}
+                </th>
+                <th>
+                    {% trans %}url{% endtrans %}
+                </th>
+                <th>
+                    {% trans %}username{% endtrans %}
+                </th>
+                <th>
+                    {% trans %}ip{% endtrans %}
+                </th>
+                <th>
+                    {% trans %}stamm{% endtrans %}
+                </th>
+                <th>
+                    {% trans %}browserdata{% endtrans %}
+                </th>
+                <th>
+                    {% trans %}html{% endtrans %}
+                </th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for feedback in feedbacks %}
+                <tr>
+                    <td>
+                        {{ loop.index}}
+                    </td>
+                    <td>
+                        {{ feedback.text }}
+                    </td>
+                    <td>
+                        <img class="image" width="200" src="{{feedback.picture}}"/>
+                    </td>
+                    <td>
+                        {{feedback.date.format('Y-m-d H:i')}}
+                    </td>
+                    <td>
+                        <a href="{{feedback.url}}">{{feedback.url}}</a>
+                    </td>
+                    <td>
+                        {{feedback.userUid}}
+                    </td>
+                    <td>
+                        {{feedback.userIp}}
+                    </td>
+                    <td>
+                        {{feedback.userStamm}}
+                    </td>
+                    <td>
+                        <textarea rows="3">{{feedback.browserData}}</textarea>
+                    </td>
+                    <td>
+                        <textarea rows="3">{{feedback.htmlContent}}</textarea>
+
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script type="text/javascript">$('.image').viewer();</script>
+{% endblock %}

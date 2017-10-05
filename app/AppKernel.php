@@ -5,6 +5,8 @@ use Symfony\Component\Config\Loader\LoaderInterface;
 
 class AppKernel extends Kernel
 {
+    private $kernelModifier = null;
+
     public function registerBundles()
     {
         $bundles = [
@@ -31,6 +33,29 @@ class AppKernel extends Kernel
         }
 
         return $bundles;
+    }
+
+    public function boot()
+    {
+        parent::boot();
+
+        if ('test' === $this->getEnvironment()) {
+            if ($kernelModifier = $this->kernelModifier) {
+                //Just ignore this error, it is wrong
+                $kernelModifier($this);
+                $this->kernelModifier = null;
+            };
+        }
+    }
+
+    public function setKernelModifier(\Closure $kernelModifier)
+    {
+        if ('test' === $this->getEnvironment()) {
+            $this->kernelModifier = $kernelModifier;
+
+            // We force the kernel to shutdown to be sure the next request will boot it
+            $this->shutdown();
+        }
     }
 
     public function getRootDir()
