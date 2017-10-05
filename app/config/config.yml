@@ -10,8 +10,8 @@ parameters:
     security.encoder.digest.class: AppBundle\Security\MessageDigestPasswordEncoder
     env(DATABASE_HOST): localhost
     env(DATABASE_PORT): 3306
-    env(DATABASE_NAME): pbnl_doctrine
-    env(DATABASE_USER): pbnl_doctrine
+    env(DATABASE_NAME): scotoobo
+    env(DATABASE_USER): scotoobo
     env(DATABASE_PWD): secret
     env(LDAP_DOMAIN): 127.0.0.1
     env(LDAP_BASE_DN): dc=pbnl,dc=de

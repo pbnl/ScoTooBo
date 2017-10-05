@@ -3,7 +3,15 @@
 echo "This script needs root access to clear the database"
 
 if [ $EUID != 0 ]; then
-    kdesudo "$0" "$@"
+    {
+        kdesudo "$0" "$@"
+    } || {
+        {
+            gksudo "$0" "$@"
+        } || {
+            sudo "$0" "$@"
+        }
+    }
     exit $?
 fi
 

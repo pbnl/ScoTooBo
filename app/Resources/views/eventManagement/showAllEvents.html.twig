@@ -1,0 +1,67 @@
+{% extends "includes/base.html.twig" %}
+
+{% block title %}{% trans %}menu.eventManagement.title{% endtrans %}{% endblock %}
+
+{% block body %}
+    {% include 'includes/navbar.html.twig' %}
+    <div class="container">
+        <br><br>
+        {% include 'includes/showFlashes.html.twig' %}
+        <table class="table table-striped">
+            <thead>
+            <tr>
+                <th>
+                    Nr
+                </th>
+                <th>
+                    {% trans %}general_name{% endtrans %}
+                </th>
+                <th>
+                    {% trans %}general_description{% endtrans %}
+                </th>
+                <th>
+                    {% trans %}general_price{% endtrans %}
+                </th>
+                <th>
+                    {% trans %}general_date{% endtrans %}
+                </th>
+                <th>
+                    {% trans %}general_place{% endtrans %}
+                </th>
+                <th>
+                    &nbsp;
+                </th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for event in events %}
+                <tr>
+                    <td>
+                        {{ loop.index}}
+                    </td>
+                    <td>
+                        <a href="{{ path('detailEvent', {'id': event.getId}) }}">{{ event.getName}}</a>
+                    </td>
+                    <td>
+                        {{event.getDescription}}
+                    </td>
+                    <td>
+                        {{event.getPriceInEuroWithEuroCharacter}}
+                    </td>
+                    <td>
+                        {{event.getDateFromToAsString}}
+                    </td>
+                    <td>
+                        {{event.getPlace}}
+                    </td>
+                    <td>
+                        Bearbeiten / Löschen (folgt)
+
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+{% endblock %}

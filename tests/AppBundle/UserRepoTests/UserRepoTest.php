@@ -94,6 +94,7 @@ class UserRepoTest extends WebTestCase
             $this->mockLdapEntityManager($pbnlAccount),
             Validation::createValidatorBuilder()->enableAnnotationMapping()->getValidator(),
             $groupRepo);
+
         $userRepo->getUserByUid("test");
     }
 
@@ -686,22 +687,22 @@ class UserRepoTest extends WebTestCase
 
     /**
      * Creates a mocked ldapEntityManager witch is able to return
-     *  a user
+     *  a some users
      *  some groups (the ROLES of the user)
      *
      *
-     * @param $pbnlAccount
+     * @param $pbnlAccounts
      * @return \PHPUnit_Framework_MockObject_MockObject|LdapEntityManager
      */
-    public function mockLdapEntityManager($pbnlAccount) {
+    public function mockLdapEntityManager($pbnlAccounts) {
 
         $pbnlAccountRepo = $this->createMock(Repository::class);
         $pbnlAccountRepo->expects($this->any())
             ->method("__call")
             ->with(
-                $this->equalTo('findOneByUid'),
+                $this->equalTo('findByUid'),
                 $this->equalTo(["test"]))
-            ->willReturn($pbnlAccount);
+            ->willReturn($pbnlAccounts);
 
         $ldapEntityManager = $this->createMock(LdapEntityManager::class);
         $ldapEntityManager->expects($this->any())

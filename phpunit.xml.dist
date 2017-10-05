@@ -13,6 +13,7 @@
         <server name="KERNEL_DIR" value="/path/to/your/app/" />
 
         <env name="BOOTSTRAP_CLEAR_LDAP_DATABASE" value="true"/>
+        <env name="BOOTSTRAP_CLEAR_MYSQL_DATABASE" value="true"/>
 
     </php>
 

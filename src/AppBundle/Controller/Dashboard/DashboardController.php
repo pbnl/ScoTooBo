@@ -1,10 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: paul
- * Date: 06.09.17
- * Time: 18:33
- */
 
 namespace AppBundle\Controller\Dashboard;
 

@@ -2,14 +2,25 @@
     <div class="container">
 
         <a class="navbar-brand" href="{{ path('showDashboard') }}">ScoTooBo</a>
+
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
             <ul class="nav navbar-nav">
                 <li class="dropdown">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">{% trans %}menu.userManagment.title{% endtrans %}<span class="caret"></span></a>
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">{% trans %}menu.userManagement.title{% endtrans %}<span class="caret"></span></a>
                     <ul class="dropdown-menu">
-                        <li><a href="/users/show/all">{% trans %}menu.userManagment.showAllusers{% endtrans %}</a></li>
-                        <li><a href="/users/add">{% trans %}menu.userManagment.addUser{% endtrans %}</a></li>
-                        <li><a href="/users/detail">{% trans %}menu.userManagment.detailUser{% endtrans %}</a></li>
+                        <li><a href="/users/show/all">{% trans %}menu.userManagement.showAllusers{% endtrans %}</a></li>
+                        <li><a href="/users/add">{% trans %}menu.userManagement.addUser{% endtrans %}</a></li>
+                        <li><a href="/users/detail">{% trans %}menu.userManagement.detailUser{% endtrans %}</a></li>
+                    </ul>
+                </li>
+            </ul>
+            <ul class="nav navbar-nav">
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">{% trans %}menu.eventManagement.title{% endtrans %}<span class="caret"></span></a>
+                    <ul class="dropdown-menu">
+                        <li><a href="/events/show/all">{% trans %}menu.eventManagement.showAllevents{% endtrans %}</a></li>
+                        <li><a href="/events/add">{% trans %}menu.eventManagement.addEvent{% endtrans %}</a></li>
+                        <li><a href="/events/detail">{% trans %}menu.eventManagement.detailEvent{% endtrans %}</a></li>
                     </ul>
                 </li>
                 <li class="dropdown">
