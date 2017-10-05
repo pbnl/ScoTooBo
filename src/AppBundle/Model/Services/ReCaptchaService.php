@@ -4,10 +4,10 @@ namespace AppBundle\Model\Services;
 
 class ReCaptchaService
 {
-    public function validateReCaptcha($feedbackReCaptcha, $reCaptchaSiteSecret)
+    public function validateReCaptcha($feedbackReCaptchaResponse, $reCaptchaSiteSecret)
     {
         $url = 'https://www.google.com/recaptcha/api/siteverify';
-        $data = array('secret' => $reCaptchaSiteSecret, 'response' => $feedbackReCaptcha);
+        $data = array('secret' => $reCaptchaSiteSecret, 'response' => $feedbackReCaptchaResponse);
 
         $options = array(
             'http' => array(

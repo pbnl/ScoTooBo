@@ -55,13 +55,13 @@ class FeedbackController extends Controller
         if (count($errors) > 0) {
             $errorsString = (string) $errors;
 
-            return new Response($errorsString, 500);
+            return new Response($errorsString, 406);
         }
 
         $reCaptchaSecret = $this->container->getParameter('recaptcha.secret');
         if (!$this->get("reCaptcha")->validateReCaptcha($feedbackReCaptcha, $reCaptchaSecret))
         {
-             return new Response("Error with re-captcha", 500);
+             return new Response("Error with re-captcha", 403);
         }
 
         $em = $this->getDoctrine()->getManager();
