@@ -421,8 +421,13 @@ class UserRepository implements UserProviderInterface
     public function findUserByDn($dn)
     {
         try {
-            $ldapPbnlAccount = $this->ldapEntityManager->retrieveByDn($dn, PbnlAccount::class);
-        } catch (ContextErrorException $e) {
+            //TODO the @ is to supress the ldap_search warning. Find a better way after we have rewritten the ldap lib
+            $ldapPbnlAccount = @$this->ldapEntityManager->retrieveByDn($dn, PbnlAccount::class);
+        } catch (ErrorException $e) {
+            throw new UserDoesNotExistException("The user with the dn: " . $dn . " does not exist!");
+        }
+        if (count($ldapPbnlAccount) == 0)
+        {
             throw new UserDoesNotExistException("The user with the dn: " . $dn . " does not exist!");
         }
         $user = $this->entitiesToUser($ldapPbnlAccount[0]);
