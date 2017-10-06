@@ -34,7 +34,7 @@ class LoginControllerTest extends WebTestCase
         $client->followRedirect();
         $this->assertEquals(200, $client->getResponse()->getStatusCode());
         $this->assertContains('Logout', $client->getResponse()->getContent());
-        $this->assertContains('Das wird mal das Dashboard!', $client->getResponse()->getContent());
+        $this->assertContains('Dashboard (entsteht so langsam)', $client->getResponse()->getContent());
         //TODO: Change if we have a real start page
     }
 
