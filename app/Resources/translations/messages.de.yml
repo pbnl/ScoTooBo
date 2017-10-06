@@ -1,19 +1,47 @@
-welcome: Willkommen
-login.request: Bitte logge dich ein
-username: Benutzername
-uidNumber: Benutzer ID
-mail: Mailadresse
-password: Passwort
-login.remember.me: Erinnere dich :)
-login: Login
-logout: Logout
-menu.userManagement.title: Benutzerverwaltung
-menu.userManagement.showAllusers: Alle Benutzer anzeigen
-menu.userManagement.addUser: Benutzer hinzufügen
-menu.userManagement.detailUser: Benutzerdetails
+# Structure:
+# - General: general.___
+# - Menu: menu.___
+# -> more pages in alphabetical order
 
-menu.groupManagment.title: Gruppenmanagment
-menu.groupManagment.showAllGroups: Gruppenübersicht
+general.browserdata: Browserdaten
+general.city: Stadt
+general.create: Erstellen
+general.date: Datum
+general.delete: Löschen
+general.description: Beschreibung
+general.edit: Ändern
+general.firstName: Vorname
+general.gid: Gid
+general.group: Gruppe
+general.html: HTML
+general.ip: IP
+general.lastName: Nachname
+general.login: Login
+general.logout: Logout
+general.mail: E-Mail-Adresse
+general.member: Mitglied
+general.name: Name
+general.not.editable: Nicht änderbar
+general.nr: Nr
+general.password: Passwort
+general.phoneNumber.home: Telefonnummer
+general.phoneNumber.mobile: Mobile
+general.picture: Bild
+general.place: Ort
+general.postalCode: PLZ
+general.price: Preis
+general.save: Speichern
+general.search: Suchen
+general.stamm: Stamm
+general.street: Straße
+general.username: Benutzername
+general.text: Text
+general.uidNumber: Benutzer ID
+general.url: URL
+general.value: Wert
+general.welcome: Willkommen
+
+
 
 menu.eventManagement.title: Eventmanagement
 menu.eventManagement.showAllevents: Alle Events anzeigen
@@ -23,84 +51,52 @@ menu.eventManagement.detailEvent: Eventdetails
 menu.feedbackManagement.title: Feedback
 menu.feedbackManagement.showAllFeedback: Zeige jedes Feedback
 
-general_create: Erstellen
-create: Erstellen
-general_date: Datum
-general_delete: Löschen
-delete: Löschen
-general_description: Beschreibung
-general_edit: Ändern
-general_group: Gruppe
-group: Gruppe
-general_name: Name
-general_place: Ort
-general_price: Preis
-general_save: Speichern
-save: Speichern
-general_search: Suchen
-search: Suchen
-general_value: Wert
-value: Wert
-text: Text
-picture: Bild
-date: Datum
-url: URL
-stamm: Stamm
-ip: IP
-browserdata: Browserdaten
-html: HTML
-edit: Ändern
-name: Name
-nr: Nr
-gid: Gid
-member: Mitglied
+menu.groupManagement.title: Gruppenmanagment
+menu.groupManagement.showAllGroups: Gruppenübersicht
+
+menu.userManagement.title: Benutzerverwaltung
+menu.userManagement.showAllusers: Alle Benutzer anzeigen
+menu.userManagement.addUser: Benutzer hinzufügen
+menu.userManagement.detailUser: Benutzerdetails
 
 
-addUser.addedUser: Hinzugefügter User
-addUser.addedUserText: Füge einen neuen User hinzu
-addUser.generatedPassword: Generiertes Passwort
-addUser.generatePassword: Generiere ein Passwort
-addUser.nameValue: Name des Wertes
-addUser.value: Wert
-
-addEvent.Name: Name
-addEvent.Beschreibung: Beschreibung
-addEvent.PriceInCent: Preis in Cent
-addEvent.DateFrom: Von
-addEvent.DateTo: Bis
-addEvent.Place: Ort
-addEvent.Submit: Erstellen
-
-event_addForm_UserText: Füge ein neues Event hinzu
-
-firstName: Vorname
-lastName: Nachname
-postalCode: PLZ
-phoneNumber.home: Telefonnummer
-phoneNumber.mobile: Mobile
-city: Stadt
-street: Straße
-
-showAllGroups.myGroups: Meine Gruppen
-
-not.editable: Nicht änderbar
-
-removeUserConfirmDialogText: Wollen sie wirklich den User %name% löschen?
-
-
-detailGroup.myGroups: Meine Gruppen
-
-feedback_label: Fehler / Feedback
-feedback_header: Sende Feedback
-feedback_nextLabel: Weiter
-feedback_reviewLabel: Vorschau
-feedback_sendLabel: Senden
-feedback_closeLabel: Schließen
-feedback_messageSuccess: Dein Feedback hat uns erfolgreich erreicht und wird in Kürze bearbeitet.
-feedback_messageError: Es trat leider ein Fehler auf, schreib uns am besten persönlich an.
-feedback_labelAfterSend: Danke für dein Feedback!
 
 403ErrorPage.head: Diese Aktion ist für dich verboten ERROR 403
 403ErrorPage.feedBackReference: Wenn du uns Feedback geben willst, oder ein Problem hast, benutze den Button in der rechten unteren Ecke!
 403ErrorPage.logoutFirst: Logge dich zuerst aus.
 403ErrorPage.thenLoginWithCorrectUser: Logge dich danach mit dem korrektem User ein
+
+Dashboard.title: Dashboard
+
+Event.add.addedEvent: Füge ein neues Event hinzu
+Event.add.Name: Name
+Event.add.Beschreibung: Beschreibung
+Event.add.PriceInCent: Preis in Cent
+Event.add.DateFrom: Von
+Event.add.DateTo: Bis
+Event.add.Place: Ort
+Event.add.Submit: Erstellen
+
+Feedback.label: Fehler / Feedback
+Feedback.header: Sende Feedback
+Feedback.nextLabel: Weiter
+Feedback.reviewLabel: Vorschau
+Feedback.sendLabel: Senden
+Feedback.closeLabel: Schließen
+Feedback.messageSuccess: Dein Feedback hat uns erfolgreich erreicht und wird in Kürze bearbeitet.
+Feedback.messageError: Es trat leider ein Fehler auf, schreib uns am besten persönlich an.
+Feedback.labelAfterSend: Danke für dein Feedback!
+
+Group.showAll.myGroups: Meine Gruppen
+Group.detail.myGroups: Meine Gruppen
+
+Login.request: Bitte logge dich ein
+Login.remember.me: Erinnere dich :)
+
+User.add.addedUser: Hinzugefügter User
+User.add.addedUserText: Füge einen neuen User hinzu
+User.add.generatedPassword: Generiertes Passwort
+User.add.generatePassword: Generiere ein Passwort
+User.add.nameValue: Name des Wertes
+User.add.value: Wert
+User.remove.ConfirmDialogText: Wollen sie wirklich den User %name% löschen?

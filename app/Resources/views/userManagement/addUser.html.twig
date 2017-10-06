@@ -9,22 +9,22 @@
         <br><br>
         {% include 'includes/showFlashes.html.twig' %}
         {% if addedSomeone %}
-            <h2 class="form-signin-heading">{% trans %}addUser.addedUser{% endtrans %}</h2>
+            <h2 class="form-signin-heading">{% trans %}User.add.addedUser{% endtrans %}</h2>
             <table class="table table-striped">
                 <thead class="">
                 <tr>
                     <th>
-                        {% trans %}addUser.nameValue{% endtrans %}
+                        {% trans %}User.add.nameValue{% endtrans %}
                     </th>
                     <th>
-                        {% trans %}addUser.value{% endtrans %}
+                        {% trans %}User.add.value{% endtrans %}
                     </th>
                 </tr>
                 </thead>
                 <tbody>
                 <tr>
                     <th>
-                        {% trans %}username{% endtrans %}
+                        {% trans %}general.username{% endtrans %}
                     </th>
                     <td>
                         {{ addedPerson.uid }}
@@ -32,7 +32,7 @@
                 </tr>
                 <tr>
                     <th>
-                        {% trans %}firstName{% endtrans %}
+                        {% trans %}general.firstName{% endtrans %}
                     </th>
                     <td>
                         {{ addedPerson.firstName }}
@@ -40,7 +40,7 @@
                 </tr>
                 <tr>
                     <th>
-                        {% trans %}lastName{% endtrans %}
+                        {% trans %}general.lastName{% endtrans %}
                     </th>
                     <td>
                         {{ addedPerson.lastName }}
@@ -48,7 +48,7 @@
                 </tr>
                 <tr>
                     <th>
-                        {% trans %}mail{% endtrans %}
+                        {% trans %}general.mail{% endtrans %}
                     </th>
                     <td>
                         {{ addedPerson.mail }}
@@ -68,7 +68,7 @@
 
         <br><br>
 
-        <h2 class="form-signin-heading">{% trans %}addUser.addedUserText{% endtrans %}</h2>
+        <h2 class="form-signin-heading">{% trans %}User.add.addedUserText{% endtrans %}</h2>
         <div class="col-sm-8">
             {{ form_start(addAUserForm) }}
             {{ form_row(addAUserForm.firstName) }}

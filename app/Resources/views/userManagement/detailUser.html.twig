@@ -1,6 +1,6 @@
 {% extends "includes/base.html.twig" %}
 
-{% block title %}Teams{% endblock %}
+{% block title %}{% trans %}menu.userManagement.detailUser{% endtrans %}{% endblock %}
 
 {% block body %}
     {% include 'includes/navbar.html.twig' %}
@@ -14,20 +14,20 @@
                     <thead class="">
                     <tr>
                         <th>
-                            {% trans %}name{% endtrans %}
+                            {% trans %}general.name{% endtrans %}
                         </th>
                         <th>
-                            {% trans %}value{% endtrans %}t
+                            {% trans %}general.value{% endtrans %}t
                         </th>
                         <th>
-                            {% trans %}edit{% endtrans %}
+                            {% trans %}general.edit{% endtrans %}
                         </th>
                     </tr>
                     </thead>
                     <tbody>
                     <tr>
                         <th>
-                            {% trans %}username{% endtrans %}
+                            {% trans %}general.username{% endtrans %}
                         </th>
                         <td>
                             {{user.givenName}}
@@ -35,7 +35,7 @@
                     </tr>
                     <tr>
                         <th>
-                            {% trans %}uidNumber{% endtrans %}
+                            {% trans %}general.uidNumber{% endtrans %}
                         </th>
                         <td>
                             {{user.uidNumber}}
@@ -43,7 +43,7 @@
                     </tr>
                     <tr>
                         <th>
-                            {% trans %}firstName{% endtrans %}
+                            {% trans %}general.firstName{% endtrans %}
                         </th>
                         <td>
                             {{user.firstName}}
@@ -51,7 +51,7 @@
                     </tr>
                     <tr>
                         <th>
-                            {% trans %}lastName{% endtrans %}
+                            {% trans %}general.lastName{% endtrans %}
                         </th>
                         <td>
                             {{user.lastName}}
@@ -59,7 +59,7 @@
                     </tr>
                     <tr>
                         <th>
-                            {% trans %}mail{% endtrans %}
+                            {% trans %}general.mail{% endtrans %}
                         </th>
                         <td>
                             {{user.mail}}
@@ -75,7 +75,7 @@
                     </tr>
                     <tr>
                         <th>
-                            {% trans %}city{% endtrans %}
+                            {% trans %}general.city{% endtrans %}
                         </th>
                         <td>
                             {{user.city}}
@@ -83,7 +83,7 @@
                     </tr>
                     <tr>
                         <th>
-                            {% trans %}postalCode{% endtrans %}
+                            {% trans %}general.postalCode{% endtrans %}
                         </th>
                         <td>
                             {{user.postalCode}}
@@ -91,7 +91,7 @@
                     </tr>
                     <tr>
                         <th>
-                            {% trans %}street{% endtrans %}
+                            {% trans %}general.street{% endtrans %}
                         </th>
                         <td>
                             {{user.street}}
@@ -99,7 +99,7 @@
                     </tr>
                     <tr>
                         <th>
-                            {% trans %}phoneNumber.home{% endtrans %}
+                            {% trans %}general.phoneNumber.home{% endtrans %}
                         </th>
                         <td>
                             {{user.homePhoneNumber}}
@@ -107,7 +107,7 @@
                     </tr>
                     <tr>
                         <th>
-                            {% trans %}phoneNumber.mobile{% endtrans %}
+                            {% trans %}general.phoneNumber.mobile{% endtrans %}
                         </th>
                         <td>
                             {{user.mobilePhoneNumber}}
@@ -123,42 +123,42 @@
                     <thead>
                     <tr>
                         <th>
-                            {% trans %}name{% endtrans %}
+                            {% trans %}general.name{% endtrans %}
                         </th>
                         <th>
-                            {% trans %}value{% endtrans %}
+                            {% trans %}general.value{% endtrans %}
                         </th>
                         <th>
-                            {% trans %}edit{% endtrans %}
+                            {% trans %}general.edit{% endtrans %}
                         </th>
                     </tr>
                     </thead>
                     <tbody>
                     <tr>
                         <th>
-                            {% trans %}username{% endtrans %}
+                            {% trans %}general.username{% endtrans %}
                         </th>
                         <td>
                             {{user.givenName}}
                         </td>
                         <td>
-                            {% trans %}not.editable{% endtrans %}
+                            {% trans %}general.not.editable{% endtrans %}
                         </td>
                     </tr>
                     <tr>
                         <th>
-                            {% trans %}uidNumber{% endtrans %}
+                            {% trans %}general.uidNumber{% endtrans %}
                         </th>
                         <td>
                             {{user.uidNumber}}
                         </td>
                         <td>
-                            {% trans %}not.editable{% endtrans %}
+                            {% trans %}general.not.editable{% endtrans %}
                         </td>
                     </tr>
                     <tr>
                         <th>
-                            {% trans %}firstName{% endtrans %}
+                            {% trans %}general.firstName{% endtrans %}
                         </th>
                         <td>
                             {{user.firstName}}
@@ -169,7 +169,7 @@
                     </tr>
                     <tr>
                         <th>
-                            {% trans %}lastName{% endtrans %}
+                            {% trans %}general.lastName{% endtrans %}
                         </th>
                         <td>
                             {{user.lastName}}
@@ -180,13 +180,13 @@
                     </tr>
                     <tr>
                         <th>
-                            {% trans %}mail{% endtrans %}
+                            {% trans %}general.mail{% endtrans %}
                         </th>
                         <td>
                             {{user.mail}}
                         </td>
                         <td>
-                            {% trans %}not.editable{% endtrans %}
+                            {% trans %}general.not.editable{% endtrans %}
                         </td>
                     </tr>
                     <tr>
@@ -197,12 +197,12 @@
                             {{user.dn}}
                         </td>
                         <td>
-                            {% trans %}not.editable{% endtrans %}
+                            {% trans %}general.not.editable{% endtrans %}
                         </td>
                     </tr>
                     <tr>
                         <th>
-                            {% trans %}city{% endtrans %}
+                            {% trans %}general.city{% endtrans %}
                         </th>
                         <td>
                             {{user.city}}
@@ -213,7 +213,7 @@
                     </tr>
                     <tr>
                         <th>
-                            {% trans %}postalCode{% endtrans %}
+                            {% trans %}general.postalCode{% endtrans %}
                         </th>
                         <td>
                             {{user.postalCode}}
@@ -224,7 +224,7 @@
                     </tr>
                     <tr>
                         <th>
-                            {% trans %}street{% endtrans %}
+                            {% trans %}general.street{% endtrans %}
                         </th>
                         <td>
                             {{user.street}}
@@ -235,7 +235,7 @@
                     </tr>
                     <tr>
                         <th>
-                            {% trans %}phoneNumber.home{% endtrans %}
+                            {% trans %}general.phoneNumber.home{% endtrans %}
                         </th>
                         <td>
                             {{user.homePhoneNumber}}
@@ -246,7 +246,7 @@
                     </tr>
                     <tr>
                         <th>
-                            {% trans %}phoneNumber.mobile{% endtrans %}
+                            {% trans %}general.phoneNumber.mobile{% endtrans %}
                         </th>
                         <td>
                             {{user.mobilePhoneNumber}}

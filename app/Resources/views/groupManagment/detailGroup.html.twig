@@ -11,26 +11,26 @@
     <div class="container">
         <br><br>
         {% include 'includes/showFlashes.html.twig' %}
-        <h2>{% trans %}group{% endtrans %}</h2>
+        <h2>{% trans %}general.group{% endtrans %}</h2>
         <div class="col-sm-8">
             <table class="table table-striped">
                 <thead class="">
                 <tr>
                     <th>
-                        {% trans %}name{% endtrans %}
+                        {% trans %}general.name{% endtrans %}
                     </th>
                     <th>
-                        {% trans %}value{% endtrans %}
+                        {% trans %}general.value{% endtrans %}
                     </th>
                     <th>
-                        {% trans %}delete{% endtrans %}
+                        {% trans %}general.delete{% endtrans %}
                     </th>
                 </tr>
                 </thead>
                 <tbody>
                 <tr>
                     <th>
-                        {% trans %}name{% endtrans %}
+                        {% trans %}general.name{% endtrans %}
                     </th>
                     <td>
                         {{group.cn}}
@@ -40,7 +40,7 @@
                     </td>
                 </tr>
                 <th>
-                    {% trans %}gid{% endtrans %}
+                    {% trans %}general.gid{% endtrans %}
                 </th>
                 <td>
                     {{group.gidNumber}}
@@ -52,7 +52,7 @@
                 {% for member in group.memberUserObjects %}
                     <tr>
                         <th>
-                            {% trans %}member{% endtrans %}
+                            {% trans %}general.member{% endtrans %}
                         </th>
                         <td>
                             {{member.givenName}}

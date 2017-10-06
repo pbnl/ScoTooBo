@@ -48,39 +48,39 @@ class EventController extends Controller
 
         $addAnEventForm = $this->createFormBuilder($event)
             ->add('Name', TextType::class, array(
-                "attr" => ["placeholder" => "addEvent.Name"],
-                'label' => "addEvent.Name",
+                "attr" => ["placeholder" => "Event.add.Name"],
+                'label' => "Event.add.Name",
                 'empty_data' => '',
                 "required" => true))
             ->add('Description', TextareaType::class, array(
-                "attr" => ["placeholder" => "addEvent.Beschreibung"],
-                'label' => "addEvent.Beschreibung",
+                "attr" => ["placeholder" => "Event.add.Beschreibung"],
+                'label' => "Event.add.Beschreibung",
                 'empty_data' => '',
                 "required" => true))
             ->add('PriceInCent', IntegerType::class, array(
-                "attr" => ["placeholder" => "addEvent.PriceInCent"],
-                'label' => "addEvent.PriceInCent",
+                "attr" => ["placeholder" => "Event.add.PriceInCent"],
+                'label' => "Event.add.PriceInCent",
                 'empty_data' => '',
                 "required" => true))
             ->add('DateFrom', DateTimeType::class, array(
-                'attr' => ["placeholder" => "addEvent.DateFrom"],
-                'label' => "addEvent.DateFrom",
+                'attr' => ["placeholder" => "Event.add.DateFrom"],
+                'label' => "Event.add.DateFrom",
                 'empty_data' => '',
                 // ToDo: bessere Auswahlmöglichkeit bieten
                 "required" => true))
             ->add('DateTo', DateTimeType::class, array(
-                'attr' => ["placeholder" => "addEvent.DateTo"],
-                'label' => "addEvent.DateTo",
+                'attr' => ["placeholder" => "Event.add.DateTo"],
+                'label' => "Event.add.DateTo",
                 'empty_data' => '',
                 // ToDo: bessere Auswahlmöglichkeit bieten
                 "required" => true))
             ->add('Place', TextareaType::class, array(
-                "attr" => ["placeholder" => "addEvent.Place"],
-                'label' => "addEvent.Place",
+                "attr" => ["placeholder" => "Event.add.Place"],
+                'label' => "Event.add.Place",
                 'empty_data' => '',
                 "required" => true))
             ->add('save', SubmitType::class, array(
-                'label' => 'addEvent.Submit',
+                'label' => 'Event.add.Submit',
                 "attr"=>["class"=>"btn btn-primary"]))
             ->getForm();
 
