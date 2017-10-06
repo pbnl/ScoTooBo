@@ -36,16 +36,16 @@ class UserController extends Controller
         $defaultData = array();
         $userSearchForm = $this->createFormBuilder($defaultData)
             ->add("filterOption", ChoiceType::class, array(
-                "choices"=>array("username"=>"filterByUid", "group"=>"filterByGroup"),
+                "choices"=>array("general.username"=>"filterByUid", "general.group"=>"filterByGroup"),
                 'label'=>false,
                 'required' => false,
                 'data'=>"filterByUid"))
             ->add("filterText", TextType::class, array(
-                "attr"=>["placeholder"=>"search"],
+                "attr"=>["placeholder"=>"general.search"],
                 'label'=>false,
                 'required' => false))
             ->add("send", SubmitType::class, array(
-                "label"=>"search",
+                "label"=>"general.search",
                 "attr"=>["class"=>"btn btn-lg btn-primary btn-block"]))
             ->setMethod("get")
             ->getForm();
@@ -89,29 +89,30 @@ class UserController extends Controller
         $user = new User("", "", "", []);
         $addUserForm = $this->createFormBuilder($user, ['attr' => ['class' => 'form-addUser']])
             ->add("firstName", TextType::class, array(
-                "attr"=>["placeholder"=>"firstName"],
-                'label' => "firstName"))
+                "attr"=>["placeholder"=>"general.firstName"],
+                'label' => "general.firstName"))
             ->add("lastName", TextType::class, array(
-                "attr"=>["placeholder"=>"lastName"],
-                'label' => "lastName"))
+                "attr"=>["placeholder"=>"general.lastName"],
+                'label' => "general.lastName"))
             ->add("givenName", TextType::class, array(
-                "attr"=>["placeholder"=>"username"],
-                'label' => "username"))
+                "attr"=>["placeholder"=>"general.username"],
+                'label' => "general.username"))
             ->add("clearPassword", PasswordType::class, array(
-                "attr"=>["placeholder"=>"password"],
-                'label' => "password"))
+                "attr"=>["placeholder"=>"general.password"],
+                'label' => "general.password"))
             ->add("generatePassword", ButtonType::class, array(
                 "attr"=>[],
-                'label' => "addUser.generatePassword"))
+                'label' => "User.add.generatePassword"))
             ->add("generatedPassword", TextType::class, array(
                 "attr"=>["readonly"=>"",
-                    "placeholder"=>"addUser.generatedPassword"],
+                    "placeholder"=>"User.add.generatedPassword"],
                 "label"=>false))
             ->add('stamm', ChoiceType::class, array(
                 'choices'  => ArrayMethods::valueToKeyAndValue($staemme),
+                'label' => "general.stamm"
             ))
             ->add("send", SubmitType::class, array(
-                "label"=>"create",
+                "label"=>"general.create",
                 "attr"=>["class"=>"btn btn-lg btn-primary btn-block"]))
             ->getForm();
 
@@ -167,42 +168,42 @@ class UserController extends Controller
         if ($this->isLoggedInUserAllowedToEditShowenUser($loggedInUser, $userToShow)) {
             $editUserForm = $this->createFormBuilder($userToShow, ['attr' => ['class' => 'form-addAUser']])
                 ->add("firstName", TextType::class, array(
-                    "attr" => ["placeholder" => "firstName"],
-                    'label' => "firstName",
+                    "attr" => ["placeholder" => "general.firstName"],
+                    'label' => "general.firstName",
                     'empty_data' => '',
                     "required" => true))
                 ->add("lastName", TextType::class, array(
-                    "attr" => ["placeholder" => "lastName"],
-                    'label' => "lastName",
+                    "attr" => ["placeholder" => "general.lastName"],
+                    'label' => "general.lastName",
                     'empty_data' => '',
                     "required" => true))
                 ->add("city", TextType::class, array(
-                    "attr" => ["placeholder" => "city"],
-                    'label' => "city",
+                    "attr" => ["placeholder" => "general.city"],
+                    'label' => "general.city",
                     'empty_data' => '',
                     "required" => false))
                 ->add("postalCode", TextType::class, array(
-                    "attr" => ["placeholder" => "postalCode"],
-                    'label' => "postalCode",
+                    "attr" => ["placeholder" => "general.postalCode"],
+                    'label' => "general.postalCode",
                     'empty_data' => '',
                     "required" => false))
                 ->add("street", TextType::class, array(
-                    "attr" => ["placeholder" => "street"],
-                    'label' => "street",
+                    "attr" => ["placeholder" => "general.street"],
+                    'label' => "general.street",
                     'empty_data' => '',
                     "required" => false))
                 ->add("homePhoneNumber", TextType::class, array(
-                    "attr" => ["placeholder" => "phoneNumber.home"],
-                    'label' => "phoneNumber.home",
+                    "attr" => ["placeholder" => "general.phoneNumber.home"],
+                    'label' => "general.phoneNumber.home",
                     'empty_data' => '',
                     "required" => false))
                 ->add("mobilePhoneNumber", TextType::class, array(
-                    "attr" => ["placeholder" => "phoneNumber.mobile"],
-                    'label' => "phoneNumber.mobil",
+                    "attr" => ["placeholder" => "general.phoneNumber.mobile"],
+                    'label' => "general.phoneNumber.mobil",
                     'empty_data' => '',
                     "required" => false))
                 ->add("send", SubmitType::class, array(
-                    "label" => "save",
+                    "label" => "general.save",
                     "attr" => ["class" => "btn btn-lg btn-primary btn-block"]))
                 ->getForm();
 
