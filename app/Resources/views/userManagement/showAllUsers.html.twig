@@ -16,7 +16,7 @@
             {{ form_end(peopleSearchForm) }}
         {% endif %}
     </div>
-    <table id="allUserTable" class="table table-striped tablesorter table-bordered">
+    <table id="allUserTable" class="table table-striped tablesorter table-bordered table-responsive">
         <thead class="">
         <tr>
             <th class="filter-false">
@@ -28,7 +28,7 @@
             <th class="filter-select filter-exact" data-placeholder="Stamm">
                 {% trans %}general.stamm{% endtrans %}
             </th>
-            <th>
+            <th class="limitBigTableColumn">
                 DN
             </th>
             <th class="filter-false">
@@ -48,7 +48,7 @@
                 <td>
                     {{user.getStamm}}
                 </td>
-                <td>
+                <td class="limitBigTableColumn">
                     {{user.getDn}}
                 </td>
                 <td>
@@ -61,7 +61,7 @@
 
         <tfoot>
         <tr>
-            <th colspan="7" class="ts-pager">
+            <th colspan="5" class="ts-pager">
                 <div class="form-inline">
                     <div class="btn-group btn-group-sm mx-1" role="group">
                         <button type="button" class="btn btn-secondary first" title="first">⇤</button>
@@ -82,11 +82,12 @@
                 </div>
             </th>
         </tr>
+        </tfoot>
     </table>
 {% endblock %}
 
 {% block javascripts %}
     {{ parent() }}
-    <script src="{{ asset('js/showAllUsers.js') }}"></script>
+    <script src="{{ asset('js/tablesorter.js') }}"></script>
 
 {% endblock %}

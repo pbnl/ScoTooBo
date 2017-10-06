@@ -25,12 +25,15 @@ $(document).ready(function() {
             // extra css class name (string or array) added to the filter element (input or select)
             filter_cssFilter: [
                 'form-control',
-                'form-control',
+                'form-control custom-select',
                 'form-control custom-select', // select needs custom class names :(
-                'form-control',
-                'form-control',
-                'form-control',
-                'form-control'
+                'form-control custom-select',
+                'form-control custom-select',
+                'form-control custom-select',
+                'form-control custom-select',
+                'form-control custom-select',
+                'form-control custom-select',
+                'form-control custom-select'
             ]
 
         }

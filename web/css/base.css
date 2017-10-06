@@ -5,6 +5,14 @@ body {
 */
 
 /*
+ * for big table columns
+ */
+.limitBigTableColumn {
+    max-width: 300px;
+    word-wrap: break-word;
+}
+
+/*
  * Style tweaks
  * --------------------------------------------------
  */
