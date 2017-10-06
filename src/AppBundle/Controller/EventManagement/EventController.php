@@ -58,7 +58,10 @@ class EventController extends Controller
                 'empty_data' => '',
                 "required" => true))
             ->add('PriceInCent', IntegerType::class, array(
-                "attr" => ["placeholder" => "Event.add.PriceInCent"],
+                "attr" => [
+                    "placeholder" => "Event.add.PriceInCent",
+                    "min" => 0
+                ],
                 'label' => "Event.add.PriceInCent",
                 'empty_data' => '',
                 "required" => true))

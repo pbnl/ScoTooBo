@@ -39,8 +39,12 @@ class Event
     private $description;
 
     /**
+     * @Assert\Range(
+     *     min = 0,
+     *     minMessage = "This value should be {{ limit }} or more."
+     * )
      * @var int
-     * @ORM\Column(type="integer")
+     * @ORM\Column(type="integer", options={"unsigned"=true})
      */
     private $price;
 
