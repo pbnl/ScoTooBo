@@ -23,7 +23,30 @@
         <link rel="stylesheet" href="{{ asset('css/base.css') }}">
     </head>
     <body>
-        {% block body %}{% endblock %}
+        {% block navbar %}{% include 'includes/navbar.html.twig' %}{% endblock %}
+        <div class="container">
+            <div class="row row-offcanvas row-offcanvas-right">
+                <div class="col-6 col-md-3 sidebar-offcanvas" id="sidebar">
+                    <div class="list-group">
+                        {% block sidenav %}{% endblock %}
+                    </div>
+                </div>
+
+                <div class="col-12 col-md-9">
+                    <p class="d-md-none">
+                        <button type="button" class="btn btn-primary btn-sm" data-toggle="offcanvas">Toggle nav</button>
+                    </p>
+                    {% block body %}{% endblock %}
+                </div>
+                {% block bodyOutside %}{% endblock %}
+            </div>
+
+            <hr>
+
+            <footer>
+                {% include "includes/footer.html.twig" %}
+            </footer>
+        </div>
         {% block javascripts %}
             <script
                     src="https://code.jquery.com/jquery-3.2.1.min.js"

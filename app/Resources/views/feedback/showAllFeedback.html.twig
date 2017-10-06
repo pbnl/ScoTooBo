@@ -2,87 +2,86 @@
 
 {% block title %}{% trans %}menu.feedbackManagement.title{% endtrans %}{% endblock %}
 
+{% block sidenav %}
+    {% include "includes/sidebarFeedback.html.twig" with {"showAllFeedback": "active"} %}
+{% endblock %}
+
 {% block body %}
-    {% include 'includes/navbar.html.twig' %}
-    <div class="container">
-        <br><br>
-        {% include 'includes/showFlashes.html.twig' %}
+    {% include 'includes/showFlashes.html.twig' %}
 
-        <table class="table table-striped">
-            <thead>
+    <table class="table table-striped">
+        <thead>
+        <tr>
+            <th>
+                Nr
+            </th>
+            <th>
+                {% trans %}general.text{% endtrans %}
+            </th>
+            <th>
+                {% trans %}general.picture{% endtrans %}
+            </th>
+            <th>
+                {% trans %}general.date{% endtrans %}
+            </th>
+            <th>
+                {% trans %}general.url{% endtrans %}
+            </th>
+            <th>
+                {% trans %}general.username{% endtrans %}
+            </th>
+            <th>
+                {% trans %}general.ip{% endtrans %}
+            </th>
+            <th>
+                {% trans %}general.stamm{% endtrans %}
+            </th>
+            <th>
+                {% trans %}general.browserdata{% endtrans %}
+            </th>
+            <th>
+                {% trans %}general.html{% endtrans %}
+            </th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for feedback in feedbacks %}
             <tr>
-                <th>
-                    Nr
-                </th>
-                <th>
-                    {% trans %}general.text{% endtrans %}
-                </th>
-                <th>
-                    {% trans %}general.picture{% endtrans %}
-                </th>
-                <th>
-                    {% trans %}general.date{% endtrans %}
-                </th>
-                <th>
-                    {% trans %}general.url{% endtrans %}
-                </th>
-                <th>
-                    {% trans %}general.username{% endtrans %}
-                </th>
-                <th>
-                    {% trans %}general.ip{% endtrans %}
-                </th>
-                <th>
-                    {% trans %}general.stamm{% endtrans %}
-                </th>
-                <th>
-                    {% trans %}general.browserdata{% endtrans %}
-                </th>
-                <th>
-                    {% trans %}general.html{% endtrans %}
-                </th>
+                <td>
+                    {{ loop.index}}
+                </td>
+                <td>
+                    {{ feedback.text }}
+                </td>
+                <td>
+                    <img class="image" width="200" src="{{feedback.picture}}"/>
+                </td>
+                <td>
+                    {{feedback.date.format('Y-m-d H:i')}}
+                </td>
+                <td>
+                    <a href="{{feedback.url}}">{{feedback.url}}</a>
+                </td>
+                <td>
+                    {{feedback.userUid}}
+                </td>
+                <td>
+                    {{feedback.userIp}}
+                </td>
+                <td>
+                    {{feedback.userStamm}}
+                </td>
+                <td>
+                    <textarea rows="3">{{feedback.browserData}}</textarea>
+                </td>
+                <td>
+                    <textarea rows="3">{{feedback.htmlContent}}</textarea>
+
+                </td>
             </tr>
-            </thead>
-            <tbody>
-            {% for feedback in feedbacks %}
-                <tr>
-                    <td>
-                        {{ loop.index}}
-                    </td>
-                    <td>
-                        {{ feedback.text }}
-                    </td>
-                    <td>
-                        <img class="image" width="200" src="{{feedback.picture}}"/>
-                    </td>
-                    <td>
-                        {{feedback.date.format('Y-m-d H:i')}}
-                    </td>
-                    <td>
-                        <a href="{{feedback.url}}">{{feedback.url}}</a>
-                    </td>
-                    <td>
-                        {{feedback.userUid}}
-                    </td>
-                    <td>
-                        {{feedback.userIp}}
-                    </td>
-                    <td>
-                        {{feedback.userStamm}}
-                    </td>
-                    <td>
-                        <textarea rows="3">{{feedback.browserData}}</textarea>
-                    </td>
-                    <td>
-                        <textarea rows="3">{{feedback.htmlContent}}</textarea>
-
-                    </td>
-                </tr>
-            {% endfor %}
-            </tbody>
-        </table>
-    </div>
-
+        {% endfor %}
+        </tbody>
+    </table>
 {% endblock %}
 
 {% block javascripts %}

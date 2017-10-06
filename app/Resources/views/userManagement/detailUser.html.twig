@@ -2,269 +2,267 @@
 
 {% block title %}{% trans %}menu.userManagement.detailUser{% endtrans %}{% endblock %}
 
+{% block sidenav %}
+    {% include "includes/sidebarUserGroup.html.twig" with {"detailUser": "active"} %}
+{% endblock %}
+
 {% block body %}
-    {% include 'includes/navbar.html.twig' %}
-    <div class="container">
-        <br><br>
-        {% include 'includes/showFlashes.html.twig' %}
-        {% if user != false%} <h2>{{ user.givenName }}</h2> {% endif %}
-        <div class="col-sm-12">
-            {% if editUserForm == false  and user != false%}
-                <table class="table table-striped">
-                    <thead class="">
-                    <tr>
-                        <th>
-                            {% trans %}general.name{% endtrans %}
-                        </th>
-                        <th>
-                            {% trans %}general.value{% endtrans %}t
-                        </th>
-                        <th>
-                            {% trans %}general.edit{% endtrans %}
-                        </th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <tr>
-                        <th>
-                            {% trans %}general.username{% endtrans %}
-                        </th>
-                        <td>
-                            {{user.givenName}}
-                        </td>
-                    </tr>
-                    <tr>
-                        <th>
-                            {% trans %}general.uidNumber{% endtrans %}
-                        </th>
-                        <td>
-                            {{user.uidNumber}}
-                        </td>
-                    </tr>
-                    <tr>
-                        <th>
-                            {% trans %}general.firstName{% endtrans %}
-                        </th>
-                        <td>
-                            {{user.firstName}}
-                        </td>
-                    </tr>
-                    <tr>
-                        <th>
-                            {% trans %}general.lastName{% endtrans %}
-                        </th>
-                        <td>
-                            {{user.lastName}}
-                        </td>
-                    </tr>
-                    <tr>
-                        <th>
-                            {% trans %}general.mail{% endtrans %}
-                        </th>
-                        <td>
-                            {{user.mail}}
-                        </td>
-                    </tr>
-                    <tr>
-                        <th>
-                            DN
-                        </th>
-                        <td>
-                            {{user.dn}}
-                        </td>
-                    </tr>
-                    <tr>
-                        <th>
-                            {% trans %}general.city{% endtrans %}
-                        </th>
-                        <td>
-                            {{user.city}}
-                        </td>
-                    </tr>
-                    <tr>
-                        <th>
-                            {% trans %}general.postalCode{% endtrans %}
-                        </th>
-                        <td>
-                            {{user.postalCode}}
-                        </td>
-                    </tr>
-                    <tr>
-                        <th>
-                            {% trans %}general.street{% endtrans %}
-                        </th>
-                        <td>
-                            {{user.street}}
-                        </td>
-                    </tr>
-                    <tr>
-                        <th>
-                            {% trans %}general.phoneNumber.home{% endtrans %}
-                        </th>
-                        <td>
-                            {{user.homePhoneNumber}}
-                        </td>
-                    </tr>
-                    <tr>
-                        <th>
-                            {% trans %}general.phoneNumber.mobile{% endtrans %}
-                        </th>
-                        <td>
-                            {{user.mobilePhoneNumber}}
-                        </td>
-                    </tr>
-                    </tbody>
-                </table>
-            {% endif %}
-            {% if editUserForm != false and user != false %}
-                {% form_theme editUserForm 'bootstrap_3_horizontal_layout.html.twig' %}
-                {{ form_start(editUserForm) }}
-                <table class="table table-striped">
-                    <thead>
-                    <tr>
-                        <th>
-                            {% trans %}general.name{% endtrans %}
-                        </th>
-                        <th>
-                            {% trans %}general.value{% endtrans %}
-                        </th>
-                        <th>
-                            {% trans %}general.edit{% endtrans %}
-                        </th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <tr>
-                        <th>
-                            {% trans %}general.username{% endtrans %}
-                        </th>
-                        <td>
-                            {{user.givenName}}
-                        </td>
-                        <td>
-                            {% trans %}general.not.editable{% endtrans %}
-                        </td>
-                    </tr>
-                    <tr>
-                        <th>
-                            {% trans %}general.uidNumber{% endtrans %}
-                        </th>
-                        <td>
-                            {{user.uidNumber}}
-                        </td>
-                        <td>
-                            {% trans %}general.not.editable{% endtrans %}
-                        </td>
-                    </tr>
-                    <tr>
-                        <th>
-                            {% trans %}general.firstName{% endtrans %}
-                        </th>
-                        <td>
-                            {{user.firstName}}
-                        </td>
-                        <td>
-                            {{form_widget(editUserForm.firstName)}}
-                        </td>
-                    </tr>
-                    <tr>
-                        <th>
-                            {% trans %}general.lastName{% endtrans %}
-                        </th>
-                        <td>
-                            {{user.lastName}}
-                        </td>
-                        <td>
-                            {{form_widget(editUserForm.lastName)}}
-                        </td>
-                    </tr>
-                    <tr>
-                        <th>
-                            {% trans %}general.mail{% endtrans %}
-                        </th>
-                        <td>
-                            {{user.mail}}
-                        </td>
-                        <td>
-                            {% trans %}general.not.editable{% endtrans %}
-                        </td>
-                    </tr>
-                    <tr>
-                        <th>
-                            DN
-                        </th>
-                        <td>
-                            {{user.dn}}
-                        </td>
-                        <td>
-                            {% trans %}general.not.editable{% endtrans %}
-                        </td>
-                    </tr>
-                    <tr>
-                        <th>
-                            {% trans %}general.city{% endtrans %}
-                        </th>
-                        <td>
-                            {{user.city}}
-                        </td>
-                        <td>
-                            {{form_widget(editUserForm.city)}}
-                        </td>
-                    </tr>
-                    <tr>
-                        <th>
-                            {% trans %}general.postalCode{% endtrans %}
-                        </th>
-                        <td>
-                            {{user.postalCode}}
-                        </td>
-                        <td>
-                            {{form_widget(editUserForm.postalCode)}}
-                        </td>
-                    </tr>
-                    <tr>
-                        <th>
-                            {% trans %}general.street{% endtrans %}
-                        </th>
-                        <td>
-                            {{user.street}}
-                        </td>
-                        <td>
-                            {{form_widget(editUserForm.street)}}
-                        </td>
-                    </tr>
-                    <tr>
-                        <th>
-                            {% trans %}general.phoneNumber.home{% endtrans %}
-                        </th>
-                        <td>
-                            {{user.homePhoneNumber}}
-                        </td>
-                        <td>
-                            {{form_widget(editUserForm.homePhoneNumber)}}
-                        </td>
-                    </tr>
-                    <tr>
-                        <th>
-                            {% trans %}general.phoneNumber.mobile{% endtrans %}
-                        </th>
-                        <td>
-                            {{user.mobilePhoneNumber}}
-                        </td>
-                        <td>
-                            {{form_widget(editUserForm.mobilePhoneNumber)}}
-                        </td>
-                    </tr>
-                    </tbody>
-                </table>
-                {{ form_end(editUserForm) }}
-            {% endif %}
-        </div>
-
-        <div class="col-sm-4">
-
-        </div>
-
+    {% include 'includes/showFlashes.html.twig' %}
+    {% if user != false%} <h2>{{ user.givenName }}</h2> {% endif %}
+    <div class="col-sm-12">
+        {% if editUserForm == false  and user != false%}
+            <table class="table table-striped">
+                <thead class="">
+                <tr>
+                    <th>
+                        {% trans %}general.name{% endtrans %}
+                    </th>
+                    <th>
+                        {% trans %}general.value{% endtrans %}t
+                    </th>
+                    <th>
+                        {% trans %}general.edit{% endtrans %}
+                    </th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <th>
+                        {% trans %}general.username{% endtrans %}
+                    </th>
+                    <td>
+                        {{user.givenName}}
+                    </td>
+                </tr>
+                <tr>
+                    <th>
+                        {% trans %}general.uidNumber{% endtrans %}
+                    </th>
+                    <td>
+                        {{user.uidNumber}}
+                    </td>
+                </tr>
+                <tr>
+                    <th>
+                        {% trans %}general.firstName{% endtrans %}
+                    </th>
+                    <td>
+                        {{user.firstName}}
+                    </td>
+                </tr>
+                <tr>
+                    <th>
+                        {% trans %}general.lastName{% endtrans %}
+                    </th>
+                    <td>
+                        {{user.lastName}}
+                    </td>
+                </tr>
+                <tr>
+                    <th>
+                        {% trans %}general.mail{% endtrans %}
+                    </th>
+                    <td>
+                        {{user.mail}}
+                    </td>
+                </tr>
+                <tr>
+                    <th>
+                        DN
+                    </th>
+                    <td>
+                        {{user.dn}}
+                    </td>
+                </tr>
+                <tr>
+                    <th>
+                        {% trans %}general.city{% endtrans %}
+                    </th>
+                    <td>
+                        {{user.city}}
+                    </td>
+                </tr>
+                <tr>
+                    <th>
+                        {% trans %}general.postalCode{% endtrans %}
+                    </th>
+                    <td>
+                        {{user.postalCode}}
+                    </td>
+                </tr>
+                <tr>
+                    <th>
+                        {% trans %}general.street{% endtrans %}
+                    </th>
+                    <td>
+                        {{user.street}}
+                    </td>
+                </tr>
+                <tr>
+                    <th>
+                        {% trans %}general.phoneNumber.home{% endtrans %}
+                    </th>
+                    <td>
+                        {{user.homePhoneNumber}}
+                    </td>
+                </tr>
+                <tr>
+                    <th>
+                        {% trans %}general.phoneNumber.mobile{% endtrans %}
+                    </th>
+                    <td>
+                        {{user.mobilePhoneNumber}}
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        {% endif %}
+        {% if editUserForm != false and user != false %}
+            {% form_theme editUserForm 'bootstrap_3_horizontal_layout.html.twig' %}
+            {{ form_start(editUserForm) }}
+            <table class="table table-striped">
+                <thead>
+                <tr>
+                    <th>
+                        {% trans %}general.name{% endtrans %}
+                    </th>
+                    <th>
+                        {% trans %}general.value{% endtrans %}
+                    </th>
+                    <th>
+                        {% trans %}general.edit{% endtrans %}
+                    </th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <th>
+                        {% trans %}general.username{% endtrans %}
+                    </th>
+                    <td>
+                        {{user.givenName}}
+                    </td>
+                    <td>
+                        {% trans %}general.not.editable{% endtrans %}
+                    </td>
+                </tr>
+                <tr>
+                    <th>
+                        {% trans %}general.uidNumber{% endtrans %}
+                    </th>
+                    <td>
+                        {{user.uidNumber}}
+                    </td>
+                    <td>
+                        {% trans %}general.not.editable{% endtrans %}
+                    </td>
+                </tr>
+                <tr>
+                    <th>
+                        {% trans %}general.firstName{% endtrans %}
+                    </th>
+                    <td>
+                        {{user.firstName}}
+                    </td>
+                    <td>
+                        {{form_widget(editUserForm.firstName)}}
+                    </td>
+                </tr>
+                <tr>
+                    <th>
+                        {% trans %}general.lastName{% endtrans %}
+                    </th>
+                    <td>
+                        {{user.lastName}}
+                    </td>
+                    <td>
+                        {{form_widget(editUserForm.lastName)}}
+                    </td>
+                </tr>
+                <tr>
+                    <th>
+                        {% trans %}general.mail{% endtrans %}
+                    </th>
+                    <td>
+                        {{user.mail}}
+                    </td>
+                    <td>
+                        {% trans %}general.not.editable{% endtrans %}
+                    </td>
+                </tr>
+                <tr>
+                    <th>
+                        DN
+                    </th>
+                    <td>
+                        {{user.dn}}
+                    </td>
+                    <td>
+                        {% trans %}general.not.editable{% endtrans %}
+                    </td>
+                </tr>
+                <tr>
+                    <th>
+                        {% trans %}general.city{% endtrans %}
+                    </th>
+                    <td>
+                        {{user.city}}
+                    </td>
+                    <td>
+                        {{form_widget(editUserForm.city)}}
+                    </td>
+                </tr>
+                <tr>
+                    <th>
+                        {% trans %}general.postalCode{% endtrans %}
+                    </th>
+                    <td>
+                        {{user.postalCode}}
+                    </td>
+                    <td>
+                        {{form_widget(editUserForm.postalCode)}}
+                    </td>
+                </tr>
+                <tr>
+                    <th>
+                        {% trans %}general.street{% endtrans %}
+                    </th>
+                    <td>
+                        {{user.street}}
+                    </td>
+                    <td>
+                        {{form_widget(editUserForm.street)}}
+                    </td>
+                </tr>
+                <tr>
+                    <th>
+                        {% trans %}general.phoneNumber.home{% endtrans %}
+                    </th>
+                    <td>
+                        {{user.homePhoneNumber}}
+                    </td>
+                    <td>
+                        {{form_widget(editUserForm.homePhoneNumber)}}
+                    </td>
+                </tr>
+                <tr>
+                    <th>
+                        {% trans %}general.phoneNumber.mobile{% endtrans %}
+                    </th>
+                    <td>
+                        {{user.mobilePhoneNumber}}
+                    </td>
+                    <td>
+                        {{form_widget(editUserForm.mobilePhoneNumber)}}
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+            {{ form_end(editUserForm) }}
+        {% endif %}
     </div>
 
+    <div class="col-sm-4">
+
+    </div>
 {% endblock %}

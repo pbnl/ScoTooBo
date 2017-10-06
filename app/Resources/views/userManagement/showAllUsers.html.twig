@@ -2,88 +2,87 @@
 
 {% block title %}{% trans %}menu.userManagement.title{% endtrans %}{% endblock %}
 
+{% block sidenav %}
+    {% include "includes/sidebarUserGroup.html.twig" with {"showAllUsers": "active"} %}
+{% endblock %}
+
 {% block body %}
-    {% include 'includes/navbar.html.twig' %}
-    <div class="container">
-        <br><br>
-        {% include 'includes/showFlashes.html.twig' %}
-        <h3>Such Optionen</h3>
-        <div class="col-sm-6">
-            {% if peopleSearchForm is defined %}
-                {% form_theme peopleSearchForm 'bootstrap_4_horizontal_layout.html.twig' %}
-                {{ form_start(peopleSearchForm) }}
-                {{ form_end(peopleSearchForm) }}
-            {% endif %}
-        </div>
-        <table id="allUserTable" class="table table-striped tablesorter table-bordered">
-            <thead class="">
-            <tr>
-                <th class="filter-false">
-                    Nr
-                </th>
-                <th>
-                    {% trans %}general.username{% endtrans %}
-                </th>
-                <th class="filter-select filter-exact" data-placeholder="Stamm">
-                    {% trans %}general.stamm{% endtrans %}
-                </th>
-                <th>
-                    DN
-                </th>
-                <th class="filter-false">
-                    {% trans %}general.delete{% endtrans %}
-                </th>
-            </tr>
-            </thead>
-            <tbody>
-            {% for user in users %}
-                <tr>
-                    <td>
-                        {{ loop.index}}
-                    </td>
-                    <td>
-                        <a href="{{ path('detailUser', {'uid': user.getUid}) }}">{{ user.getUsername}}</a>
-                    </td>
-                    <td>
-                        {{user.getStamm}}
-                    </td>
-                    <td>
-                        {{user.getDn}}
-                    </td>
-                    <td>
-                        {% include  'includes/removeUserButtonWithConfirmDialog.html.twig' with {"user":user} %}
-
-                    </td>
-                </tr>
-            {% endfor %}
-            </tbody>
-
-            <tfoot>
-            <tr>
-                <th colspan="7" class="ts-pager">
-                    <div class="form-inline">
-                        <div class="btn-group btn-group-sm mx-1" role="group">
-                            <button type="button" class="btn btn-secondary first" title="first">⇤</button>
-                            <button type="button" class="btn btn-secondary prev" title="previous">←</button>
-                        </div>
-                        <span class="pagedisplay"></span>
-                        <div class="btn-group btn-group-sm mx-1" role="group">
-                            <button type="button" class="btn btn-secondary next" title="next">→</button>
-                            <button type="button" class="btn btn-secondary last" title="last">⇥</button>
-                        </div>
-                        <select class="form-control-sm custom-select px-1 pagesize" title="Select page size">
-                            <option selected="selected" value="10">10</option>
-                            <option value="20">20</option>
-                            <option value="30">30</option>
-                            <option value="all">All Rows</option>
-                        </select>
-                        <select class="form-control-sm custom-select px-4 mx-1 pagenum" title="Select page number"></select>
-                    </div>
-                </th>
-            </tr>
-        </table>
+    {% include 'includes/showFlashes.html.twig' %}
+    <h3>Such Optionen</h3>
+    <div class="col-sm-6">
+        {% if peopleSearchForm is defined %}
+            {% form_theme peopleSearchForm 'bootstrap_4_horizontal_layout.html.twig' %}
+            {{ form_start(peopleSearchForm) }}
+            {{ form_end(peopleSearchForm) }}
+        {% endif %}
     </div>
+    <table id="allUserTable" class="table table-striped tablesorter table-bordered">
+        <thead class="">
+        <tr>
+            <th class="filter-false">
+                Nr
+            </th>
+            <th>
+                {% trans %}general.username{% endtrans %}
+            </th>
+            <th class="filter-select filter-exact" data-placeholder="Stamm">
+                {% trans %}general.stamm{% endtrans %}
+            </th>
+            <th>
+                DN
+            </th>
+            <th class="filter-false">
+                {% trans %}general.delete{% endtrans %}
+            </th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for user in users %}
+            <tr>
+                <td>
+                    {{ loop.index}}
+                </td>
+                <td>
+                    <a href="{{ path('detailUser', {'uid': user.getUid}) }}">{{ user.getUsername}}</a>
+                </td>
+                <td>
+                    {{user.getStamm}}
+                </td>
+                <td>
+                    {{user.getDn}}
+                </td>
+                <td>
+                    {% include  'includes/removeUserButtonWithConfirmDialog.html.twig' with {"user":user} %}
 
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+
+        <tfoot>
+        <tr>
+            <th colspan="7" class="ts-pager">
+                <div class="form-inline">
+                    <div class="btn-group btn-group-sm mx-1" role="group">
+                        <button type="button" class="btn btn-secondary first" title="first">⇤</button>
+                        <button type="button" class="btn btn-secondary prev" title="previous">←</button>
+                    </div>
+                    <span class="pagedisplay"></span>
+                    <div class="btn-group btn-group-sm mx-1" role="group">
+                        <button type="button" class="btn btn-secondary next" title="next">→</button>
+                        <button type="button" class="btn btn-secondary last" title="last">⇥</button>
+                    </div>
+                    <select class="form-control-sm custom-select px-1 pagesize" title="Select page size">
+                        <option selected="selected" value="10">10</option>
+                        <option value="20">20</option>
+                        <option value="30">30</option>
+                        <option value="all">All Rows</option>
+                    </select>
+                    <select class="form-control-sm custom-select px-4 mx-1 pagenum" title="Select page number"></select>
+                </div>
+            </th>
+        </tr>
+    </table>
 {% endblock %}
 
 {% block javascripts %}

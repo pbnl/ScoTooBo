@@ -2,19 +2,16 @@
 
 {% block title %}{% trans %}menu.eventManagement.addEvent{% endtrans %}{% endblock %}
 
+{% block sidenav %}
+    {% include "includes/sidebarEvent.html.twig" with {"addEvent": "active"} %}
+{% endblock %}
+
 {% form_theme addAnEventForm 'bootstrap_4_horizontal_layout.html.twig' %}
 {% block body %}
-    {% include 'includes/navbar.html.twig' %}
-    <div class="container">
-        <br><br>
-        {% include 'includes/showFlashes.html.twig' %}
+    {% include 'includes/showFlashes.html.twig' %}
 
-        <br><br>
-
-        <h2 class="form-signin-heading">{% trans %}Event.add.addedEvent{% endtrans %}</h2>
-        {{ form_start(addAnEventForm) }}
-        {{ form_widget(addAnEventForm) }}
-        {{ form_end(addAnEventForm) }}
-    </div>
-
+    <h2 class="form-signin-heading">{% trans %}Event.add.addedEvent{% endtrans %}</h2>
+    {{ form_start(addAnEventForm) }}
+    {{ form_widget(addAnEventForm) }}
+    {{ form_end(addAnEventForm) }}
 {% endblock %}
