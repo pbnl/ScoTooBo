@@ -46,7 +46,7 @@ class UserController extends Controller
                 'required' => false))
             ->add("send", SubmitType::class, array(
                 "label"=>"general.search",
-                "attr"=>["class"=>"btn btn-lg btn-primary btn-block"]))
+                "attr"=>["class"=>"btn btn-primary"]))
             ->setMethod("get")
             ->getForm();
 

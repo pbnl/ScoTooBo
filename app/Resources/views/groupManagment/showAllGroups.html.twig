@@ -14,7 +14,7 @@
     <h2>{% trans %}Group.showAll.myGroups{% endtrans %}</h2>
     <div class="col-sm-6">
         <table class="table table-striped">
-            <thead>
+            <thead class="">
             <tr>
                 <th>
                     {% trans %}general.nr{% endtrans %}
@@ -38,12 +38,6 @@
                     </td>
                     <td>
                         <a href="{{ path('showDetailGroup', {'groupCn': group.cn}) }}">{{group.name}}</a>
-                    </td>
-                    <td>
-
-                    </td>
-                    <td>
-
                     </td>
                 </tr>
             {% endfor %}

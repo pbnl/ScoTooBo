@@ -8,10 +8,10 @@
         <br><br>
         {% include 'includes/showFlashes.html.twig' %}
         {% if user != false%} <h2>{{ user.givenName }}</h2> {% endif %}
-        <div class="col-sm-8">
+        <div class="col-sm-12">
             {% if editUserForm == false  and user != false%}
                 <table class="table table-striped">
-                    <thead>
+                    <thead class="">
                     <tr>
                         <th>
                             {% trans %}general.name{% endtrans %}
