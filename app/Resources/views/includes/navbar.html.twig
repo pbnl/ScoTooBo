@@ -1,67 +1,79 @@
-<nav class="navbar navbar-expand-md fixed-top navbar-dark bg-dark">
-    <div class="container">
-        <a class="navbar-brand" href="{{ path('showDashboard') }}">ScoTooBo</a>
+<div class="container-fluid">
+    <div class="row row-offcanvas row-offcanvas-right">
+        <div class="col-xl-1"><!-- left space on big screen --></div>
+        <div class="col-12 col-md-12 col-xl-10">
+            <nav class="navbar navbar-expand-md fixed-top navbar-dark bg-dark">
 
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
 
-        <div class="collapse navbar-collapse" id="navbarNavDropdown">
-            <ul class="navbar-nav mr-auto">
-                <li class="navbar-nav">
-                    <a href="/users/show/all" class="nav-link">{% trans %}menu.userGroupManagement.title{% endtrans %}</a>
-                </li>
-                <li class="navbar-nav">
-                    <a href="/events/show/all" class="nav-link">{% trans %}menu.eventManagement.title{% endtrans %}</a>
-                </li>
-                <li class="navbar-nav">
-                    <a href="/feedback/show/all" class="nav-link">{% trans %}menu.feedbackManagement.title{% endtrans %}</a>
-                </li>
-                <!--
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="http://example.com" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        {% trans %}menu.userManagement.title{% endtrans %}
-                    </a>
-                    <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                        <a class="dropdown-item" href="/users/show/all">{% trans %}menu.userManagement.showAllUsers{% endtrans %}</a>
-                        <a class="dropdown-item" href="/users/add">{% trans %}menu.userManagement.addUser{% endtrans %}</a>
-                        <a class="dropdown-item" href="/users/detail">{% trans %}menu.userManagement.detailUser{% endtrans %}</a>
-                    </div>
-                </li>
-                
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="http://example.com" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        {% trans %}menu.eventManagement.title{% endtrans %}
-                    </a>
-                    <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                        <a class="dropdown-item" href="/events/show/all">{% trans %}menu.eventManagement.showAllEvents{% endtrans %}</a>
-                        <a class="dropdown-item" href="/events/add">{% trans %}menu.eventManagement.addEvent{% endtrans %}</a>
-                        <a class="dropdown-item" href="/events/detail">{% trans %}menu.eventManagement.detailEvent{% endtrans %}</a>
-                    </div>
-                </li>
-                
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="http://example.com" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        {% trans %}menu.groupManagement.title{% endtrans %}
-                    </a>
-                    <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                        <a class="dropdown-item" href="/groups/show/all">{% trans %}menu.groupManagement.showAllGroups{% endtrans %}</a>
-                    </div>
-                </li>
 
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="http://example.com" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        {% trans %}menu.feedbackManagement.title{% endtrans %}
-                    </a>
-                    <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                        <a class="dropdown-item" href="/feedback/show/all">{% trans %}menu.feedbackManagement.showAllFeedback{% endtrans %}</a>
-                    </div>
-                </li>
-                -->
-            </ul>
-            
-            <a class="btn btn-danger pull-right navbar-btn" href="/logout">{% trans %}general.logout{% endtrans %}</a>
-            
+                <a class="navbar-brand" href="{{ path('showDashboard') }}">ScoTooBo</a>
+
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+
+                <div class="collapse navbar-collapse" id="navbarNavDropdown">
+                    <ul class="navbar-nav mr-auto">
+                        <li class="navbar-nav">
+                            <a href="/users/show/all" class="nav-link">{% trans %}menu.userGroupManagement.title{% endtrans %}</a>
+                        </li>
+                        <li class="navbar-nav">
+                            <a href="/events/show/all" class="nav-link">{% trans %}menu.eventManagement.title{% endtrans %}</a>
+                        </li>
+                        <li class="navbar-nav">
+                            <a href="/feedback/show/all" class="nav-link">{% trans %}menu.feedbackManagement.title{% endtrans %}</a>
+                        </li>
+                        <!--
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="http://example.com" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                {% trans %}menu.userManagement.title{% endtrans %}
+                            </a>
+                            <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                                <a class="dropdown-item" href="/users/show/all">{% trans %}menu.userManagement.showAllUsers{% endtrans %}</a>
+                                <a class="dropdown-item" href="/users/add">{% trans %}menu.userManagement.addUser{% endtrans %}</a>
+                                <a class="dropdown-item" href="/users/detail">{% trans %}menu.userManagement.detailUser{% endtrans %}</a>
+                            </div>
+                        </li>
+
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="http://example.com" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                {% trans %}menu.eventManagement.title{% endtrans %}
+                            </a>
+                            <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                                <a class="dropdown-item" href="/events/show/all">{% trans %}menu.eventManagement.showAllEvents{% endtrans %}</a>
+                                <a class="dropdown-item" href="/events/add">{% trans %}menu.eventManagement.addEvent{% endtrans %}</a>
+                                <a class="dropdown-item" href="/events/detail">{% trans %}menu.eventManagement.detailEvent{% endtrans %}</a>
+                            </div>
+                        </li>
+
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="http://example.com" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                {% trans %}menu.groupManagement.title{% endtrans %}
+                            </a>
+                            <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                                <a class="dropdown-item" href="/groups/show/all">{% trans %}menu.groupManagement.showAllGroups{% endtrans %}</a>
+                            </div>
+                        </li>
+
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="http://example.com" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                {% trans %}menu.feedbackManagement.title{% endtrans %}
+                            </a>
+                            <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                                <a class="dropdown-item" href="/feedback/show/all">{% trans %}menu.feedbackManagement.showAllFeedback{% endtrans %}</a>
+                            </div>
+                        </li>
+                        -->
+                    </ul>
+
+                    <a class="btn btn-danger pull-right navbar-btn" href="/logout">{% trans %}general.logout{% endtrans %}</a>
+
+                </div>
+
+
+
+            </nav>
         </div>
+        <div class="col-xl-1"><!-- right space on big screen --></div>
     </div>
-</nav>
+</div>

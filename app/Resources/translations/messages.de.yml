@@ -43,6 +43,8 @@ general.welcome: Willkommen
 
 
 
+menu.toogleNav: Navigation ein-/ausblenden
+
 menu.eventManagement.title: Eventmanagement
 menu.eventManagement.showAllEvents: Alle Events anzeigen
 menu.eventManagement.addEvent: Event hinzufügen

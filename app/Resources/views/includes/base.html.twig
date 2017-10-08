@@ -24,24 +24,35 @@
     </head>
     <body>
         {% block navbar %}{% include 'includes/navbar.html.twig' %}{% endblock %}
-        <div class="container">
+        <div class="container-fluid">
+            <!-- Layouttemplate with sidebar -->
             <div class="row row-offcanvas row-offcanvas-right">
-                <div class="col-6 col-md-3 sidebar-offcanvas" id="sidebar">
+                <div class="col-xl-1"><!-- left space on big screen --></div>
+
+                <div class="col-6 col-md-3 col-xl-2 sidebar-offcanvas" id="sidebar">
                     <div class="list-group">
                         {% block sidenav %}{% endblock %}
                     </div>
                 </div>
-
-                <div class="col-12 col-md-9">
+                <div class="col-12 col-md-9 col-xl-8">
                     <p class="d-md-none">
-                        <button type="button" class="btn btn-primary btn-sm" data-toggle="offcanvas">Toggle nav</button>
+                        <button type="button" class="btn btn-primary btn-sm" data-toggle="offcanvas">{% trans %}menu.toogleNav{% endtrans %}</button>
                     </p>
                     {% block body %}{% endblock %}
                 </div>
 
-                <div class="col-12 col-md-12">
+                <div class="col-xl-1"><!-- right space on big screen --></div>
+            </div>
+
+            <!-- Layouttemplate fullscreen -->
+            <div class="row row-offcanvas row-offcanvas-right">
+                <div class="col-xl-1"><!-- left space on big screen --></div>
+
+                <div class="col-12 col-md-12 col-xl-10">
                     {% block bodyOutside %}{% endblock %}
                 </div>
+
+                <div class="col-xl-1"><!-- right space on big screen --></div>
             </div>
 
             <hr>
