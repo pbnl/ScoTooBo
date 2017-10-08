@@ -3,6 +3,7 @@
 namespace AppBundle\Controller\EventManagement;
 
 use AppBundle\Entity\Event;
+use AppBundle\Entity\EventAttend;
 use DateTime;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -171,9 +172,19 @@ class EventController extends Controller
                 $loggedInUser_Stamm = $loggedInUser->getStamm();
             }
 
-            $form = $this->createFormBuilder($event)
-                ->add('name', TextType::class)
-                ->add('DateFrom', DateType::class)
+            $eventAttend = new EventAttend();
+            $eventAttend->setEventId($event->getId());
+
+            $form = $this->createFormBuilder($eventAttend)
+                ->add('firstname', TextType::class)
+                ->add('lastname', TextType::class)
+                ->add('address_street', TextType::class)
+                ->add('address_nr', TextType::class)
+                ->add('address_plz', IntegerType::class)
+                ->add('address_city', TextType::class)
+                ->add('stamm', TextType::class)
+                ->add('group', TextType::class)
+                ->add('comment', TextareaType::class)
                 ->add('save', SubmitType::class, array('label' => 'Create Post'))
                 ->getForm();
 
