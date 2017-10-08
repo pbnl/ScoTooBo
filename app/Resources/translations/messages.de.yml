@@ -76,6 +76,14 @@ Event.add.DateFrom: Von
 Event.add.DateTo: Bis
 Event.add.Place: Ort
 Event.add.Submit: Erstellen
+Event.attendInvitationLink.datetime: Zeitraum:
+Event.attendInvitationLink.description: Beschreibung:
+Event.attendInvitationLink.information: Informationen
+Event.attendInvitationLink.name: Name:
+Event.attendInvitationLink.price: Kosten:
+Event.attendInvitationLink.registration: Anmeldung
+Event.attendInvitationLink.title: Anmeldung zum Event
+Event.showAll.invitationLink: Einladungslink
 
 Feedback.label: Fehler / Feedback
 Feedback.header: Sende Feedback

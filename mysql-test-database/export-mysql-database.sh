@@ -1,3 +1,6 @@
 #!/usr/bin/env bash
 
-mysqldump -u scotoobo -psecret scotoobo > export.sql
+cd mysql-test-database
+rm test.sql
+mysqldump -u scotoobo -psecret --databases scotoobo > test.sql
+
