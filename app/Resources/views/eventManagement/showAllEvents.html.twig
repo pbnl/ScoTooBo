@@ -29,6 +29,9 @@
                     {% trans %}general.place{% endtrans %}
                 </th>
                 <th>
+                    {% trans %}Event.showAll.invitationLink{% endtrans %}
+                </th>
+                <th>
                     &nbsp;
                 </th>
             </tr>
@@ -37,22 +40,29 @@
             {% for event in events %}
                 <tr>
                     <td>
-                        {{ loop.index}}
+                        {{ loop.index }}
                     </td>
                     <td>
                         <a href="{{ path('detailEvent', {'id': event.getId}) }}">{{ event.getName}}</a>
                     </td>
                     <td>
-                        {{event.getDescription}}
+                        {{ event.getDescription }}
                     </td>
                     <td>
-                        {{event.getPriceInEuroWithEuroCharacter}}
+                        {{ event.getPriceInEuroWithEuroCharacter }}
                     </td>
                     <td>
-                        {{event.getDateFromToAsString}}
+                        {{ event.getDateFromToAsString }}
                     </td>
                     <td>
-                        {{event.getPlace}}
+                        {{ event.getPlace }}
+                    </td>
+                    <td>
+                        {% if event.getInvitationLink==NULL %}
+                            <a href="/events/invitationLink/generate/{{ event.getId }}">GENERIEREN</a>
+                        {% else %}
+                            <a href="/events/attend/{{ event.getInvitationLink }}">Link für Teilnehmer</a>
+                        {% endif %}
                     </td>
                     <td>
                         Bearbeiten / Löschen (folgt)

@@ -29,7 +29,6 @@ class EventController extends Controller
         $events = $repository->findAll();
 
         return $this->render('eventManagement/showAllEvents.html.twig', [
-#            "peopleSearchForm" => $userSearchForm->createView(),
             "events"=>$events,
         ]);
     }
@@ -109,18 +108,99 @@ class EventController extends Controller
      */
     public function detailEvent(Request $request)
     {
-        $this->addFlash("success", "This function is comming soon!");
+        $this->addFlash("info", "This function is comming soon!");
         return $this->redirectToRoute("showAllEvents");
     }
 
     /**
      * @Route("/events/remove", name="removeEvent")
      * @param Request $request
-     * @return Response
+     * @return \Symfony\Component\HttpFoundation\Response
      */
     public function removeEvent(Request $request)
     {
-        $this->addFlash("success", "This function is comming soon!");
+        $this->addFlash("info", "This function is comming soon!");
         return $this->redirectToRoute("showAllEvents");
+    }
+
+    /**
+     * @Route("/events/invitationLink/generate/{id}", name="generateInvitationLink")
+     * @return \Symfony\Component\HttpFoundation\Response
+     */
+    public function generateInvitationLink($id)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $event = $em->getRepository(Event::class)->find($id);
+        if ($event) {
+            $link = $event->getInvitationLink();
+
+            $length = rand(
+                $this->container->getParameter('events.invitationlink.length.min'),
+                $this->container->getParameter('events.invitationlink.length.max')
+            );
+            $random_string = $this->generateRandomString($length);
+
+            $event->setInvitationLink($random_string);
+            $em->flush();
+
+            if ($link=='NULL') {
+                $this->addFlash("success", "Der Einladungslink für ".$event->getName()." wurde geändert.");
+            } else {
+                $this->addFlash("success", "Der Einladungslink für ".$event->getName()." wurde erzeugt.");
+            }
+        } else {
+            $this->addFlash("error", "Event mit der Id $id wurde nicht gefunden!");
+        }
+        return $this->redirectToRoute("showAllEvents");
+    }
+
+    /**
+     * @Route("/events/attend/{invitationLink}", name="attendInvitationLink")
+     * @return \Symfony\Component\HttpFoundation\Response
+     */
+    public function attendInvitationLink($invitationLink)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $event = $em->getRepository(Event::class)->findOneBy(array('invitationLink' => $invitationLink));
+        if ($event) {
+            $loggedInUser_Uid = '';
+            $loggedInUser_Stamm = '';
+            if ($this->get('security.authorization_checker')->isGranted('ROLE_USER')) {
+                $loggedInUser = $this->get('security.token_storage')->getToken()->getUser();
+                $loggedInUser_Uid = $loggedInUser->getUid();
+                $loggedInUser_Stamm = $loggedInUser->getStamm();
+            }
+
+            $form = $this->createFormBuilder($event)
+                ->add('name', TextType::class)
+                ->add('DateFrom', DateType::class)
+                ->add('save', SubmitType::class, array('label' => 'Create Post'))
+                ->getForm();
+
+            return $this->render('eventManagement/attendInvitationLink.html.twig', array(
+                "loggedInUser_Uid"=>$loggedInUser_Uid,
+                "loggedInUser_Stamm"=>$loggedInUser_Stamm,
+                "event"=>$event,
+                "registrationAttendInvitationLink"=>$form->createView(),
+            ));
+        } else {
+            $this->addFlash("error", "Dieser Einladungslink ist leider nicht mehr gültig!");
+            return $this->redirectToRoute("login");
+        }
+    }
+
+    /**
+     * @param int $length
+     * @param string $characters
+     * @return string
+     */
+    private function generateRandomString($length = 16, $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ')
+    {
+        $charactersLength = strlen($characters);
+        $randomString = '';
+        for ($i = 0; $i < $length; $i++) {
+            $randomString .= $characters[rand(0, $charactersLength - 1)];
+        }
+        return $randomString;
     }
 }

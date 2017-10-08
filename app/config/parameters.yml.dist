@@ -20,3 +20,6 @@ parameters:
 
     recaptcha.secret: gSiteSecret
     recaptcha.globalcode: gGlobalCode
+
+    events.invitationLink.length.min: 20
+    events.invitationLink.length.max: 200

@@ -2,6 +2,7 @@
 
 namespace AppBundle\Entity;
 
+use Doctrine\ORM\Events;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
@@ -63,6 +64,18 @@ class Event
      * @ORM\Column(type="text")
      */
     private $place;
+
+    /**
+     * @Assert\Length(
+     *     min=5,
+     *     max=200,
+     *     minMessage="This value is too short. It should have {{ limit }} characters or more",
+     *     maxMessage="This value is too long. It should have {{ limit }} characters or less."
+     * )
+     * @var string
+     * @ORM\Column(type="string", length=255, unique=true, nullable=true)
+     */
+    private $invitationLink;
 
 
     /**
@@ -242,5 +255,29 @@ class Event
     public function getPlace()
     {
         return $this->place;
+    }
+
+    /**
+     * Set invitationLink
+     *
+     * @param string $invitationLink
+     *
+     * @return Events
+     */
+    public function setInvitationLink($invitationLink)
+    {
+        $this->invitationLink = $invitationLink;
+
+        return $this;
+    }
+
+    /**
+     * Get invitationLink
+     *
+     * @return string
+     */
+    public function getInvitationLink()
+    {
+        return $this->invitationLink;
     }
 }
