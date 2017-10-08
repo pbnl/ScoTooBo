@@ -257,4 +257,14 @@ class UserFeedback
     {
         return substr(base64_encode(stream_get_contents($this->picture)), 19);
     }
+
+    /**
+     * Get id
+     *
+     * @return integer
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
 }

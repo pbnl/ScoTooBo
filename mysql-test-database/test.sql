@@ -57,6 +57,39 @@ INSERT INTO `event` VALUES (1,'TestEvent1','qwertzu qwertz qwertzu',100,'2017-01
 UNLOCK TABLES;
 
 --
+-- Table structure for table `eventAttend`
+--
+
+DROP TABLE IF EXISTS `eventAttend`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `eventAttend` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `event_id` int(11) NOT NULL,
+  `datetime_registration` datetime NOT NULL,
+  `firstname` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `lastname` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `address_street` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `address_nr` varchar(10) COLLATE utf8_unicode_ci NOT NULL,
+  `address_plz` int(11) NOT NULL,
+  `address_city` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `stamm` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `group` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `comment` longtext COLLATE utf8_unicode_ci NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `eventAttend`
+--
+
+LOCK TABLES `eventAttend` WRITE;
+/*!40000 ALTER TABLE `eventAttend` DISABLE KEYS */;
+/*!40000 ALTER TABLE `eventAttend` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `userfeedback`
 --
 
@@ -100,4 +133,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2017-10-09  0:07:01
+-- Dump completed on 2017-10-09  0:54:08
