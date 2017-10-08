@@ -23,6 +23,7 @@
         <link rel="stylesheet" href="{{ asset('css/base.css') }}">
     </head>
     <body>
+        <!-- Navbar -->
         {% block navbar %}{% include 'includes/navbar.html.twig' %}{% endblock %}
         <div class="container-fluid">
             <!-- Layouttemplate with sidebar -->
@@ -55,11 +56,20 @@
                 <div class="col-xl-1"><!-- right space on big screen --></div>
             </div>
 
-            <hr>
+            <!-- Footer -->
+            <div class="row row-offcanvas row-offcanvas-right">
+                <div class="col-xl-1"><!-- left space on big screen --></div>
 
-            <footer>
-                {% include "includes/footer.html.twig" %}
-            </footer>
+                <div class="col-12 col-md-12 col-xl-10">
+                    <hr>
+
+                    <footer>
+                        {% include "includes/footer.html.twig" %}
+                    </footer>
+                </div>
+
+                <div class="col-xl-1"><!-- right space on big screen --></div>
+            </div>
         </div>
         {% block javascripts %}
             <script
