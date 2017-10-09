@@ -2,6 +2,7 @@
 
 {% block title %}{% trans %}Event.attendInvitationLink.title{% endtrans %} {{ event.getName }}{% endblock %}
 
+{% form_theme registrationAttendInvitationLink 'bootstrap_4_horizontal_layout.html.twig' %}
 {% block body %}
     <h1>{% trans %}Event.attendInvitationLink.title{% endtrans %} {{ event.getName }}</h1>
 
@@ -28,170 +29,65 @@
     </table>
 
     <h2>{% trans %}Event.attendInvitationLink.registration{% endtrans %}</h2>
+    {#
     {{ form_start(registrationAttendInvitationLink) }}
     {{ form_widget(registrationAttendInvitationLink) }}
     {{ form_end(registrationAttendInvitationLink) }}
-
-
-    <br />
-    User Uid: {{ loggedInUser_Uid }}
-    <br />
-    User Stamm: {{ loggedInUser_Stamm }}
-    <br />
-    Event Id: {{ event.getId }}
-    <br />
-    <br />
-    Formular:
-    <br />
-    voller Name, Adresse, Stamm, Gruppen Name
-    <br />
-    Kommentar
-    <br />
-    Text: ich melde mich kostenpflichtig zu der Veranstalltung an
-    <br />
-    <br />
-    {#
-
-    {% form_theme editUserForm 'bootstrap_3_horizontal_layout.html.twig' %}
-    {{ form_start(editUserForm) }}
-    <table class="table table-striped">
-        <thead>
-        <tr>
-            <th>
-                {% trans %}general.name{% endtrans %}
-            </th>
-            <th>
-                {% trans %}general.value{% endtrans %}
-            </th>
-            <th>
-                {% trans %}general.edit{% endtrans %}
-            </th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr>
-            <th>
-                {% trans %}general.username{% endtrans %}
-            </th>
-            <td>
-                {{user.givenName}}
-            </td>
-            <td>
-                {% trans %}general.not.editable{% endtrans %}
-            </td>
-        </tr>
-        <tr>
-            <th>
-                {% trans %}general.uidNumber{% endtrans %}
-            </th>
-            <td>
-                {{user.uidNumber}}
-            </td>
-            <td>
-                {% trans %}general.not.editable{% endtrans %}
-            </td>
-        </tr>
-        <tr>
-            <th>
-                {% trans %}general.firstName{% endtrans %}
-            </th>
-            <td>
-                {{user.firstName}}
-            </td>
-            <td>
-                {{form_widget(editUserForm.firstName)}}
-            </td>
-        </tr>
-        <tr>
-            <th>
-                {% trans %}general.lastName{% endtrans %}
-            </th>
-            <td>
-                {{user.lastName}}
-            </td>
-            <td>
-                {{form_widget(editUserForm.lastName)}}
-            </td>
-        </tr>
-        <tr>
-            <th>
-                {% trans %}general.mail{% endtrans %}
-            </th>
-            <td>
-                {{user.mail}}
-            </td>
-            <td>
-                {% trans %}general.not.editable{% endtrans %}
-            </td>
-        </tr>
-        <tr>
-            <th>
-                DN
-            </th>
-            <td>
-                {{user.dn}}
-            </td>
-            <td>
-                {% trans %}general.not.editable{% endtrans %}
-            </td>
-        </tr>
-        <tr>
-            <th>
-                {% trans %}general.city{% endtrans %}
-            </th>
-            <td>
-                {{user.city}}
-            </td>
-            <td>
-                {{form_widget(editUserForm.city)}}
-            </td>
-        </tr>
-        <tr>
-            <th>
-                {% trans %}general.postalCode{% endtrans %}
-            </th>
-            <td>
-                {{user.postalCode}}
-            </td>
-            <td>
-                {{form_widget(editUserForm.postalCode)}}
-            </td>
-        </tr>
-        <tr>
-            <th>
-                {% trans %}general.street{% endtrans %}
-            </th>
-            <td>
-                {{user.street}}
-            </td>
-            <td>
-                {{form_widget(editUserForm.street)}}
-            </td>
-        </tr>
-        <tr>
-            <th>
-                {% trans %}general.phoneNumber.home{% endtrans %}
-            </th>
-            <td>
-                {{user.homePhoneNumber}}
-            </td>
-            <td>
-                {{form_widget(editUserForm.homePhoneNumber)}}
-            </td>
-        </tr>
-        <tr>
-            <th>
-                {% trans %}general.phoneNumber.mobile{% endtrans %}
-            </th>
-            <td>
-                {{user.mobilePhoneNumber}}
-            </td>
-            <td>
-                {{form_widget(editUserForm.mobilePhoneNumber)}}
-            </td>
-        </tr>
-        </tbody>
-    </table>
-    {{ form_end(editUserForm) }}
     #}
+    {{ form_start(registrationAttendInvitationLink) }}
+    <div id="form">
+        <div class="form-group row">
+            <label class="col-form-label col-md-2 form-control-label required">{% trans %}general.firstLastName{% endtrans %}:</label>
+            <div class="col-md-5">
+                {{ form_widget(registrationAttendInvitationLink.firstname) }}
+            </div>
+            <div class="col-md-5">
+                {{ form_widget(registrationAttendInvitationLink.lastname) }}
+            </div>
+        </div>
+        <div class="form-group row">
+            <label class="col-form-label col-md-2 form-control-label required">{% trans %}general.streetAddressNr{% endtrans %}:</label>
+            <div class="col-md-8">
+                {{ form_widget(registrationAttendInvitationLink.address_street) }}
+            </div>
+            <div class="col-md-2">
+                {{ form_widget(registrationAttendInvitationLink.address_nr) }}
+            </div>
+        </div>
+        <div class="form-group row">
+            <label class="col-form-label col-md-2 form-control-label required">{% trans %}general.postalCodePlace{% endtrans %}:</label>
+            <div class="col-md-2">
+                {{ form_widget(registrationAttendInvitationLink.address_plz) }}
+            </div>
+            <div class="col-md-8">
+                {{ form_widget(registrationAttendInvitationLink.address_city) }}
+            </div>
+        </div>
+        <div class="form-group row">
+            <label class="col-form-label col-md-2 form-control-label required">{% trans %}general.stamm{% endtrans %}:</label>
+            <div class="col-md-10">
+                {{ form_widget(registrationAttendInvitationLink.stamm) }}
+            </div>
+        </div>
+        <div class="form-group row">
+            <label class="col-form-label col-md-2 form-control-label required">{% trans %}general.group{% endtrans %}:</label>
+            <div class="col-md-10">
+                {{ form_widget(registrationAttendInvitationLink.group) }}
+            </div>
+        </div>
+        <div class="form-group row">
+            <label class="col-form-label col-md-2 form-control-label required">{% trans %}general.comment{% endtrans %}:</label>
+            <div class="col-md-10">
+                {{ form_widget(registrationAttendInvitationLink.comment) }}
+            </div>
+        </div>
+        <div class="form-group row">
+            <label class="col-form-label col-md-2 form-control-label required">&nbsp;</label>
+            <div class="col-md-10">
+                {{ form_widget(registrationAttendInvitationLink.save) }}
+            </div>
+        </div>
+    </div>
+    {{ form_widget(registrationAttendInvitationLink) }} {# _token #}
+    {{ form_end(registrationAttendInvitationLink) }}
 {% endblock %}

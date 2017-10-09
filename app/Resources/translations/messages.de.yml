@@ -3,13 +3,16 @@
 # - Menu: menu.___
 # -> more pages in alphabetical order
 
+general.address_nr: Hausnummer
 general.browserdata: Browserdaten
 general.city: Stadt
+general.comment: Kommentar
 general.create: Erstellen
 general.date: Datum
 general.delete: Löschen
 general.description: Beschreibung
 general.edit: Ändern
+general.firstLastName: Vor- und Nachname
 general.firstName: Vorname
 general.gid: Gid
 general.group: Gruppe
@@ -29,11 +32,13 @@ general.phoneNumber.mobile: Mobile
 general.picture: Bild
 general.place: Ort
 general.postalCode: PLZ
+general.postalCodePlace: PLZ und Ort
 general.price: Preis
 general.save: Speichern
 general.search: Suchen
 general.stamm: Stamm
 general.street: Straße
+general.streetAddressNr: Straße und Hausnummer
 general.username: Benutzername
 general.text: Text
 general.uidNumber: Benutzer ID
@@ -82,6 +87,7 @@ Event.attendInvitationLink.information: Informationen
 Event.attendInvitationLink.name: Name:
 Event.attendInvitationLink.price: Kosten:
 Event.attendInvitationLink.registration: Anmeldung
+Event.attendInvitationLink.submit: Ich melde mich kostenpflichtig zu der Veranstalltung an
 Event.attendInvitationLink.title: Anmeldung zum Event
 Event.showAll.invitationLink: Einladungslink
 
