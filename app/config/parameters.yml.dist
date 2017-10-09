@@ -23,3 +23,8 @@ parameters:
 
     events.invitationLink.length.min: 20
     events.invitationLink.length.max: 200
+
+    staemme:
+      - "Ambronen"
+      - "Hagen von Tronje"
+      - "Anduril"

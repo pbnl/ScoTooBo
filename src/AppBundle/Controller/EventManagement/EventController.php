@@ -13,6 +13,7 @@ use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -157,9 +158,11 @@ class EventController extends Controller
 
     /**
      * @Route("/events/attend/{invitationLink}", name="attendInvitationLink")
+     * @param $invitationLink
+     * @param Request $request
      * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function attendInvitationLink($invitationLink)
+    public function attendInvitationLink($invitationLink, Request $request)
     {
         $em = $this->getDoctrine()->getManager();
         $event = $em->getRepository(Event::class)->findOneBy(array('invitationLink' => $invitationLink));
@@ -176,16 +179,61 @@ class EventController extends Controller
             $eventAttend->setEventId($event->getId());
 
             $form = $this->createFormBuilder($eventAttend)
-                ->add('firstname', TextType::class)
-                ->add('lastname', TextType::class)
-                ->add('address_street', TextType::class)
-                ->add('address_nr', TextType::class)
-                ->add('address_plz', IntegerType::class)
-                ->add('address_city', TextType::class)
-                ->add('stamm', TextType::class)
-                ->add('group', TextType::class)
-                ->add('comment', TextareaType::class)
-                ->add('save', SubmitType::class, array('label' => 'Create Post'))
+                ->add('firstname', TextType::class, array(
+                    "attr" => ["placeholder" => "general.firstName"],
+                    'label' => "general.firstName",
+                    'empty_data' => '',
+                    'data' => $loggedInUser_Uid,
+                    "required" => true))
+                ->add('lastname', TextType::class, array(
+                    "attr" => ["placeholder" => "general.lastName"],
+                    'label' => "general.lastName",
+                    'empty_data' => '',
+                    'data' => $loggedInUser_Uid,
+                    "required" => true))
+                ->add('address_street', TextType::class, array(
+                    "attr" => ["placeholder" => "general.street"],
+                    'label' => "general.street",
+                    'empty_data' => '',
+                    "required" => true))
+                ->add('address_nr', TextType::class, array(
+                    "attr" => ["placeholder" => "general.address_nr"],
+                    'label' => "general.address_nr",
+                    'empty_data' => '',
+                    "required" => true))
+                ->add('address_plz', IntegerType::class, array(
+                    "attr" => ["placeholder" => "general.postalCode"],
+                    'label' => "general.postalCode",
+                    'empty_data' => '',
+                    "required" => true))
+                ->add('address_city', TextType::class, array(
+                    "attr" => ["placeholder" => "general.place"],
+                    'label' => "general.place",
+                    'empty_data' => '',
+                    "required" => true))
+                ->add('stamm', ChoiceType::class, array(
+                    'label' => "general.stamm",
+                    'choices' => $this->container->getParameter('staemme'),
+                    'choice_label' => function ($value, $key, $index) {
+                        return $value;
+                    },
+                    'multiple' => false,
+                    'empty_data' => '',
+                    'data' => $loggedInUser_Stamm,
+                    "required" => true))
+                ->add('group', TextType::class, array(
+                    "attr" => ["placeholder" => "general.group"],
+                    'label' => "general.group",
+                    'empty_data' => '',
+                    "required" => true))
+                ->add('comment', TextareaType::class, array(
+                    "attr" => ["placeholder" => "general.comment"],
+                    'label' => "general.comment",
+                    'empty_data' => '',
+                    "required" => true))
+                ->add('save', SubmitType::class, array(
+                    "label" => "Event.attendInvitationLink.submit",
+                    "attr" => ["class" => "btn btn-lg btn-primary btn-block"]))
                 ->getForm();
 
             return $this->render('eventManagement/attendInvitationLink.html.twig', array(
