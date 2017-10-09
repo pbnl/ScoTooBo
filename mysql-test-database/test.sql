@@ -76,7 +76,7 @@ CREATE TABLE `eventAttend` (
   `group` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `comment` longtext COLLATE utf8_unicode_ci NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -85,6 +85,7 @@ CREATE TABLE `eventAttend` (
 
 LOCK TABLES `eventAttend` WRITE;
 /*!40000 ALTER TABLE `eventAttend` DISABLE KEYS */;
+INSERT INTO `eventAttend` VALUES (1,5,'2017-10-09 21:25:14','testadmin','testadmin','123','45a',12345,'Hamburg','Ambronen','456','789');
 /*!40000 ALTER TABLE `eventAttend` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -130,4 +131,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2017-10-09  0:54:08
+-- Dump completed on 2017-10-09 21:31:01

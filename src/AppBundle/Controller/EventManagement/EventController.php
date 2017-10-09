@@ -236,6 +236,18 @@ class EventController extends Controller
                     "attr" => ["class" => "btn btn-lg btn-primary btn-block"]))
                 ->getForm();
 
+            $form->handleRequest($request);
+
+            if ($form->isSubmitted() && $form->isValid()) {
+                $eventAttend = $form->getData();
+
+                $em->persist($eventAttend);
+                $em->flush();
+
+                $this->addFlash("success", "Vielen Dank, Ihre Anmeldung ist bei uns erfolgreich eingegangen.");
+                return $this->redirectToRoute('login');
+            }
+
             return $this->render('eventManagement/attendInvitationLink.html.twig', array(
                 "loggedInUser_Uid"=>$loggedInUser_Uid,
                 "loggedInUser_Stamm"=>$loggedInUser_Stamm,
