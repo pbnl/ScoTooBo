@@ -17,7 +17,7 @@ body {
     padding-top: 3.5rem;
 }
 #sidebar {
-    padding: 20px 0px; /* top&bottom left&right */
+    padding: 20px 0; /* top&bottom left&right */
 }
 .sidebar .nav {
     margin-bottom: 20px;
@@ -39,8 +39,8 @@ body {
     content: "\f0da  ";
 }
 .nav-pills .nav-item .active, .nav-pills .nav-item .nav-link-item:hover {
-    color: #fff;
-    background-color: #007bff;
+    color: #000;
+    background-color: #e9ecef; /* #007bff */
 }
 
 @media screen and (max-width: 991px) { /* Off Canvas */
@@ -55,6 +55,7 @@ body {
 
     .row-offcanvas {
         position: relative;
+        -moz-transition: all .25s ease-out;
         -webkit-transition: all .25s ease-out;
         -o-transition: all .25s ease-out;
         transition: all .25s ease-out;
@@ -68,23 +69,19 @@ body {
         right: 0;
     }
 
-    .row-offcanvas-right
-    .sidebar-offcanvas {
+    .row-offcanvas-right .sidebar-offcanvas {
         left: -100%; /* 12 columns */
     }
 
-    .row-offcanvas-right.active
-    .sidebar-offcanvas {
+    .row-offcanvas-right.active .sidebar-offcanvas {
         left: -50%; /* 6 columns */
     }
 
-    .row-offcanvas-left
-    .sidebar-offcanvas {
+    .row-offcanvas-left .sidebar-offcanvas {
         right: -100%; /* 12 columns */
     }
 
-    .row-offcanvas-left.active
-    .sidebar-offcanvas {
+    .row-offcanvas-left.active .sidebar-offcanvas {
         right: -50%; /* 6 columns */
     }
 
