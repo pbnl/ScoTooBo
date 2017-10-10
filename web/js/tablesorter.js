@@ -2,7 +2,7 @@ $(document).ready(function() {
 
     // call the tablesorter plugin and apply the uitheme widget
     $("table").tablesorter({
-        theme : "bootstrap",
+        theme : "default", /* or "bootstrap" */
 
         widthFixed: true,
 
