@@ -28,49 +28,25 @@
         <div class="container-fluid">
             <!-- Layouttemplate with sidebar -->
             <div class="row row-offcanvas row-offcanvas-right">
-                <div class="col-xl-1"><!-- left space on big screen --></div>
-
-                <div class="col-6 col-md-3 col-xl-2 sidebar-offcanvas" id="sidebar">
-                    <div class="list-group">
+                {% block body %}
+                    <nav class="col-6 col-lg-2 d-none d-block bg-light sidebar sidebar-offcanvas" id="sidebar">
                         {% block sidenav %}{% endblock %}
+                    </nav>
+                    <div class="col-12 col-lg-10 pt-3">
+                        <p class="d-lg-none">
+                            <button type="button" class="btn btn-primary btn-sm" data-toggle="offcanvas">{% trans %}menu.toogleNav{% endtrans %}</button>
+                        </p>
+                        {% block content %}{% endblock %}
+                        <hr>
+
+                        <footer>
+                            {% include "includes/footer.html.twig" %}
+                        </footer>
                     </div>
-                </div>
-                <div class="col-12 col-md-9 col-xl-8">
-                    <p class="d-md-none">
-                        <button type="button" class="btn btn-primary btn-sm" data-toggle="offcanvas">{% trans %}menu.toogleNav{% endtrans %}</button>
-                    </p>
-                    {% block body %}{% endblock %}
-                </div>
-
-                <div class="col-xl-1"><!-- right space on big screen --></div>
-            </div>
-
-            <!-- Layouttemplate fullscreen -->
-            <div class="row row-offcanvas row-offcanvas-right">
-                <div class="col-xl-1"><!-- left space on big screen --></div>
-
-                <div class="col-12 col-md-12 col-xl-10">
-                    {% block bodyOutside %}{% endblock %}
-                </div>
-
-                <div class="col-xl-1"><!-- right space on big screen --></div>
-            </div>
-
-            <!-- Footer -->
-            <div class="row row-offcanvas row-offcanvas-right">
-                <div class="col-xl-1"><!-- left space on big screen --></div>
-
-                <div class="col-12 col-md-12 col-xl-10">
-                    <hr>
-
-                    <footer>
-                        {% include "includes/footer.html.twig" %}
-                    </footer>
-                </div>
-
-                <div class="col-xl-1"><!-- right space on big screen --></div>
+                {% endblock %}
             </div>
         </div>
+
         {% block javascripts %}
             <script
                     src="https://code.jquery.com/jquery-3.2.1.min.js"

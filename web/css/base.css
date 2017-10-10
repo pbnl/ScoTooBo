@@ -1,10 +1,4 @@
 /*
-body {
-    background-color: #eee;
-}
-*/
-
-/*
  * for big table columns
  */
 .limitBigTableColumn {
@@ -13,25 +7,52 @@ body {
 }
 
 /*
- * Style tweaks
- * --------------------------------------------------
+ * for navigations
  */
 html,
 body {
     overflow-x: hidden; /* Prevent scroll on narrow devices */
 }
 body {
-    padding-top: 70px;
+    padding-top: 3.5rem;
 }
-footer {
-    padding: 30px 0;
+#sidebar {
+    padding: 20px 0px; /* top&bottom left&right */
+}
+.sidebar .nav {
+    margin-bottom: 20px;
+}
+.sidebar .nav-item {
+    width: 100%;
+}
+.sidebar .nav-item + .nav-item {
+    margin-left: 0;
+}
+.sidebar .nav-link {
+    border-radius: 0;
+}
+.nav-pills .nav-item .nav-link-item {
+    display: block;
+    padding: .5rem 1rem;
+}
+.nav-pills .nav-item .nav-link-item:before {
+    content: "\f0da  ";
+}
+.nav-pills .nav-item .active, .nav-pills .nav-item .nav-link-item:hover {
+    color: #fff;
+    background-color: #007bff;
 }
 
-/*
- * Off Canvas
- * --------------------------------------------------
- */
-@media screen and (max-width: 767px) {
+@media screen and (max-width: 991px) { /* Off Canvas */
+    #sidebar {
+        height: 100%;
+    }
+
+    .nav-pills .nav-item .nav-link-item {
+        display: block;
+        padding: .5rem 2rem;
+    }
+
     .row-offcanvas {
         position: relative;
         -webkit-transition: all .25s ease-out;
@@ -80,4 +101,11 @@ footer {
         top: 0;
         width: 50%; /* 6 columns */
     }
+}
+
+/**
+ * for Footer
+ */
+footer {
+    padding: 30px 0;
 }

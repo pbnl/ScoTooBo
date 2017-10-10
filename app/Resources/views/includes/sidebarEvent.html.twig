@@ -1,3 +1,11 @@
-<a href="/events/show/all" class="list-group-item {{ showAllEvents|default('') }}">{% trans %}menu.eventManagement.showAllEvents{% endtrans %}</a>
-<a href="/events/add" class="list-group-item {{ addEvent|default('') }}">{% trans %}menu.eventManagement.addEvent{% endtrans %}</a>
-<a href="/events/detail" class="list-group-item {{ detailEvent|default('') }}">{% trans %}menu.eventManagement.detailEvent{% endtrans %}</a>
+<ul class="nav nav-pills">
+    <li class="nav-item">
+        <a href="/events/show/all" class="nav-link-item {{ showAllEvents|default('') }}">{% trans %}menu.eventManagement.showAllEvents{% endtrans %}</a>
+    </li>
+    <li class="nav-item">
+        <a href="/events/add" class="nav-link-item {{ addEvent|default('') }}">{% trans %}menu.eventManagement.addEvent{% endtrans %}</a>
+    </li>
+    <li class="nav-item">
+        <a href="/events/detail" class="nav-link-item {{ detailEvent|default('') }}">{% trans %}menu.eventManagement.detailEvent{% endtrans %}</a>
+    </li>
+</ul>

@@ -7,7 +7,7 @@
 {% endblock %}
 
 {% form_theme addAUserForm 'bootstrap_4_horizontal_layout.html.twig' %}
-{% block body %}
+{% block content %}
     {% include 'includes/showFlashes.html.twig' %}
     {% if addedSomeone %}
         <h2 class="form-signin-heading">{% trans %}User.add.addedUser{% endtrans %}</h2>
