@@ -12,13 +12,13 @@
 html,
 body {
     overflow-x: hidden; /* Prevent scroll on narrow devices */
-    height: 100%;
-}
-body {
-    padding-top: 3.5rem;
+    /* height: 100%; */
 }
 #sidebar {
-    padding: 20px 0; /* top&bottom left&right */
+    padding: 4rem 0 0 0; /* top, right, bottom, left */
+}
+.paddingTopForNavbar {
+    padding-top: 4rem;
 }
 .sidebar .nav {
     margin-bottom: 20px;
@@ -37,7 +37,13 @@ body {
     padding: .5rem 1rem;
 }
 .nav-pills .nav-item .nav-link-item:before {
-    content: "\f0da  ";
+    content:"";
+    background-image: url('menu-icon.gif');
+    background-repeat: no-repeat;
+    background-size: 0.5rem 0.9rem;
+    display: inline-block;
+    width: 1rem;
+    height: 0.9rem;
 }
 .nav-pills .nav-item .active, .nav-pills .nav-item .nav-link-item:hover {
     color: #000;

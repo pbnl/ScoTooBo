@@ -23,16 +23,16 @@
         <link rel="stylesheet" href="{{ asset('css/base.css') }}">
     </head>
     <body>
-        <!-- Navbar -->
+        {# Navbar #}
         {% block navbar %}{% include 'includes/navbar.html.twig' %}{% endblock %}
-        <div class="container-fluid">
-            <!-- Layouttemplate with sidebar -->
-            <div class="row row-offcanvas row-offcanvas-right" style="height: 100%;">
-                {% block body %}
+        <div class="container-fluid {% block containerCssClass %}{% endblock %}">
+            {% block body %}
+            {# Layouttemplate with sidebar #}
+            <div class="row row-offcanvas row-offcanvas-right">
                     <nav class="col-6 col-lg-2 d-none d-block bg-light sidebar sidebar-offcanvas" id="sidebar">
                         {% block sidenav %}{% endblock %}
                     </nav>
-                    <div class="col-12 col-lg-10 pt-3">
+                    <div class="col-12 col-lg-10" style="min-height: 100vh; padding-top: 4rem;">
                         <p class="d-lg-none">
                             <button type="button" class="btn btn-primary btn-sm" data-toggle="offcanvas">{% trans %}menu.toogleNav{% endtrans %}</button>
                         </p>
@@ -43,8 +43,8 @@
                             {% include "includes/footer.html.twig" %}
                         </footer>
                     </div>
-                {% endblock %}
-            </div>
+                </div>
+            {% endblock %}
         </div>
 
         {% block javascripts %}
