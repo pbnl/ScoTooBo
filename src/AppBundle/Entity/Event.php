@@ -81,6 +81,12 @@ class Event
      */
     private $invitationLink;
 
+    /**
+     * @var string
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $participationFields;
+
 
     /**
      * Get id
@@ -283,6 +289,30 @@ class Event
     public function getInvitationLink()
     {
         return $this->invitationLink;
+    }
+
+    /**
+     * Set participationFields
+     *
+     * @param string $participationFields
+     *
+     * @return Events
+     */
+    public function setParticipationFields($participationFields)
+    {
+        $this->participationFields = $participationFields;
+
+        return $this;
+    }
+
+    /**
+     * Get participationFields
+     *
+     * @return string
+     */
+    public function getParticipationFields()
+    {
+        return $this->participationFields;
     }
 
     /**

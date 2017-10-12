@@ -59,9 +59,9 @@
                     </td>
                     <td>
                         {% if event.getInvitationLink==NULL %}
-                            <a href="/events/invitationLink/generate/{{ event.getId }}">GENERIEREN</a>
+                            {% include 'includes/addInvitationLinkFormulaWithConfirmDialog.html.twig' with {"event":event} %}
                         {% else %}
-                            <a href="/events/attend/{{ event.getInvitationLink }}">Link für Teilnehmer</a>
+                            <a href="/events/attend/{{ event.getInvitationLink }}" class="btn btn-outline-success">{% trans %}Event.showAll.invitationLink.participantLink{% endtrans %}</a>
                         {% endif %}
                     </td>
                     <td>
@@ -74,4 +74,57 @@
         </table>
     </div>
 
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+
+    <script>
+        {% for event in events %}
+        {% for field in possibleFormFields %}
+            {# $( "input[type='checkbox']" ).prop({ #}
+            /* reset of all field */
+            $( "#checkbox_{{ event.getId }}_{{ field[0] }}" ).prop({
+                disabled: false,
+                checked: false
+            });
+            $( "#checkbox_{{ event.getId }}_{{ field[0] }}_2" ).prop({
+                disabled: true,
+                checked: false
+            });
+
+            /* set default values */
+            {% if field[2] == true %}
+                $( "#checkbox_{{ event.getId }}_{{ field[0] }}" ).prop({
+                    checked: true
+                });
+                $( "#checkbox_{{ event.getId }}_{{ field[0] }}_2" ).prop({
+                    disabled: false
+                });
+                {% if field[3] == true %}
+                    $( "#checkbox_{{ event.getId }}_{{ field[0] }}_2" ).prop({
+                        checked: true
+                    });
+                {% endif %}
+            {% endif %}
+
+            /* react on change of first checkbox */
+            $( "#checkbox_{{ event.getId }}_{{ field[0] }}" ).change(function() {
+                var $input = $( this );
+                if ($input.is( ":checked" )) {
+                    /* enable second checkbox */
+                    $( "#"+$input[0].id+"_2" ).prop({
+                        disabled: false
+                    });
+                } else {
+                    /* disselect and disable second checkbox */
+                    $( "#"+$input[0].id+"_2" ).prop({
+                        disabled: true,
+                        checked: false
+                    });
+                }
+            });
+        {% endfor %}
+        {% endfor %}
+    </script>
 {% endblock %}

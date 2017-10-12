@@ -9,6 +9,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
+use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
@@ -32,7 +33,29 @@ class EventController extends Controller
 
         return $this->render('eventManagement/showAllEvents.html.twig', [
             "events"=>$events,
+            "possibleFormFields"=>$this->getPossibleFormFields(),
         ]);
+    }
+
+    /**
+     * @return array
+     */
+    private function getPossibleFormFields()
+    {
+        /**
+         * NOTICE:
+         * structure: tag, Label (german), checked, required field
+         * The fields under tag name must exist in this class!
+         */
+        return array(
+            array("name", "Name", true, true),
+            array("email", "E-Mail", false, false),
+            array("address", "Adresse", false, false),
+            array("stamm", "Stamm", false, false),
+            array("group", "Gruppe", false, false),
+            array("vegi", "Vegetarier", false, false),
+            array("comment", "Kommentar", true, false)
+        );
     }
 
 
@@ -130,13 +153,39 @@ class EventController extends Controller
 
     /**
      * @Route("/events/invitationLink/generate/{id}", name="generateInvitationLink")
+     * @param Request $request
      * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function generateInvitationLink($id)
+    public function generateInvitationLink($id, Request $request)
     {
         $em = $this->getDoctrine()->getManager();
         $event = $em->getRepository(Event::class)->find($id);
         if ($event) {
+            $FormFields = $this->getPossibleFormFields();
+            /* read POST values */
+            for ($i=0; $i<count($FormFields); $i++) {
+                /* proofing if checkbox one is checked */
+                $FormFields[$i][2]=false;
+                if ($request->request->get($FormFields[$i][0]."_show")) {
+                    $FormFields[$i][2] = true;
+                }
+
+                /* proofing if checkbox two is checked */
+                $FormFields[$i][3]=false;
+                if ($request->request->get($FormFields[$i][0]."_required") && $FormFields[$i][2]) {
+                    $FormFields[$i][3] = true;
+                }
+            }
+            $jsonFields = json_encode($FormFields);
+            /*
+            foreach ($FormFields as list($tag, $label, $show, $required)) {
+                echo $tag."; ".$label."; ".$show."; ".$required."<br>";
+            }
+            echo $jsonFields;
+            */
+
+
+
             $link = $event->getInvitationLink();
 
             $length = rand(
@@ -146,6 +195,7 @@ class EventController extends Controller
             $random_string = $this->generateRandomString($length);
 
             $event->setInvitationLink($random_string);
+            $event->setParticipationFields($jsonFields);
             $em->flush();
 
             if ($link=='NULL') {
@@ -180,75 +230,188 @@ class EventController extends Controller
 
             $eventAttend = new EventAttend();
             $eventAttend->setEventId($event->getId());
+            $participationFields = json_decode($event->getParticipationFields());
+            $showParticipationFields = array();
 
-            $form = $this->createFormBuilder($eventAttend)
-                ->add('firstname', TextType::class, array(
-                    "attr" => ["placeholder" => "general.firstName"],
-                    'label' => "general.firstName",
-                    'empty_data' => '',
-                    'data' => $loggedInUser_Uid,
-                    "required" => true))
-                ->add('lastname', TextType::class, array(
-                    "attr" => ["placeholder" => "general.lastName"],
-                    'label' => "general.lastName",
-                    'empty_data' => '',
-                    'data' => $loggedInUser_Uid,
-                    "required" => true))
-                ->add('address_street', TextType::class, array(
-                    "attr" => ["placeholder" => "general.street"],
-                    'label' => "general.street",
-                    'empty_data' => '',
-                    "required" => true))
-                ->add('address_nr', TextType::class, array(
-                    "attr" => ["placeholder" => "general.address_nr"],
-                    'label' => "general.address_nr",
-                    'empty_data' => '',
-                    "required" => true))
-                ->add('address_plz', IntegerType::class, array(
-                    "attr" => ["placeholder" => "general.postalCode"],
-                    'label' => "general.postalCode",
-                    'empty_data' => '',
-                    "required" => true))
-                ->add('address_city', TextType::class, array(
-                    "attr" => ["placeholder" => "general.place"],
-                    'label' => "general.place",
-                    'empty_data' => '',
-                    "required" => true))
-                ->add('stamm', ChoiceType::class, array(
-                    'label' => "general.stamm",
-                    'choices' => $this->container->getParameter('staemme'),
-                    'choice_label' => function ($value, $key, $index) {
-                        return $value;
-                    },
-                    'multiple' => false,
-                    'empty_data' => '',
-                    'data' => $loggedInUser_Stamm,
-                    "required" => true))
-                ->add('group', TextType::class, array(
-                    "attr" => ["placeholder" => "general.group"],
-                    'label' => "general.group",
-                    'empty_data' => '',
-                    "required" => true))
-                ->add('comment', TextareaType::class, array(
-                    "attr" => ["placeholder" => "general.comment"],
-                    'label' => "general.comment",
-                    'empty_data' => '',
-                    "required" => true))
-                ->add('save', SubmitType::class, array(
+            $form = $this->createFormBuilder($eventAttend);
+            for ($i=0; $i<count($participationFields); $i++) {
+                if ($participationFields[$i][2]) {
+                    array_push($showParticipationFields, $participationFields[$i][0]);
+                }
+                switch ($participationFields[$i][0]) {
+                    case "name":
+                        if ($participationFields[$i][2]) {
+                            $form->add(
+                                'firstname',
+                                TextType::class,
+                                array(
+                                    "attr" => ["placeholder" => "general.firstName"],
+                                    'label' => "general.firstName",
+                                    'empty_data' => '',
+                                    'data' => $loggedInUser_Uid,
+                                    "required" => $participationFields[$i][3]
+                                )
+                            )
+                            ->add(
+                                'lastname',
+                                TextType::class,
+                                array(
+                                    "attr" => ["placeholder" => "general.lastName"],
+                                    'label' => "general.lastName",
+                                    'empty_data' => '',
+                                    'data' => $loggedInUser_Uid,
+                                    "required" => $participationFields[$i][3]
+                                )
+                            );
+                        }
+                        break;
+                    case "email":
+                        if ($participationFields[$i][2]) {
+                            $form->add(
+                                'email',
+                                EmailType::class,
+                                array(
+                                    "attr" => ["placeholder" => "general.mail"],
+                                    'label' => "general.mail",
+                                    'empty_data' => '',
+                                    "required" => $participationFields[$i][3]
+                                )
+                            );
+                        }
+                        break;
+                    case "address":
+                        if ($participationFields[$i][2]) {
+                            $form->add(
+                                'address_street',
+                                TextType::class,
+                                array(
+                                    "attr" => ["placeholder" => "general.street"],
+                                    'label' => "general.street",
+                                    'empty_data' => '',
+                                    "required" => $participationFields[$i][3]
+                                )
+                            )
+                            ->add(
+                                'address_nr',
+                                TextType::class,
+                                array(
+                                    "attr" => ["placeholder" => "general.address_nr"],
+                                    'label' => "general.address_nr",
+                                    'empty_data' => '',
+                                    "required" => $participationFields[$i][3]
+                                )
+                            )
+                            ->add(
+                                'address_plz',
+                                IntegerType::class,
+                                array(
+                                    "attr" => ["placeholder" => "general.postalCode"],
+                                    'label' => "general.postalCode",
+                                    'empty_data' => '',
+                                    "required" => $participationFields[$i][3]
+                                )
+                            )
+                            ->add(
+                                'address_city',
+                                TextType::class,
+                                array(
+                                    "attr" => ["placeholder" => "general.place"],
+                                    'label' => "general.place",
+                                    'empty_data' => '',
+                                    "required" => $participationFields[$i][3]
+                                )
+                            );
+                        }
+                        break;
+                    case "stamm":
+                        if ($participationFields[$i][2]) {
+                            $form->add(
+                                'stamm',
+                                ChoiceType::class,
+                                array(
+                                    'label' => "general.stamm",
+                                    'choices' => $this->container->getParameter('staemme'),
+                                    'choice_label' => function ($value, $key, $index) {
+                                        return $value;
+                                    },
+                                    'multiple' => false,
+                                    'empty_data' => '',
+                                    'data' => $loggedInUser_Stamm,
+                                    "required" => $participationFields[$i][3]
+                                )
+                            );
+                        }
+                        break;
+                    case "group":
+                        if ($participationFields[$i][2]) {
+                            $form->add(
+                                'group',
+                                TextType::class,
+                                array(
+                                    "attr" => ["placeholder" => "general.group"],
+                                    'label' => "general.group",
+                                    'empty_data' => '',
+                                    "required" => $participationFields[$i][3]
+                                )
+                            );
+                        }
+                        break;
+                    case "vegi":
+                        if ($participationFields[$i][2]) {
+                            $form->add(
+                                'vegi',
+                                ChoiceType::class,
+                                array(
+                                    'choices' => array(
+                                        'general.yes' => true,
+                                        'general.no' => false,
+                                    ),
+                                    'label' => 'general.vegi',
+                                    'multiple' => false,
+                                    'expanded' => true,
+                                    "required" => $participationFields[$i][3]
+                                )
+                            );
+                        }
+                        break;
+                    case "comment":
+                        if ($participationFields[$i][2]) {
+                            $form->add(
+                                'comment',
+                                TextareaType::class,
+                                array(
+                                    "attr" => ["placeholder" => "general.comment"],
+                                    'label' => "general.comment",
+                                    'empty_data' => '',
+                                    "required" => $participationFields[$i][3]
+                                )
+                            );
+                        }
+                        break;
+                }
+            }
+            $form = $form->add('save', SubmitType::class, array(
                     "label" => "Event.attendInvitationLink.submit",
                     "attr" => ["class" => "btn btn-lg btn-primary btn-block"]))
                 ->getForm();
 
             $form->handleRequest($request);
 
+            /* handle submitted form */
             if ($form->isSubmitted() && $form->isValid()) {
-                $eventAttend = $form->getData();
+                /* proof Google reCaptcha */
+                $reCaptchaSecret = $this->container->getParameter('recaptcha.secret');
+                if ($this->get("reCaptcha")->validateReCaptcha($request->request->get("g-recaptcha-response"), $reCaptchaSecret)) {
+                    /* save input */
+                    $eventAttend = $form->getData();
 
-                $em->persist($eventAttend);
-                $em->flush();
+                    $em->persist($eventAttend);
+                    $em->flush();
 
-                $this->addFlash("success", "Vielen Dank, Ihre Anmeldung ist bei uns erfolgreich eingegangen.");
-                return $this->redirectToRoute('login');
+                    $this->addFlash("success", "Vielen Dank, Ihre Anmeldung ist bei uns erfolgreich eingegangen.");
+
+                    return $this->redirectToRoute('login');
+                }
             }
 
             return $this->render('eventManagement/attendInvitationLink.html.twig', array(
@@ -256,6 +419,7 @@ class EventController extends Controller
                 "loggedInUser_Stamm"=>$loggedInUser_Stamm,
                 "event"=>$event,
                 "registrationAttendInvitationLink"=>$form->createView(),
+                "showParticipationFields"=>$showParticipationFields,
             ));
         } else {
             $this->addFlash("error", "Dieser Einladungslink ist leider nicht mehr gültig!");
