@@ -35,68 +35,76 @@ class EventAttend
     private $datetimeRegistration;
 
     /**
-     * @Assert\NotBlank()
      * @Assert\Length(min=3)
      * @var string
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $firstname;
 
     /**
-     * @Assert\NotBlank()
      * @Assert\Length(min=3)
      * @var string
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $lastname;
 
     /**
-     * @Assert\NotBlank()
+     * @Assert\Email(
+     *     message = "The email '{{ value }}' is not a valid email.",
+     *     checkMX = true
+     * )
+     * @var string
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $email;
+
+    /**
      * @Assert\Length(min=3)
      * @var string
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $address_street;
 
     /**
-     * @Assert\NotBlank()
      * @var string
-     * @ORM\Column(type="string", length=10)
+     * @ORM\Column(type="string", length=10, nullable=true)
      */
     private $address_nr;
 
     /**
-     * @Assert\NotBlank()
      * @Assert\Length(min=5)
      * @var int
-     * @ORM\Column(type="integer")
+     * @ORM\Column(type="integer", nullable=true)
      */
     private $address_plz;
 
     /**
-     * @Assert\NotBlank()
      * @var string
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $address_city;
 
     /**
-     * @Assert\NotBlank()
      * @var string
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $stamm;
 
     /**
-     * @Assert\NotBlank()
      * @var string
-     * @ORM\Column(name="`group`", type="string", length=255)
+     * @ORM\Column(name="`group`", type="string", length=255, nullable=true)
      */
     private $group;
 
     /**
+     * @var boolean
+     * @ORM\Column(type="boolean", nullable=true)
+     */
+    private $vegi;
+
+    /**
      * @var string
-     * @ORM\Column(type="text")
+     * @ORM\Column(type="text", nullable=true)
      */
     private $comment;
 
@@ -212,6 +220,30 @@ class EventAttend
     public function getLastname()
     {
         return $this->lastname;
+    }
+
+    /**
+     * Set email
+     *
+     * @param string $email
+     *
+     * @return EventAttend
+     */
+    public function setEmail($email)
+    {
+        $this->email = $email;
+
+        return $this;
+    }
+
+    /**
+     * Get email
+     *
+     * @return string
+     */
+    public function getEmail()
+    {
+        return $this->email;
     }
 
     /**
@@ -356,6 +388,30 @@ class EventAttend
     public function getGroup()
     {
         return $this->group;
+    }
+
+    /**
+     * Set vegi
+     *
+     * @param boolean $vegi
+     *
+     * @return EventAttend
+     */
+    public function setVegi($vegi)
+    {
+        $this->vegi = $vegi;
+
+        return $this;
+    }
+
+    /**
+     * Get vegi
+     *
+     * @return boolean
+     */
+    public function getVegi()
+    {
+        return $this->vegi;
     }
 
     /**

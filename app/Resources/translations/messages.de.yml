@@ -5,6 +5,8 @@
 
 general.address_nr: Hausnummer
 general.browserdata: Browserdaten
+general.captcha: Spamschutz
+general.close: Schließen
 general.city: Stadt
 general.comment: Kommentar
 general.create: Erstellen
@@ -24,6 +26,7 @@ general.logout: Logout
 general.mail: E-Mail-Adresse
 general.member: Mitglied
 general.name: Name
+general.no: Nein
 general.not.editable: Nicht änderbar
 general.nr: Nr
 general.password: Passwort
@@ -44,7 +47,10 @@ general.text: Text
 general.uidNumber: Benutzer ID
 general.url: URL
 general.value: Wert
+general.vegi: Vegetarier
 general.welcome: Willkommen
+general.yes: Ja
+None: keine Angabe # e.g. for form choices if required=false
 
 
 
@@ -90,6 +96,11 @@ Event.attendInvitationLink.registration: Anmeldung
 Event.attendInvitationLink.submit: Ich melde mich kostenpflichtig zu der Veranstalltung an
 Event.attendInvitationLink.title: Anmeldung zum Event
 Event.showAll.invitationLink: Einladungslink
+Event.showAll.invitationLink.generate: GENERIEREN
+Event.showAll.invitationLink.participantLink: Link für Teilnehmer
+Event.showAll.invitationLink.modalText: Wähle bitte die Felder an, die von den Teilnehmern ausgefüllt werden sollen. Die zweite Spalte macht diese Felder zu Pflichtfeldern.
+Event.showAll.invitationLink.modalTitelShow: Anzeigen
+Event.showAll.invitationLink.modalTitelRequired: Pflichtfeld
 
 Feedback.label: Fehler / Feedback
 Feedback.header: Sende Feedback

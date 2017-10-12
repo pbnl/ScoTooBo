@@ -39,6 +39,7 @@ CREATE TABLE `event` (
   `date_to` datetime NOT NULL,
   `place` longtext COLLATE utf8_unicode_ci NOT NULL,
   `invitation_link` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `participation_fields` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `UNIQ_3BAE0AA75E237E06` (`name`),
   UNIQUE KEY `UNIQ_3BAE0AA7FBAD55A5` (`invitation_link`)
@@ -51,7 +52,7 @@ CREATE TABLE `event` (
 
 LOCK TABLES `event` WRITE;
 /*!40000 ALTER TABLE `event` DISABLE KEYS */;
-INSERT INTO `event` VALUES (1,'TestEvent1','qwertzu qwertz qwertzu',100,'2017-01-01 00:00:00','2017-01-01 00:00:00','at home',NULL),(2,'TestEvent2','qwertzu qwertz qwertzu',177,'2010-01-01 00:00:00','2010-01-01 00:00:00','at home',NULL),(3,'TestEvent3','qwertzu qwertz qwertzu',38,'2011-01-01 00:00:00','2011-01-01 00:00:00','at home',NULL),(4,'TestEvent4','qwertzu qwertz qwertzu',125,'2003-01-01 00:00:00','2003-01-01 00:00:00','at home',NULL),(5,'TestEvent5','qwertzu qwertz qwertzu',82,'2004-01-01 00:00:00','2004-01-01 00:00:00','at home','gdNqaY3ntnUJUM3IsEOUJGGADIplmcZCqN2AL5XftSYoE177GV2pBJZfspBOCBq2otDayBp2toq8qxg6siw42wkuVWiyxIAVbd5KPvNiTdqjLHpe0Wi2sDwozOW7xw3JK8uzEhS'),(6,'TestEvent6','qwertzu qwertz qwertzu',38,'2014-01-01 00:00:00','2014-01-01 00:00:00','at home','km8eUQzuXVtWwB8JnSqoNuHs3v5MUIjf5ruZh4teZXbwyjgVbGkZa2sexx0sfjHkLck3hOhgLtNkM4gYKAXVDp9aXaCcukxgxRjOGB5r4SMQX2PHDN'),(7,'TestEvent7','qwertzu qwertz qwertzu',20,'2015-01-01 00:00:00','2015-01-01 00:00:00','at home','cBDyugamgKvvXaC1MVJCTxHlz6lYZB8bcLKG1U3iEzNCJpD'),(8,'TestEvent8','qwertzu qwertz qwertzu',97,'2005-01-01 00:00:00','2005-01-01 00:00:00','at home','wTmNDG2t42C2L77aVAEmx7cNiKzddVpJOLxssAVxCyzoFGyAhdWOl8'),(9,'TestEvent9','qwertzu qwertz qwertzu',159,'2015-01-01 00:00:00','2015-01-01 00:00:00','at home','cKckMn1UhVsq24jhfzuMJYaP5uAreLprvCMiZNchIEHLJ12ZBxMkvWaBrL2Fws714Tj4Gvmoa4aT6dSHKE1fBcR2XUItmPurIOwojTNuXYn3bfKVUMbvY3yWXgpk6UMOIjd2c1w9ZTdb9X63KizJl7Fin5DuZpjHIwKUyg3yahJkeQoZ9XJu4oNstqWtQgayMUsl'),(10,'TestEvent10','qwertzu qwertz qwertzu',120,'2003-01-01 00:00:00','2003-01-01 00:00:00','at home',NULL);
+INSERT INTO `event` VALUES (1,'TestEvent1','qwertzu qwertz qwertzu',100,'2017-01-01 00:00:00','2017-01-01 00:00:00','at home',NULL,NULL),(2,'TestEvent2','qwertzu qwertz qwertzu',177,'2010-01-01 00:00:00','2010-01-01 00:00:00','at home',NULL,NULL),(3,'TestEvent3','qwertzu qwertz qwertzu',38,'2011-01-01 00:00:00','2011-01-01 00:00:00','at home',NULL,NULL),(4,'TestEvent4','qwertzu qwertz qwertzu',125,'2003-01-01 00:00:00','2003-01-01 00:00:00','at home',NULL,NULL),(5,'TestEvent5','qwertzu qwertz qwertzu',82,'2004-01-01 00:00:00','2004-01-01 00:00:00','at home',NULL,NULL),(6,'TestEvent6','qwertzu qwertz qwertzu',38,'2014-01-01 00:00:00','2014-01-01 00:00:00','at home',NULL,NULL),(7,'TestEvent7','qwertzu qwertz qwertzu',20,'2015-01-01 00:00:00','2015-01-01 00:00:00','at home','ADtNsAltUBW2doqFJUSxIxiSqociA','[[\"name\",\"Name\",true,true],[\"email\",\"E-Mail\",true,true],[\"address\",\"Adresse\",true,true],[\"stamm\",\"Stamm\",true,true],[\"group\",\"Gruppe\",true,true],[\"vegi\",\"Vegetarier\",true,true],[\"comment\",\"Kommentar\",true,true]]'),(8,'TestEvent8','qwertzu qwertz qwertzu',97,'2005-01-01 00:00:00','2005-01-01 00:00:00','at home','v74wxpyfxmfBCxsvRNTDgIr1KoNMMhbhpfNXFlccIrOlZgQR4KuksWmdk9Z6raoRqcO6y1jgt8BsosktcONFKaS5kScM','[[\"name\",\"Name\",true,false],[\"email\",\"E-Mail\",true,false],[\"address\",\"Adresse\",true,false],[\"stamm\",\"Stamm\",true,false],[\"group\",\"Gruppe\",true,false],[\"vegi\",\"Vegetarier\",true,false],[\"comment\",\"Kommentar\",true,false]]'),(9,'TestEvent9','qwertzu qwertz qwertzu',159,'2015-01-01 00:00:00','2015-01-01 00:00:00','at home','HTIIV4bvNsA1fXBmdVdSl7t7L1bF0O9IISqDXB9K4JMjGnGUjTNE0gMMiXsiMC1uur8r3hc71ZrIn7CG1qk1H7OZ4giQSjlnLtPOK2WM1nu','[[\"name\",\"Name\",false,false],[\"email\",\"E-Mail\",true,false],[\"address\",\"Adresse\",true,false],[\"stamm\",\"Stamm\",true,false],[\"group\",\"Gruppe\",true,false],[\"vegi\",\"Vegetarier\",true,false],[\"comment\",\"Kommentar\",false,false]]'),(10,'TestEvent10','qwertzu qwertz qwertzu',120,'2003-01-01 00:00:00','2003-01-01 00:00:00','at home','VND5p99YztJoWIYi0ziH54IOd7RnSJ2NxGTWQ2VpvEOsnNLnm34r8NglV7JNRLBorulhwgH2VvuijfGFjL7rynNuuxiliTKKo52VmKXhgrAzHge11ltAJg4dNmz6gkRFpTAMEx3UZD','[[\"name\",\"Name\",true,true],[\"email\",\"E-Mail\",false,false],[\"address\",\"Adresse\",false,false],[\"stamm\",\"Stamm\",false,false],[\"group\",\"Gruppe\",false,false],[\"vegi\",\"Vegetarier\",false,false],[\"comment\",\"Kommentar\",true,false]]');
 /*!40000 ALTER TABLE `event` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -66,17 +67,19 @@ CREATE TABLE `eventAttend` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `event_id` int(11) NOT NULL,
   `datetime_registration` datetime NOT NULL,
-  `firstname` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
-  `lastname` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
-  `address_street` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
-  `address_nr` varchar(10) COLLATE utf8_unicode_ci NOT NULL,
-  `address_plz` int(11) NOT NULL,
-  `address_city` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
-  `stamm` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
-  `group` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
-  `comment` longtext COLLATE utf8_unicode_ci NOT NULL,
+  `firstname` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `lastname` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `address_street` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `address_nr` varchar(10) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `address_plz` int(11) DEFAULT NULL,
+  `address_city` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `stamm` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `group` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `comment` longtext COLLATE utf8_unicode_ci,
+  `email` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `vegi` tinyint(1) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -85,7 +88,7 @@ CREATE TABLE `eventAttend` (
 
 LOCK TABLES `eventAttend` WRITE;
 /*!40000 ALTER TABLE `eventAttend` DISABLE KEYS */;
-INSERT INTO `eventAttend` VALUES (1,5,'2017-10-09 21:25:14','testadmin','testadmin','123','45a',12345,'Hamburg','Ambronen','456','789');
+INSERT INTO `eventAttend` VALUES (1,5,'2017-10-09 21:25:14','testadmin','testadmin','123','45a',12345,'Hamburg','Ambronen','456','789',NULL,NULL),(2,7,'2017-10-12 22:51:40','testadmin','testadmin','123','4',12345,'567','Ambronen','890','Text','wqesbv@a.de',1);
 /*!40000 ALTER TABLE `eventAttend` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -131,4 +134,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2017-10-09 21:31:01
+-- Dump completed on 2017-10-12 22:52:00
