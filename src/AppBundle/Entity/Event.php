@@ -312,6 +312,16 @@ class Event
     }
 
     /**
+     * Get participationFieldsAsArray
+     *
+     * @return array
+     */
+    public function getParticipationFieldsAsArray()
+    {
+        return json_decode($this->participationFields);
+    }
+
+    /**
      * Set price
      *
      * @param integer $price

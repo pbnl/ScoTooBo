@@ -207,6 +207,28 @@ class EventController extends Controller
     }
 
     /**
+     * @Route("/events/show/participants/{id}", name="showParticipantsList")
+     * @param $id
+     * @return \Symfony\Component\HttpFoundation\Response
+     */
+    public function showParticipantsList($id)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $event = $em->getRepository(Event::class)->find($id);
+        if ($event) {
+            $participations = $em->getRepository(EventAttend::class)->findBy(array('eventId' => $event->getId()));
+
+            return $this->render('eventManagement/showParticipationList.html.twig', array(
+                'data' => $participations,
+                'showParticipationFields' => $this->FieldsToShowInTWIG($event->getParticipationFields()),
+            ));
+        } else {
+            $this->addFlash("error", "Event mit der Id $id wurde nicht gefunden!");
+            return $this->redirectToRoute("showAllEvents");
+        }
+    }
+
+    /**
      * @Route("/events/attend/{invitationLink}", name="attendInvitationLink")
      * @param $invitationLink
      * @param Request $request
@@ -228,13 +250,9 @@ class EventController extends Controller
             $eventAttend = new EventAttend();
             $eventAttend->setEventId($event->getId());
             $participationFields = json_decode($event->getParticipationFields());
-            $showParticipationFields = array();
 
             $form = $this->createFormBuilder($eventAttend);
             for ($i=0; $i<count($participationFields); $i++) {
-                if ($participationFields[$i][2]) {
-                    array_push($showParticipationFields, $participationFields[$i][0]);
-                }
                 switch ($participationFields[$i][0]) {
                     case "name":
                         if ($participationFields[$i][2]) {
@@ -409,6 +427,7 @@ class EventController extends Controller
 
                     return $this->redirectToRoute('login');
                 }
+                $this->addFlash("error", "Bestätige bitte den Spamschutz!");
             }
 
             return $this->render('eventManagement/attendInvitationLink.html.twig', array(
@@ -416,7 +435,7 @@ class EventController extends Controller
                 "loggedInUser_Stamm"=>$loggedInUser_Stamm,
                 "event"=>$event,
                 "registrationAttendInvitationLink"=>$form->createView(),
-                "showParticipationFields"=>$showParticipationFields,
+                "showParticipationFields"=>$this->FieldsToShowInTWIG($event->getParticipationFields()),
             ));
         } else {
             $this->addFlash("error", "Dieser Einladungslink ist leider nicht mehr gültig!");
@@ -437,5 +456,21 @@ class EventController extends Controller
             $randomString .= $characters[rand(0, $charactersLength - 1)];
         }
         return $randomString;
+    }
+
+    /**
+     * @param $eventFieldsArray
+     * @return array
+     */
+    private function FieldsToShowInTWIG($eventFieldsArray) {
+        $participationFields = json_decode($eventFieldsArray);
+        $showParticipationFields = array();
+        for ($i=0; $i<count($participationFields); $i++) {
+            if ($participationFields[$i][2]) {
+                array_push($showParticipationFields, $participationFields[$i][0]);
+            }
+        }
+
+        return $showParticipationFields;
     }
 }
