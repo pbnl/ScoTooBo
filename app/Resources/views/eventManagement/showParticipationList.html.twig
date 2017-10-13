@@ -1,0 +1,71 @@
+{% extends "includes/base.html.twig" %}
+
+{% block title %}{% trans %}menu.eventManagement.title{% endtrans %}{% endblock %}
+
+{% block body %}
+    {% include 'includes/navbar.html.twig' %}
+    <div class="container">
+        <br><br>
+        {% include 'includes/showFlashes.html.twig' %}
+
+        <table class="table table-striped">
+            <thead>
+            <tr>
+                <th>Nr</th>
+                <th>{% trans %}general.date{% endtrans %}</th>
+                {% if "name" in showParticipationFields %}
+                <th>{% trans %}general.name{% endtrans %}</th>
+                {% endif %}
+                {% if "email" in showParticipationFields %}
+                <th>{% trans %}general.mail{% endtrans %}</th>
+                {% endif %}
+                {% if "address" in showParticipationFields %}
+                <th>{% trans %}general.address{% endtrans %}</th>
+                {% endif %}
+                {% if "stamm" in showParticipationFields %}
+                <th>{% trans %}general.stamm{% endtrans %}</th>
+                {% endif %}
+                {% if "group" in showParticipationFields %}
+                <th>{% trans %}general.group{% endtrans %}</th>
+                {% endif %}
+                {% if "vegi" in showParticipationFields %}
+                <th>{% trans %}general.vegi{% endtrans %}</th>
+                {% endif %}
+                {% if "comment" in showParticipationFields %}
+                <th>{% trans %}general.comment{% endtrans %}</th>
+                {% endif %}
+            </tr>
+            </thead>
+            <tbody>
+            {% for participation in data %}
+                <tr>
+                    <td>{{ loop.index }}</td>
+                    <td>{{ participation.datetimeRegistrationAsString }}</td>
+                    {% if "name" in showParticipationFields %}
+                    <td>{{ participation.firstname }} {{ participation.lastname }}</td>
+                    {% endif %}
+                    {% if "email" in showParticipationFields %}
+                    <td>{{ participation.email }}</td>
+                    {% endif %}
+                    {% if "address" in showParticipationFields %}
+                    <td>{{ participation.addressStreet }} {{ participation.addressNr }},<br>
+                        {{ participation.addressPlz }} {{ participation.addressCity }}</td>
+                    {% endif %}
+                    {% if "stamm" in showParticipationFields %}
+                    <td>{{ participation.stamm }}</td>
+                    {% endif %}
+                    {% if "group" in showParticipationFields %}
+                    <td>{{ participation.group }}</td>
+                    {% endif %}
+                    {% if "vegi" in showParticipationFields %}
+                    <td>{{ participation.vegiAsString }}</td>
+                    {% endif %}
+                    {% if "comment" in showParticipationFields %}
+                    <td>{{ participation.comment }}</td>
+                    {% endif %}
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% endblock %}

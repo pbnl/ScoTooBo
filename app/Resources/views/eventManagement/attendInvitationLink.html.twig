@@ -29,6 +29,7 @@
     </table>
 
     <h2>{% trans %}Event.attendInvitationLink.registration{% endtrans %}</h2>
+    {% include 'includes/showFlashes.html.twig' %}
     {#
     {{ form_start(registrationAttendInvitationLink) }}
     {{ form_widget(registrationAttendInvitationLink) }}

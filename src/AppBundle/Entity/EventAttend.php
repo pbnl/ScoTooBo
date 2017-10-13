@@ -4,11 +4,12 @@ namespace AppBundle\Entity;
 
 use Doctrine\ORM\EventsAttend;
 use Doctrine\ORM\Mapping as ORM;
+use phpDocumentor\Reflection\Types\Null_;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * EventAttend
- * @ORM\Entity(repositoryClass="Acme\StoreBundle\Entity\EventAttend")
+ * @ORM\Entity
  * @ORM\Table(name="eventAttend")
  */
 class EventAttend
@@ -172,6 +173,16 @@ class EventAttend
     public function getDatetimeRegistration()
     {
         return $this->datetimeRegistration;
+    }
+
+    /**
+     * Get datetimeRegistrationAsString
+     *
+     * @return \String
+     */
+    public function datetimeRegistrationAsString()
+    {
+        return $this->datetimeRegistration->format('d.m.Y H:i:s');
     }
 
     /**
@@ -412,6 +423,22 @@ class EventAttend
     public function getVegi()
     {
         return $this->vegi;
+    }
+
+    /**
+     * Get vegiAsString
+     *
+     * @return boolean
+     */
+    public function getVegiAsString()
+    {
+        if ($this->vegi) {
+            return "Ja";
+        } elseif ($this->vegi==Null) {
+            return "keine Angabe";
+        } else {
+            return "Nein";
+        }
     }
 
     /**
