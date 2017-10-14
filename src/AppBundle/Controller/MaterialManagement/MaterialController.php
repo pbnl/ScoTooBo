@@ -3,13 +3,16 @@
 namespace AppBundle\Controller\MaterialManagement;
 
 use AppBundle\Entity\Material;
+use AppBundle\Entity\MaterialOffers;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
+use AppBundle\Form\MaterialOfferType;
 
 class MaterialController extends Controller
 {
@@ -36,6 +39,12 @@ class MaterialController extends Controller
     {
         $material = new Material();
 
+        $offer1 = new MaterialOffers();
+        $offer2 = new MaterialOffers();
+
+        $material->getOffers()->add($offer1);
+        $material->getOffers()->add($offer2);
+
         $addMaterialForm = $this->createFormBuilder($material)
             ->add('Name', TextType::class, array(
                 "attr" => ["placeholder" => "Event.add.Name"],
@@ -47,6 +56,14 @@ class MaterialController extends Controller
                 'label' => "Event.add.Beschreibung",
                 'empty_data' => '',
                 "required" => true))
+            ->add('offers', CollectionType::class, array(
+                'entry_type' => MaterialOfferType::class,
+                'entry_options' => array('label' => false),
+                'allow_add' => true,
+                'allow_delete' => true,
+                'prototype_name' => '__prototype__',
+                'by_reference' => false,
+                'error_bubbling' => false))
             ->add('save', SubmitType::class, array(
                 'label' => 'Event.add.Submit',
                 "attr"=>["class"=>"btn btn-primary"]))

@@ -22,8 +22,9 @@ class MaterialOffers
      */
     private $id;
 
+    ### @Assert\NotBlank()
     /**
-     * @Assert\NotBlank()
+     *
      * @var int
      * @ORM\Column(type="integer")
      */
@@ -162,7 +163,7 @@ class MaterialOffers
      *
      * @return integer
      */
-    public function getPrice($price)
+    public function getPrice()
     {
         return $this->price;
     }

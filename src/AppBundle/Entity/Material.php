@@ -5,6 +5,7 @@ namespace AppBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Doctrine\Common\Collections\ArrayCollection;
 
 /**
  * Event
@@ -37,6 +38,18 @@ class Material
      * @ORM\Column(type="text")
      */
     private $description;
+
+    /**
+     * @var MaterialOffers
+     */
+    private $offers;
+
+
+
+    public function __construct()
+    {
+        $this->offers = new ArrayCollection();
+    }
 
 
 
@@ -96,5 +109,18 @@ class Material
     public function getDescription()
     {
         return $this->description;
+    }
+
+    /**
+     * Set offers
+     */
+
+    /**
+     * Get offers
+     *
+     */
+    public function getOffers()
+    {
+        return $this->offers;
     }
 }
