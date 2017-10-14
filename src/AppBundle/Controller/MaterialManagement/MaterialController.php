@@ -2,10 +2,14 @@
 
 namespace AppBundle\Controller\MaterialManagement;
 
+use AppBundle\Entity\Material;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 
 class MaterialController extends Controller
 {
@@ -30,8 +34,39 @@ class MaterialController extends Controller
      */
     public function addMaterial(Request $request)
     {
-        $this->addFlash("info", "This function is comming soon!");
-        return $this->redirectToRoute("showAllMaterial");
+        $material = new Material();
+
+        $addMaterialForm = $this->createFormBuilder($material)
+            ->add('Name', TextType::class, array(
+                "attr" => ["placeholder" => "Event.add.Name"],
+                'label' => "Event.add.Name",
+                'empty_data' => '',
+                "required" => true))
+            ->add('Description', TextareaType::class, array(
+                "attr" => ["placeholder" => "Event.add.Beschreibung"],
+                'label' => "Event.add.Beschreibung",
+                'empty_data' => '',
+                "required" => true))
+            ->add('save', SubmitType::class, array(
+                'label' => 'Event.add.Submit',
+                "attr"=>["class"=>"btn btn-primary"]))
+            ->getForm();
+
+        $addMaterialForm->handleRequest($request);
+
+        if ($addMaterialForm->isSubmitted() && $addMaterialForm->isValid()) {
+            #$event_data = $addAnEventForm->getData();
+            #$em = $this->getDoctrine()->getManager();
+            #$em->persist($event_data); // tells Doctrine you want to (eventually) save the Product (no queries yet)
+            #$em->flush(); // actually executes the queries (i.e. the INSERT query)
+            #$this->addFlash("success", "Event wurde mit der Id ".$event_data->getId()." erstellt.");
+            #return $this->redirectToRoute('showAllEvents');
+        }
+        return $this->render('materialManagement/addMaterial.html.twig', array(
+            'addMaterialForm' => $addMaterialForm->createView(),
+        ));
+        #$this->addFlash("info", "This function is comming soon!");
+        #return $this->redirectToRoute("showAllMaterial");
     }
 
     /**

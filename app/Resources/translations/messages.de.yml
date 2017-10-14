@@ -98,6 +98,8 @@ Group.detail.myGroups: Meine Gruppen
 Login.request: Bitte logge dich ein
 Login.remember.me: Erinnere dich :)
 
+Material.add.addedMaterial: Füge ein neues Material Objekt hinzu
+
 User.add.addedUser: Hinzugefügter User
 User.add.addedUserText: Füge einen neuen User hinzu
 User.add.generatedPassword: Generiertes Passwort

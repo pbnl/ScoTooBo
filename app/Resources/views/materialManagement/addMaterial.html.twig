@@ -1,0 +1,20 @@
+{% extends "includes/base.html.twig" %}
+
+{% block title %}{% trans %}menu.materialManagement.addMaterial{% endtrans %}{% endblock %}
+
+{% form_theme addMaterialForm 'bootstrap_4_horizontal_layout.html.twig' %}
+{% block body %}
+    {% include 'includes/navbar.html.twig' %}
+    <div class="container">
+        <br><br>
+        {% include 'includes/showFlashes.html.twig' %}
+
+        <br><br>
+
+        <h2 class="form-signin-heading">{% trans %}Material.add.addedMaterial{% endtrans %}</h2>
+        {{ form_start(addMaterialForm) }}
+        {{ form_widget(addMaterialForm) }}
+        {{ form_end(addMaterialForm) }}
+    </div>
+
+{% endblock %}
