@@ -54,6 +54,11 @@ menu.feedbackManagement.showAllFeedback: Zeige jedes Feedback
 menu.groupManagement.title: Gruppenmanagment
 menu.groupManagement.showAllGroups: Gruppenübersicht
 
+menu.materialManagement.title: Materialmanagement
+menu.materialManagement.showAllMaterial: Alle Materialien anzeigen
+menu.materialManagement.addMaterial: Material hinzufügen
+menu.materialManagement.detailMaterial: Materialdeteils
+
 menu.userManagement.title: Benutzerverwaltung
 menu.userManagement.showAllusers: Alle Benutzer anzeigen
 menu.userManagement.addUser: Benutzer hinzufügen
