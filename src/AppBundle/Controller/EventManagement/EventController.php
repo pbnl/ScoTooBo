@@ -131,6 +131,7 @@ class EventController extends Controller
 
     /**
      * @Route("/events/detail", name="detailEvent")
+     * @Security("has_role('ROLE_elder')")
      * @param Request $request
      * @return \Symfony\Component\HttpFoundation\Response
      */
@@ -142,6 +143,7 @@ class EventController extends Controller
 
     /**
      * @Route("/events/remove", name="removeEvent")
+     * @Security("has_role('ROLE_elder')")
      * @param Request $request
      * @return \Symfony\Component\HttpFoundation\Response
      */
@@ -153,6 +155,7 @@ class EventController extends Controller
 
     /**
      * @Route("/events/invitationLink/generate/{id}", name="generateInvitationLink")
+     * @Security("has_role('ROLE_elder')")
      * @param Request $request
      * @return \Symfony\Component\HttpFoundation\Response
      */
@@ -211,6 +214,7 @@ class EventController extends Controller
 
     /**
      * @Route("/events/show/participants/{id}", name="showParticipantsList")
+     * @Security("has_role('ROLE_elder')")
      * @param $id
      * @return \Symfony\Component\HttpFoundation\Response
      */
