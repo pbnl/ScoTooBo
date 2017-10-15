@@ -1,7 +1,7 @@
 {% extends 'includes/base.html.twig' %}
 
 {% block body %}
-    <div class="container">
+    <div class="container" style="padding-top: 4rem;">
         <h1>{% trans %}403ErrorPage.head{% endtrans %}</h1>
 
         {% if is_granted('IS_AUTHENTICATED_FULLY') %}
