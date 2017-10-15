@@ -4,6 +4,7 @@ namespace AppBundle\Controller\EventManagement;
 
 use AppBundle\Entity\Event;
 use AppBundle\Entity\EventAttend;
+use AppBundle\Model\User;
 use DateTime;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -246,11 +247,14 @@ class EventController extends Controller
         $em = $this->getDoctrine()->getManager();
         $event = $em->getRepository(Event::class)->findOneBy(array('invitationLink' => $invitationLink));
         if ($event) {
-            $loggedInUser_Uid = '';
+            $loggedInUser_firstname = '';
+            $loggedInUser_lastname = '';
             $loggedInUser_Stamm = '';
             if ($this->get('security.authorization_checker')->isGranted('ROLE_USER')) {
+                /** @var User $loggedInUser */
                 $loggedInUser = $this->get('security.token_storage')->getToken()->getUser();
-                $loggedInUser_Uid = $loggedInUser->getUid();
+                $loggedInUser_firstname = $loggedInUser->getFirstName();
+                $loggedInUser_lastname = $loggedInUser->getLastName();
                 $loggedInUser_Stamm = $loggedInUser->getStamm();
             }
 
@@ -270,7 +274,7 @@ class EventController extends Controller
                                     "attr" => ["placeholder" => "general.firstName"],
                                     'label' => "general.firstName",
                                     'empty_data' => '',
-                                    'data' => $loggedInUser_Uid,
+                                    'data' => $loggedInUser_firstname,
                                     "required" => $participationFields[$i][3]
                                 )
                             )
@@ -281,7 +285,7 @@ class EventController extends Controller
                                     "attr" => ["placeholder" => "general.lastName"],
                                     'label' => "general.lastName",
                                     'empty_data' => '',
-                                    'data' => $loggedInUser_Uid,
+                                    'data' => $loggedInUser_lastname,
                                     "required" => $participationFields[$i][3]
                                 )
                             );
@@ -438,7 +442,8 @@ class EventController extends Controller
             }
 
             return $this->render('eventManagement/attendInvitationLink.html.twig', array(
-                "loggedInUser_Uid"=>$loggedInUser_Uid,
+                "loggedInUser_firstname"=>$loggedInUser_firstname,
+                "loggedInUser_lastname"=>$loggedInUser_lastname,
                 "loggedInUser_Stamm"=>$loggedInUser_Stamm,
                 "event"=>$event,
                 "registrationAttendInvitationLink"=>$form->createView(),
