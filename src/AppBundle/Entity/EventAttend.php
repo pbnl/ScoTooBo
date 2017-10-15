@@ -101,7 +101,19 @@ class EventAttend
      * @var boolean
      * @ORM\Column(type="boolean", nullable=true)
      */
+    private $pig;
+
+    /**
+     * @var boolean
+     * @ORM\Column(type="boolean", nullable=true)
+     */
     private $vegi;
+
+    /**
+     * @var boolean
+     * @ORM\Column(type="boolean", nullable=true)
+     */
+    private $vega;
 
     /**
      * @var string
@@ -402,6 +414,46 @@ class EventAttend
     }
 
     /**
+     * Set pig
+     *
+     * @param boolean $pig
+     *
+     * @return EventAttend
+     */
+    public function setPig($pig)
+    {
+        $this->pig = $pig;
+
+        return $this;
+    }
+
+    /**
+     * Get pig
+     *
+     * @return boolean
+     */
+    public function getPig()
+    {
+        return $this->pig;
+    }
+
+    /**
+     * Get pigAsString
+     *
+     * @return boolean
+     */
+    public function getPigAsString()
+    {
+        if ($this->pig) {
+            return "Ja";
+        } elseif (is_null($this->pig)) {
+            return "keine Angabe";
+        } else {
+            return "Nein";
+        }
+    }
+
+    /**
      * Set vegi
      *
      * @param boolean $vegi
@@ -434,7 +486,47 @@ class EventAttend
     {
         if ($this->vegi) {
             return "Ja";
-        } elseif ($this->vegi==Null) {
+        } elseif (is_null($this->vegi)) {
+            return "keine Angabe";
+        } else {
+            return "Nein";
+        }
+    }
+
+    /**
+     * Set vega
+     *
+     * @param boolean $vega
+     *
+     * @return EventAttend
+     */
+    public function setVega($vega)
+    {
+        $this->vega = $vega;
+
+        return $this;
+    }
+
+    /**
+     * Get vega
+     *
+     * @return boolean
+     */
+    public function getVega()
+    {
+        return $this->vega;
+    }
+
+    /**
+     * Get vegaAsString
+     *
+     * @return boolean
+     */
+    public function getVegaAsString()
+    {
+        if ($this->vega) {
+            return "Ja";
+        } elseif (is_null($this->vega)) {
             return "keine Angabe";
         } else {
             return "Nein";

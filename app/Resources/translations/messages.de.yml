@@ -14,6 +14,7 @@ general.create: Erstellen
 general.date: Datum
 general.delete: Löschen
 general.description: Beschreibung
+general.eat: Essenswünsche
 general.edit: Ändern
 general.firstLastName: Vor- und Nachname
 general.firstName: Vorname
@@ -34,6 +35,7 @@ general.password: Passwort
 general.phoneNumber.home: Telefonnummer
 general.phoneNumber.mobile: Mobile
 general.picture: Bild
+general.pig: mit Schwein
 general.place: Ort
 general.postalCode: PLZ
 general.postalCodePlace: PLZ und Ort
@@ -48,7 +50,8 @@ general.text: Text
 general.uidNumber: Benutzer ID
 general.url: URL
 general.value: Wert
-general.vegi: Vegetarier
+general.vega: vegan
+general.vegi: vegetarisch
 general.welcome: Willkommen
 general.yes: Ja
 None: keine Angabe # e.g. for form choices if required=false

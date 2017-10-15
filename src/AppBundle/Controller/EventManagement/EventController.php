@@ -54,7 +54,7 @@ class EventController extends Controller
             array("address", "Adresse", false, false),
             array("stamm", "Stamm", false, false),
             array("group", "Gruppe", false, false),
-            array("vegi", "Vegetarier", false, false),
+            array("eat", "Essenswünsche", false, false),
             array("comment", "Kommentar", true, false)
         );
     }
@@ -379,9 +379,23 @@ class EventController extends Controller
                             );
                         }
                         break;
-                    case "vegi":
+                    case "eat":
                         if ($participationFields[$i][2]) {
                             $form->add(
+                                'pig',
+                                ChoiceType::class,
+                                array(
+                                    'choices' => array(
+                                        'general.yes' => true,
+                                        'general.no' => false,
+                                    ),
+                                    'label' => 'general.pig',
+                                    'multiple' => false,
+                                    'expanded' => true,
+                                    "required" => $participationFields[$i][3]
+                                )
+                            )
+                            ->add(
                                 'vegi',
                                 ChoiceType::class,
                                 array(
@@ -390,6 +404,20 @@ class EventController extends Controller
                                         'general.no' => false,
                                     ),
                                     'label' => 'general.vegi',
+                                    'multiple' => false,
+                                    'expanded' => true,
+                                    "required" => $participationFields[$i][3]
+                                )
+                            )
+                            ->add(
+                                'vega',
+                                ChoiceType::class,
+                                array(
+                                    'choices' => array(
+                                        'general.yes' => true,
+                                        'general.no' => false,
+                                    ),
+                                    'label' => 'general.vega',
                                     'multiple' => false,
                                     'expanded' => true,
                                     "required" => $participationFields[$i][3]
