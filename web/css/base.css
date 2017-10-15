@@ -36,15 +36,6 @@ body {
     display: block;
     padding: .5rem 1rem;
 }
-.nav-pills .nav-item .nav-link-item:before {
-    content:"";
-    background-image: url('menu-icon.gif');
-    background-repeat: no-repeat;
-    background-size: 0.5rem 0.9rem;
-    display: inline-block;
-    width: 1rem;
-    height: 0.9rem;
-}
 .nav-pills .nav-item .active, .nav-pills .nav-item .nav-link-item:hover {
     color: #000;
     background-color: #e9ecef; /* #007bff */

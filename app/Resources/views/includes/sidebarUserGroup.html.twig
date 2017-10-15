@@ -1,17 +1,25 @@
 <ul class="nav nav-pills">
     <li class="nav-item">
-        <a href="/users/show/all" class="nav-link-item {{ showAllUsers|default('') }}">{% trans %}menu.userManagement.showAllUsers{% endtrans %}</a>
+        <a href="/users/show/all" class="nav-link-item {{ showAllUsers|default('') }}">
+            <i class="fa fa-play" aria-hidden="true"></i> {% trans %}menu.userManagement.showAllUsers{% endtrans %}
+        </a>
     </li>
     <li class="nav-item">
-        <a href="/users/add" class="nav-link-item {{ addUser|default('') }}">{% trans %}menu.userManagement.addUser{% endtrans %}</a>
+        <a href="/users/add" class="nav-link-item {{ addUser|default('') }}">
+            <i class="fa fa-play" aria-hidden="true"></i> {% trans %}menu.userManagement.addUser{% endtrans %}
+        </a>
     </li>
     <li class="nav-item">
-        <a href="/users/detail" class="nav-link-item {{ detailUser|default('') }}">{% trans %}menu.userManagement.detailUser{% endtrans %}</a>
+        <a href="/users/detail" class="nav-link-item {{ detailUser|default('') }}">
+            <i class="fa fa-play" aria-hidden="true"></i> {% trans %}menu.userManagement.detailUser{% endtrans %}
+        </a>
     </li>
 </ul>
 
 <ul class="nav nav-pills flex-column">
     <li class="nav-item">
-        <a href="/groups/show/all" class="nav-link-item {{ showAllGroups|default('') }}">{% trans %}menu.groupManagement.showAllGroups{% endtrans %}</a>
+        <a href="/groups/show/all" class="nav-link-item {{ showAllGroups|default('') }}">
+            <i class="fa fa-play" aria-hidden="true"></i> {% trans %}menu.groupManagement.showAllGroups{% endtrans %}
+        </a>
     </li>
 </ul>
