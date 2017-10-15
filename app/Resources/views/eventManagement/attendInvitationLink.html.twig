@@ -92,13 +92,22 @@
             </div>
         </div>
         {% endif %}
-        {% if "vegi" in showParticipationFields %}
-        <div class="form-group row">
-            <label class="col-form-label col-md-2 form-control-label required">{% trans %}general.vegi{% endtrans %}:</label>
-            <div class="col-md-10">
-                {{ form_widget(registrationAttendInvitationLink.vegi) }}
+        {% if "eat" in showParticipationFields %}
+            <div class="form-group row">
+                <label class="col-form-label col-md-2 form-control-label required">{% trans %}general.eat{% endtrans %}:</label>
+                <div class="col-md-3">
+                    {% trans %}general.pig{% endtrans %}:
+                    {{ form_widget(registrationAttendInvitationLink.pig) }}
+                </div>
+                <div class="col-md-3">
+                    {% trans %}general.vegi{% endtrans %}:
+                    {{ form_widget(registrationAttendInvitationLink.vegi) }}
+                </div>
+                <div class="col-md-4">
+                    {% trans %}general.vega{% endtrans %}:
+                    {{ form_widget(registrationAttendInvitationLink.vega) }}
+                </div>
             </div>
-        </div>
         {% endif %}
         {% if "comment" in showParticipationFields %}
         <div class="form-group row">
