@@ -15,7 +15,7 @@ class LoginController extends Controller
      */
     public function loginAction(Request $request)
     {
-        /* redirect to dashboard if user is already logged in */
+        // redirect to dashboard if user is already logged in
         if ($this->get('security.authorization_checker')->isGranted('IS_AUTHENTICATED_FULLY')) {
             return $this->redirectToRoute("showDashboard");
         }
