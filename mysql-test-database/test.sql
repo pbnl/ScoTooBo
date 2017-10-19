@@ -34,7 +34,7 @@ CREATE TABLE `event` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `description` longtext COLLATE utf8_unicode_ci NOT NULL,
-  `price` int(10) unsigned NOT NULL,
+  `price` int(11) NOT NULL,
   `date_from` datetime NOT NULL,
   `date_to` datetime NOT NULL,
   `place` longtext COLLATE utf8_unicode_ci NOT NULL,
@@ -53,7 +53,6 @@ CREATE TABLE `event` (
 LOCK TABLES `event` WRITE;
 /*!40000 ALTER TABLE `event` DISABLE KEYS */;
 INSERT INTO `event` VALUES (1,'TestEvent1','qwertzu qwertz qwertzu',100,'2017-01-01 00:00:00','2017-01-01 00:00:00','at home',NULL,NULL),(2,'TestEvent2','qwertzu qwertz qwertzu',177,'2010-01-01 00:00:00','2010-01-01 00:00:00','at home',NULL,NULL),(3,'TestEvent3','qwertzu qwertz qwertzu',38,'2011-01-01 00:00:00','2011-01-01 00:00:00','at home',NULL,NULL),(4,'TestEvent4','qwertzu qwertz qwertzu',125,'2003-01-01 00:00:00','2003-01-01 00:00:00','at home',NULL,NULL),(5,'TestEvent5','qwertzu qwertz qwertzu',82,'2004-01-01 00:00:00','2004-01-01 00:00:00','at home','vgp4fhAo1PXHSTl5BRPJrdfRa64FlLJR1','[[\"name\",\"Name\",true,true],[\"email\",\"E-Mail\",true,false],[\"address\",\"Adresse\",true,false],[\"stamm\",\"Stamm\",true,false],[\"group\",\"Gruppe\",true,false],[\"eat\",\"Essensw\\u00fcnsche\",true,false],[\"comment\",\"Kommentar\",true,false]]'),(6,'TestEvent6','qwertzu qwertz qwertzu',38,'2014-01-01 00:00:00','2014-01-01 00:00:00','at home',NULL,NULL),(7,'TestEvent7','qwertzu qwertz qwertzu',20,'2015-01-01 00:00:00','2015-01-01 00:00:00','at home','4aiScm83Z92FnqCrHhFvde37uC2vefQip9bCwjGvtIaQ8NhQ4XmicpqG2schH2A7cLJI5pdy8ophbG7f','[[\"name\",\"Name\",true,true],[\"email\",\"E-Mail\",true,true],[\"address\",\"Adresse\",true,true],[\"stamm\",\"Stamm\",true,true],[\"group\",\"Gruppe\",true,true],[\"eat\",\"Essensw\\u00fcnsche\",true,true],[\"comment\",\"Kommentar\",true,true]]'),(8,'TestEvent8','qwertzu qwertz qwertzu',97,'2005-01-01 00:00:00','2005-01-01 00:00:00','at home','uyQTYxWqJd8MNfYyZGEpUcxiBPtiXJXriNlglhH5uQRh5QQ5xvvrH3KjSdCPXzggnBwISeNn4FFavwf31KvINf2GtEvqeLHBnejgs7DxMiHiOXlPIQyw6BczgI0uuH5RVo7nvKVi3','[[\"name\",\"Name\",true,false],[\"email\",\"E-Mail\",true,false],[\"address\",\"Adresse\",true,false],[\"stamm\",\"Stamm\",true,false],[\"group\",\"Gruppe\",true,false],[\"eat\",\"Essensw\\u00fcnsche\",true,false],[\"comment\",\"Kommentar\",true,false]]'),(9,'TestEvent9','qwertzu qwertz qwertzu',159,'2015-01-01 00:00:00','2015-01-01 00:00:00','at home','ASAWHiNgPTR2t8KtCeaH555dtBYpT11uTCrBVfSK9KMCSx5uMgbRmh5QS3fM4ghYTJzOYrz7bmK3TPxF5Jxr0ChTFwGKNXIHGivFK4NWqxZkmxZsgxUh9caPJQAxOjevCKamO','[[\"name\",\"Name\",false,false],[\"email\",\"E-Mail\",true,false],[\"address\",\"Adresse\",true,false],[\"stamm\",\"Stamm\",true,false],[\"group\",\"Gruppe\",true,false],[\"eat\",\"Essensw\\u00fcnsche\",true,false],[\"comment\",\"Kommentar\",false,false]]'),(10,'TestEvent10','qwertzu qwertz qwertzu',120,'2003-01-01 00:00:00','2003-01-01 00:00:00','at home','VND5p99YztJoWIYi0ziH54IOd7RnSJ2NxGTWQ2VpvEOsnNLnm34r8NglV7JNRLBorulhwgH2VvuijfGFjL7rynNuuxiliTKKo52VmKXhgrAzHge11ltAJg4dNmz6gkRFpTAMEx3UZD','[[\"name\",\"Name\",true,true],[\"email\",\"E-Mail\",false,false],[\"address\",\"Adresse\",false,false],[\"stamm\",\"Stamm\",false,false],[\"group\",\"Gruppe\",false,false],[\"vegi\",\"Vegetarier\",false,false],[\"comment\",\"Kommentar\",true,false]]');
-/*!40000 ALTER TABLE `event` ENABLE KEYS */;
 /*!40000 ALTER TABLE `event` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -176,9 +175,7 @@ CREATE TABLE `userfeedback` (
 
 LOCK TABLES `userfeedback` WRITE;
 /*!40000 ALTER TABLE `userfeedback` DISABLE KEYS */;
-INSERT INTO `userfeedback` VALUES
-	(22,'asdf','browser','2017-10-01 21:28:43','http://127.0.0.1:8000/','htmlText','picture','','','',''),
-	(23,'asdf','browser','2017-10-01 21:28:43','http://127.0.0.1:8000/','htmlText','picture','testambrone1','[\"ROLE_ambronen\",\"ROLE_stavo\",\"ROLE_schulung\",\"ROLE_nordlichter\",\"ROLE_wiki\",\"ROLE_webmaster@schulung.pbnl.de\",\"ROLE_webmaster@ambronen.pbnl.de\",\"ROLE_groupWithMailingList\",\"ROLE_groupWithoutMailingList\",\"ROLE_elder\",\"ROLE_USER\"]','Ambronen','');
+INSERT INTO `userfeedback` VALUES (22,'asdf','browser','2017-10-01 21:28:43','http://127.0.0.1:8000/','htmlText','picture','','','',''),(23,'asdf','browser','2017-10-01 21:28:43','http://127.0.0.1:8000/','htmlText','picture','testambrone1','[\"ROLE_ambronen\",\"ROLE_stavo\",\"ROLE_schulung\",\"ROLE_nordlichter\",\"ROLE_wiki\",\"ROLE_webmaster@schulung.pbnl.de\",\"ROLE_webmaster@ambronen.pbnl.de\",\"ROLE_groupWithMailingList\",\"ROLE_groupWithoutMailingList\",\"ROLE_elder\",\"ROLE_USER\"]','Ambronen','');
 /*!40000 ALTER TABLE `userfeedback` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
