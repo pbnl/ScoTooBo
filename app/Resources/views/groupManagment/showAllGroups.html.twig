@@ -6,10 +6,6 @@
     {% include "includes/sidebarUserGroup.html.twig" with {"showAllGroups": "active"} %}
 {% endblock %}
 
-{% block stylesheets %}
-    {{ parent() }}
-{% endblock %}
-
 {% block content %}
     {% include 'includes/showFlashes.html.twig' %}
     <h2>{% trans %}Group.showAll.myGroups{% endtrans %}</h2>
@@ -44,30 +40,7 @@
             {% endfor %}
             </tbody>
 
-            <tfoot>
-            <tr>
-                <th colspan="3" class="ts-pager">
-                    <div class="form-inline">
-                        <div class="btn-group btn-group-sm mx-1" role="group">
-                            <button type="button" class="btn btn-secondary first" title="first">⇤</button>
-                            <button type="button" class="btn btn-secondary prev" title="previous">←</button>
-                        </div>
-                        <span class="pagedisplay"></span>
-                        <div class="btn-group btn-group-sm mx-1" role="group">
-                            <button type="button" class="btn btn-secondary next" title="next">→</button>
-                            <button type="button" class="btn btn-secondary last" title="last">⇥</button>
-                        </div>
-                        <select class="form-control-sm custom-select px-1 pagesize" title="Select page size">
-                            <option selected="selected" value="10">10</option>
-                            <option value="20">20</option>
-                            <option value="30">30</option>
-                            <option value="all">All Rows</option>
-                        </select>
-                        <select class="form-control-sm custom-select px-4 mx-1 pagenum" title="Select page number"></select>
-                    </div>
-                </th>
-            </tr>
-            </tfoot>
+            {% include 'includes/tablesorterFooter.html.twig' with {'NumberOfColumns': '3'} only %}
         </table>
     </div>
 {% endblock %}

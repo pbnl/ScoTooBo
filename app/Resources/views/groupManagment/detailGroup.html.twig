@@ -1,9 +1,9 @@
 {% extends "includes/base.html.twig" %}
 
-{% block title %}group !!!static, change!!!{% endblock %}
+{% block title %}{% trans %}Group.detail.title{% endtrans %}{% endblock %}
 
-{% block stylesheets %}
-    {{ parent() }}
+{% block sidenav %}
+    {% include "includes/sidebarUserGroup.html.twig" with {"showAllGroups": "active"} %}
 {% endblock %}
 
 {% block content %}
@@ -36,15 +36,16 @@
                     -
                 </td>
             </tr>
-            <th>
-                {% trans %}general.gid{% endtrans %}
-            </th>
-            <td>
-                {{group.gidNumber}}
-            </td>
-            <td>
-                -
-            </td>
+            <tr>
+                <th>
+                    {% trans %}general.gid{% endtrans %}
+                </th>
+                <td>
+                    {{group.gidNumber}}
+                </td>
+                <td>
+                    -
+                </td>
             </tr>
             {% for member in group.memberUserObjects %}
                 <tr>

@@ -65,6 +65,7 @@ menu.userGroupManagement.title: Benutzer-/Gruppenverwaltung
 
 
 
+403ErrorPage.title: 403 fehlende Rechte
 403ErrorPage.head: Diese Aktion ist für dich verboten
 403ErrorPage.feedBackReference: Wenn du uns Feedback geben willst, oder ein Problem hast, benutze den Button in der rechten unteren Ecke!
 403ErrorPage.logoutFirst: Logge dich zuerst aus.
@@ -92,6 +93,7 @@ Feedback.messageError: Es trat leider ein Fehler auf, schreib uns am besten pers
 Feedback.labelAfterSend: Danke für dein Feedback!
 
 Group.showAll.myGroups: Meine Gruppen
+Group.detail.title: Meine Gruppen?!
 Group.detail.myGroups: Meine Gruppen
 
 Login.request: Bitte logge dich ein
