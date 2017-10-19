@@ -3,6 +3,7 @@
 namespace Tests\AppBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
+use Tests\AppBundle\TestTools;
 
 class LoginControllerTest extends WebTestCase
 {
@@ -57,5 +58,18 @@ class LoginControllerTest extends WebTestCase
         $this->assertContains('Fehlerhafte Zugangsdaten', $client->getResponse()->getContent());
 
 
+    }
+
+    public function testRedirectToDashboardIfLoggedIn()
+    {
+        $crawler = TestTools::getLoggedInStavoAmbrone()->request('GET', '/login');
+        TestTools::getLoggedInStavoAmbrone()->followRedirect();
+        $respons = TestTools::getLoggedInStavoAmbrone()->getResponse()->getContent();
+
+        $this->assertEquals(200, TestTools::getLoggedInStavoAmbrone()->getResponse()->getStatusCode());
+        $this->assertNotContains('Login', $respons);
+        $this->assertContains('Logout', $respons);
+        $this->assertContains('Das wird mal das Dashboard!', $respons);
+        //TODO: Change if we have a real start page
     }
 }
