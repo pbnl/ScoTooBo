@@ -34,7 +34,7 @@ CREATE TABLE `event` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `description` longtext COLLATE utf8_unicode_ci NOT NULL,
-  `price` int(11) NOT NULL,
+  `price` int(10) unsigned NOT NULL,
   `date_from` datetime NOT NULL,
   `date_to` datetime NOT NULL,
   `place` longtext COLLATE utf8_unicode_ci NOT NULL,
@@ -81,7 +81,7 @@ CREATE TABLE `eventAttend` (
   `pig` tinyint(1) DEFAULT NULL,
   `vega` tinyint(1) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -90,7 +90,7 @@ CREATE TABLE `eventAttend` (
 
 LOCK TABLES `eventAttend` WRITE;
 /*!40000 ALTER TABLE `eventAttend` DISABLE KEYS */;
-INSERT INTO `eventAttend` VALUES (1,5,'2017-10-09 21:25:14','testadmin','testadmin','123','45a',12345,'Hamburg','Ambronen','456','789',NULL,NULL,NULL,NULL),(2,7,'2017-10-12 22:51:40','testadmin','testadmin','123','4',12345,'567','Ambronen','890','Text','wqesbv@a.de',1,NULL,NULL),(3,7,'2017-10-15 22:24:44','testAdmin-Vorname','testAdmin-Nachname','bbb','1',13245,'c','Hagen von Tronje','d','e','a@a.de',1,1,NULL),(4,7,'2017-10-15 22:28:39','AAA','BBB','Ccc','456',78910,'Ddd','Anduril','Eee','Fff','a@a.de',0,1,1),(5,7,'2017-10-15 22:33:24','abc','def','jkl','456',45645,'mno','Ambronen','pqr','stuvw xyz','ghi@a.de',1,0,0);
+INSERT INTO `eventAttend` VALUES (1,5,'2017-10-09 21:25:14','testadmin','testadmin','123','45a',12345,'Hamburg','Ambronen','456','789',NULL,NULL,NULL,NULL),(2,7,'2017-10-12 22:51:40','testadmin','testadmin','123','4',12345,'567','Ambronen','890','Text','wqesbv@a.de',1,NULL,NULL),(3,7,'2017-10-15 22:24:44','testAdmin-Vorname','testAdmin-Nachname','bbb','1',13245,'c','Hagen von Tronje','d','e','a@a.de',1,1,NULL),(4,7,'2017-10-15 22:28:39','AAA','BBB','Ccc','456',78910,'Ddd','Anduril','Eee','Fff','a@a.de',0,1,1),(5,7,'2017-10-15 22:33:24','abc','def','jkl','456',45645,'mno','Ambronen','pqr','stuvw xyz','ghi@a.de',1,0,0),(6,5,'2017-10-19 21:57:50','testAdmin','testAdmin','','',NULL,'','Ambronen','','','',NULL,NULL,NULL);
 /*!40000 ALTER TABLE `eventAttend` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -188,4 +188,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2017-10-15 22:37:44
+-- Dump completed on 2017-10-19 22:07:34
