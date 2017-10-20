@@ -45,6 +45,11 @@ general.welcome: Willkommen
 
 menu.toogleNav: Navigation ein-/ausblenden
 
+menu.admin.dummyPages: Entwickler Dummy Seiten
+menu.admin.showEmptyFullWidthPageWithNavbar: ganze Breite mit Navbar ohne Footer
+menu.admin.showEmptyFullWidthPageWithoutNavbar: ganze Breite ohne Navbar ohne Footer
+menu.admin.showEmptyPageWithSidebarWithNavbar: mit Sidebar mit Navbar mit Footer
+
 menu.eventManagement.title: Eventmanagement
 menu.eventManagement.showAllEvents: Alle Events anzeigen
 menu.eventManagement.addEvent: Event hinzufügen
@@ -61,6 +66,7 @@ menu.userManagement.showAllUsers: Alle Benutzer anzeigen
 menu.userManagement.addUser: Benutzer hinzufügen
 menu.userManagement.detailUser: Benutzerdetails
 
+menu.admin.title: Admin
 menu.userGroupManagement.title: Benutzer-/Gruppenverwaltung
 
 

@@ -1,0 +1,28 @@
+<ul class="nav nav-pills">
+    <li class="nav-item">
+        <a href="/feedback/show/all" class="nav-link-item {{ showAllFeedback|default('') }}">
+            <i class="fa fa-play" aria-hidden="true"></i> {% trans %}menu.feedbackManagement.showAllFeedback{% endtrans %}
+        </a>
+    </li>
+</ul>
+
+<ul class="nav nav-pills">
+    <li class="nav-item">
+        <i class="fa fa-play" aria-hidden="true"></i> {% trans %}menu.admin.dummyPages{% endtrans %}
+    </li>
+    <li class="nav-item">
+        <a href="/admin/showEmptyFullWidthPageWithNavbar" class="nav-link-item {{ showEmptyFullWidthPageWithNavbar|default('') }}">
+            <i class="fa fa-play" aria-hidden="true"></i> {% trans %}menu.admin.showEmptyFullWidthPageWithNavbar{% endtrans %}
+        </a>
+    </li>
+    <li class="nav-item">
+        <a href="/admin/showEmptyFullWidthPageWithoutNavbar" class="nav-link-item {{ showEmptyFullWidthPageWithoutNavbar|default('') }}">
+            <i class="fa fa-play" aria-hidden="true"></i> {% trans %}menu.admin.showEmptyFullWidthPageWithoutNavbar{% endtrans %}
+        </a>
+    </li>
+    <li class="nav-item">
+        <a href="/admin/showEmptyPageWithSidebarWithNavbar" class="nav-link-item {{ showEmptyPageWithSidebarWithNavbar|default('') }}">
+            <i class="fa fa-play" aria-hidden="true"></i> {% trans %}menu.admin.showEmptyPageWithSidebarWithNavbar{% endtrans %}
+        </a>
+    </li>
+</ul>

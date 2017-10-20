@@ -2,20 +2,11 @@
 
 {% block title %}{% trans %}menu.feedbackManagement.title{% endtrans %}{% endblock %}
 
-{#
-ToDo: If we have more than one subpage:
 {% block sidenav %}
-    {% include "includes/sidebarFeedback.html.twig" with {"showAllFeedback": "active"} %}
+    {% include "includes/sidebarAdmin.html.twig" with {"showAllFeedback": "active"} %}
 {% endblock %}
 
-replace {% block body %} with {% block content %}
-
-remove {% block containerCssClass %}
-#}
-
-{% block containerCssClass %}paddingTopForNavbar{% endblock %}
-
-{% block body %}
+{% block content %}
     {% include 'includes/showFlashes.html.twig' %}
 
     <table class="table table-striped tablesorter table-responsive">

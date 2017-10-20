@@ -86,7 +86,7 @@ class FeedbackController extends Controller
         $repository = $this->getDoctrine()->getRepository(UserFeedback::class);
         $userFeedbacks = $repository->findAll();
 
-        return $this->render("feedback/showAllFeedback.html.twig", array(
+        return $this->render("admin/showAllFeedback.html.twig", array(
             "feedbacks"=> $userFeedbacks,
         ));
     }

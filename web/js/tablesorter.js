@@ -2,7 +2,11 @@ $(document).ready(function() {
 
     // call the tablesorter plugin and apply the uitheme widget
     $("table").tablesorter({
-        theme : "default", /* or "bootstrap" */
+        /* use 'bootstrap' for a grey header,
+         * use 'default' for a light (white) header
+         * see https://mottie.github.io/tablesorter/docs/themes.html for more details
+         */
+        theme : "default",
 
         widthFixed: true,
 
