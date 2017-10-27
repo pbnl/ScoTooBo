@@ -2,66 +2,73 @@
 
 {% block title %}{% trans %}menu.eventManagement.title{% endtrans %}{% endblock %}
 
-{% block body %}
-    {% include 'includes/navbar.html.twig' %}
-    <div class="container">
-        <br><br>
-        {% include 'includes/showFlashes.html.twig' %}
-        <table class="table table-striped">
-            <thead class="">
-            <tr>
-                <th>
-                    Nr
-                </th>
-                <th>
-                    {% trans %}general.name{% endtrans %}
-                </th>
-                <th>
-                    {% trans %}general.description{% endtrans %}
-                </th>
-                <th>
-                    {% trans %}general.price{% endtrans %}
-                </th>
-                <th>
-                    {% trans %}general.date{% endtrans %}
-                </th>
-                <th>
-                    {% trans %}general.place{% endtrans %}
-                </th>
-                <th>
-                    &nbsp;
-                </th>
-            </tr>
-            </thead>
-            <tbody>
-            {% for event in events %}
-                <tr>
-                    <td>
-                        {{ loop.index}}
-                    </td>
-                    <td>
-                        <a href="{{ path('detailEvent', {'id': event.getId}) }}">{{ event.getName}}</a>
-                    </td>
-                    <td>
-                        {{event.getDescription}}
-                    </td>
-                    <td>
-                        {{event.getPriceInEuroWithEuroCharacter}}
-                    </td>
-                    <td>
-                        {{event.getDateFromToAsString}}
-                    </td>
-                    <td>
-                        {{event.getPlace}}
-                    </td>
-                    <td>
-                        Bearbeiten / Löschen (folgt)
+{% block sidenav %}
+    {% include "includes/sidebarEvent.html.twig" with {"showAllEvents": "active"} %}
+{% endblock %}
 
-                    </td>
-                </tr>
-            {% endfor %}
-            </tbody>
-        </table>
-    </div>
+{% block content %}
+    {% include 'includes/showFlashes.html.twig' %}
+    <table class="table table-striped tablesorter table-responsive">
+        <thead class="">
+        <tr>
+            <th class="filter-false">
+                Nr
+            </th>
+            <th>
+                {% trans %}general.name{% endtrans %}
+            </th>
+            <th>
+                {% trans %}general.description{% endtrans %}
+            </th>
+            <th>
+                {% trans %}general.price{% endtrans %}
+            </th>
+            <th>
+                {% trans %}general.date{% endtrans %}
+            </th>
+            <th>
+                {% trans %}general.place{% endtrans %}
+            </th>
+            <th class="filter-false">
+                &nbsp;
+            </th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for event in events %}
+            <tr>
+                <td>
+                    {{ loop.index}}
+                </td>
+                <td>
+                    <a href="{{ path('detailEvent', {'id': event.getId}) }}">{{ event.getName}}</a>
+                </td>
+                <td>
+                    {{event.getDescription}}
+                </td>
+                <td>
+                    {{event.getPriceInEuroWithEuroCharacter}}
+                </td>
+                <td>
+                    {{event.getDateFromToAsString}}
+                </td>
+                <td>
+                    {{event.getPlace}}
+                </td>
+                <td>
+                    Bearbeiten / Löschen (folgt)
+
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+
+        {% include 'includes/tablesorterFooter.html.twig' with {'NumberOfColumns': '7'} only %}
+    </table>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script src="{{ asset('js/tablesorter.js') }}"></script>
 
 {% endblock %}

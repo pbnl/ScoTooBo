@@ -9,6 +9,9 @@
         <!-- Latest compiled and minified CSS -->
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css" integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M" crossorigin="anonymous">
 
+        <!-- Awesome Font -->
+        <link rel="stylesheet" href="/css/font-awesome.min.css">
+
         <!-- Tablesorter theme -->
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery.tablesorter/2.29.0/css/theme.bootstrap_4.min.css" integrity="sha256-XNaQ6CZvDJ0+k/frCzdkIyDhLedZXo1a9SswYdq8bj4=" crossorigin="anonymous" />
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery.tablesorter/2.29.0/css/jquery.tablesorter.pager.min.css" integrity="sha256-x+whz5gQKEXx3S3pxwmxPhC1OWpRiHaPXUW5Yt8/fzg=" crossorigin="anonymous" />
@@ -23,7 +26,30 @@
         <link rel="stylesheet" href="{{ asset('css/base.css') }}">
     </head>
     <body>
-        {% block body %}{% endblock %}
+        {# Navbar #}
+        {% block navbar %}{% include 'includes/navbar.html.twig' %}{% endblock %}
+        <div class="container-fluid {% block containerCssClass %}{% endblock %}">
+            {% block body %}
+            {# Layouttemplate with sidebar #}
+            <div class="row row-offcanvas row-offcanvas-right">
+                    <nav class="col-6 col-lg-2 d-none d-block bg-light sidebar sidebar-offcanvas" id="sidebar">
+                        {% block sidenav %}{% endblock %}
+                    </nav>
+                    <div class="col-12 col-lg-10" style="min-height: 100vh; padding-top: 4rem;">
+                        <p class="d-lg-none">
+                            <button type="button" class="btn btn-primary btn-sm" data-toggle="offcanvas">{% trans %}menu.toogleNav{% endtrans %}</button>
+                        </p>
+                        {% block content %}{% endblock %}
+                        <hr>
+
+                        <footer>
+                            {% include "includes/footer.html.twig" %}
+                        </footer>
+                    </div>
+                </div>
+            {% endblock %}
+        </div>
+
         {% block javascripts %}
             <script
                     src="https://code.jquery.com/jquery-3.2.1.min.js"

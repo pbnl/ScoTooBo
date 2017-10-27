@@ -1,5 +1,106 @@
 /*
-body {
-    background-color: #eee;
+ * for big table columns
+ */
+.limitBigTableColumn {
+    max-width: 300px;
+    word-wrap: break-word;
 }
-*/
+
+/*
+ * for navigations
+ */
+html,
+body {
+    overflow-x: hidden; /* Prevent scroll on narrow devices */
+    /* height: 100%; */
+}
+#sidebar {
+    padding: 4rem 0 0 0; /* top, right, bottom, left */
+}
+.paddingTopForNavbar {
+    padding-top: 4rem;
+}
+.sidebar .nav {
+    margin-bottom: 20px;
+}
+.sidebar .nav-item {
+    width: 100%;
+}
+.sidebar .nav-item + .nav-item {
+    margin-left: 0;
+}
+.sidebar .nav-link {
+    border-radius: 0;
+}
+.nav-pills .nav-item .nav-link-item {
+    display: block;
+    padding: .5rem 1rem;
+}
+.nav-pills .nav-item .active, .nav-pills .nav-item .nav-link-item:hover {
+    color: #000;
+    background-color: #e9ecef; /* #007bff */
+}
+
+@media screen and (max-width: 991px) { /* Off Canvas */
+    #sidebar {
+        height: 100%;
+    }
+
+    .nav-pills .nav-item .nav-link-item {
+        display: block;
+        padding: .5rem 2rem;
+    }
+
+    .row-offcanvas {
+        position: relative;
+        -moz-transition: all .25s ease-out;
+        -webkit-transition: all .25s ease-out;
+        -o-transition: all .25s ease-out;
+        transition: all .25s ease-out;
+    }
+
+    .row-offcanvas-right {
+        left: 0;
+    }
+
+    .row-offcanvas-left {
+        right: 0;
+    }
+
+    .row-offcanvas-right .sidebar-offcanvas {
+        left: -100%; /* 12 columns */
+    }
+
+    .row-offcanvas-right.active .sidebar-offcanvas {
+        left: -50%; /* 6 columns */
+    }
+
+    .row-offcanvas-left .sidebar-offcanvas {
+        right: -100%; /* 12 columns */
+    }
+
+    .row-offcanvas-left.active .sidebar-offcanvas {
+        right: -50%; /* 6 columns */
+    }
+
+    .row-offcanvas-right.active {
+        left: 50%; /* 6 columns */
+    }
+
+    .row-offcanvas-left.active {
+        right: 50%; /* 6 columns */
+    }
+
+    .sidebar-offcanvas {
+        position: absolute;
+        top: 0;
+        width: 50%; /* 6 columns */
+    }
+}
+
+/**
+ * for Footer
+ */
+footer {
+    padding: 30px 0;
+}

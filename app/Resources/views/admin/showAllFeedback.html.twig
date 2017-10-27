@@ -1,0 +1,95 @@
+{% extends "includes/base.html.twig" %}
+
+{% block title %}{% trans %}menu.feedbackManagement.title{% endtrans %}{% endblock %}
+
+{% block sidenav %}
+    {% include "includes/sidebarAdmin.html.twig" with {"showAllFeedback": "active"} %}
+{% endblock %}
+
+{% block content %}
+    {% include 'includes/showFlashes.html.twig' %}
+
+    <table class="table table-striped tablesorter table-responsive">
+        <thead>
+        <tr>
+            <th class="filter-false">
+                Nr
+            </th>
+            <th>
+                {% trans %}general.text{% endtrans %}
+            </th>
+            <th class="filter-false">
+                {% trans %}general.picture{% endtrans %}
+            </th>
+            <th>
+                {% trans %}general.date{% endtrans %}
+            </th>
+            <th>
+                {% trans %}general.url{% endtrans %}
+            </th>
+            <th>
+                {% trans %}general.username{% endtrans %}
+            </th>
+            <th>
+                {% trans %}general.ip{% endtrans %}
+            </th>
+            <th>
+                {% trans %}general.stamm{% endtrans %}
+            </th>
+            <th>
+                {% trans %}general.browserdata{% endtrans %}
+            </th>
+            <th>
+                {% trans %}general.html{% endtrans %}
+            </th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for feedback in feedbacks %}
+            <tr>
+                <td>
+                    {{ loop.index}}
+                </td>
+                <td>
+                    {{ feedback.text }}
+                </td>
+                <td>
+                    <img class="image" width="200" src="{{feedback.picture}}"/>
+                </td>
+                <td>
+                    {{feedback.date.format('Y-m-d H:i')}}
+                </td>
+                <td>
+                    <a href="{{feedback.url}}">{{feedback.url}}</a>
+                </td>
+                <td>
+                    {{feedback.userUid}}
+                </td>
+                <td>
+                    {{feedback.userIp}}
+                </td>
+                <td>
+                    {{feedback.userStamm}}
+                </td>
+                <td>
+                    <textarea rows="3" cols="10">{{feedback.browserData}}</textarea>
+                </td>
+                <td>
+                    <textarea rows="3" cols="10">{{feedback.htmlContent}}</textarea>
+
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+
+        {% include 'includes/tablesorterFooter.html.twig' with {'NumberOfColumns': '10'} only %}
+    </table>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+
+    <script src="{{ asset('js/tablesorter.js') }}"></script>
+
+    <script type="text/javascript">$('.image').viewer();</script>
+{% endblock %}
