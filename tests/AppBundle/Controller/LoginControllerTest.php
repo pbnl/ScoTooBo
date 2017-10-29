@@ -63,11 +63,12 @@ class LoginControllerTest extends WebTestCase
 
     public function testRedirectToDashboardIfLoggedIn()
     {
-        $crawler = TestTools::getLoggedInStavoAmbrone()->request('GET', '/login');
-        TestTools::getLoggedInStavoAmbrone()->followRedirect();
-        $respons = TestTools::getLoggedInStavoAmbrone()->getResponse()->getContent();
+        $client = TestTools::getLoggedInStavoAmbrone();
+        $crawler = $client->request('GET', '/login');
+        $client->followRedirect();
+        $respons = $client->getResponse()->getContent();
 
-        $this->assertEquals(200, TestTools::getLoggedInStavoAmbrone()->getResponse()->getStatusCode());
+        $this->assertEquals(200, $client->getResponse()->getStatusCode());
         $this->assertNotContains('Login', $respons);
         $this->assertContains('Logout', $respons);
         $this->assertContains('Dashboard (entsteht so langsam)', $respons);
