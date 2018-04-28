@@ -2,21 +2,18 @@
 
 {% block title %}Alle Gruppen{% endblock %}
 
-{% block stylesheets %}
-    {{ parent() }}
+{% block sidenav %}
+    {% include "includes/sidebarUserGroup.html.twig" with {"showAllGroups": "active"} %}
 {% endblock %}
 
-{% block body %}
-    {% include 'includes/navbar.html.twig' %}
-    <div class="container">
-        <br><br>
+{% block content %}
     {% include 'includes/showFlashes.html.twig' %}
     <h2>{% trans %}Group.showAll.myGroups{% endtrans %}</h2>
     <div class="col-sm-6">
-        <table class="table table-striped">
+        <table class="table table-striped tablesorter table-responsive">
             <thead class="">
             <tr>
-                <th>
+                <th class="filter-false">
                     {% trans %}general.nr{% endtrans %}
                 </th>
                 <th>
@@ -42,6 +39,14 @@
                 </tr>
             {% endfor %}
             </tbody>
+
+            {% include 'includes/tablesorterFooter.html.twig' with {'NumberOfColumns': '3'} only %}
         </table>
     </div>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script src="{{ asset('js/tablesorter.js') }}"></script>
+
 {% endblock %}

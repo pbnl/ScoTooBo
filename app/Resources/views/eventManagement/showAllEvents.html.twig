@@ -2,132 +2,134 @@
 
 {% block title %}{% trans %}menu.eventManagement.title{% endtrans %}{% endblock %}
 
-{% block body %}
-    {% include 'includes/navbar.html.twig' %}
-    <div class="container">
-        <br><br>
-        {% include 'includes/showFlashes.html.twig' %}
-        <table class="table table-striped">
-            <thead class="">
+{% block sidenav %}
+    {% include "includes/sidebarEvent.html.twig" with {"showAllEvents": "active"} %}
+{% endblock %}
+
+{% block content %}
+    {% include 'includes/showFlashes.html.twig' %}
+    <table class="table table-striped tablesorter table-responsive">
+        <thead class="">
+        <tr>
+            <th class="filter-false">
+                Nr
+            </th>
+            <th>
+                {% trans %}general.name{% endtrans %}
+            </th>
+            <th>
+                {% trans %}general.description{% endtrans %}
+            </th>
+            <th>
+                {% trans %}general.price{% endtrans %}
+            </th>
+            <th>
+                {% trans %}general.date{% endtrans %}
+            </th>
+            <th>
+                {% trans %}general.place{% endtrans %}
+            </th>
+            <th class="filter-false">
+                {% trans %}Event.showAll.invitationLink{% endtrans %}
+            </th>
+            <th class="filter-false">
+                &nbsp;
+            </th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for event in events %}
             <tr>
-                <th>
-                    Nr
-                </th>
-                <th>
-                    {% trans %}general.name{% endtrans %}
-                </th>
-                <th>
-                    {% trans %}general.description{% endtrans %}
-                </th>
-                <th>
-                    {% trans %}general.price{% endtrans %}
-                </th>
-                <th>
-                    {% trans %}general.date{% endtrans %}
-                </th>
-                <th>
-                    {% trans %}general.place{% endtrans %}
-                </th>
-                <th>
-                    {% trans %}Event.showAll.invitationLink{% endtrans %}
-                </th>
-                <th>
-                    &nbsp;
-                </th>
+                <td>
+                    {{ loop.index}}
+                </td>
+                <td>
+                    <a href="{{ path('detailEvent', {'id': event.getId}) }}">{{ event.getName}}</a>
+                </td>
+                <td>
+                    {{event.getDescription}}
+                </td>
+                <td>
+                    {{event.getPriceInEuroWithEuroCharacter}}
+                </td>
+                <td>
+                    {{event.getDateFromToAsString}}
+                </td>
+                <td>
+                    {{event.getPlace}}
+                </td>
+                <td>
+                    {% if event.getInvitationLink==NULL %}
+                        {% include 'includes/addInvitationLinkFormulaWithConfirmDialog.html.twig' with {"event":event,"edit":false} %}
+                    {% else %}
+                        {% include 'includes/addInvitationLinkFormulaWithConfirmDialog.html.twig' with {"event":event,"edit":true} %}
+                        <a href="/events/attend/{{ event.getInvitationLink }}" class="btn btn-outline-success">{% trans %}Event.showAll.invitationLink.participantLink{% endtrans %}</a>
+                        <a href="/events/show/participants/{{ event.getId }}" class="btn btn-outline-info">Liste</a>
+                    {% endif %}
+                </td>
+                <td>
+                    Bearbeiten / Löschen (folgt)
+
+                </td>
             </tr>
-            </thead>
-            <tbody>
-            {% for event in events %}
-                <tr>
-                    <td>
-                        {{ loop.index }}
-                    </td>
-                    <td>
-                        <a href="{{ path('detailEvent', {'id': event.getId}) }}">{{ event.getName}}</a>
-                    </td>
-                    <td>
-                        {{ event.getDescription }}
-                    </td>
-                    <td>
-                        {{ event.getPriceInEuroWithEuroCharacter }}
-                    </td>
-                    <td>
-                        {{ event.getDateFromToAsString }}
-                    </td>
-                    <td>
-                        {{ event.getPlace }}
-                    </td>
-                    <td>
-                        {% if event.getInvitationLink==NULL %}
-                            {% include 'includes/addInvitationLinkFormulaWithConfirmDialog.html.twig' with {"event":event,"edit":false} %}
-                        {% else %}
-                            {% include 'includes/addInvitationLinkFormulaWithConfirmDialog.html.twig' with {"event":event,"edit":true} %}
-                            <a href="/events/attend/{{ event.getInvitationLink }}" class="btn btn-outline-success">{% trans %}Event.showAll.invitationLink.participantLink{% endtrans %}</a>
-                            <a href="/events/show/participants/{{ event.getId }}" class="btn btn-outline-info">Liste</a>
-                        {% endif %}
-                    </td>
-                    <td>
-                        Bearbeiten / Löschen (folgt)
+        {% endfor %}
+        </tbody>
 
-                    </td>
-                </tr>
-            {% endfor %}
-            </tbody>
-        </table>
-    </div>
-
+        {% include 'includes/tablesorterFooter.html.twig' with {'NumberOfColumns': '7'} only %}
+    </table>
 {% endblock %}
 
 {% block javascripts %}
     {{ parent() }}
+    <script src="{{ asset('js/tablesorter.js') }}"></script>
 
     <script>
         {% for event in events %}
         {% for field in possibleFormFields %}
-            {# $( "input[type='checkbox']" ).prop({ #}
-            /* reset of all field */
+        {# $( "input[type='checkbox']" ).prop({ #}
+        /* reset of all field */
+        $( "#checkbox_{{ event.getId }}_{{ field[0] }}" ).prop({
+            disabled: false,
+            checked: false
+        });
+        $( "#checkbox_{{ event.getId }}_{{ field[0] }}_2" ).prop({
+            disabled: true,
+            checked: false
+        });
+
+        /* set default values */
+        {% if event.getInvitationLink==NULL %}
+        {% if field[2] == true %}
             $( "#checkbox_{{ event.getId }}_{{ field[0] }}" ).prop({
-                disabled: false,
-                checked: false
+                checked: true
             });
             $( "#checkbox_{{ event.getId }}_{{ field[0] }}_2" ).prop({
-                disabled: true,
-                checked: false
+                disabled: false
             });
-
-            /* set default values */
-            {% if event.getInvitationLink==NULL %}
-                {% if field[2] == true %}
-                    $( "#checkbox_{{ event.getId }}_{{ field[0] }}" ).prop({
-                        checked: true
-                    });
-                    $( "#checkbox_{{ event.getId }}_{{ field[0] }}_2" ).prop({
-                        disabled: false
-                    });
-                    {% if field[3] == true %}
-                        $( "#checkbox_{{ event.getId }}_{{ field[0] }}_2" ).prop({
-                            checked: true
-                        });
-                    {% endif %}
-                {% endif %}
+            {% if field[3] == true %}
+                $( "#checkbox_{{ event.getId }}_{{ field[0] }}_2" ).prop({
+                    checked: true
+                });
             {% endif %}
+        {% endif %}
+        {% endif %}
 
-            /* react on change of first checkbox */
-            $( "#checkbox_{{ event.getId }}_{{ field[0] }}" ).change(function() {
-                var $input = $( this );
-                if ($input.is( ":checked" )) {
-                    /* enable second checkbox */
-                    $( "#"+$input[0].id+"_2" ).prop({
-                        disabled: false
-                    });
-                } else {
-                    /* disselect and disable second checkbox */
-                    $( "#"+$input[0].id+"_2" ).prop({
-                        disabled: true,
-                        checked: false
-                    });
-                }
-            });
+        /* react on change of first checkbox */
+        $( "#checkbox_{{ event.getId }}_{{ field[0] }}" ).change(function() {
+            var $input = $( this );
+            if ($input.is( ":checked" )) {
+                /* enable second checkbox */
+                $( "#"+$input[0].id+"_2" ).prop({
+                    disabled: false
+                });
+            } else {
+                /* disselect and disable second checkbox */
+                $( "#"+$input[0].id+"_2" ).prop({
+                    disabled: true,
+                    checked: false
+                });
+            }
+        });
         {% endfor %}
         {% endfor %}
 
@@ -135,19 +137,19 @@
         {% for event in events %}
         {% if event.participationFields %}
         {% for field in event.participationFieldsAsArray %}
-                {% if field[2] == true %}
-                    $( "#checkbox_{{ event.getId }}_{{ field[0] }}" ).prop({
+            {% if field[2] == true %}
+                $( "#checkbox_{{ event.getId }}_{{ field[0] }}" ).prop({
+                    checked: true
+                });
+                $( "#checkbox_{{ event.getId }}_{{ field[0] }}_2" ).prop({
+                    disabled: false
+                });
+                {% if field[3] == true %}
+                    $( "#checkbox_{{ event.getId }}_{{ field[0] }}_2" ).prop({
                         checked: true
                     });
-                    $( "#checkbox_{{ event.getId }}_{{ field[0] }}_2" ).prop({
-                        disabled: false
-                    });
-                    {% if field[3] == true %}
-                        $( "#checkbox_{{ event.getId }}_{{ field[0] }}_2" ).prop({
-                            checked: true
-                        });
-                    {% endif %}
                 {% endif %}
+            {% endif %}
         {% endfor %}
         {% endif %}
         {% endfor %}

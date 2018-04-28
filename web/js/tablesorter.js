@@ -2,7 +2,11 @@ $(document).ready(function() {
 
     // call the tablesorter plugin and apply the uitheme widget
     $("table").tablesorter({
-        theme : "bootstrap",
+        /* use 'bootstrap' for a grey header,
+         * use 'default' for a light (white) header
+         * see https://mottie.github.io/tablesorter/docs/themes.html for more details
+         */
+        theme : "default",
 
         widthFixed: true,
 
@@ -25,12 +29,15 @@ $(document).ready(function() {
             // extra css class name (string or array) added to the filter element (input or select)
             filter_cssFilter: [
                 'form-control',
-                'form-control',
+                'form-control custom-select',
                 'form-control custom-select', // select needs custom class names :(
-                'form-control',
-                'form-control',
-                'form-control',
-                'form-control'
+                'form-control custom-select',
+                'form-control custom-select',
+                'form-control custom-select',
+                'form-control custom-select',
+                'form-control custom-select',
+                'form-control custom-select',
+                'form-control custom-select'
             ]
 
         }

@@ -1,44 +1,42 @@
 {% extends "includes/base.html.twig" %}
 
-{% block title %}group{% endblock %}
+{% block title %}{% trans %}Group.detail.title{% endtrans %}{% endblock %}
 
-{% block stylesheets %}
-    {{ parent() }}
+{% block sidenav %}
+    {% include "includes/sidebarUserGroup.html.twig" with {"showAllGroups": "active"} %}
 {% endblock %}
 
-{% block body %}
-    {% include 'includes/navbar.html.twig' %}
-    <div class="container">
-        <br><br>
-        {% include 'includes/showFlashes.html.twig' %}
-        <h2>{% trans %}general.group{% endtrans %}</h2>
-        <div class="col-sm-8">
-            <table class="table table-striped">
-                <thead class="">
-                <tr>
-                    <th>
-                        {% trans %}general.name{% endtrans %}
-                    </th>
-                    <th>
-                        {% trans %}general.value{% endtrans %}
-                    </th>
-                    <th>
-                        {% trans %}general.delete{% endtrans %}
-                    </th>
-                </tr>
-                </thead>
-                <tbody>
-                <tr>
-                    <th>
-                        {% trans %}general.name{% endtrans %}
-                    </th>
-                    <td>
-                        {{group.cn}}
-                    </td>
-                    <td>
-                        -
-                    </td>
-                </tr>
+{% block content %}
+    {% include 'includes/showFlashes.html.twig' %}
+    <h2>{% trans %}general.group{% endtrans %}</h2>
+    <div class="col-sm-8">
+        <table class="table table-striped">
+            <thead class="">
+            <tr>
+                <th>
+                    {% trans %}general.name{% endtrans %}
+                </th>
+                <th>
+                    {% trans %}general.value{% endtrans %}
+                </th>
+                <th>
+                    {% trans %}general.delete{% endtrans %}
+                </th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <th>
+                    {% trans %}general.name{% endtrans %}
+                </th>
+                <td>
+                    {{group.cn}}
+                </td>
+                <td>
+                    -
+                </td>
+            </tr>
+            <tr>
                 <th>
                     {% trans %}general.gid{% endtrans %}
                 </th>
@@ -48,26 +46,23 @@
                 <td>
                     -
                 </td>
+            </tr>
+            {% for member in group.memberUserObjects %}
+                <tr>
+                    <th>
+                        {% trans %}general.member{% endtrans %}
+                    </th>
+                    <td>
+                        {{member.givenName}}
+                    </td>
+                    <td>
+
+                    </td>
                 </tr>
-                {% for member in group.memberUserObjects %}
-                    <tr>
-                        <th>
-                            {% trans %}general.member{% endtrans %}
-                        </th>
-                        <td>
-                            {{member.givenName}}
-                        </td>
-                        <td>
-
-                        </td>
-                    </tr>
-                {% endfor %}
-                </tbody>
-            </table>
-        </div>
-
+            {% endfor %}
+            </tbody>
+        </table>
     </div>
-
 {% endblock %}
 
 {% block javascripts %}

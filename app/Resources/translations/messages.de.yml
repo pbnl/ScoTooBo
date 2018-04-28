@@ -58,8 +58,15 @@ None: keine Angabe # e.g. for form choices if required=false
 
 
 
+menu.toogleNav: Navigation ein-/ausblenden
+
+menu.admin.dummyPages: Entwickler Dummy Seiten
+menu.admin.showEmptyFullWidthPageWithNavbar: ganze Breite mit Navbar ohne Footer
+menu.admin.showEmptyFullWidthPageWithoutNavbar: ganze Breite ohne Navbar ohne Footer
+menu.admin.showEmptyPageWithSidebarWithNavbar: mit Sidebar mit Navbar mit Footer
+
 menu.eventManagement.title: Eventmanagement
-menu.eventManagement.showAllevents: Alle Events anzeigen
+menu.eventManagement.showAllEvents: Alle Events anzeigen
 menu.eventManagement.addEvent: Event hinzufügen
 menu.eventManagement.detailEvent: Eventdetails
 
@@ -70,16 +77,20 @@ menu.groupManagement.title: Gruppenmanagment
 menu.groupManagement.showAllGroups: Gruppenübersicht
 
 menu.userManagement.title: Benutzerverwaltung
-menu.userManagement.showAllusers: Alle Benutzer anzeigen
+menu.userManagement.showAllUsers: Alle Benutzer anzeigen
 menu.userManagement.addUser: Benutzer hinzufügen
 menu.userManagement.detailUser: Benutzerdetails
 
+menu.admin.title: Admin
+menu.userGroupManagement.title: Benutzer-/Gruppenverwaltung
 
 
-403ErrorPage.head: Diese Aktion ist für dich verboten ERROR 403
+
+403ErrorPage.title: 403 fehlende Rechte
+403ErrorPage.head: Diese Aktion ist für dich verboten
 403ErrorPage.feedBackReference: Wenn du uns Feedback geben willst, oder ein Problem hast, benutze den Button in der rechten unteren Ecke!
 403ErrorPage.logoutFirst: Logge dich zuerst aus.
-403ErrorPage.thenLoginWithCorrectUser: Logge dich danach mit dem korrektem User ein
+403ErrorPage.thenLoginWithCorrectUser: Logge dich mit einem Benutzer mit ausreichend Rechten auf folgender Seite ein:
 
 Dashboard.title: Dashboard
 
@@ -119,6 +130,7 @@ Feedback.messageError: Es trat leider ein Fehler auf, schreib uns am besten pers
 Feedback.labelAfterSend: Danke für dein Feedback!
 
 Group.showAll.myGroups: Meine Gruppen
+Group.detail.title: Meine Gruppen?!
 Group.detail.myGroups: Meine Gruppen
 
 Login.request: Bitte logge dich ein

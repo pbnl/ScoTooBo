@@ -29,3 +29,4 @@ exclude_paths:
 - "web/css/feedback.css"
 - "web/js/feedback.js"
 - "web/js/html2canvas.js"
+- "web/config.php"
