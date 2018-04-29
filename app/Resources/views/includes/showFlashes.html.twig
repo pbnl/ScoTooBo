@@ -1,29 +1,9 @@
-{% for message in app.flashes('error') %}
-    {% if message != "" %}
+{% for label, messages in app.flashes %}
+    {% for message in messages %}
         <div class="flash-notice">
-            <div class="alert alert-danger" role="alert">
+            <div class="alert alert-{% if label == "error" %}danger{% else %}{{ label }}{% endif %}" role="alert">
                 {{ message }}
             </div>
         </div>
-    {% endif %}
-{% endfor %}
-
-{% for message in app.flashes('info') %}
-    {% if message != "" %}
-        <div class="flash-notice">
-            <div class="alert alert-info" role="alert">
-                {{ message }}
-            </div>
-        </div>
-    {% endif %}
-{% endfor %}
-
-{% for message in app.flashes('success') %}
-    {% if message != "" %}
-        <div class="flash-notice">
-            <div class="alert alert-success" role="alert">
-                {{ message }}
-            </div>
-        </div>
-    {% endif %}
+    {% endfor %}
 {% endfor %}

@@ -5,11 +5,9 @@ namespace AppBundle\Controller\EventManagement;
 use AppBundle\Entity\Event;
 use AppBundle\Entity\EventAttend;
 use AppBundle\Model\User;
-use DateTime;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
-use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
@@ -31,6 +29,17 @@ class EventController extends Controller
     {
         $repository = $this->getDoctrine()->getRepository(Event::class);
         $events = $repository->findAll();
+        /* set default InvitationDate from now to the begin of the event */
+        foreach ($events as $event) {
+            if (is_null($event->getInvitationDateFrom())) {
+                $event->setInvitationDateFrom(new \DateTime());
+            }
+            if (is_null($event->getInvitationDateTo())) {
+                $event->setInvitationDateTo(
+                    $event->getDateFrom()
+                );
+            }
+        }
 
         return $this->render('eventManagement/showAllEvents.html.twig', [
             "events"=>$events,
@@ -154,6 +163,12 @@ class EventController extends Controller
         return $this->redirectToRoute("showAllEvents");
     }
 
+    private function validateDate($date, $format = 'Y-m-d H:i:s')
+    {
+        $d = \DateTime::createFromFormat($format, $date);
+        return $d && $d->format($format) == $date;
+    }
+
     /**
      * @Route("/events/invitationLink/generate/{id}", name="generateInvitationLink")
      * @Security("has_role('ROLE_elder')")
@@ -198,7 +213,29 @@ class EventController extends Controller
             );
             $random_string = $this->generateRandomString($length);
 
+            if ($this->validateDate($request->request->get("InvitationDateFrom"))) {
+                $invitationDateFrom=\DateTime::createFromFormat('Y-m-d H:i:s',$request->request->get("InvitationDateFrom"));
+            } elseif (!is_null($event->getInvitationDateFrom())) {
+                $invitationDateFrom=$event->getInvitationDateFrom();
+                $this->addFlash("warning","Der neue Startzeitunkt wurde nicht verstanden und bleibt unverändert bei: ".$invitationDateFrom->format('Y-m-d H:i:s'));
+            } else {
+                $invitationDateFrom=new \DateTime();
+                $this->addFlash("warning","Der neue Startzeitunkt wurde nicht verstanden und wurde auf jetzt gesetzt: ".$invitationDateFrom->format('Y-m-d H:i:s'));
+            }
+            if ($this->validateDate($request->request->get("InvitationDateTo"))) {
+                $invitationDateTo=\DateTime::createFromFormat('Y-m-d H:i:s',$request->request->get("InvitationDateTo"));
+            } elseif (!is_null($event->getInvitationDateTo())) {
+                $invitationDateTo=$event->getInvitationDateTo();
+                $this->addFlash("warning","Der neue Endzeitunkt wurde nicht verstanden und bleibt unverändert bei: ".$invitationDateTo->format('Y-m-d H:i:s'));
+            } else {
+                $invitationDateTo=$event->getDateFrom();
+                $this->addFlash("warning","Der neue Endzeitunkt wurde nicht verstanden und wurde auf den Start des Events gesetzt: ".$invitationDateTo->format('Y-m-d H:i:s'));
+            }
+
+
             $event->setInvitationLink($random_string);
+            $event->setInvitationDateFrom($invitationDateFrom);
+            $event->setInvitationDateTo($invitationDateTo);
             $event->setParticipationFields($jsonFields);
             $em->flush();
 
@@ -225,10 +262,21 @@ class EventController extends Controller
         $event = $em->getRepository(Event::class)->find($id);
         if ($event) {
             $participations = $em->getRepository(EventAttend::class)->findBy(array('eventId' => $event->getId()));
+            $list=$this->FieldsToShowInTWIG($event->getParticipationFields());
+            $NumberOfColumns=2; // Id & DateTime
+            foreach ($list as $entry) {
+                if ($entry=="eat") {
+                    $NumberOfColumns+=3;
+                } else {
+                    $NumberOfColumns++;
+                }
+            }
+
 
             return $this->render('eventManagement/showParticipationList.html.twig', array(
                 'data' => $participations,
-                'showParticipationFields' => $this->FieldsToShowInTWIG($event->getParticipationFields()),
+                'showParticipationFields' => $list,
+                'NumberOfColumns' => $NumberOfColumns,
             ));
         } else {
             $this->addFlash("error", "Event mit der Id $id wurde nicht gefunden!");
@@ -256,6 +304,12 @@ class EventController extends Controller
                 $loggedInUser_firstname = $loggedInUser->getFirstName();
                 $loggedInUser_lastname = $loggedInUser->getLastName();
                 $loggedInUser_Stamm = $loggedInUser->getStamm();
+            }
+            $now = new \DateTime();
+            if (($event->getInvitationDateFrom() <= $now) && ($now <= $event->getInvitationDateTo())) {
+                $valid_now = true;
+            } else {
+                $valid_now = false;
             }
 
             $eventAttend = new EventAttend();
@@ -452,7 +506,7 @@ class EventController extends Controller
             $form->handleRequest($request);
 
             /* handle submitted form */
-            if ($form->isSubmitted() && $form->isValid()) {
+            if ($form->isSubmitted() && $form->isValid() && $valid_now) {
                 /* proof Google reCaptcha */
                 $reCaptchaSecret = $this->container->getParameter('recaptcha.secret');
                 if ($this->get("reCaptcha")->validateReCaptcha($request->request->get("g-recaptcha-response"), $reCaptchaSecret)) {
@@ -476,6 +530,7 @@ class EventController extends Controller
                 "event"=>$event,
                 "registrationAttendInvitationLink"=>$form->createView(),
                 "showParticipationFields"=>$this->FieldsToShowInTWIG($event->getParticipationFields()),
+                "valid_now"=>$valid_now,
             ));
         } else {
             $this->addFlash("error", "Dieser Einladungslink ist leider nicht mehr gültig!");

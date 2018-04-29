@@ -102,20 +102,23 @@ Event.add.DateFrom: Von
 Event.add.DateTo: Bis
 Event.add.Place: Ort
 Event.add.Submit: Erstellen
+Event.attendInvitationLink.registrationPeriod: Anmeldezeitraum:
 Event.attendInvitationLink.datetime: Zeitraum:
 Event.attendInvitationLink.description: Beschreibung:
 Event.attendInvitationLink.information: Informationen
 Event.attendInvitationLink.name: Name:
 Event.attendInvitationLink.price: Kosten:
 Event.attendInvitationLink.registration: Anmeldung
-Event.attendInvitationLink.submit: Ich melde mich kostenpflichtig zu der Veranstalltung an
-Event.attendInvitationLink.title: Anmeldung zum Event
+Event.attendInvitationLink.submit: Anmeldung mit den o.g. Bedingungen zu der Veranstalltung
+Event.attendInvitationLink.title: Anmeldung für
+Event.attendInvitationLink.wrongTime: Der Anmeldezeitraum ist leider schon um.
 Event.showAll.invitationLink: Einladungslink
 Event.showAll.invitationLink.edit: EDIT
 Event.showAll.invitationLink.generate: GENERIEREN
 Event.showAll.invitationLink.participantLink: Link für Teilnehmer
 Event.showAll.invitationLink.modalText: Wähle bitte die Felder an, die von den Teilnehmern ausgefüllt werden sollen. Die zweite Spalte macht diese Felder zu Pflichtfeldern.
 Event.showAll.invitationLink.modalTextChangeFields: Eine Änderung erzeugt einen neuen Zugangslink. Bereits erfolgte Anmeldungen bleiben bestehen, ausgefüllte Felder werden aber ggf. nicht mehr angezeigt.
+Event.showAll.invitationLink.modalTextDatetimeWarning: Das Event ist bereits abgelaufen, wollen Sie wirklich noch einen Link erstellen?
 Event.showAll.invitationLink.modalTitelShow: Anzeigen
 Event.showAll.invitationLink.modalTitelRequired: Pflichtfeld
 

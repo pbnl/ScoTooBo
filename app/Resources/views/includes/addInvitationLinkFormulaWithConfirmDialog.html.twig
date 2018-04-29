@@ -18,7 +18,7 @@
                     <br />
                     <strong>{% trans %}Event.showAll.invitationLink.modalTextChangeFields{% endtrans %}</strong>
                     {% endif %}
-                    <table class="table table-hover table-sm">
+                    <table class="table table-hover table-sm sorter-false">
                         <thead>
                             <tr>
                                 <td>&nbsp;</td>
@@ -36,6 +36,28 @@
                             {% endfor %}
                         </tbody>
                     </table>
+
+                    <table class="table table-hover table-sm sorter-false">
+                        <tr>
+                            <th>Link von:</th>
+                            <td><input type="text" name="InvitationDateFrom" placeholder="{{ event.getInvitationDateFrom|date('Y-m-d H:i:s') }}" value="{{ event.getInvitationDateFrom|date('Y-m-d H:i:s') }}" /></td>
+                        </tr>
+                        <tr>
+                            <th>Link bis:</th>
+                            <td><input type="text" name="InvitationDateTo" placeholder="{{ event.getInvitationDateTo|date('Y-m-d H:i:s') }}" value="{{ event.getInvitationDateTo|date('Y-m-d H:i:s') }}" /></td>
+                        </tr>
+                        <tr>
+                            <th>Event von:</th>
+                            <td>{{ event.getDateFrom|date('Y-m-d H:i:s') }}</td>
+                        </tr>
+                        <tr>
+                            <th>Event bis:</th>
+                            <td>{{ event.getDateTo|date('Y-m-d H:i:s') }}</td>
+                        </tr>
+                    </table>
+                    {% if event.getInvitationDateFrom > event.getDateTo %}
+                        <strong style="color:#ff0000;">{% trans %}Event.showAll.invitationLink.modalTextDatetimeWarning{% endtrans %}</strong>
+                    {% endif %}
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default" data-dismiss="modal">{% trans %}general.close{% endtrans %}</button>

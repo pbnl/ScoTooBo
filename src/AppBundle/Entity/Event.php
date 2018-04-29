@@ -82,6 +82,18 @@ class Event
     private $invitationLink;
 
     /**
+     * @var \DateTime
+     * @ORM\Column(type="datetime", nullable=true)
+     */
+    private $invitationDateFrom;
+
+    /**
+     * @var \DateTime
+     * @ORM\Column(type="datetime", nullable=true)
+     */
+    private $invitationDateTo;
+
+    /**
      * @var string
      * @ORM\Column(type="string", length=255, nullable=true)
      */
@@ -289,6 +301,54 @@ class Event
     public function getInvitationLink()
     {
         return $this->invitationLink;
+    }
+
+    /**
+     * Set invitationDateFrom
+     *
+     * @param \DateTime $invitationDateFrom
+     *
+     * @return Events
+     */
+    public function setInvitationDateFrom($invitationDateFrom)
+    {
+        $this->invitationDateFrom = $invitationDateFrom;
+
+        return $this;
+    }
+
+    /**
+     * Get invitationDateFrom
+     *
+     * @return \DateTime
+     */
+    public function getInvitationDateFrom()
+    {
+        return $this->invitationDateFrom;
+    }
+
+    /**
+     * Set invitationDateTo
+     *
+     * @param \DateTime $invitationDateTo
+     *
+     * @return Events
+     */
+    public function setInvitationDateTo($invitationDateTo)
+    {
+        $this->invitationDateTo = $invitationDateTo;
+
+        return $this;
+    }
+
+    /**
+     * Get invitationDateTo
+     *
+     * @return \DateTime
+     */
+    public function getInvitationDateTo()
+    {
+        return $this->invitationDateTo;
     }
 
     /**
