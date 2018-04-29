@@ -8,10 +8,10 @@
         <br><br>
         {% include 'includes/showFlashes.html.twig' %}
 
-        <table class="table table-striped">
+        <table class="table table-striped tablesorter table-responsive">
             <thead>
             <tr>
-                <th>Nr</th>
+                <th class="filter-false">Nr</th>
                 <th>{% trans %}general.date{% endtrans %}</th>
                 {% if "name" in showParticipationFields %}
                 <th>{% trans %}general.name{% endtrans %}</th>
@@ -70,6 +70,13 @@
                 </tr>
             {% endfor %}
             </tbody>
+
+            {% include 'includes/tablesorterFooter.html.twig' with {'NumberOfColumns': NumberOfColumns} %}
         </table>
     </div>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script src="{{ asset('js/tablesorter.js') }}"></script>
 {% endblock %}
