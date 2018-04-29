@@ -12,6 +12,7 @@ namespace AppBundle\Model\LdapComponent\LdapEntryHandler;
 use AppBundle\Entity\LDAP\LdapEntity;
 use AppBundle\Model\LdapComponent\LdapConnection;
 use AppBundle\Model\LdapComponent\LdapFilter;
+use Doctrine\ORM\EntityNotFoundException;
 
 abstract class LdapEntryHandler
 {
@@ -65,13 +66,28 @@ abstract class LdapEntryHandler
 
     public abstract function update($element, LdapConnection $ldapConnection);
 
-    public abstract function delete($element, LdapConnection $ldapConnection);
+    public function delete($entity, LdapConnection $ldapConnection)
+    {
+        if($this->doesEntityAlreadyExist($entity, $ldapConnection))
+        {
+            //TODO: Do we realy want to use the @ operater?
+            $succses = @$ldapConnection->ldap_delete($entity->getDn());
+
+            if (!$succses)
+            {
+                throw new LdapPersistException("Cant add new Ldap element");
+            }
+        }
+        else
+        {
+            throw new EntityNotFoundException("Entity with the dn ".$entity->getDn()." does not exist -> You cant delet it");
+        }
+    }
 
     public abstract function add($element, LdapConnection $ldapConnection);
 
     private function doesEntityAlreadyExist(LdapEntity $entity, $ldapConnection, $checkOnly = TRUE)
     {
-        $dn = $entity->getDn();
         $baseDN = $entity->getBaseDnFromDn();
         $uniqueIdentifier = $entity::$uniqueIdentifier;
         $uIdGetterName = "get".$uniqueIdentifier;

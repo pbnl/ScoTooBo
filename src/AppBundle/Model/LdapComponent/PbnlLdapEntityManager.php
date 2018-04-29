@@ -71,11 +71,22 @@ class PbnlLdapEntityManager
 
     /**
      * Delete an instance in Ldap
-     * @param unknown_type $instance
+     * @param $entity
+     * @throws LdapEntryHandler\LdapPersistException
+     * @throws \Doctrine\ORM\EntityNotFoundException
      */
-    public function delete($instance)
+    public function delete($entity)
     {
-
+        if ($entity instanceof PbnlAccount)
+        {
+            $ldapHandler = new PbnlAccountLdapHandler($this->baseDN);
+        }
+        //TODO: Add other classes
+        else
+        {
+            throw new BadMethodCallException("Class ".get_class($entity)." is not supported");
+        }
+        $ldapHandler->delete($entity, $this->ldapConnection);
     }
 
     /**

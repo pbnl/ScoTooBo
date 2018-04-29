@@ -79,17 +79,6 @@ class PbnlAccountLdapHandler extends LdapEntryHandler
         }
     }
 
-    public function delete($element, LdapConnection $ldapConnection)
-    {
-        //TODO: Do we realy want to use the @ operater?
-        $succses = @$ldapConnection->ldap_delete($element->getDn());
-
-        if (!$succses)
-        {
-            throw new LdapPersistException("Cant add new Ldap element");
-        }
-    }
-
     public function add($element, LdapConnection $ldapConnection)
     {
         $userForLDAP = array();
