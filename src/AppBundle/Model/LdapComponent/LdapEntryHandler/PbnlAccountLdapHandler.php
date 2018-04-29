@@ -55,12 +55,39 @@ class PbnlAccountLdapHandler extends LdapEntryHandler
 
     public function update($element, LdapConnection $ldapConnection)
     {
-        // TODO: Implement update() method.
+        //TODO nicht alle attribute sollen/werden gestzt werden
+        $data = array();
+        $data["sn"] = $element->getSn();
+        $data["uid"] = $element->getUid();
+        $data["l"] = $element->getL();
+        $data["mobile"] = $element->getMobile();
+        $data["postalcode"] = $element->getPostalCode();
+        $data["street"] = $element->getStreet();
+        $data["telephonenumber"] = $element->getTelephoneNumber();
+        $data["cn"] = $element->getCn();
+        $data["homedirectory"] = $element->getHomeDirectory();
+        $data["mail"] = $element->getMail();
+        $data["userpassword"] = $element->getUserPassword();
+        $data["gidnumber"] = $element->getGidNumber();
+
+        //TODO: Do we realy want to use the @ operater?
+        $succses = @$ldapConnection->ldap_modify($element->getDn(), $data);
+
+        if (!$succses)
+        {
+            throw new LdapPersistException("Cant add new Ldap element");
+        }
     }
 
     public function delete($element, LdapConnection $ldapConnection)
     {
-        //$ldapConnection->ldap_delete($element->getDn());
+        //TODO: Do we realy want to use the @ operater?
+        $succses = @$ldapConnection->ldap_delete($element->getDn());
+
+        if (!$succses)
+        {
+            throw new LdapPersistException("Cant add new Ldap element");
+        }
     }
 
     public function add($element, LdapConnection $ldapConnection)
