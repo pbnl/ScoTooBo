@@ -1,6 +1,6 @@
 <?php
 
-namespace AppBundle\Model\Entity\LDAP;
+namespace AppBundle\Entity\LDAP;
 
 use AppBundle\Model\Services\UserRepository;
 use Ucsf\LdapOrmBundle\Annotation\Ldap\ArrayField;
@@ -17,15 +17,19 @@ use Symfony\Component\Validator\Constraints as Assert;
  * Represents a posixGroup object class, which is a subclass of Group
  *
  * @ObjectClass("posixGroup")
+ *
  * @SearchDn("ou=group,dc=pbnl,dc=de")
+ *
  * @Dn("cn={{entity.cn}},ou=group,dc=pbnl,dc=de")
+ *
  * @UniqueIdentifier("cn")
  */
-class PosixGroup extends Group
+class PosixGroup extends LdapEntity
 {
 
     /**
      * @Attribute("cn")
+     *
      * @Must()
      */
     protected $cn;
@@ -34,7 +38,9 @@ class PosixGroup extends Group
      * Array with all the DNs of the users who are members
      *
      * @Attribute("memberUid")
+     *
      * @ArrayField()
+     *
      * @Must()
      */
     protected $memberUid;
@@ -43,7 +49,9 @@ class PosixGroup extends Group
      * Unique gid for this group
      *
      * @Attribute("gidNumber")
+     *
      * @Assert\Type("integer")
+     *
      * @var int
      */
     protected $gidNumber;
@@ -59,9 +67,10 @@ class PosixGroup extends Group
      */
     public function getMemberUserObjects()
     {
-        if ($this->memberUserObjects == []) {
+        if ($this->memberUserObjects === []) {
             throw new UsersNotFetched("You have to fetch the users first!");
         }
+
         return $this->memberUserObjects;
     }
 
@@ -127,6 +136,7 @@ class PosixGroup extends Group
      * Uses the memberUid attribute of the ldapGroups
      *
      * @param String $dn
+     *
      * @return bool
      */
     public function isDnMember(String $dn)
@@ -134,6 +144,7 @@ class PosixGroup extends Group
         if (in_array($dn, $this->getMemberUid())) {
             return true;
         }
+
         return false;
     }
 

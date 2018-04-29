@@ -1,0 +1,17 @@
+AppBundle\Entity\LDAP\PbnlAccount:
+    pbnlAccount (template):
+        givenName: '<username()>'
+        uid: '<username()>'
+        cn: '<firstName()>'
+        sn: '<lastName()>'
+        uidNumber: '<randomNumber()>'
+        mail: '50%? <email()> : 0'
+        userPassword: '{SSHA}50%? <sha1(randomNumber())> : 0'
+        homeDirectory: '/home/$uid'
+        ou: 'Ambronen'
+        mobile: '50%? <phoneNumber()> : 0'
+        postalCode: '50%? <postcode()> : 0'
+        street: '50%? <streetAddress()> : 0'
+        telephoneNumber: '50%? <phoneNumber()> : 0'
+        l: '50%? <country()> : 0'
+        gidNumber: '501'

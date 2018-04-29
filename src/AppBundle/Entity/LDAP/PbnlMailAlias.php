@@ -1,6 +1,6 @@
 <?php
 
-namespace AppBundle\Model\Entity\LDAP;
+namespace AppBundle\Entity\LDAP;
 
 use Ucsf\LdapOrmBundle\Annotation\Ldap\ArrayField;
 use Ucsf\LdapOrmBundle\Annotation\Ldap\Attribute;
@@ -16,8 +16,11 @@ use Symfony\Component\Validator\Constraints as Assert;
  * Represents a pbnlMailAlias object class
  *
  * @ObjectClass("pbnlMailAlias")
+ *
  * @SearchDn("ou=Forward,dc=pbnl,dc=de")
+ *
  * @Dn("mail={{entity.mail}},ou=forward,dc=pbnl,dc=de")
+ *
  * @UniqueIdentifier("mail")
  */
 class PbnlMailAlias extends LdapEntity
@@ -27,8 +30,11 @@ class PbnlMailAlias extends LdapEntity
      * The addresses of the mailing list
      *
      * @Attribute("forward")
+     *
      * @Must()
+     *
      * @ArrayField()
+     *
      * @var string
      */
     protected $forward = array();

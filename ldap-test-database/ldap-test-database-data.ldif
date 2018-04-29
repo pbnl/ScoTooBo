@@ -626,3 +626,16 @@ createTimestamp: 20171002175900Z
 entryCSN: 20171002175900.247491Z#000000#000#000000
 modifiersName: cn=admin,dc=pbnl,dc=de
 modifyTimestamp: 20171002175900Z
+
+dn: ou=ldapComponentTest,dc=pbnl,dc=de
+ou: ldapComponentTest
+description: Alle Mitglieder
+objectClass: organizationalUnit
+structuralObjectClass: organizationalUnit
+entryUUID: 5e2abb90-6345-1037-83ff-75769aa773d1
+creatorsName: cn=admin,dc=pbnl,dc=de
+createTimestamp: 20171121202157Z
+entryCSN: 20171121202157.783788Z#000000#000#000000
+modifiersName: cn=admin,dc=pbnl,dc=de
+modifyTimestamp: 20171121202157Z
+

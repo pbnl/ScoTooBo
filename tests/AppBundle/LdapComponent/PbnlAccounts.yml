@@ -1,0 +1,5 @@
+include:
+    - PbnlAccount.yml
+
+AppBundle\Entity\LDAP\PbnlAccount:
+    pbnlAccounts{1..10} (extends pbnlAccount):

@@ -5,6 +5,7 @@ namespace AppBundle\Model\Services;
 use AppBundle\Model\Entity\LDAP\PbnlAccount;
 use AppBundle\Model\Entity\LDAP\PosixGroup;
 use AppBundle\Model\Filter;
+use AppBundle\Model\LdapComponent\PbnlLdapEntityManager;
 use AppBundle\Model\SSHA;
 use AppBundle\Model\User;
 use Monolog\Logger;
@@ -14,8 +15,6 @@ use Symfony\Component\Security\Core\Exception\UnsupportedUserException;
 use Symfony\Component\Security\Core\Exception\UsernameNotFoundException;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Security\Core\User\UserProviderInterface;
-use Ucsf\LdapOrmBundle\Ldap\LdapEntityManager;
-use Ucsf\LdapOrmBundle\Repository\Repository;
 
 class UserRepository implements UserProviderInterface
 {
@@ -23,7 +22,7 @@ class UserRepository implements UserProviderInterface
     /**
      * A reference to the LdapEntityService to work with the ldap
      *
-     * @var LdapEntityManager
+     * @var PbnlLdapEntityManager
      */
     private $ldapEntityManager;
 
@@ -47,12 +46,12 @@ class UserRepository implements UserProviderInterface
      * The ldapManager of the LDAPBundle
      *
      * @param Logger $logger
-     * @param LdapEntityManager $ldapEntityManager
+     * @param PbnlLdapEntityManager $ldapEntityManager
      * @param ValidatorInterface $validator
      */
     public function __construct(
         Logger $logger,
-        LdapEntityManager $ldapEntityManager,
+        PbnlLdapEntityManager $ldapEntityManager,
         ValidatorInterface $validator,
         GroupRepository $groupRepository
     ) {
@@ -298,6 +297,7 @@ class UserRepository implements UserProviderInterface
      */
     private function userToEntities(User $user)
     {
+        //TODO: Stop generating an pbnlAccount get it from the repo if it exists
         $pbnlAccount = new PbnlAccount();
         $pbnlAccount->setNotRetrieveAttributes(array());
         $pbnlAccount->setL($user->getCity());

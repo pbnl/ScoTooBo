@@ -1,33 +1,24 @@
 <?php
 
-namespace AppBundle\Model\Entity\LDAP;
+namespace AppBundle\Entity\LDAP;
 
-use Ucsf\LdapOrmBundle\Annotation\Ldap\Attribute;
-use Ucsf\LdapOrmBundle\Annotation\Ldap\Dn;
-use Ucsf\LdapOrmBundle\Annotation\Ldap\Must;
-use Ucsf\LdapOrmBundle\Annotation\Ldap\ObjectClass;
-use Ucsf\LdapOrmBundle\Annotation\Ldap\SearchDn;
-use Ucsf\LdapOrmBundle\Annotation\Ldap\UniqueIdentifier;
-use Ucsf\LdapOrmBundle\Entity\Ldap\InetOrgPerson;
+use Guzzle\Common\Exception\BadMethodCallException;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
- * Represents a LDAPUser object class, which is a subclass of InetOrgPerson
- *
- * @ObjectClass("pbnlAccount")
- * @UniqueIdentifier("givenName")
- * @SearchDn("ou=people,dc=pbnl,dc=de")
- * @Dn("givenName={{ entity.givenName }},ou={{ entity.ou }},ou=people,dc=pbnl,dc=de")
+ * Represents a LDAPUser object class
  */
-class PbnlAccount extends InetOrgPerson
+class PbnlAccount extends LdapEntity
 {
+
+    static $mustFields = ["cn","gidNumber","homeDirectory","sn","uid","uidNumber"];
+    static $uniqueIdentifier = "uidNumber";
 
     protected $ou;
 
     /**
      * GivenName
      * @var string
-     * @Attribute("givenName")
      *
      * Is also the name of the LDAP entry
      */
@@ -37,40 +28,31 @@ class PbnlAccount extends InetOrgPerson
      * uid (should be the same as givenName but in lowercase and without ö,ä,ü and with _ for ' ')
      * Must be unique !!!! Add a number at the end if there is someone with the same uid
      * @var string
-     * @Attribute("uid")
      * @Assert\Regex("/^[0-9,a-x,_]*$/")
-     * @Must()
      */
     protected $uid = "";
 
     /**
      * Real first name
      * @var string
-     * @Attribute("cn")
-     * @Must()
      */
     protected $cn = "";
 
     /**
      * Real last name
      * @var string
-     * @Attribute("sn")
-     * @Must()
      */
     protected $sn = "";
 
     /**
      * User number (must be unique)
      * @var string
-     * @Attribute("uidNumber")
-     * @Must()
      */
     protected $uidNumber = "0";
 
     /**
      * Internal "@pbnl" mail address
      * @var string
-     * @Attribute("mail")
      * @Assert\Email(
      *     message = "The email '{{ value }}' is not a valid email.",
      *     checkMX = true
@@ -81,36 +63,41 @@ class PbnlAccount extends InetOrgPerson
     /**
      * SSHA hashed user password
      * @var string
-     * @Attribute("userPassword")
      */
     protected $userPassword = "";
 
     /**
      * HomeDirecotry on server (no usage)
      * @var string
-     * @Attribute("homeDirectory")
      * @Assert\Regex("/^[0-9,a-x,A-X,_,\/]*$/")
-     * @Must()
      */
     protected $homeDirectory = "";
 
     /**
-     * Absolute path to the user (in the LDAP)
-     * @var string
+     * @return string
      */
-    protected $dn = "";
+    public function getUserPassword(): string
+    {
+        return $this->userPassword;
+    }
+
+    /**
+     * @param string $userPassword
+     */
+    public function setUserPassword(string $userPassword)
+    {
+        $this->userPassword = $userPassword;
+    }
 
     /**
      * Mobile number
      * @var string
-     * @Attribute("mobile")
      */
     protected $mobile = "";
 
     /**
      *  the postal code (PLZ)
      * @var string
-     * @Attribute("postalCode")
      * @Assert\Regex("/^[0-9]*$/") only numbers
      */
     protected $postalCode = "";
@@ -118,21 +105,18 @@ class PbnlAccount extends InetOrgPerson
     /**
      * Full address of the user (without postal code and city)
      * @var string
-     * @Attribute("street")
      */
     protected $street = "";
 
     /**
      * Telephone number of the users home
      * @var string
-     * @Attribute("telephoneNumber")
      */
     protected $telephoneNumber = "";
 
     /**
      * City the user lives in
      * @var string
-     * @Attribute("l")
      */
     protected $l = "";
 
@@ -140,19 +124,8 @@ class PbnlAccount extends InetOrgPerson
      * Internal unix gidNumer (not used)
      * default value is "501"
      * @var int
-     * @Attribute("gidNumber")
-     * @Must()
      */
     protected $gidNumber = "501";
-
-    /**
-     * PbnlAccount constructor.
-     */
-    public function __construct()
-    {
-        $this->setNotRetrieveAttributes(array());
-    }
-
 
     //All getters and setters
 
@@ -221,6 +194,14 @@ class PbnlAccount extends InetOrgPerson
     }
 
     /**
+     * @param mixed $ou
+     */
+    public function setOu($ou)
+    {
+        $this->ou = $ou;
+    }
+
+    /**
      * @return string
      */
     public function getUidNumber()
@@ -269,25 +250,20 @@ class PbnlAccount extends InetOrgPerson
     }
 
     /**
-     * @return string
-     */
-    public function getDn()
-    {
-        return $this->dn;
-    }
-
-    /**
      * @param string $dn
      */
     public function setDn($dn)
     {
         $this->dn = $dn;
 
-        $ldapDnParts = explode(",", $dn);
-        $ouPart = $ldapDnParts[1];
-        $ouName = explode("=", $ouPart)[1];
+        if($dn != "")
+        {
+            $ldapDnParts = ldap_explode_dn($dn , 1);
+            if($ldapDnParts == FALSE) throw new \BadMethodCallException("DN you want to set is wrong");
+            $ouName = $ldapDnParts[1];
+            $this->setOu($ouName);
 
-        $this->setOu($ouName);
+        }
     }
 
     /**
@@ -379,10 +355,31 @@ class PbnlAccount extends InetOrgPerson
     }
 
     /**
+     * @return mixed
+     */
+    public function getOu()
+    {
+        return $this->ou;
+    }
+
+    /**
      * @param string $gidNumber
      */
     public function setGidNumber($gidNumber)
     {
         $this->gidNumber = $gidNumber;
     }
+
+    /**
+     * Generates a Dn based on the OU and the givenName
+     */
+    protected function generateNewDn()
+    {
+        if($this->getGivenName()== "" || $this->ou == "")
+        {
+            throw new BadMethodCallException("Cant generate DN: GivenName or Ou is empty ('')");
+        }
+        return "givenName=".$this->getGivenName().",ou=$this->ou,ou=People,dc=pbnl,dc=de";
+    }
+
 }
