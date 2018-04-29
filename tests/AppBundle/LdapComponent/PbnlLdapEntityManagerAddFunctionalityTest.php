@@ -39,7 +39,7 @@ class PbnlLdapEntityManagerAddFunctionalityTest extends TestCase
         $ldapManager = new PbnlLdapEntityManager(new Logger("logger"), $this->ldapConnectionConfig);
         $pbnlRepo = $ldapManager->getRepository(PbnlAccount::class);
 
-        $account = $pbnlRepo->findOneBy("uid","uidNewUser7395623");
+        $account = $pbnlRepo->findOneBy("uid",$newPbnlAccount->getUid());
         $this->assertEquals([], $account);
 
         $ldapManager->persist($newPbnlAccount);

@@ -22,13 +22,72 @@ abstract class LdapEntryHandler
         $this->baseDn = $baseDn;
     }
 
-    public abstract function retrieve($entityName, LdapConnection $ldapConnection);
+    public function persist(LdapEntity $entity, LdapConnection $ldapConnection)
+    {
+        $entity->checkMust();
+
+        if($this->doesEntityAlreadyExist($entity, $ldapConnection))
+        {
+            $this->update($entity, $ldapConnection);
+        }
+        else
+        {
+            $this->add($entity, $ldapConnection);
+        }
+    }
+
+    public function retrieve($entityName, LdapConnection $ldapConnection, $options = array())
+    {
+        if (isset($options['searchDn'])) {
+            $searchDn = $options['searchDn'];
+        } else {
+            $searchDn = $this->baseDn;
+        }
+
+        $ldapFilterString = $this->optionsToLdapFilter($options, $entityName);
+
+        $searchResult = $ldapConnection->ldap_search($searchDn, $ldapFilterString);
+        $ldapEntries = $ldapConnection->ldap_get_entries($searchResult);
+
+        return $this->ldapEntriesResultToObjects($ldapEntries);
+    }
+
+    public function retriveByDn($dn, LdapConnection $ldapConnection)
+    {
+        //TODO: Kann man dieses Filter benutzen : "" ?
+        $searchResult = $ldapConnection->ldap_search($dn, "(objectClass=*)");
+        $ldapEntries = $ldapConnection->ldap_get_entries($searchResult);
+
+        return $this->ldapEntriesResultToObjects($ldapEntries);
+    }
+
+    protected abstract function ldapEntriesResultToObjects($ldapEntries);
 
     public abstract function update($element, LdapConnection $ldapConnection);
 
     public abstract function delete($element, LdapConnection $ldapConnection);
 
     public abstract function add($element, LdapConnection $ldapConnection);
+
+    private function doesEntityAlreadyExist(LdapEntity $entity, $ldapConnection, $checkOnly = TRUE)
+    {
+        $dn = $entity->getDn();
+        $baseDN = $entity->getBaseDnFromDn();
+        $uniqueIdentifier = $entity::$uniqueIdentifier;
+        $uIdGetterName = "get".$uniqueIdentifier;
+
+        $entities = $this->retrieve($this->getEntityName(get_class($entity)), $ldapConnection, [
+            'searchDn' => $baseDN,
+            'filter' => [ $uniqueIdentifier => $entity->$uIdGetterName() ]
+        ]);
+
+        if ($checkOnly) {
+            return (count($entities) > 0);
+        } else {
+            return $entities;
+        }
+
+    }
 
     protected function optionsToLdapFilter($options, string $objectClass)
     {
