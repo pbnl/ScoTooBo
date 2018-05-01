@@ -239,10 +239,10 @@ class EventController extends Controller
             $event->setParticipationFields($jsonFields);
             $em->flush();
 
-            if ($link=='NULL') {
-                $this->addFlash("success", "Der Einladungslink für ".$event->getName()." wurde geändert.");
-            } else {
+            if (is_null($link)) {
                 $this->addFlash("success", "Der Einladungslink für ".$event->getName()." wurde erzeugt.");
+            } else {
+                $this->addFlash("success", "Der Einladungslink für ".$event->getName()." wurde geändert.");
             }
         } else {
             $this->addFlash("error", "Event mit der Id $id wurde nicht gefunden!");

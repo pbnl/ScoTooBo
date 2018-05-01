@@ -7,7 +7,7 @@
 <div class="modal fade modal-{{ event.getId }}" tabindex="-1" role="dialog" aria-labelledby="gridSystemModalLabel">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
-            <form action="/events/invitationLink/generate/{{ event.getId }}" method="post">
+            <form action="/events/invitationLink/generate/{{ event.getId }}" method="post" id="form_{{ event.getId }}">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                     <h4 class="modal-title" id="gridSystemModalLabel">{% trans %}Event.showAll.invitationLink{% endtrans %}</h4>
