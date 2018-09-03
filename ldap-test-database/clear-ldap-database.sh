@@ -9,12 +9,12 @@ if [ $EUID != 0 ]; then
         {
             gksudo "$0" "$@"
         } || {
-            sudo "$0" "$@"
+            echo "$1" | sudo -S "$0" "$@"
         }
     }
     exit $?
 fi
-
+echo "Clearing..."
 sudo service slapd stop
 sudo rm /etc/ldap/slapd.d/* -R
 sudo rm /var/lib/ldap/* -rf
