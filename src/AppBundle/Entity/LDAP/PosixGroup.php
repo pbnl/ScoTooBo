@@ -16,16 +16,12 @@ use Symfony\Component\Validator\Constraints as Assert;
 /**
  * Represents a posixGroup object class, which is a subclass of Group
  *
- * @ObjectClass("posixGroup")
- *
- * @SearchDn("ou=group,dc=pbnl,dc=de")
- *
- * @Dn("cn={{entity.cn}},ou=group,dc=pbnl,dc=de")
- *
- * @UniqueIdentifier("cn")
  */
 class PosixGroup extends LdapEntity
 {
+
+    static $mustFields = ["cn","gidNumber"];
+    static $uniqueIdentifier = "cn";
 
     /**
      * @Attribute("cn")
@@ -33,6 +29,7 @@ class PosixGroup extends LdapEntity
      * @Must()
      */
     protected $cn;
+
 
     /**
      * Array with all the DNs of the users who are members
@@ -61,6 +58,22 @@ class PosixGroup extends LdapEntity
      * @var array
      */
     private $memberUserObjects = array();
+
+    /**
+     * @return mixed
+     */
+    public function getCn()
+    {
+        return $this->cn;
+    }
+
+    /**
+     * @param mixed $cn
+     */
+    public function setCn($cn)
+    {
+        $this->cn = $cn;
+    }
 
     /**
      * @return array
@@ -155,4 +168,17 @@ class PosixGroup extends LdapEntity
             $this->memberUserObjects[$dn] = $user;
         }
     }
+
+    /**
+     * Generates a Dn based on the OU and the givenName
+     */
+    protected function generateNewDn()
+    {
+        if($this->getCn()== "")
+        {
+            throw new BadMethodCallException("Cant generate DN: cn is empty ('')");
+        }
+        return "cn=".$this->getCn().",ou=Group,dc=pbnl,dc=de";
+    }
+
 }

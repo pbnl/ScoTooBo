@@ -13,6 +13,7 @@ use AppBundle\Entity\LDAP\PbnlAccount;
 use AppBundle\Entity\LDAP\PbnlMailAlias;
 use AppBundle\Entity\LDAP\PosixGroup;
 use AppBundle\Model\LdapComponent\LdapEntryHandler\PbnlAccountLdapHandler;
+use AppBundle\Model\LdapComponent\LdapEntryHandler\PosixGroupLdapHandler;
 use AppBundle\Model\LdapComponent\Repositories\Repository;
 use BadMethodCallException;
 use Monolog\Logger;
@@ -60,6 +61,10 @@ class PbnlLdapEntityManager
         if ($entity instanceof PbnlAccount)
         {
             $ldapHandler = new PbnlAccountLdapHandler($this->baseDN);
+        }
+        elseif ($entity instanceof PosixGroup)
+        {
+            $ldapHandler = new PosixGroupLdapHandler($this->baseDN);
         }
         //TODO: Add other classes
         else

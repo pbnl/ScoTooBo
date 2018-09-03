@@ -39,6 +39,11 @@ abstract class LdapEntity
      */
     public function setDn($dn)
     {
+        if($dn != "")
+        {
+            $ldapDnParts = ldap_explode_dn($dn , 1);
+            if($ldapDnParts == FALSE) throw new \BadMethodCallException("DN you want to set is wrong");
+        }
         $this->dn = $dn;
     }
 

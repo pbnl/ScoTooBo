@@ -75,7 +75,7 @@ class PbnlAccountLdapHandler extends LdapEntryHandler
 
         if (!$succses)
         {
-            throw new LdapPersistException("Cant add new Ldap element");
+            throw new LdapPersistException("Cant update Ldap element");
         }
     }
 
