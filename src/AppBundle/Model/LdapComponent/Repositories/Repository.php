@@ -63,7 +63,7 @@ class Repository
         }
 
         if (!array_key_exists($by, $this->searchableAttributes) && !in_array($by, $this->searchableAttributes)) {
-            throw new \BadMethodCallException("No sutch ldap attribute $by in $this->entityName");
+            throw new \BadMethodCallException("No sutch searchable ldap attribute $by in $this->entityName");
         }
 
         return $this->$method(

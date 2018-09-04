@@ -38,7 +38,7 @@ class PosixGroupLdapHandler extends LdapEntryHandler
         $posixGroup->setCN($ldapEntryArray["cn"][0]);
         $posixGroup->setDn($ldapEntryArray["dn"]);
         $posixGroup->setGidNumber($ldapEntryArray["gidnumber"][0]);
-        $posixGroup->setDescription($ldapEntryArray["description"][0]);
+        isset($ldapEntryArray["description"][0]) ? $posixGroup->setDescription($ldapEntryArray["description"][0]) : $posixGroup->setDescription("");
         $members = array();
         for ($i = 0; $i < $ldapEntryArray["memberuid"]["count"] ; $i++) {
             array_push($members, $ldapEntryArray["memberuid"][$i]);

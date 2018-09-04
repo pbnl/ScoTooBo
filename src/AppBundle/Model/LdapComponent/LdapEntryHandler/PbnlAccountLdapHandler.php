@@ -39,15 +39,15 @@ class PbnlAccountLdapHandler extends LdapEntryHandler
         $pbnlAccount->setCN($ldapEntryArray["cn"][0]);
         $pbnlAccount->setSn($ldapEntryArray["sn"][0]);
         $pbnlAccount->setUidNumber($ldapEntryArray["uidnumber"][0]);
-        $pbnlAccount->setMail($ldapEntryArray["mail"][0]);
-        $pbnlAccount->setUserPassword($ldapEntryArray["userpassword"][0]);
+        isset($ldapEntryArray["mail"][0]) ? $pbnlAccount->setMail($ldapEntryArray["mail"][0]) : $pbnlAccount->setMail("");
+        isset($ldapEntryArray["userpassword"][0]) ? $pbnlAccount->setUserPassword($ldapEntryArray["userpassword"][0]) : $pbnlAccount->setUserPassword("");
         $pbnlAccount->setHomeDirectory($ldapEntryArray["homedirectory"][0]);
         $pbnlAccount->setDn($ldapEntryArray["dn"]);
-        $pbnlAccount->setMobile($ldapEntryArray["mobile"][0]);
-        $pbnlAccount->setPostalCode($ldapEntryArray["postalcode"][0]);
-        $pbnlAccount->setStreet($ldapEntryArray["street"][0]);
-        $pbnlAccount->setTelephoneNumber($ldapEntryArray["telephonenumber"][0]);
-        $pbnlAccount->setL($ldapEntryArray["l"][0]);
+        isset($ldapEntryArray["mobile"][0]) ? $pbnlAccount->setMobile($ldapEntryArray["mobile"][0]) : $pbnlAccount->setMobile("");
+        isset($ldapEntryArray["postalcode"][0]) ? $pbnlAccount->setPostalCode($ldapEntryArray["postalcode"][0]) : $pbnlAccount->setPostalCode("");
+        isset($ldapEntryArray["street"][0]) ? $pbnlAccount->setStreet($ldapEntryArray["street"][0]) : $pbnlAccount->setStreet("");
+        isset($ldapEntryArray["telephonenumber"][0]) ? $pbnlAccount->setTelephoneNumber($ldapEntryArray["telephonenumber"][0]) : $pbnlAccount->setTelephoneNumber("");
+        isset($ldapEntryArray["l"][0]) ? $pbnlAccount->setL($ldapEntryArray["l"][0]) : $pbnlAccount->setL("");
         $pbnlAccount->setGidNumber($ldapEntryArray["gidnumber"][0]);
 
         return $pbnlAccount;
@@ -58,16 +58,17 @@ class PbnlAccountLdapHandler extends LdapEntryHandler
         //TODO nicht alle attribute sollen/werden gestzt werden
         $data = array();
         $data["sn"] = $element->getSn();
+        $data["uidnumber"] = $element->getUidNumber();
         $data["uid"] = $element->getUid();
-        $data["l"] = $element->getL();
-        $data["mobile"] = $element->getMobile();
-        $data["postalcode"] = $element->getPostalCode();
-        $data["street"] = $element->getStreet();
-        $data["telephonenumber"] = $element->getTelephoneNumber();
+        !empty($element->getL()) ? $data["l"] = $element->getL() : "";
+        !empty($element->getMobile()) ? $data["mobile"] = $element->getMobile() : "";
+        !empty($element->getPostalCode()) ? $data["postalcode"] = $element->getPostalCode() : "";
+        !empty($element->getStreet()) ? $data["street"] = $element->getStreet() : "";
+        !empty($element->getTelephoneNumber()) ? $data["telephonenumber"] = $element->getTelephoneNumber() : "";
         $data["cn"] = $element->getCn();
         $data["homedirectory"] = $element->getHomeDirectory();
-        $data["mail"] = $element->getMail();
-        $data["userpassword"] = $element->getUserPassword();
+        !empty($element->getMail()) ? $data["mail"] = $element->getMail() : "";
+        !empty($element->getUserPassword()) ? $data["userpassword"] = $element->getUserPassword() : "";
         $data["gidnumber"] = $element->getGidNumber();
 
         //TODO: Do we realy want to use the @ operater?
@@ -85,20 +86,19 @@ class PbnlAccountLdapHandler extends LdapEntryHandler
         $userForLDAP["objectclass"][0] = "inetOrgPerson";
         $userForLDAP["objectclass"][1] = "posixAccount";
         $userForLDAP["objectclass"][2] = "pbnlAccount";
-        $userForLDAP["cn"][0] = $element->getCn();
-        $userForLDAP["gidnumber"][0] = "501";
-        $userForLDAP["uidnumber"][0] = $element->getUidNumber();
-        $userForLDAP["homedirectory"][0] = $element->getHomeDirectory();
-        $userForLDAP["sn"][0] = $element->getSn();
-        $userForLDAP["uid"][0] = $element->getUid();
-        $userForLDAP["l"][0] = $element->getL();
-        $userForLDAP["mail"][0] =  $element->getMail();
-        $userForLDAP["mobile"][0] = $element->getMobile();
-        $userForLDAP["postalcode"][0] = $element->getPostalCode();
-        $userForLDAP["street"][0] = $element->getStreet();
-        $userForLDAP["telephonenumber"][0] = $element->getTelephoneNumber();
-        $userForLDAP["userpassword"][0] = $element->getUserPassword();
-        $userForLDAP["givenname"][0] = $element->getGivenName();
+        $userForLDAP["uidnumber"] = $element->getUidNumber();
+        $userForLDAP["sn"] = $element->getSn();
+        $userForLDAP["uid"] = $element->getUid();
+        !empty($element->getL()) ? $userForLDAP["l"] = $element->getL() : "";
+        !empty($element->getMobile()) ? $userForLDAP["mobile"] = $element->getMobile() : "";
+        !empty($element->getPostalCode()) ? $userForLDAP["postalcode"] = $element->getPostalCode() : "";
+        !empty($element->getStreet()) ? $userForLDAP["street"] = $element->getStreet() : "";
+        !empty($element->getTelephoneNumber()) ? $userForLDAP["telephonenumber"] = $element->getTelephoneNumber() : "";
+        $userForLDAP["cn"] = $element->getCn();
+        $userForLDAP["homedirectory"] = $element->getHomeDirectory();
+        !empty($element->getMail()) ? $userForLDAP["mail"] = $element->getMail() : "";
+        !empty($element->getUserPassword()) ? $userForLDAP["userpassword"] = $element->getUserPassword() : "";
+        $userForLDAP["gidnumber"] = $element->getGidNumber();
 
         $dn = $element->getDn();
 
@@ -107,7 +107,8 @@ class PbnlAccountLdapHandler extends LdapEntryHandler
 
         if (!$succses)
         {
-            throw new LdapPersistException("Cant add new Ldap element");
+            $error = $ldapConnection->getError();
+            throw new LdapPersistException("Cant add new Ldap element $error");
         }
 
     }

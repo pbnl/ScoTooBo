@@ -68,9 +68,6 @@ class PbnlLdapEntityManagerUpdateFunctionalityTest extends TestCase
         $ldapManager->persist($oldPbnlAccount);
         $ldapManager->flush();
 
-        $account = $pbnlRepo->findOneBy("uid",$oldPbnlAccount->getUid());
-        $this->assertEquals($oldPbnlAccount, $account);
-
         $updatedPbnlAccount = $this->removeMustFields($oldPbnlAccount);
 
         $ldapManager->persist($updatedPbnlAccount);

@@ -2,9 +2,9 @@
 
 namespace Tests\AppBundle\UserServicTest;
 
-use AppBundle\Model\Entity\LDAP\PbnlAccount;
-use AppBundle\Model\Entity\LDAP\PbnlMailAlias;
-use AppBundle\Model\Entity\LDAP\PosixGroup;
+use AppBundle\Entity\LDAP\PbnlAccount;
+use AppBundle\Entity\LDAP\PbnlMailAlias;
+use AppBundle\Entity\LDAP\PosixGroup;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use Symfony\Component\DependencyInjection\Container;
 use Ucsf\LdapOrmBundle\Repository\Repository;
@@ -39,7 +39,6 @@ class LdapOrmTest extends KernelTestCase
         $personRepository = $ldapEntityManager->getRepository(PbnlAccount::class);
 
         $newOne = new PbnlAccount();
-        $newOne->setObjectClass(["inetOrgPerson","posixAccount","pbnlAccount"]);
         $newOne->setGivenName("TestAccountToDelete");
         $newOne->setCn("TestAccountToDelete");
         $newOne->setHomeDirectory("/home/random");
@@ -79,15 +78,5 @@ class LdapOrmTest extends KernelTestCase
         $ambronen = $personRepository->findByCn("ambronen");
 
         $this->assertContains('stammGroup', $ambronen[0]->getDescription());
-    }
-
-    public function testpbnlMailAliasORM()
-    {
-
-        $ldapEntityManager = $this->container->get("ldapEntityManager");
-        $personRepository = $ldapEntityManager->getRepository(PbnlMailAlias::class);
-        $wiki = $personRepository->findByMail("wiki@pbnl.de");
-
-        $this->assertContains('TestAmbrone1@pbnl.de', $wiki[0]->getForward());
     }
 }

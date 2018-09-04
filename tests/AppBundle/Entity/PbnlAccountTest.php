@@ -44,7 +44,7 @@ class PbnlAccountTest extends TestCase
         $pbnlAccount = new PbnlAccount();
         $pbnlAccount->setGivenName("test123");
         $pbnlAccount->setOu("ee");
-        $this->assertEquals("givenName=test123,ou=ee,ou=people,dc=pbnl,dc=de",$pbnlAccount->getDn());
+        $this->assertEquals("givenName=test123,ou=ee,ou=People,dc=pbnl,dc=de",$pbnlAccount->getDn());
 
         $pbnlAccount = new PbnlAccount();
         $pbnlAccount->setDn("givenName=test123,ou=2345#ä5667,ou=people,dc=pbnl,dc=de");

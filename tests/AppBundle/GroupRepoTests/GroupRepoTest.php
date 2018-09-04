@@ -2,8 +2,9 @@
 
 namespace Tests\AppBundle\UserServiceTests;
 
-use AppBundle\Model\Entity\LDAP\PosixGroup;
+use AppBundle\Entity\LDAP\PosixGroup;
 use AppBundle\Model\Filter;
+use AppBundle\Model\LdapComponent\PbnlLdapEntityManager;
 use AppBundle\Model\Services\GroupRepository;
 use Monolog\Logger;
 use PHPUnit\Framework\TestCase;
@@ -29,7 +30,7 @@ class GroupRepoTest extends TestCase
             ->method("findAll")
             ->willReturn($groups);
 
-        $ldapEntityManager = $this->createMock(LdapEntityManager::class);
+        $ldapEntityManager = $this->createMock(PbnlLdapEntityManager::class);
         $ldapEntityManager->expects($this->any())
             ->method("getRepository")
             ->withConsecutive(
@@ -62,7 +63,7 @@ class GroupRepoTest extends TestCase
             ->method("findAll")
             ->willReturn($groups);
 
-        $ldapEntityManager = $this->createMock(LdapEntityManager::class);
+        $ldapEntityManager = $this->createMock(PbnlLdapEntityManager::class);
         $ldapEntityManager->expects($this->any())
             ->method("getRepository")
             ->withConsecutive(

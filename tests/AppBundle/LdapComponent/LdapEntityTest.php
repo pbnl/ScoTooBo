@@ -44,7 +44,7 @@ class LdapEntityTest extends TestCase
     public function provideLdapPbnlAccount()
     {
         $loader = new PbnlNativeAliceLoader(3254);
-        $objectSet = $loader->loadFile(__DIR__.'/PosixGroups.yml');
+        $objectSet = $loader->loadFile(__DIR__.'/PBNLAccount/PbnlAccounts.yml');
 
         $dataSet = TestTools::objectSetToDataSet($objectSet);
         return $dataSet;
@@ -53,7 +53,7 @@ class LdapEntityTest extends TestCase
     public function provideLdapPbnlAccountEmptyMust()
     {
         $loader = new PbnlNativeAliceLoader(3254);
-        $objectSet = $loader->loadFile(__DIR__.'/PosixGroups.yml');
+        $objectSet = $loader->loadFile(__DIR__.'/PBNLAccount/PbnlAccounts.yml');
 
         $dataSet = TestTools::objectSetToDataSet($objectSet);
 

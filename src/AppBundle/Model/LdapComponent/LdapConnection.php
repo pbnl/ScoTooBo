@@ -103,4 +103,9 @@ class LdapConnection
     {
         return ldap_get_entries($this->ldapConnection, $result);
     }
+
+    public function getError()
+    {
+        return ldap_error($this->ldapConnection);
+    }
 }

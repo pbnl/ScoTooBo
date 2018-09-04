@@ -31,16 +31,16 @@ class PbnlLdapEntityManagerFindFunctionalityTest extends TestCase
     public function testRetriveOnePbnlAccountByGivenName()
     {
         $expectedPbnlAccount = new PbnlAccount();
-        $expectedPbnlAccount->setGivenName("TestAmbrone1");
-        $expectedPbnlAccount->setUid("testambrone1");
+        $expectedPbnlAccount->setGivenName("TestAmbrone2");
+        $expectedPbnlAccount->setUid("testambrone2");
         $expectedPbnlAccount->setSn("ef");
-        $expectedPbnlAccount->setCn("TestAmbrone1");
-        $expectedPbnlAccount->setUidNumber("814");
-        $expectedPbnlAccount->setMail("TestAmbrone1@pbnl.de");
-        $expectedPbnlAccount->setUserPassword("{ssha}VxyzFlqfW+MfaG3DghRX0z++sj4JXkamqKVBUg==");
-        $expectedPbnlAccount->setDn("givenName=TestAmbrone1,ou=Ambronen,ou=People,dc=pbnl,dc=de");
-        $expectedPbnlAccount->setPostalCode("5698");
-        $expectedPbnlAccount->setHomeDirectory("/home/TestAmbrone1");
+        $expectedPbnlAccount->setCn("TestAmbrone2");
+        $expectedPbnlAccount->setUidNumber("813");
+        $expectedPbnlAccount->setMail("testAmbrone2FalscheMail@gmx.de");
+        $expectedPbnlAccount->setUserPassword("{ssha}tfMavcfF/ByoFvYNNmvYgaUGWrApS1Cajdsgzg==");
+        $expectedPbnlAccount->setDn("givenName=TestAmbrone2,ou=Ambronen,ou=People,dc=pbnl,dc=de");
+        $expectedPbnlAccount->setPostalCode("252");
+        $expectedPbnlAccount->setHomeDirectory("/home/TestAmbrone2");
         $expectedPbnlAccount->setL("0");
         $expectedPbnlAccount->setStreet("0");
         $expectedPbnlAccount->setTelephoneNumber("0");
@@ -49,7 +49,7 @@ class PbnlLdapEntityManagerFindFunctionalityTest extends TestCase
         $ldapManager = new PbnlLdapEntityManager(new Logger("logger"), $this->ldapConnectionConfig);
         $pbnlRepo = $ldapManager->getRepository(PbnlAccount::class);
 
-        $account = $pbnlRepo->findOneBy("givenName","TestAmbrone1");
+        $account = $pbnlRepo->findOneBy("givenName","TestAmbrone2");
 
         $this->assertEquals($expectedPbnlAccount, $account);
     }
@@ -57,16 +57,16 @@ class PbnlLdapEntityManagerFindFunctionalityTest extends TestCase
     public function testRetiriveOnePbnlAccountByUidNumber()
     {
         $expectedPbnlAccount = new PbnlAccount();
-        $expectedPbnlAccount->setGivenName("TestAmbrone1");
-        $expectedPbnlAccount->setUid("testambrone1");
+        $expectedPbnlAccount->setGivenName("TestAmbrone2");
+        $expectedPbnlAccount->setUid("testambrone2");
         $expectedPbnlAccount->setSn("ef");
-        $expectedPbnlAccount->setCn("TestAmbrone1");
-        $expectedPbnlAccount->setUidNumber("814");
-        $expectedPbnlAccount->setMail("TestAmbrone1@pbnl.de");
-        $expectedPbnlAccount->setUserPassword("{ssha}VxyzFlqfW+MfaG3DghRX0z++sj4JXkamqKVBUg==");
-        $expectedPbnlAccount->setDn("givenName=TestAmbrone1,ou=Ambronen,ou=People,dc=pbnl,dc=de");
-        $expectedPbnlAccount->setPostalCode("5698");
-        $expectedPbnlAccount->setHomeDirectory("/home/TestAmbrone1");
+        $expectedPbnlAccount->setCn("TestAmbrone2");
+        $expectedPbnlAccount->setUidNumber("813");
+        $expectedPbnlAccount->setMail("testAmbrone2FalscheMail@gmx.de");
+        $expectedPbnlAccount->setUserPassword("{ssha}tfMavcfF/ByoFvYNNmvYgaUGWrApS1Cajdsgzg==");
+        $expectedPbnlAccount->setDn("givenName=TestAmbrone2,ou=Ambronen,ou=People,dc=pbnl,dc=de");
+        $expectedPbnlAccount->setPostalCode("252");
+        $expectedPbnlAccount->setHomeDirectory("/home/TestAmbrone2");
         $expectedPbnlAccount->setL("0");
         $expectedPbnlAccount->setStreet("0");
         $expectedPbnlAccount->setTelephoneNumber("0");
@@ -75,7 +75,7 @@ class PbnlLdapEntityManagerFindFunctionalityTest extends TestCase
         $ldapManager = new PbnlLdapEntityManager(new Logger("logger"), $this->ldapConnectionConfig);
         $pbnlRepo = $ldapManager->getRepository(PbnlAccount::class);
 
-        $account = $pbnlRepo->findOneBy("uidNumber","814");
+        $account = $pbnlRepo->findOneBy("uidNumber","813");
 
         $this->assertEquals($expectedPbnlAccount, $account);
     }

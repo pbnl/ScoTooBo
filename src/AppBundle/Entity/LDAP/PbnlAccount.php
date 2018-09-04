@@ -127,6 +127,7 @@ class PbnlAccount extends LdapEntity
      */
     protected $gidNumber = "501";
 
+
     //All getters and setters
 
     /**
@@ -380,6 +381,19 @@ class PbnlAccount extends LdapEntity
             throw new BadMethodCallException("Cant generate DN: GivenName or Ou is empty ('')");
         }
         return "givenName=".$this->getGivenName().",ou=$this->ou,ou=People,dc=pbnl,dc=de";
+    }
+
+    /**
+     * Sets all null attributes to ""
+     * We need this function to set attributes to "" that are null because of the alice generation
+     */
+    public function setNullFieldToEmptyString()
+    {
+        foreach ($this as $key => $value) {
+            if($value == null){
+                $this->$key = "";
+            }
+        }
     }
 
 }

@@ -123,9 +123,10 @@ class PbnlLdapEntityManager
         $searchableAttributes = array();
 
         $ef = PbnlAccount::class;
+        //TODO: maybe move searchable Attr into class
         if($entityName === PbnlAccount::class)
         {
-            $searchableAttributes = [""];
+            $searchableAttributes = ["cn", "sn", "givenName", "uid", "uidNumber"];
         }
         elseif($entityName === PbnlMailAlias::class)
         {
@@ -133,7 +134,7 @@ class PbnlLdapEntityManager
         }
         elseif($entityName === PosixGroup::class)
         {
-            $searchableAttributes = [""];
+            $searchableAttributes = ["cn", "gidNumber"];
         }
         else
         {
@@ -181,5 +182,24 @@ class PbnlLdapEntityManager
     {
         $this->ldapConnection = new LdapConnection($this->uri, $this->useTLS, $this->password, $this->bindDN);
         $this->ldapConnection->openConnection();
+    }
+
+    public function retrieveByDn($dn, $entityName)
+    {
+        $handlerClass = $this->buildLdapHandlerClassName($this->getEntityName($entityName));
+
+        $ldapEntryHandler = new $handlerClass($this->baseDN);
+
+        $objects = $ldapEntryHandler->retriveByDn($dn, $this->ldapConnection);
+
+        return $objects;
+    }
+
+    private function getEntityName($class)
+    {
+        $entityName = explode("\\",$class);
+        $entityNameWithoutPath = end($entityName);
+
+        return $entityNameWithoutPath;
     }
 }

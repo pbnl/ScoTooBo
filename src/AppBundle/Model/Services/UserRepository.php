@@ -2,8 +2,8 @@
 
 namespace AppBundle\Model\Services;
 
-use AppBundle\Model\Entity\LDAP\PbnlAccount;
-use AppBundle\Model\Entity\LDAP\PosixGroup;
+use AppBundle\Entity\LDAP\PbnlAccount;
+use AppBundle\Entity\LDAP\PosixGroup;
 use AppBundle\Model\Filter;
 use AppBundle\Model\LdapComponent\PbnlLdapEntityManager;
 use AppBundle\Model\SSHA;
@@ -299,7 +299,6 @@ class UserRepository implements UserProviderInterface
     {
         //TODO: Stop generating an pbnlAccount get it from the repo if it exists
         $pbnlAccount = new PbnlAccount();
-        $pbnlAccount->setNotRetrieveAttributes(array());
         $pbnlAccount->setL($user->getCity());
         $pbnlAccount->setOu($user->getStamm());
         $pbnlAccount->setStreet($user->getStreet());
@@ -314,7 +313,6 @@ class UserRepository implements UserProviderInterface
         $pbnlAccount->setGidNumber("501");
         $pbnlAccount->setHomeDirectory("/home/".$user->getUid());
         $pbnlAccount->setUidNumber($user->getUidNumber());
-        $pbnlAccount->setObjectClass(["inetOrgPerson","posixAccount","pbnlAccount"]);
         if ($user->getClearPassword() != "") {
             $pbnlAccount->setUserPassword(SSHA::sshaPasswordGen($user->getClearPassword()));
         } else {

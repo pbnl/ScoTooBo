@@ -2,7 +2,7 @@
 
 namespace AppBundle\Model\Services;
 
-use AppBundle\Model\Entity\LDAP\PosixGroup;
+use AppBundle\Entity\LDAP\PosixGroup;
 use AppBundle\Model\Filter;
 use AppBundle\Model\LdapComponent\PbnlLdapEntityManager;
 use Monolog\Logger;
@@ -40,7 +40,7 @@ class GroupRepository
      * The ldapManager of the LDAPBundle
      *
      * @param Logger $logger
-     * @param LdapEntityManager $ldapEntityManager
+     * @param PbnlLdapEntityManager $ldapEntityManager
      * @param ValidatorInterface $validator
      */
     public function __construct(Logger $logger, PbnlLdapEntityManager $ldapEntityManager, ValidatorInterface $validator)

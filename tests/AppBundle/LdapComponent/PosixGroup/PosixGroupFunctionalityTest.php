@@ -70,16 +70,16 @@ class PosixGroupFunctionalityTest extends TestCase
         $ldapManager->persist($oldPosixGroup);
         $ldapManager->flush();
 
-        $account = $pbnlRepo->findOneBy("cn",$oldPosixGroup->getCn());
-        $this->assertEquals($oldPosixGroup, $account);
+        $group = $pbnlRepo->findOneBy("cn",$oldPosixGroup->getCn());
+        $this->assertEquals($oldPosixGroup, $group);
 
         $updatedPosixGroup = $this->updatePosixGroupWithNewData($oldPosixGroup);
 
         $ldapManager->persist($updatedPosixGroup);
         $ldapManager->flush();
 
-        $account = $pbnlRepo->findOneBy("cn",$oldPosixGroup->getCn());
-        $this->assertEquals($updatedPosixGroup, $account);
+        $group = $pbnlRepo->findOneBy("cn",$oldPosixGroup->getCn());
+        $this->assertEquals($updatedPosixGroup, $group);
     }
 
     public function updatePosixGroupWithNewData(PosixGroup $posixGroup)
