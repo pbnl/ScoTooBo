@@ -6,7 +6,6 @@ jobs:
         environment:
             TZ: "/usr/share/zoneinfo/America/Los_Angeles"
             DEBIAN_FRONTEND: "noninteractive"
-        working_directory: /var/www/html
         steps:
             - run: apt-get update && apt-get -y install git unzip zlib1g-dev sudo php php-mbstring php-zip php-xml php-xdebug php-curl php-mysql
             - checkout
