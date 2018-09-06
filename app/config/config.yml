@@ -8,7 +8,7 @@ imports:
 parameters:
     locale: de
     security.encoder.digest.class: AppBundle\Security\MessageDigestPasswordEncoder
-    env(DATABASE_HOST): localhost
+    env(DATABASE_HOST): 127.0.0.1
     env(DATABASE_PORT): 3306
     env(DATABASE_NAME): scotoobo
     env(DATABASE_USER): scotoobo

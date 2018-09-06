@@ -1,0 +1,33 @@
+# docker-compose.yml
+version: '3.3'
+services:
+  php:
+    image: nkp-media/symfony-php:dev
+    build:
+      context: .
+      dockerfile: docker/php-fpm/Dockerfile
+    volumes:
+    - symfonylog:/var/www/app/var/logs
+
+  nginx:
+    image: nkp-media/symfony-nginx:dev
+    build:
+      context: .
+      dockerfile: docker/nginx/Dockerfile
+    ports:
+    - "7080:80"
+    volumes:
+    - nginxlog:/var/log/nginx
+  elk:
+    image: willdurand/elk
+    ports:
+    - 81:80
+    volumes:
+    - ./docker/elk/logstash:/etc/logstash
+    - ./docker/elk/logstash/patterns:/opt/logstash/patterns
+    - nginxlog:/var/log/nginx
+    - symfonylog:/var/www/app/var/logs
+
+volumes:
+  nginxlog:
+  symfonylog:
