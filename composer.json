@@ -2,7 +2,7 @@
     "name": "scotoobo",
     "license": "proprietary",
     "type": "project",
-    "minimum-stability":"dev",
+    "minimum-stability":"stable",
     "autoload": {
         "psr-4": {
             "": "src/"
