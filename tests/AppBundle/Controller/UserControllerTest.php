@@ -2,7 +2,6 @@
 
 namespace Tests\AppBundle\Controller;
 
-
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Tests\AppBundle\TestTools;
 
@@ -11,59 +10,64 @@ class UserControllerTest extends WebTestCase
 
     public function testShowAllUsers()
     {
-        TestTools::getLoggedInStavoAmbrone()->request('GET', '/users/show/all');
+        $client = TestTools::getLoggedInStavoAmbrone();
+        $client->request('GET', '/users/show/all');
 
-        $this->assertContains('givenName=TestBuvoUser,ou=Ambronen,ou=People,dc=pbnl,dc=de', TestTools::getLoggedInStavoAmbrone()->getResponse()->getContent());
-        $this->assertContains('givenName=TestTronjer,ou=Hagen von Tronje,ou=People,dc=pbnl,dc=de', TestTools::getLoggedInStavoAmbrone()->getResponse()->getContent());
+        $this->assertContains('givenName=TestBuvoUser,ou=Ambronen,ou=People,dc=pbnl,dc=de', $client->getResponse()->getContent());
+        $this->assertContains('givenName=TestTronjer,ou=Hagen von Tronje,ou=People,dc=pbnl,dc=de', $client->getResponse()->getContent());
 
     }
 
     public function testShowAllUsersSearchName()
     {
-        $crawler = TestTools::getLoggedInStavoAmbrone()->request('GET', '/users/show/all');
+        $client = TestTools::getLoggedInStavoAmbrone();
+        $crawler = $client->request('GET', '/users/show/all');
 
         $form = $crawler->selectButton('Suchen')->form();
 
         $form['form[filterOption]'] = 'filterByUid';
         $form['form[filterText]'] = '1';
 
-        TestTools::getLoggedInStavoAmbrone()->submit($form);
+        $client->submit($form);
 
-        $this->assertContains('givenName=TestAmbrone1,ou=Ambronen,ou=People,dc=pbnl,dc=de', TestTools::getLoggedInStavoAmbrone()->getResponse()->getContent());
+        $this->assertContains('givenName=TestAmbrone1,ou=Ambronen,ou=People,dc=pbnl,dc=de', $client->getResponse()->getContent());
     }
 
     public function testShowAllUsersSearchGroup()
     {
-        $crawler = TestTools::getLoggedInStavoAmbrone()->request('GET', '/users/show/all');
+        $client = TestTools::getLoggedInStavoAmbrone();
+        $crawler = $client->request('GET', '/users/show/all');
 
         $form = $crawler->selectButton('Suchen')->form();
 
         $form['form[filterOption]'] = 'filterByGroup';
         $form['form[filterText]'] = 'ambronen';
 
-        TestTools::getLoggedInStavoAmbrone()->submit($form);
+        $client->submit($form);
 
-        $this->assertContains('givenName=TestAmbrone1,ou=Ambronen,ou=People,dc=pbnl,dc=de', TestTools::getLoggedInStavoAmbrone()->getResponse()->getContent());
-        $this->assertContains('givenName=TestBuvoUser,ou=Ambronen,ou=People,dc=pbnl,dc=de', TestTools::getLoggedInStavoAmbrone()->getResponse()->getContent());
+        $this->assertContains('givenName=TestAmbrone1,ou=Ambronen,ou=People,dc=pbnl,dc=de', $client->getResponse()->getContent());
+        $this->assertContains('givenName=TestBuvoUser,ou=Ambronen,ou=People,dc=pbnl,dc=de', $client->getResponse()->getContent());
     }
 
     public function testShowAllUsersGroupNotFound()
     {
-        $crawler = TestTools::getLoggedInStavoAmbrone()->request('GET', '/users/show/all');
+        $client = TestTools::getLoggedInStavoAmbrone();
+        $crawler = $client->request('GET', '/users/show/all');
 
         $form = $crawler->selectButton('Suchen')->form();
 
         $form['form[filterOption]'] = 'filterByGroup';
         $form['form[filterText]'] = 'WEgregg';
 
-        TestTools::getLoggedInStavoAmbrone()->submit($form);
+        $client->submit($form);
 
-        $this->assertContains('We cant find the group WEgregg', TestTools::getLoggedInStavoAmbrone()->getResponse()->getContent());
+        $this->assertContains('We cant find the group WEgregg', $client->getResponse()->getContent());
     }
 
     public function testAddUser()
     {
-        $crawler = TestTools::getLoggedInStavoAmbrone()->request('GET', '/users/add');
+        $client = TestTools::getLoggedInStavoAmbrone();
+        $crawler = $client->request('GET', '/users/add');
 
         $form = $crawler->selectButton('Erstellen')->form();
 
@@ -73,15 +77,16 @@ class UserControllerTest extends WebTestCase
         $form['form[clearPassword]'] = 'password123';
         $form['form[stamm]'] = 'Ambronen';
 
-        TestTools::getLoggedInStavoAmbrone()->submit($form);
-        $respons = TestTools::getLoggedInStavoAmbrone()->getResponse()->getContent();
+        $client->submit($form);
+        $respons = $client->getResponse()->getContent();
 
-        $this->assertContains('Benutzer givenname123 hinzugefügt', TestTools::getLoggedInStavoAmbrone()->getResponse()->getContent());
+        $this->assertContains('Benutzer givenname123 hinzugefügt', $client->getResponse()->getContent());
     }
 
     public function testAddUserUserAlreadyExistException()
     {
-        $crawler = TestTools::getLoggedInStavoAmbrone()->request('GET', '/users/add');
+        $client = TestTools::getLoggedInStavoAmbrone();
+        $crawler = $client->request('GET', '/users/add');
 
         $form = $crawler->selectButton('Erstellen')->form();
 
@@ -91,15 +96,16 @@ class UserControllerTest extends WebTestCase
         $form['form[clearPassword]'] = 'password123';
         $form['form[stamm]'] = 'Ambronen';
 
-        TestTools::getLoggedInStavoAmbrone()->submit($form);
-        $respons = TestTools::getLoggedInStavoAmbrone()->getResponse()->getContent();
+        $client->submit($form);
+        $respons = $client->getResponse()->getContent();
 
-        $this->assertContains('The user testambrone1 already exists.', TestTools::getLoggedInStavoAmbrone()->getResponse()->getContent());
+        $this->assertContains('The user testambrone1 already exists.', $client->getResponse()->getContent());
     }
 
     public function testAddUserUserWrongStamm()
     {
-        $crawler = TestTools::getLoggedInStavoAmbrone()->request('GET', '/users/add');
+        $client = TestTools::getLoggedInStavoAmbrone();
+        $crawler = $client->request('GET', '/users/add');
 
         $form = $crawler->selectButton('Erstellen')->form();
 
@@ -109,28 +115,32 @@ class UserControllerTest extends WebTestCase
         $form['form[clearPassword]'] = 'password123';
         $form->get('form[stamm]')->disableValidation()->setValue("wrong");
 
-        TestTools::getLoggedInStavoAmbrone()->submit($form);
+        $client->submit($form);
 
-        $this->assertNotContains('testName55 hinzugefügt', TestTools::getLoggedInStavoAmbrone()->getResponse()->getContent());
+        $this->assertNotContains('testName55 hinzugefügt', $client->getResponse()->getContent());
     }
 
     public function testgetUserDetailsOfOwnUser()
     {
-        $crawler = TestTools::getLoggedInStavoAmbrone()->request('GET', '/users/detail');
+        $client = TestTools::getLoggedInStavoAmbrone();
+        $crawler = $client->request('GET', '/users/detail');
 
-        $this->assertContains('givenName=TestAmbrone1,ou=Ambronen,ou=People,dc=pbnl,dc=de', TestTools::getLoggedInStavoAmbrone()->getResponse()->getContent());
+        $this->assertContains('givenName=TestAmbrone1,ou=Ambronen,ou=People,dc=pbnl,dc=de', $client->getResponse()->getContent());
     }
 
     public function testgetUserDetailsOfOtherUser()
     {
-        $crawler = TestTools::getLoggedInStavoAmbrone()->request('GET', '/users/detail?uid=testambrone2');
+        $client = TestTools::getLoggedInStavoAmbrone();
+        $crawler = $client->request('GET', '/users/detail?uid=testambrone2');
 
-        $this->assertContains('givenName=TestAmbrone2,ou=Ambronen,ou=People,dc=pbnl,dc=de', TestTools::getLoggedInStavoAmbrone()->getResponse()->getContent());
+        $this->assertContains('givenName=TestAmbrone2,ou=Ambronen,ou=People,dc=pbnl,dc=de', $client->getResponse()->getContent());
     }
 
     public function testgetUserDetailsOfOwenUserAndEdit()
     {
-        $crawler = TestTools::getLoggedInStavoAmbrone()->request('GET', '/users/detail');
+        $client = TestTools::getLoggedInStavoAmbrone();
+
+        $crawler = $client->request('GET', '/users/detail');
 
         $form = $crawler->selectButton('Speichern')->form();
 
@@ -142,58 +152,62 @@ class UserControllerTest extends WebTestCase
         $form['form[mobilePhoneNumber]'] = 'testMobileF';
         $form['form[homePhoneNumber]'] = 'testPhoneG';
 
-        TestTools::getLoggedInStavoAmbrone()->submit($form);
-        $respons = TestTools::getLoggedInStavoAmbrone()->getResponse()->getContent();
+        $client->submit($form);
+        $respons = $client->getResponse()->getContent();
 
-        $this->assertContains('Änderungen gespeichert', TestTools::getLoggedInStavoAmbrone()->getResponse()->getContent());
+        $this->assertContains('Änderungen gespeichert', $client->getResponse()->getContent());
 
-        $this->assertContains('testFirstNameA', TestTools::getLoggedInStavoAmbrone()->getResponse()->getContent());
-        $this->assertContains('testLastNameB', TestTools::getLoggedInStavoAmbrone()->getResponse()->getContent());
-        $this->assertContains('89345', TestTools::getLoggedInStavoAmbrone()->getResponse()->getContent());
-        $this->assertContains('testCityD', TestTools::getLoggedInStavoAmbrone()->getResponse()->getContent());
-        $this->assertContains('testStreetE', TestTools::getLoggedInStavoAmbrone()->getResponse()->getContent());
-        $this->assertContains('testMobileF', TestTools::getLoggedInStavoAmbrone()->getResponse()->getContent());
-        $this->assertContains('testPhoneG', TestTools::getLoggedInStavoAmbrone()->getResponse()->getContent());
+        $this->assertContains('testFirstNameA', $client->getResponse()->getContent());
+        $this->assertContains('testLastNameB', $client->getResponse()->getContent());
+        $this->assertContains('89345', $client->getResponse()->getContent());
+        $this->assertContains('testCityD', $client->getResponse()->getContent());
+        $this->assertContains('testStreetE', $client->getResponse()->getContent());
+        $this->assertContains('testMobileF', $client->getResponse()->getContent());
+        $this->assertContains('testPhoneG', $client->getResponse()->getContent());
     }
 
     public function testDelUser()
     {
-        $crawler = TestTools::getLoggedInStavoAmbrone()->request('GET', '/users/remove?uid=deletetestambrone');
+        $client = TestTools::getLoggedInStavoAmbrone();
+        $crawler = $client->request('GET', '/users/remove?uid=deletetestambrone');
 
-        TestTools::getLoggedInStavoAmbrone()->request('GET', '/users/show/all');
+        $client->request('GET', '/users/show/all');
 
-        $this->assertNotContains('givenName=deleteTestAmbrone,ou=Ambronen,ou=People,dc=pbnl,dc=de', TestTools::getLoggedInStavoAmbrone()->getResponse()->getContent());
+        $this->assertNotContains('givenName=deleteTestAmbrone,ou=Ambronen,ou=People,dc=pbnl,dc=de', $client->getResponse()->getContent());
     }
 
     public function testDelUserUserDoesNotExist()
     {
-        $crawler = TestTools::getLoggedInStavoAmbrone()->request('GET', '/users/remove?uid=notExisting');
+        $client = TestTools::getLoggedInStavoAmbrone();
+        $crawler = $client->request('GET', '/users/remove?uid=notExisting');
 
-        $this->assertNotContains('Der User notExisting existiert nicht!', TestTools::getLoggedInStavoAmbrone()->getResponse()->getContent());
+        $this->assertNotContains('Der User notExisting existiert nicht!', $client->getResponse()->getContent());
     }
 
     public function testDelUserUserNotUnique()
     {
-        $crawler = TestTools::getLoggedInStavoAmbrone()->request('GET', '/users/remove?uid=notunique');
+        $client = TestTools::getLoggedInStavoAmbrone();
+        $crawler = $client->request('GET', '/users/remove?uid=notunique');
 
-        $this->assertNotContains('Der User notunique ist nicht einzigartig!', TestTools::getLoggedInStavoAmbrone()->getResponse()->getContent());
+        $this->assertNotContains('Der User notunique ist nicht einzigartig!', $client->getResponse()->getContent());
     }
 
     public function testDelUserNotAllowedException()
     {
-        $crawler = TestTools::getLoggedInStavoAmbrone()->request('GET', '/users/remove?uid=deletetestambrone');
+        $client = TestTools::getLoggedInStavoAmbrone();
+        $crawler = $client->request('GET', '/users/remove?uid=deletetestambrone');
 
-        TestTools::getLoggedInStavoAmbrone()->request('GET', '/users/show/all');
+        $client->request('GET', '/users/show/all');
 
-        $this->assertNotContains('givenName=deleteTestAmbrone,ou=Ambronen,ou=People,dc=pbnl,dc=de', TestTools::getLoggedInStavoAmbrone()->getResponse()->getContent());
+        $this->assertNotContains('givenName=deleteTestAmbrone,ou=Ambronen,ou=People,dc=pbnl,dc=de', $client->getResponse()->getContent());
 
-        $crawler = TestTools::getLoggedInStavoAmbrone()->request('GET', '/users/remove?uid=testtronjer');
+        $crawler = $client->request('GET', '/users/remove?uid=testtronjer');
 
-        $this->assertEquals("403",TestTools::getLoggedInStavoAmbrone()->getResponse()->getStatusCode());
+        $this->assertEquals("403",$client->getResponse()->getStatusCode());
 
 
-        TestTools::getLoggedInStavoAmbrone()->request('GET', '/users/show/all');
+        $client->request('GET', '/users/show/all');
 
-        $this->assertContains('givenName=TestTronjer,ou=Hagen von Tronje,ou=People,dc=pbnl,dc=de', TestTools::getLoggedInStavoAmbrone()->getResponse()->getContent());
+        $this->assertContains('givenName=TestTronjer,ou=Hagen von Tronje,ou=People,dc=pbnl,dc=de', $client->getResponse()->getContent());
     }
 }

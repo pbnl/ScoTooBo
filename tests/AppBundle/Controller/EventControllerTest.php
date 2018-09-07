@@ -10,25 +10,27 @@ class EventControllerTest extends WebTestCase
 {
     public function testShowAllEvents()
     {
-        TestTools::getLoggedInStavoAmbrone()->request('GET', '/events/show/all');
+        $client = TestTools::getLoggedInStavoAmbrone();
+        $client->request('GET', '/events/show/all');
 
-        $this->assertEquals(200, TestTools::getLoggedInStavoAmbrone()->getResponse()->getStatusCode());
-        $this->assertContains('TestEvent1', TestTools::getLoggedInStavoAmbrone()->getResponse()->getContent());
-        $this->assertContains('TestEvent2', TestTools::getLoggedInStavoAmbrone()->getResponse()->getContent());
-        $this->assertContains('TestEvent3', TestTools::getLoggedInStavoAmbrone()->getResponse()->getContent());
-        $this->assertContains('TestEvent4', TestTools::getLoggedInStavoAmbrone()->getResponse()->getContent());
-        $this->assertContains('TestEvent5', TestTools::getLoggedInStavoAmbrone()->getResponse()->getContent());
-        $this->assertContains('TestEvent6', TestTools::getLoggedInStavoAmbrone()->getResponse()->getContent());
-        $this->assertContains('TestEvent7', TestTools::getLoggedInStavoAmbrone()->getResponse()->getContent());
-        $this->assertContains('TestEvent8', TestTools::getLoggedInStavoAmbrone()->getResponse()->getContent());
-        $this->assertContains('TestEvent9', TestTools::getLoggedInStavoAmbrone()->getResponse()->getContent());
-        $this->assertContains('TestEvent10', TestTools::getLoggedInStavoAmbrone()->getResponse()->getContent());
+        $this->assertEquals(200, $client->getResponse()->getStatusCode());
+        $this->assertContains('TestEvent1', $client->getResponse()->getContent());
+        $this->assertContains('TestEvent2', $client->getResponse()->getContent());
+        $this->assertContains('TestEvent3', $client->getResponse()->getContent());
+        $this->assertContains('TestEvent4', $client->getResponse()->getContent());
+        $this->assertContains('TestEvent5', $client->getResponse()->getContent());
+        $this->assertContains('TestEvent6', $client->getResponse()->getContent());
+        $this->assertContains('TestEvent7', $client->getResponse()->getContent());
+        $this->assertContains('TestEvent8', $client->getResponse()->getContent());
+        $this->assertContains('TestEvent9', $client->getResponse()->getContent());
+        $this->assertContains('TestEvent10', $client->getResponse()->getContent());
 
     }
 
     public function testAddEvent()
     {
-        $crawler = TestTools::getLoggedInStavoAmbrone()->request('GET', '/events/add');
+        $client = TestTools::getLoggedInStavoAmbrone();
+        $crawler = $client->request('GET', '/events/add');
 
         $form = $crawler->selectButton('Erstellen')->form();
 
@@ -47,11 +49,11 @@ class EventControllerTest extends WebTestCase
         $form['form[DateTo][time][minute]'] = '14';
         $form['form[Place]'] = 'Test Ort';
 
-        TestTools::getLoggedInStavoAmbrone()->submit($form);
-        TestTools::getLoggedInStavoAmbrone()->followRedirect();
-        $respons = TestTools::getLoggedInStavoAmbrone()->getResponse()->getContent();
+        $client->submit($form);
+        $client->followRedirect();
+        $respons = $client->getResponse()->getContent();
 
-        $this->assertEquals(200, TestTools::getLoggedInStavoAmbrone()->getResponse()->getStatusCode());
+        $this->assertEquals(200, $client->getResponse()->getStatusCode());
         $this->assertContains('Event wurde mit der Id 11 erstellt.', $respons);
         $this->assertContains('Test Name', $respons);
         $this->assertContains('Test Beschreibung', $respons);
