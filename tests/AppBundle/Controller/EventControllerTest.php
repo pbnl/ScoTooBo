@@ -35,12 +35,12 @@ class EventControllerTest extends WebTestCase
         $form['form[Name]'] = 'Test Name';
         $form['form[Description]'] = 'Test Beschreibung';
         $form['form[PriceInCent]'] = '12345';
-        $form['form[DateFrom][date][year]'] = '2012';
+        $form['form[DateFrom][date][year]'] = '2018';
         $form['form[DateFrom][date][month]'] = '1';
         $form['form[DateFrom][date][day]'] = '2';
         $form['form[DateFrom][time][hour]'] = '3';
         $form['form[DateFrom][time][minute]'] = '4';
-        $form['form[DateTo][date][year]'] = '2013';
+        $form['form[DateTo][date][year]'] = '2020';
         $form['form[DateTo][date][month]'] = '11';
         $form['form[DateTo][date][day]'] = '12';
         $form['form[DateTo][time][hour]'] = '13';
