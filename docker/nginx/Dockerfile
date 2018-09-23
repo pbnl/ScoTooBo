@@ -15,6 +15,9 @@ COPY web /var/www/app/web
 
 RUN chown www-data:www-data -R /var/www
 
+RUN ln -sf /dev/stdout /var/log/nginx/symfony_access.log \
+    && ln -sf /dev/stderr /var/log/nginx/symfony_error.log
+
 CMD ["nginx"]
 
 EXPOSE 80
