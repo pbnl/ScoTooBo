@@ -2,7 +2,7 @@
 version: '3.3'
 services:
   php:
-    image: nkp-media/symfony-php:dev
+    image: pbnl/scotoobo-php:dev
     build:
       context: .
       dockerfile: docker/php-fpm/Dockerfile
@@ -10,7 +10,7 @@ services:
     - symfonylog:/var/www/app/var/logs
 
   nginx:
-    image: nkp-media/symfony-nginx:dev
+    image: pbnl/scotoobo-nginx:dev
     build:
       context: .
       dockerfile: docker/nginx/Dockerfile

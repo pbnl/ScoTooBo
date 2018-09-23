@@ -53,6 +53,10 @@ jobs:
               paths:
               - /caches/app.tar
         - run:
+            name: Login to docker
+            command: |
+              docker login -u $DOCKER_USER -p $DOCKER_PASS
+        - run:
               name: Load Docker image layer cache
               command: |
                   set +o pipefail
@@ -65,7 +69,12 @@ jobs:
               name: Save Docker image layer cache
               command: |
                   mkdir -p /caches
-                  docker save -o /caches/app.tar nkp-media/symfony-php
+                  docker save -o /caches/app.tar pbnl/scotoobo-php
+        - run:
+              name: Push docker images
+              command: |
+                docker push pbnl/scotoobo-php
+                docker push pbnl/scotoobo-nginx
         - save_cache:
               key: v1-{{ .Branch }}-{{ epoch }}
               paths:
