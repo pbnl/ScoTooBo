@@ -372,7 +372,6 @@ objectClass: posixAccount
 objectClass: pbnlAccount
 userPassword:: e3NzaGF9dGZNYXZjZkYvQnlvRnZZTk5tdllnYVVHV3JBcFMxQ2FqZHNnemc9P
  Q==
-uidNumber: 814
 givenName: TestAmbrone2
 street: 0
 sn: ef
@@ -385,9 +384,10 @@ cn: TestAmbrone2
 mail: testAmbrone2FalscheMail@gmx.de
 postalCode: 252
 uid: testambrone2
-entryCSN: 20170909142148.600565Z#000000#000#000000
+uidNumber: 813
+entryCSN: 20180904185853.384246Z#000000#000#000000
 modifiersName: cn=admin,dc=pbnl,dc=de
-modifyTimestamp: 20170909142148Z
+modifyTimestamp: 20180904185853Z
 
 dn: cn=groupWithMailingList,ou=Group,dc=pbnl,dc=de
 memberUid: givenName=TestAmbrone2,ou=Ambronen,ou=People,dc=pbnl,dc=de
@@ -626,3 +626,16 @@ createTimestamp: 20171002175900Z
 entryCSN: 20171002175900.247491Z#000000#000#000000
 modifiersName: cn=admin,dc=pbnl,dc=de
 modifyTimestamp: 20171002175900Z
+
+dn: ou=ldapComponentTest,dc=pbnl,dc=de
+ou: ldapComponentTest
+description: Alle Mitglieder
+objectClass: organizationalUnit
+structuralObjectClass: organizationalUnit
+entryUUID: 5e2abb90-6345-1037-83ff-75769aa773d1
+creatorsName: cn=admin,dc=pbnl,dc=de
+createTimestamp: 20171121202157Z
+entryCSN: 20171121202157.783788Z#000000#000#000000
+modifiersName: cn=admin,dc=pbnl,dc=de
+modifyTimestamp: 20171121202157Z
+

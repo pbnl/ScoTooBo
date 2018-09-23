@@ -19,12 +19,19 @@ parameters:
     env(LDAP_PASSWORD): admin
     env(LDAP_SERVER): 127.0.0.1
 
+    ldap_server:
+        uri: "%env(LDAP_DOMAIN)%"
+        use_tls: false
+        bind_dn: "%env(LDAP_USER_DN)%"
+        base_dn: "%env(LDAP_BASE_DN)%"
+        password: "%env(LDAP_PASSWORD)%"
+
     some_ldap_server:
         uri: "%env(LDAP_DOMAIN)%"
         use_tls: false
         bind_dn: "%env(LDAP_USER_DN)%"
         password: "%env(LDAP_PASSWORD)%"
-        password_type: plaintext
+        password_type: plain
     ucsfldaporm_test: false
 
 framework:

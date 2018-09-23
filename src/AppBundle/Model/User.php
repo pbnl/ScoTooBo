@@ -20,7 +20,7 @@ class User implements UserInterface, EquatableInterface
      * Unique User id (same as givenName but without ' ' ä ö ü ß)
      *
      * @var string
-     * @Assert\Regex("/^[0-9,a-x,_]*$/")
+     * @Assert\Regex("/^[0-9,a-z,_,.]*$/")
      */
     private $uid = "";
 
@@ -91,7 +91,6 @@ class User implements UserInterface, EquatableInterface
      * The postal code (PLZ)
      *
      * @var string
-     * @Assert\Regex("/^[0-9]*$/") only numbers
      */
     private $postalCode = "";
 

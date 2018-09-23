@@ -31,9 +31,9 @@ services:
 
 
     ldapEntityManager:
-        class: Ucsf\LdapOrmBundle\Ldap\LdapEntityManager
+        class: AppBundle\Model\LdapComponent\PbnlLdapEntityManager
         public: true
-        arguments: ["@logger","@annotation_reader", "%some_ldap_server%"]
+        arguments: ["@logger", "%ldap_server%"]
 
     data.userRepository:
         class: AppBundle\Model\Services\UserRepository

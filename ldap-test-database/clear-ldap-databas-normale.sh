@@ -9,7 +9,7 @@ if [ $EUID != 0 ]; then
         {
             gksudo "$0" "$@"
         } || {
-            echo "$1" | sudo -S "$0" "$@"
+            sudo -S "$0" "$@"
         }
     }
     exit $?

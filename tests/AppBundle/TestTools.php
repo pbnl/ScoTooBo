@@ -9,6 +9,7 @@
 namespace Tests\AppBundle;
 
 
+use Nelmio\Alice\ObjectSet;
 use AppBundle\Model\User;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\BrowserKit\Cookie;
@@ -129,5 +130,16 @@ class TestTools extends WebtestCase
         else {
             return TestTools::$loggedInTestGrueppling;
         }
+    }
+
+    public static function objectSetToDataSet(ObjectSet $set)
+    {
+        $objects = $set->getObjects();
+        $dataSet = array();
+        foreach ($objects as $object)
+        {
+            array_push($dataSet, [$object]);
+        }
+        return $dataSet;
     }
 }
