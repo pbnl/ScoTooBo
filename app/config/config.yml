@@ -26,14 +26,6 @@ parameters:
         base_dn: "%env(LDAP_BASE_DN)%"
         password: "%env(LDAP_PASSWORD)%"
 
-    some_ldap_server:
-        uri: "%env(LDAP_DOMAIN)%"
-        use_tls: false
-        bind_dn: "%env(LDAP_USER_DN)%"
-        password: "%env(LDAP_PASSWORD)%"
-        password_type: plain
-    ucsfldaporm_test: false
-
 framework:
     #esi: ~
     translator: { fallbacks: ['%locale%'] }
