@@ -9,6 +9,8 @@ parameters:
     env(ldap_bind_dn): cn=admin,dc=pbnl,dc=de
     env(ldap_bind_password): admin
     env(ldap_server): 127.0.0.1
+    env(ldap_port): 636
+    env(ldap_tls): true
     env(mail_transport): smtp
     env(mail_host): 127.0.0.1
     env(mailer_user): null

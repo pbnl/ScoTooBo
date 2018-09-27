@@ -10,8 +10,9 @@ parameters:
     security.encoder.digest.class: AppBundle\Security\MessageDigestPasswordEncoder
 
     ldap_server:
-        uri: "%env(database_host)%"
-        use_tls: false
+        uri: "%env(ldap_server)%"
+        port: "%env(ldap_port)%"
+        use_tls: "%env(ldap_tls)%"
         bind_dn: "%env(ldap_bind_dn)%"
         base_dn: "%env(ldap_base_dn)%"
         password: "%env(ldap_bind_password)%"
