@@ -16,6 +16,8 @@ services:
       - ldap_bind_d=ncn=admin,dc=pbnl,dc=de
       - ldap_bind_password=admin
       - ldap_server=127.0.0.1
+      - ldap_port=636
+      - ldap_tls=true
       - mail_transport=smtp
       - mail_host=127.0.0.1
       - mailer_user=null
@@ -23,6 +25,7 @@ services:
       - secret=null
       - recaptcha_secret=gSiteSecret
       - recaptcha_globalcode=gGlobalCode
+      # - LDAPTLS_REQCERT=never uncomment to disable cert validation
 
   nginx:
     image: pbnl/scotoobo-nginx:dev
