@@ -24,7 +24,8 @@ class PbnlLdapEntityManagerRemoveFunctionalityTest extends TestCase
     public function setUp()
     {
         $this->ldapConnectionConfig["uri"] = "127.0.0.1";
-        $this->ldapConnectionConfig["use_tls"] = true;
+        $this->ldapConnectionConfig["use_tls"] = false;
+        $this->ldapConnectionConfig["port"] = 389;
         $this->ldapConnectionConfig["password"] = "admin";
         $this->ldapConnectionConfig["bind_dn"] = "cn=admin,dc=pbnl,dc=de";
         $this->ldapConnectionConfig["base_dn"] = "dc=pbnl,dc=de";
