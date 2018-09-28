@@ -35,7 +35,7 @@ class LdapConnection
      */
     private function connect(string $server, int $port = 389)
     {
-        if($this->use_tls == "true") {
+        if ($this->use_tls == "true") {
             $this->ldapConnection = @ldap_connect("ldaps://$server:$port");
         }
         else {
@@ -47,8 +47,6 @@ class LdapConnection
             throw new LdapConnectException("Cant connect to $server on port $port: ".
                 ldap_error($this->ldapConnection));
         }
-
-
     }
 
     private function bind($ldapConnection, string $dn, string $password)
