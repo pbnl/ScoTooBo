@@ -9,34 +9,34 @@
 {% block content %}
     {% include 'includes/showFlashes.html.twig' %}
     <h3>Such Optionen</h3>
-    <div class="col-sm-6">
+    <div class="col-sm-6" data-step="2" data-intro="{% trans %}IntroJS.showAll.search{% endtrans %}">
         {% if peopleSearchForm is defined %}
             {% form_theme peopleSearchForm 'bootstrap_4_horizontal_layout.html.twig' %}
             {{ form_start(peopleSearchForm) }}
             {{ form_end(peopleSearchForm) }}
         {% endif %}
     </div>
-    <table id="allUserTable" class="table table-striped tablesorter table-responsive">
+    <table id="allUserTable" class="table table-striped tablesorter table-responsive" data-step="1" data-intro="{% trans %}IntroJS.showAll.welcome{% endtrans %}">
         <thead class="">
         <tr>
             <th class="filter-false">
                 Nr
             </th>
-            <th>
+            <th data-step="3" data-intro="{% trans %}IntroJS.showAll.username{% endtrans %}">
                 {% trans %}general.username{% endtrans %}
             </th>
-            <th class="filter-select filter-exact" data-placeholder="Stamm">
+            <th class="filter-select filter-exact" data-placeholder="Stamm" data-step="4" data-intro="{% trans %}IntroJS.showAll.stamm{% endtrans %}">
                 {% trans %}general.stamm{% endtrans %}
             </th>
             <th class="limitBigTableColumn">
                 DN
             </th>
-            <th class="filter-false">
+            <th class="filter-false" data-step="5" data-intro="{% trans %}IntroJS.showAll.delete{% endtrans %}">
                 {% trans %}general.delete{% endtrans %}
             </th>
         </tr>
         </thead>
-        <tbody>
+        <tbody data-step="6" data-intro="{% trans %}IntroJS.showAll.table{% endtrans %}">
         {% for user in users %}
             <tr>
                 <td>
