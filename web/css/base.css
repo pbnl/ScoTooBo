@@ -41,6 +41,11 @@ body {
     background-color: #e9ecef; /* #007bff */
 }
 
+.introjs-start-icon {
+    color: #fff;
+    font-size: 1.5em;
+}
+
 @media screen and (max-width: 991px) { /* Off Canvas */
     #sidebar {
         height: 100%;

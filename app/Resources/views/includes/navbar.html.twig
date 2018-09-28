@@ -18,7 +18,14 @@
             </li>
         </ul>
 
-        <a class="btn btn-danger pull-right navbar-btn" href="/logout">{% trans %}general.logout{% endtrans %}</a>
+        <ul class="navbar-nav pull-righ">
+            <li class="nav-item">
+                <a class="nav-link" href="#" onclick="introJs().start();"><i class="far fa-question-circle introjs-start-icon"></i></a>
+            </li>
 
+            <li class="nav-item">
+                <a class="btn btn-danger pull-right navbar-btn" href="/logout">{% trans %}general.logout{% endtrans %}</a>
+            </li>
+        </ul>
     </div>
 </nav>
