@@ -1,6 +1,7 @@
 # Structure:
 # - General: general.___
 # - Menu: menu.___
+# - IntroJS: IntroJS.___
 # -> more pages in alphabetical order
 
 general.browserdata: Browserdaten
@@ -71,6 +72,11 @@ menu.admin.title: Admin
 menu.userGroupManagement.title: Benutzer-/Gruppenverwaltung
 
 menu.mailAlias.schowAllMailAlias: Listenübersicht
+
+IntroJS.addUser.welcome: "Hier kannst du neue User hinzufügen. Folgende Daten werden dir im nachhinein generiert: Mailadresse"
+IntroJS.addUser.password: Wähle ein sicheres Passwort. Falls du dir nicht sicher bist, generiere eins. Pass aber auf, dass du es dir kopierst. Es wir dir nur ein mal gezeigt
+IntroJS.addUser.stamm: Wichtig. Wähle den richtigen Stamm unter dem der User gespeichert werden soll.
+IntroJS.addUser.submit: Wenn du alles ausgefüllt hast, kannst du hier den User erstellen.
 
 
 403ErrorPage.title: 403 fehlende Rechte
