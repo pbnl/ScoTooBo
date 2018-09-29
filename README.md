@@ -23,6 +23,16 @@ Download the `docker-compose.yml` and run `docker-compose up` in the same direct
 You can edit the configuration by setting the environment variables in the `docker-compose.yml` file.
 If you don't scotoobo will fallback to test related default values.
 
+After you started the app for the first time go into the container by executing: `sudo docker exec -it pbnldocker_php_1 bash`.
+Replace `pbnldocker_php_1` with the name of the container. Then go into the app directory and execute
+`php bin/console doctrine:schema:update --force` to create/update the sql database.
+
+If you want to clear, warm up the cache and create the assets execute 
+`export SYMFONY_ENV=prod && export APP_ENV=prod && composer run-script post-install-cmd --no-interaction --no-dev`
+in the same directory to do this for an productive environment.
+
+Thats it. Now you have a working scotoobo installation.
+
 
 We used some nice libs for our work:
 * Bootstrap https://getbootstrap.com/
