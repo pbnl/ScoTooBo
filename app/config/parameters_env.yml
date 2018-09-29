@@ -1,0 +1,24 @@
+# This file is auto-generated during the composer install
+parameters:
+    env(database_host): 127.0.0.1
+    env(database_port): 3306
+    env(database_name): scotoobo
+    env(database_user): scotoobo
+    env(database_password): secret
+    env(ldap_base_dn): dc=pbnl,dc=de
+    env(ldap_bind_dn): cn=admin,dc=pbnl,dc=de
+    env(ldap_bind_password): admin
+    env(ldap_server): 127.0.0.1
+    env(ldap_port): 389
+    env(ldap_tls): false
+    env(mail_transport): smtp
+    env(mail_host): 127.0.0.1
+    env(mailer_user): null
+    env(mailer_password): null
+    env(secret): null
+    env(recaptcha_secret): gSiteSecret
+    env(recaptcha_globalcode): gGlobalCode
+
+    secret: "%env(secret)%"
+    recaptcha.secret: "%env(recaptcha_secret)%"
+    recaptcha.globalcode: "%env(recaptcha_globalcode)%"

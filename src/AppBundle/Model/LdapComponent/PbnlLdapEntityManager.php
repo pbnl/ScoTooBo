@@ -30,8 +30,10 @@ class PbnlLdapEntityManager
     private $password = "";
     private $useTLS = false;
     private $baseDN = "";
+    private $port;
 
     private $ldapConnection;
+
 
     /**
      * LdapEntityManager constructor.
@@ -44,6 +46,7 @@ class PbnlLdapEntityManager
     {
         $this->logger = $logger;
         $this->uri = $config['uri'];
+        $this->port = $config['port'];
         $this->bindDN = $config['bind_dn'];
         $this->password = $config['password'];
         $this->useTLS = $config['use_tls'];
@@ -180,7 +183,7 @@ class PbnlLdapEntityManager
      */
     private function connect()
     {
-        $this->ldapConnection = new LdapConnection($this->uri, $this->useTLS, $this->password, $this->bindDN);
+        $this->ldapConnection = new LdapConnection($this->uri, $this->port, $this->useTLS, $this->password, $this->bindDN);
         $this->ldapConnection->openConnection();
     }
 

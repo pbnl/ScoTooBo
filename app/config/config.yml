@@ -1,38 +1,21 @@
 imports:
-    - { resource: parameters.yml }
     - { resource: security.yml }
     - { resource: services.yml }
+    - { resource: parameters_env.yml }
 
 # Put parameters here that don't need to change on each machine where the app is deployed
 # https://symfony.com/doc/current/best_practices/configuration.html#application-related-configuration
 parameters:
     locale: de
     security.encoder.digest.class: AppBundle\Security\MessageDigestPasswordEncoder
-    env(DATABASE_HOST): localhost
-    env(DATABASE_PORT): 3306
-    env(DATABASE_NAME): scotoobo
-    env(DATABASE_USER): scotoobo
-    env(DATABASE_PWD): secret
-    env(LDAP_DOMAIN): 127.0.0.1
-    env(LDAP_BASE_DN): dc=pbnl,dc=de
-    env(LDAP_USER_DN): cn=admin,dc=pbnl,dc=de
-    env(LDAP_PASSWORD): admin
-    env(LDAP_SERVER): 127.0.0.1
 
     ldap_server:
-        uri: "%env(LDAP_DOMAIN)%"
-        use_tls: false
-        bind_dn: "%env(LDAP_USER_DN)%"
-        base_dn: "%env(LDAP_BASE_DN)%"
-        password: "%env(LDAP_PASSWORD)%"
-
-    some_ldap_server:
-        uri: "%env(LDAP_DOMAIN)%"
-        use_tls: false
-        bind_dn: "%env(LDAP_USER_DN)%"
-        password: "%env(LDAP_PASSWORD)%"
-        password_type: plain
-    ucsfldaporm_test: false
+        uri: "%env(ldap_server)%"
+        port: "%env(ldap_port)%"
+        use_tls: "%env(ldap_tls)%"
+        bind_dn: "%env(ldap_bind_dn)%"
+        base_dn: "%env(ldap_base_dn)%"
+        password: "%env(ldap_bind_password)%"
 
 framework:
     #esi: ~
@@ -71,11 +54,11 @@ twig:
 doctrine:
     dbal:
         driver:   pdo_mysql
-        host: '%env(DATABASE_HOST)%'
-        port: '%env(DATABASE_PORT)%'
-        dbname: '%env(DATABASE_NAME)%'
-        user: '%env(DATABASE_USER)%'
-        password: '%env(DATABASE_PWD)%'
+        host: '%env(database_host)%'
+        port: '%env(database_port)%'
+        dbname: '%env(database_name)%'
+        user: '%env(database_user)%'
+        password: '%env(database_password)%'
         charset:  UTF8
         # if using pdo_sqlite as your database driver:
         #   1. add the path in parameters.yml
@@ -91,8 +74,8 @@ doctrine:
 
 # Swiftmailer Configuration
 swiftmailer:
-    transport: '%mailer_transport%'
-    host: '%mailer_host%'
-    username: '%mailer_user%'
-    password: '%mailer_password%'
+    transport: '%env(mail_transport)%'
+    host: '%env(mail_host)%'
+    username: '%env(mailer_user)%'
+    password: '%env(mailer_password)%'
     spool: { type: memory }

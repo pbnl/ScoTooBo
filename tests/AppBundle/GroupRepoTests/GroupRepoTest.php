@@ -5,12 +5,11 @@ namespace Tests\AppBundle\UserServiceTests;
 use AppBundle\Entity\LDAP\PosixGroup;
 use AppBundle\Model\Filter;
 use AppBundle\Model\LdapComponent\PbnlLdapEntityManager;
+use AppBundle\Model\LdapComponent\Repositories\Repository;
 use AppBundle\Model\Services\GroupRepository;
 use Monolog\Logger;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\Validator\Validation;
-use Ucsf\LdapOrmBundle\Ldap\LdapEntityManager;
-use Ucsf\LdapOrmBundle\Repository\Repository;
 
 class GroupRepoTest extends TestCase
 {

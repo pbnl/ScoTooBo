@@ -18,6 +18,7 @@ class LdapConnectionTest extends TestCase
     {
         $params = array();
         $params["uri"] = "127.0.0.1";
+        $params["port"] = "389";
         $params["use_tls"] = true;
         $params["password"] = "secret";
         $params["bind_dn"] = "toBind";
@@ -31,11 +32,12 @@ class LdapConnectionTest extends TestCase
     {
         $params = array();
         $params["uri"] = "127.0.0.1";
-        $params["use_tls"] = true;
+        $params["port"] = "389";
+        $params["use_tls"] = false;
         $params["password"] = "admin";
         $params["bind_dn"] = "cn=admin,dc=pbnl,dc=de";
 
-        $con = new LdapConnection($params["uri"],$params["use_tls"],$params["password"],$params["bind_dn"]);
+        $con = new LdapConnection($params["uri"],$params["port"],$params["use_tls"],$params["password"],$params["bind_dn"]);
         $result = $con->openConnection();
 
         $this->assertTrue($result);

@@ -1,6 +1,6 @@
 version: 2
 jobs:
-    build:
+    test:
         docker:
             - image: buildpack-deps:bionic
         environment:
@@ -32,3 +32,62 @@ jobs:
             - run: php composer.phar install --no-interaction --dev
             - run: ./vendor/bin/phpunit
             - run: CODECLIMATE_REPO_TOKEN=1332fe188e0bb31283eeed1c18696c4e1a4b4be231ff9393e569c8b02a2f73d7 ./vendor/bin/test-reporter
+    build:
+        working_directory: /app
+        docker:
+        - image: docker:17.05.0-ce-git
+        steps:
+        - checkout
+        - setup_remote_docker
+        - run:
+              name: Install dependencies
+              command: |
+                  apk add --no-cache \
+                    py-pip
+                  pip install \
+                    docker-compose \
+                    awscli
+        - restore_cache:
+              keys:
+              - v1-{{ .Branch }}
+              paths:
+              - /caches/app.tar
+        - run:
+            name: Login to docker
+            command: |
+              docker login -u $DOCKER_USER -p $DOCKER_PASS
+        - run:
+              name: Load Docker image layer cache
+              command: |
+                  set +o pipefail
+                  docker load -i /caches/app.tar | true
+        - run:
+              name: Build application Docker image
+              command: |
+                  docker-compose build
+        - run:
+              name: Save Docker image layer cache
+              command: |
+                  mkdir -p /caches
+                  docker save -o /caches/app.tar pbnl/scotoobo-php
+        - run:
+              name: Push docker images
+              command: |
+                docker push pbnl/scotoobo-php
+                docker push pbnl/scotoobo-nginx
+        - save_cache:
+              key: v1-{{ .Branch }}-{{ epoch }}
+              paths:
+              - /caches/app.tar
+workflows:
+    version: 2
+    test_and_build:
+        jobs:
+        - test
+        - build:
+              requires:
+              - test
+              filters:
+                branches:
+                  only:
+                  - master
