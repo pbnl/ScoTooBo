@@ -85,6 +85,11 @@ IntroJS.showAll.stamm: Oder sortiere nach den Stämmen (oder mach beides).
 IntroJS.showAll.delete: "Hier kannst du einen User löschen. Vorsicht: Das kann nicht rückgänig gemacht werden."
 IntroJS.showAll.table: Es werden nicht immer alle User angezeigt. Nutze die Elemente unter der Tabelle um mehr User anzeigen zu alles oder zwischen den Seiten zu springen.
 
+IntroJS.detailUser.username: Hier siehst du den Benutzernamen des Users den du dir gerade anschaust
+IntroJS.detailUser.tableOwn: Ist es dein eigener User, oder falls du die Recht hast, kannst du manche Werte ändern. Gebe dafür die neuen in dem Eingabefeld ein und drücke Speichern
+IntroJS.detailUser.notedit: Es gibt aber auch Werte, die man nicht ändern kann. Falls du es doch willst, frage einen Admin.
+IntroJS.detailUser.welcome: Hier findest du alle Informationen über einen User.
+IntroJS.detailUser.tableOther: Von fremden Leuten kannst du dir die Werte nur anschauen.
 
 403ErrorPage.title: 403 fehlende Rechte
 403ErrorPage.head: Diese Aktion ist für dich verboten
