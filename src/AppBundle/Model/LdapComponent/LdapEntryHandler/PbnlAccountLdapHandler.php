@@ -39,6 +39,7 @@ class PbnlAccountLdapHandler extends LdapEntryHandler
         $pbnlAccount->setCN($ldapEntryArray["cn"][0]);
         $pbnlAccount->setSn($ldapEntryArray["sn"][0]);
         $pbnlAccount->setUidNumber($ldapEntryArray["uidnumber"][0]);
+        isset($ldapEntryArray["givenname"][0]) ? $pbnlAccount->setGivenName($ldapEntryArray["givenname"][0]) : $pbnlAccount->setGivenName("=");
         isset($ldapEntryArray["mail"][0]) ? $pbnlAccount->setMail($ldapEntryArray["mail"][0]) : $pbnlAccount->setMail("");
         isset($ldapEntryArray["userpassword"][0]) ? $pbnlAccount->setUserPassword($ldapEntryArray["userpassword"][0]) : $pbnlAccount->setUserPassword("");
         $pbnlAccount->setHomeDirectory($ldapEntryArray["homedirectory"][0]);
