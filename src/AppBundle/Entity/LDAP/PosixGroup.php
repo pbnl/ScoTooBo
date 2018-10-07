@@ -3,15 +3,8 @@
 namespace AppBundle\Entity\LDAP;
 
 use AppBundle\Model\Services\UserRepository;
-use Ucsf\LdapOrmBundle\Annotation\Ldap\ArrayField;
-use Ucsf\LdapOrmBundle\Annotation\Ldap\Attribute;
-use Ucsf\LdapOrmBundle\Annotation\Ldap\Dn;
-use Ucsf\LdapOrmBundle\Annotation\Ldap\Must;
-use Ucsf\LdapOrmBundle\Annotation\Ldap\ObjectClass;
-use Ucsf\LdapOrmBundle\Annotation\Ldap\SearchDn;
-use Ucsf\LdapOrmBundle\Annotation\Ldap\UniqueIdentifier;
-use Ucsf\LdapOrmBundle\Entity\Ldap\Group;
 use Symfony\Component\Validator\Constraints as Assert;
+use AppBundle\Model\User;
 
 /**
  * Represents a posixGroup object class, which is a subclass of Group
@@ -23,29 +16,16 @@ class PosixGroup extends LdapEntity
     static $mustFields = ["cn","gidNumber"];
     static $uniqueIdentifier = "cn";
 
-    /**
-     * @Attribute("cn")
-     *
-     * @Must()
-     */
     protected $cn;
 
 
     /**
      * Array with all the DNs of the users who are members
-     *
-     * @Attribute("memberUid")
-     *
-     * @ArrayField()
-     *
-     * @Must()
      */
     protected $memberUid;
 
     /**
      * Unique gid for this group
-     *
-     * @Attribute("gidNumber")
      *
      * @Assert\Type("integer")
      *
@@ -179,6 +159,11 @@ class PosixGroup extends LdapEntity
             throw new BadMethodCallException("Cant generate DN: cn is empty ('')");
         }
         return "cn=".$this->getCn().",ou=Group,dc=pbnl,dc=de";
+    }
+
+    public function addUser(User $user)
+    {
+        array_push($this->memberUid, $user->getDn());
     }
 
 }

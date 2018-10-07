@@ -114,4 +114,9 @@ class GroupRepository
         }
         return $group[0];
     }
+
+    public function updateGroup(PosixGroup $group)
+    {
+        $this->ldapEntityManager->persist($group);
+    }
 }

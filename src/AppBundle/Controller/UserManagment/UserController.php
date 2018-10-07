@@ -14,6 +14,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Debug\Exception\ContextErrorException;
 use Symfony\Component\Form\Extension\Core\Type\ButtonType;
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
@@ -111,6 +112,12 @@ class UserController extends Controller
                 'choices'  => ArrayMethods::valueToKeyAndValue($staemme),
                 'label' => "general.stamm"
             ))
+            ->add('wikiAcces', CheckboxType::class, array(
+                'mapped' => false,
+                "attr"=>["placeholder"=>"User.add.wikiAccess"],
+                'label' => "User.add.wikiAccess",
+                'required' => false
+            ))
             ->add("send", SubmitType::class, array(
                 "label"=>"general.create",
                 "attr"=>["class"=>"btn btn-lg btn-primary btn-block"]))
@@ -127,6 +134,21 @@ class UserController extends Controller
             //Create the new user
             try {
                 $user = $userRepo->addUser($user);
+
+                //We have to load the user to get the correct dn
+                $user = $userRepo->getUserByUid($user->getUid());
+
+                $groupRepo = $this->get("data.groupRepository");
+                $nordlichterGroup = $groupRepo->findByCn("nordlichter");
+                $nordlichterGroup->addUser($user);
+                $groupRepo->updateGroup($nordlichterGroup);
+
+                if ($addUserForm->get("wikiAcces")->getData()) {
+                    $wikiGroup = $groupRepo->findByCn("wiki");
+                    $wikiGroup->addUser($user);
+                    $groupRepo->updateGroup($wikiGroup);
+                }
+
                 $this->addFlash("success", "Benutzer ".$user->getUid()." hinzugefügt");
                 $addedSomeone = true;
             } catch (UserAlreadyExistException $e) {
