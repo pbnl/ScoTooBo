@@ -143,6 +143,12 @@ class UserController extends Controller
                 $nordlichterGroup->addUser($user);
                 $groupRepo->updateGroup($nordlichterGroup);
 
+                if($addUserForm->get("wikiAcces")->getData()) {
+                    $wikiGroup = $groupRepo->findByCn("wiki");
+                    $wikiGroup->addUser($user);
+                    $groupRepo->updateGroup($wikiGroup);
+                }
+
                 $this->addFlash("success", "Benutzer ".$user->getUid()." hinzugefügt");
                 $addedSomeone = true;
             } catch (UserAlreadyExistException $e) {
