@@ -52,8 +52,10 @@ class PosixGroupLdapHandler extends LdapEntryHandler
     {
         //TODO nicht alle attribute sollen/werden gestzt werden
         $data = array();
+        $data["objectClass"][0] = "posixGroup";
+        $data["cn"][0] = $element->getCn();
         $data["gidnumber"][0] = $element->getGidNumber();
-        $data["description"][0] = $element->getDescription();
+        empty($element->getDescription()) ? null : $data["description"][0] = $element->getDescription();
         foreach ($element->getMemberUid() as $key=>$memberUid) {
             $data["memberUid"][$key] = $memberUid;
         }
@@ -63,7 +65,7 @@ class PosixGroupLdapHandler extends LdapEntryHandler
 
         if (!$succses)
         {
-            throw new LdapPersistException("Cant update Ldap element");
+            throw new LdapPersistException("Cant update Ldap element: ". $ldapConnection->getError());
         }
     }
 
@@ -85,7 +87,7 @@ class PosixGroupLdapHandler extends LdapEntryHandler
 
         if (!$succses)
         {
-            throw new LdapPersistException("Cant add new Ldap element");
+            throw new LdapPersistException("Cant add new Ldap element". ldap_error($ldapConnection));
         }
 
     }

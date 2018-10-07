@@ -113,4 +113,5 @@ User.add.generatedPassword: Generiertes Passwort
 User.add.generatePassword: Generiere ein Passwort
 User.add.nameValue: Name des Wertes
 User.add.value: Wert
+User.add.wikiAccess: Wiki Zugang
 User.remove.ConfirmDialogText: Wollen sie wirklich den User %name% löschen?
