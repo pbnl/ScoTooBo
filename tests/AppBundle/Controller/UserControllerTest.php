@@ -83,6 +83,27 @@ class UserControllerTest extends WebTestCase
         $this->assertContains('Benutzer givenname123 hinzugefügt', $client->getResponse()->getContent());
     }
 
+    public function testAddUserInNordlichtGroup()
+    {
+        $client = TestTools::getLoggedInStavoAmbrone();
+        $crawler = $client->request('GET', '/users/add');
+
+        $form = $crawler->selectButton('Erstellen')->form();
+
+        $form['form[firstName]'] = 'firstName1234';
+        $form['form[lastName]'] = 'lastName1234';
+        $form['form[givenName]'] = 'givenNameInNordlichtGroup';
+        $form['form[clearPassword]'] = 'password1234';
+        $form['form[stamm]'] = 'Ambronen';
+
+        $client->submit($form);
+
+        $client->request('GET', '/groups/detail?groupCn=nordlichter');
+        $respons = $client->getResponse()->getContent();
+
+        $this->assertContains('givenNameInNordlichtGroup', $respons);
+    }
+
     public function testAddUserUserAlreadyExistException()
     {
         $client = TestTools::getLoggedInStavoAmbrone();

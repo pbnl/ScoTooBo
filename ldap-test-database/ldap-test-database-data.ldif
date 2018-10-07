@@ -153,11 +153,9 @@ createTimestamp: 20160905213353Z
 memberUid: givenName=TestAmbrone2,ou=Ambronen,ou=People,dc=pbnl,dc=de
 memberUid: givenName=TestAmbrone1,ou=Ambronen,ou=People,dc=pbnl,dc=de
 memberUid: givenName=TestBuvoUser,ou=Ambronen,ou=People,dc=pbnl,dc=de
-memberUid: givenName=NotExistingUser,ou=Ambronen,ou=People,dc=pbnl,dc=de
-memberUid: BadInput
-entryCSN: 20170712091402.564967Z#000000#000#000000
+entryCSN: 20181007175533.149849Z#000000#000#000000
 modifiersName: cn=admin,dc=pbnl,dc=de
-modifyTimestamp: 20170712091402Z
+modifyTimestamp: 20181007175533Z
 
 dn: cn=wiki,ou=Group,dc=pbnl,dc=de
 cn: wiki
