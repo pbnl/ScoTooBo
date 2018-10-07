@@ -1,0 +1,37 @@
+5a031fe9 using config directory /openldap, error 0
+5a031fe9 => ldif_readdir: directory "/openldap\cn=config": len: 19
+5a031fe9 => readdir: file ".": len: 1
+5a031fe9 => readdir: file "..": len: 2
+5a031fe9 => readdir: file "cn=module{0}.ldif": len: 17
+5a031fe9 => readdir after convert: file "cn=module{0}.ldif": len: 17
+5a031fe9 => readdir: file "cn=schema": len: 9
+5a031fe9 => readdir: file "cn=schema.ldif": len: 14
+5a031fe9 => readdir after convert: file "cn=schema.ldif": len: 14
+5a031fe9 => readdir: file "olcBackend={0}mdb.ldif": len: 22
+5a031fe9 => readdir after convert: file "olcBackend={0}mdb.ldif": len: 22
+5a031fe9 => readdir: file "olcDatabase={-1}frontend.ldif": len: 29
+5a031fe9 => readdir after convert: file "olcDatabase={-1}frontend.ldif": len: 29
+5a031fe9 => readdir: file "olcDatabase={0}config.ldif": len: 26
+5a031fe9 => readdir after convert: file "olcDatabase={0}config.ldif": len: 26
+5a031fe9 => ldif_readdir: directory "/openldap\cn=config\cn=module{0}": len: 32
+5a031fe9 => ldif_readdir: directory "/openldap\cn=config\cn=schema": len: 29
+5a031fe9 => readdir: file ".": len: 1
+5a031fe9 => readdir: file "..": len: 2
+5a031fe9 => readdir: file "cn={0}core.ldif": len: 15
+5a031fe9 => readdir after convert: file "cn={0}core.ldif": len: 15
+5a031fe9 => readdir: file "cn={1}cosine.ldif": len: 17
+5a031fe9 => readdir after convert: file "cn={1}cosine.ldif": len: 17
+5a031fe9 => readdir: file "cn={2}nis.ldif": len: 14
+5a031fe9 => readdir after convert: file "cn={2}nis.ldif": len: 14
+5a031fe9 => readdir: file "cn={3}inetorgperson.ldif": len: 24
+5a031fe9 => readdir after convert: file "cn={3}inetorgperson.ldif": len: 24
+5a031fe9 => readdir: file "cn={4}nordlicht.ldif": len: 20
+5a031fe9 => readdir after convert: file "cn={4}nordlicht.ldif": len: 20
+5a031fe9 => ldif_readdir: directory "/openldap\cn=config\cn=schema\cn={0}core": len: 40
+5a031fe9 => ldif_readdir: directory "/openldap\cn=config\cn=schema\cn={1}cosine": len: 42
+5a031fe9 => ldif_readdir: directory "/openldap\cn=config\cn=schema\cn={2}nis": len: 39
+5a031fe9 => ldif_readdir: directory "/openldap\cn=config\cn=schema\cn={3}inetorgperson": len: 49
+5a031fe9 => ldif_readdir: directory "/openldap\cn=config\cn=schema\cn={4}nordlicht": len: 45
+5a031fe9 => ldif_readdir: directory "/openldap\cn=config\olcBackend={0}mdb": len: 37
+5a031fe9 => ldif_readdir: directory "/openldap\cn=config\olcDatabase={-1}frontend": len: 44
+5a031fe9 => ldif_readdir: directory "/openldap\cn=config\olcDatabase={0}config": len: 41
