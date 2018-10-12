@@ -25,7 +25,7 @@ class UserController extends Controller
 {
     /**
      * @Route("/users/show/all", name="showAllUser")
-     * @Security("has_role('ROLE_elder')")
+     * @Security("has_role('ROLE_SHOW_ALL_USERS')")
      * @param Request $request
      * @return \Symfony\Component\HttpFoundation\Response
      */
@@ -155,17 +155,17 @@ class UserController extends Controller
         $userRepo = $this->get("data.userRepository");
 
         if ($request->get("uid", $loggedInUser->getUid()) != $loggedInUser->getUid()) {
-            $this->denyAccessUnlessGranted("ROLE_elder", null, "You are not allowed to see this user");
-
             $userToShow = $userRepo->getUserByUid($request->get("uid"));
         } else {
             $userToShow = $loggedInUser;
         }
 
+        $this->denyAccessUnlessGranted("view", $userToShow, "You are not allowed to see this user");
+
         $editUserForm = false;
         //is the user allowed to edit this user?
         //TODO add the ability for groupleaders to edit their users
-        if ($this->isLoggedInUserAllowedToEditShowenUser($loggedInUser, $userToShow)) {
+        if ($this->isGranted("edit", $userToShow)) {
             $editUserForm = $this->createFormBuilder($userToShow, ['attr' => ['class' => 'form-addAUser']])
                 ->add("firstName", TextType::class, array(
                     "attr" => ["placeholder" => "general.firstName"],
@@ -228,19 +228,6 @@ class UserController extends Controller
         ));
     }
 
-    private function isLoggedInUserAllowedToEditShowenUser($loggedInUser, $userToShow)
-    {
-        if ($userToShow->getUid() == $loggedInUser->getUid()){
-            return true;
-        } elseif ($this->get('security.authorization_checker')->isGranted('ROLE_EDIT_ALL_USERS')) {
-            return true;
-        } elseif ($this->get('security.authorization_checker')->isGranted('ROLE_stavo')
-            && $userToShow->getStamm() == $loggedInUser->getStamm()) {
-            return true;
-        }
-        return false;
-    }
-
     /**
      * @Route("/users/remove", name="removeUser")
      * @param Request $request
@@ -249,13 +236,12 @@ class UserController extends Controller
     public function removeUser(Request $request)
     {
         $uid = $request->get("uid", "");
-        $loggedInUser = $this->get('security.token_storage')->getToken()->getUser();
 
         try {
             $userRepo = $this->get("data.userRepository");
             $userToRemove = $userRepo->getUserByUid($uid);
 
-            if ($this->isLoggedInUserAllowedToDeleteUser($loggedInUser, $userToRemove)) {
+            if ($this->isGranted("remove", $userToRemove)) {
                 $userRepo->removeUser($userToRemove);
 
                 $this->addFlash("success", $uid." wurde gelöscht");
@@ -271,16 +257,5 @@ class UserController extends Controller
         }
 
         return $this->redirectToRoute("showAllUser");
-    }
-
-    private function isLoggedInUserAllowedToDeleteUser($loggedInUser, $userToRemove)
-    {
-        if ($this->get('security.authorization_checker')->isGranted('ROLE_REMOVE_ALL_USERS')) {
-            return true;
-        } elseif ($this->get('security.authorization_checker')->isGranted('ROLE_stavo')
-            && $userToRemove->getStamm() == $loggedInUser->getStamm()) {
-            return true;
-        }
-        return false;
     }
 }

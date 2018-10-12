@@ -36,7 +36,8 @@ security:
         ROLE_buvo: [ROLE_stavo, ROLE_EDIT_ALL_USERS, ROLE_REMOVE_ALL_USERS]
         ROLE_stavo: [ROLE_groupleader]
         ROLE_groupleader: [ROLE_elder]
-        ROLE_elder: [ROLE_nordlicht, ROLE_wiki]
+        ROLE_elder: [ROLE_nordlicht, ROLE_wiki, ROLE_SHOW_ALL_USERS]
 
         ROLE_EDIT_ALL_USERS:
         ROLE_REMOVE_ALL_USERS:
+        ROLE_SHOW_ALL_USERS:
