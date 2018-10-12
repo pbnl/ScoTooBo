@@ -14,27 +14,27 @@
                 <th class="filter-false">Nr</th>
                 <th>{% trans %}general.date{% endtrans %}</th>
                 {% if "name" in showParticipationFields %}
-                <th>{% trans %}general.name{% endtrans %}</th>
+                    <th>{% trans %}general.name{% endtrans %}</th>
                 {% endif %}
                 {% if "email" in showParticipationFields %}
-                <th>{% trans %}general.mail{% endtrans %}</th>
+                    <th>{% trans %}general.mail{% endtrans %}</th>
                 {% endif %}
                 {% if "address" in showParticipationFields %}
-                <th>{% trans %}general.address{% endtrans %}</th>
+                    <th>{% trans %}general.address{% endtrans %}</th>
                 {% endif %}
                 {% if "stamm" in showParticipationFields %}
-                <th>{% trans %}general.stamm{% endtrans %}</th>
+                    <th>{% trans %}general.stamm{% endtrans %}</th>
                 {% endif %}
                 {% if "group" in showParticipationFields %}
-                <th>{% trans %}general.group{% endtrans %}</th>
+                    <th>{% trans %}general.group{% endtrans %}</th>
                 {% endif %}
                 {% if "eat" in showParticipationFields %}
-                <th>{% trans %}general.pig{% endtrans %}</th>
-                <th>{% trans %}general.vegi{% endtrans %}</th>
-                <th>{% trans %}general.vega{% endtrans %}</th>
+                    <th>{% trans %}general.pig{% endtrans %}</th>
+                    <th>{% trans %}general.vegi{% endtrans %}</th>
+                    <th>{% trans %}general.vega{% endtrans %}</th>
                 {% endif %}
                 {% if "comment" in showParticipationFields %}
-                <th>{% trans %}general.comment{% endtrans %}</th>
+                    <th>{% trans %}general.comment{% endtrans %}</th>
                 {% endif %}
             </tr>
             </thead>
@@ -44,28 +44,28 @@
                     <td>{{ loop.index }}</td>
                     <td>{{ participation.datetimeRegistrationAsString }}</td>
                     {% if "name" in showParticipationFields %}
-                    <td>{{ participation.firstname }} {{ participation.lastname }}</td>
+                        <td>{{ participation.firstname }} {{ participation.lastname }}</td>
                     {% endif %}
                     {% if "email" in showParticipationFields %}
-                    <td>{{ participation.email }}</td>
+                        <td>{{ participation.email }}</td>
                     {% endif %}
                     {% if "address" in showParticipationFields %}
-                    <td>{{ participation.addressStreet }} {{ participation.addressNr }},<br>
-                        {{ participation.addressPlz }} {{ participation.addressCity }}</td>
+                        <td>{{ participation.addressStreet }} {{ participation.addressNr }},<br>
+                            {{ participation.addressPlz }} {{ participation.addressCity }}</td>
                     {% endif %}
                     {% if "stamm" in showParticipationFields %}
-                    <td>{{ participation.stamm }}</td>
+                        <td>{{ participation.stamm }}</td>
                     {% endif %}
                     {% if "group" in showParticipationFields %}
-                    <td>{{ participation.group }}</td>
+                        <td>{{ participation.group }}</td>
                     {% endif %}
                     {% if "eat" in showParticipationFields %}
-                    <td>{{ participation.pigAsString }}</td>
-                    <td>{{ participation.vegiAsString }}</td>
-                    <td>{{ participation.vegaAsString }}</td>
+                        <td>{{ participation.pigAsString }}</td>
+                        <td>{{ participation.vegiAsString }}</td>
+                        <td>{{ participation.vegaAsString }}</td>
                     {% endif %}
                     {% if "comment" in showParticipationFields %}
-                    <td>{{ participation.comment }}</td>
+                        <td>{{ participation.comment }}</td>
                     {% endif %}
                 </tr>
             {% endfor %}

@@ -85,73 +85,74 @@
 
     <script>
         {% for event in events %}
-        {% for field in possibleFormFields %}
-        {# $( "input[type='checkbox']" ).prop({ #}
-        /* reset of all field */
-        $( "#checkbox_{{ event.getId }}_{{ field[0] }}" ).prop({
-            disabled: false,
-            checked: false
-        });
-        $( "#checkbox_{{ event.getId }}_{{ field[0] }}_2" ).prop({
-            disabled: true,
-            checked: false
-        });
-
-        /* set default values */
-        {% if event.getInvitationLink==NULL %}
-        {% if field[2] == true %}
-            $( "#checkbox_{{ event.getId }}_{{ field[0] }}" ).prop({
-                checked: true
-            });
-            $( "#checkbox_{{ event.getId }}_{{ field[0] }}_2" ).prop({
-                disabled: false
-            });
-            {% if field[3] == true %}
+            {% for field in possibleFormFields %}
+                {# $( "input[type='checkbox']" ).prop({ #}
+                /* reset of all field */
+                $( "#checkbox_{{ event.getId }}_{{ field[0] }}" ).prop({
+                    disabled: false,
+                    checked: false
+                });
                 $( "#checkbox_{{ event.getId }}_{{ field[0] }}_2" ).prop({
-                    checked: true
-                });
-            {% endif %}
-        {% endif %}
-        {% endif %}
-
-        /* react on change of first checkbox */
-        $( "#checkbox_{{ event.getId }}_{{ field[0] }}" ).change(function() {
-            var $input = $( this );
-            if ($input.is( ":checked" )) {
-                /* enable second checkbox */
-                $( "#"+$input[0].id+"_2" ).prop({
-                    disabled: false
-                });
-            } else {
-                /* disselect and disable second checkbox */
-                $( "#"+$input[0].id+"_2" ).prop({
                     disabled: true,
                     checked: false
                 });
-            }
-        });
-        {% endfor %}
+
+                /* set default values */
+                {% if event.getInvitationLink==NULL %}
+                    {% if field[2] == true %}
+                        $( "#checkbox_{{ event.getId }}_{{ field[0] }}" ).prop({
+                            checked: true
+                        });
+                        $( "#checkbox_{{ event.getId }}_{{ field[0] }}_2" ).prop({
+                            disabled: false
+                        });
+                        {% if field[3] == true %}
+                            $( "#checkbox_{{ event.getId }}_{{ field[0] }}_2" ).prop({
+                                checked: true
+                            });
+                        {% endif %}
+                    {% endif %}
+                {% endif %}
+
+                /* react on change of first checkbox */
+                $( "#checkbox_{{ event.getId }}_{{ field[0] }}" ).change(function() {
+                    var $input = $( this );
+                    if ($input.is( ":checked" )) {
+                        /* enable second checkbox */
+                        $( "#"+$input[0].id+"_2" ).prop({
+                            disabled: false
+                        });
+                    } else {
+                        /* disselect and disable second checkbox */
+                        $( "#"+$input[0].id+"_2" ).prop({
+                            disabled: true,
+                            checked: false
+                        });
+                    }
+                });
+            {% endfor %}
         {% endfor %}
 
         /* more default values (from existing forms) */
         {% for event in events %}
-        {% if event.participationFields %}
-        {% for field in event.participationFieldsAsArray %}
-            {% if field[2] == true %}
-                $( "#checkbox_{{ event.getId }}_{{ field[0] }}" ).prop({
-                    checked: true
-                });
-                $( "#checkbox_{{ event.getId }}_{{ field[0] }}_2" ).prop({
-                    disabled: false
-                });
-                {% if field[3] == true %}
-                    $( "#checkbox_{{ event.getId }}_{{ field[0] }}_2" ).prop({
-                        checked: true
-                    });
-                {% endif %}
+            {% if event.participationFields %}
+                {% for field in event.participationFieldsAsArray %}
+                    {% if field[2] == true %}
+                        $( "#checkbox_{{ event.getId }}_{{ field[0] }}" ).prop({
+                            checked: true
+                        });
+                        $( "#checkbox_{{ event.getId }}_{{ field[0] }}_2" ).prop({
+                            disabled: false
+                        });
+                        {% if field[3] == true %}
+                            $( "#checkbox_{{ event.getId }}_{{ field[0] }}_2" ).prop({
+                                checked: true
+                            });
+                        {% endif %}
+                    {% endif %}
+                {% endfor %}
             {% endif %}
         {% endfor %}
-        {% endif %}
-        {% endfor %}
+
     </script>
 {% endblock %}

@@ -196,13 +196,6 @@ class EventController extends Controller
                 }
             }
             $jsonFields = json_encode($FormFields);
-            /*
-            foreach ($FormFields as list($tag, $label, $show, $required)) {
-                echo $tag."; ".$label."; ".$show."; ".$required."<br>";
-            }
-            echo $jsonFields;
-            */
-
 
 
             $link = $event->getInvitationLink();

@@ -41,67 +41,62 @@
             {% include 'includes/showFlashes.html.twig' %}
 
             {% if valid_now %}
-            {#
             {{ form_start(registrationAttendInvitationLink) }}
-            {{ form_widget(registrationAttendInvitationLink) }}
-            {{ form_end(registrationAttendInvitationLink) }}
-            #}
-            {{ form_start(registrationAttendInvitationLink) }}
-            <div id="form">
-                {% if "name" in showParticipationFields %}
-                <div class="form-group row">
-                    <label class="col-form-label col-md-2 form-control-label required">{% trans %}general.firstLastName{% endtrans %}:</label>
-                    <div class="col-md-5">
-                        {{ form_widget(registrationAttendInvitationLink.firstname) }}
+                <div id="form">
+                    {% if "name" in showParticipationFields %}
+                    <div class="form-group row">
+                        <label class="col-form-label col-md-2 form-control-label required">{% trans %}general.firstLastName{% endtrans %}:</label>
+                        <div class="col-md-5">
+                            {{ form_widget(registrationAttendInvitationLink.firstname) }}
+                        </div>
+                        <div class="col-md-5">
+                            {{ form_widget(registrationAttendInvitationLink.lastname) }}
+                        </div>
                     </div>
-                    <div class="col-md-5">
-                        {{ form_widget(registrationAttendInvitationLink.lastname) }}
+                    {% endif %}
+                    {% if "email" in showParticipationFields %}
+                    <div class="form-group row">
+                        <label class="col-form-label col-md-2 form-control-label required">{% trans %}general.mail{% endtrans %}:</label>
+                        <div class="col-md-10">
+                            {{ form_widget(registrationAttendInvitationLink.email) }}
+                        </div>
                     </div>
-                </div>
-                {% endif %}
-                {% if "email" in showParticipationFields %}
-                <div class="form-group row">
-                    <label class="col-form-label col-md-2 form-control-label required">{% trans %}general.mail{% endtrans %}:</label>
-                    <div class="col-md-10">
-                        {{ form_widget(registrationAttendInvitationLink.email) }}
+                    {% endif %}
+                    {% if "address" in showParticipationFields %}
+                    <div class="form-group row">
+                        <label class="col-form-label col-md-2 form-control-label required">{% trans %}general.streetAddressNr{% endtrans %}:</label>
+                        <div class="col-md-8">
+                            {{ form_widget(registrationAttendInvitationLink.address_street) }}
+                        </div>
+                        <div class="col-md-2">
+                            {{ form_widget(registrationAttendInvitationLink.address_nr) }}
+                        </div>
                     </div>
-                </div>
-                {% endif %}
-                {% if "address" in showParticipationFields %}
-                <div class="form-group row">
-                    <label class="col-form-label col-md-2 form-control-label required">{% trans %}general.streetAddressNr{% endtrans %}:</label>
-                    <div class="col-md-8">
-                        {{ form_widget(registrationAttendInvitationLink.address_street) }}
+                    <div class="form-group row">
+                        <label class="col-form-label col-md-2 form-control-label required">{% trans %}general.postalCodePlace{% endtrans %}:</label>
+                        <div class="col-md-2">
+                            {{ form_widget(registrationAttendInvitationLink.address_plz) }}
+                        </div>
+                        <div class="col-md-8">
+                            {{ form_widget(registrationAttendInvitationLink.address_city) }}
+                        </div>
                     </div>
-                    <div class="col-md-2">
-                        {{ form_widget(registrationAttendInvitationLink.address_nr) }}
-                    </div>
-                </div>
-                <div class="form-group row">
-                    <label class="col-form-label col-md-2 form-control-label required">{% trans %}general.postalCodePlace{% endtrans %}:</label>
-                    <div class="col-md-2">
-                        {{ form_widget(registrationAttendInvitationLink.address_plz) }}
-                    </div>
-                    <div class="col-md-8">
-                        {{ form_widget(registrationAttendInvitationLink.address_city) }}
-                    </div>
-                </div>
                 {% endif %}
                 {% if "stamm" in showParticipationFields %}
-                <div class="form-group row">
-                    <label class="col-form-label col-md-2 form-control-label required">{% trans %}general.stamm{% endtrans %}:</label>
-                    <div class="col-md-10">
-                        {{ form_widget(registrationAttendInvitationLink.stamm) }}
+                    <div class="form-group row">
+                        <label class="col-form-label col-md-2 form-control-label required">{% trans %}general.stamm{% endtrans %}:</label>
+                        <div class="col-md-10">
+                            {{ form_widget(registrationAttendInvitationLink.stamm) }}
+                        </div>
                     </div>
-                </div>
                 {% endif %}
                 {% if "group" in showParticipationFields %}
-                <div class="form-group row">
-                    <label class="col-form-label col-md-2 form-control-label required">{% trans %}general.group{% endtrans %}:</label>
-                    <div class="col-md-10">
-                        {{ form_widget(registrationAttendInvitationLink.group) }}
+                    <div class="form-group row">
+                        <label class="col-form-label col-md-2 form-control-label required">{% trans %}general.group{% endtrans %}:</label>
+                        <div class="col-md-10">
+                            {{ form_widget(registrationAttendInvitationLink.group) }}
+                        </div>
                     </div>
-                </div>
                 {% endif %}
                 {% if "eat" in showParticipationFields %}
                     <div class="form-group row">
@@ -121,12 +116,12 @@
                     </div>
                 {% endif %}
                 {% if "comment" in showParticipationFields %}
-                <div class="form-group row">
-                    <label class="col-form-label col-md-2 form-control-label required">{% trans %}general.comment{% endtrans %}:</label>
-                    <div class="col-md-10">
-                        {{ form_widget(registrationAttendInvitationLink.comment) }}
+                    <div class="form-group row">
+                        <label class="col-form-label col-md-2 form-control-label required">{% trans %}general.comment{% endtrans %}:</label>
+                        <div class="col-md-10">
+                            {{ form_widget(registrationAttendInvitationLink.comment) }}
+                        </div>
                     </div>
-                </div>
                 {% endif %}
                 <div class="form-group row">
                     <label class="col-form-label col-md-2 form-control-label required">{% trans %}general.captcha{% endtrans %}:</label>
