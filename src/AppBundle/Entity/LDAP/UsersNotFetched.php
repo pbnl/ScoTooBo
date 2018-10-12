@@ -1,6 +1,6 @@
 <?php
 
-namespace AppBundle\Model\Entity\LDAP;
+namespace AppBundle\Entity\LDAP;
 
 use Symfony\Component\Config\Definition\Exception\Exception;
 

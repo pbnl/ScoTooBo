@@ -1,0 +1,36 @@
+# docker-compose.yml
+version: '3.3'
+services:
+  php:
+    image: pbnl/scotoobo-php:dev
+    build:
+      context: .
+      dockerfile: docker/php-fpm/Dockerfile
+    environment:
+      - database_host=127.0.0.1
+      - database_port=3306
+      - database_name=scotoobo
+      - database_user=scotoobo
+      - database_password=secret
+      - ldap_base_dn=dc=pbnl,dc=de
+      - ldap_bind_d=ncn=admin,dc=pbnl,dc=de
+      - ldap_bind_password=admin
+      - ldap_server=127.0.0.1
+      - ldap_port=636
+      - ldap_tls=true
+      - mail_transport=smtp
+      - mail_host=127.0.0.1
+      - mailer_user=null
+      - mailer_password=null
+      - secret=null
+      - recaptcha_secret=gSiteSecret
+      - recaptcha_globalcode=gGlobalCode
+      # - LDAPTLS_REQCERT=never uncomment to disable cert validation
+
+  nginx:
+    image: pbnl/scotoobo-nginx:dev
+    build:
+      context: .
+      dockerfile: docker/nginx/Dockerfile
+    ports:
+    - "7080:80"

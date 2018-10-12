@@ -1,19 +1,18 @@
 version: 2
 jobs:
-    build:
+    test:
         docker:
-            - image: buildpack-deps:xenial
+            - image: buildpack-deps:bionic
         environment:
             TZ: "/usr/share/zoneinfo/America/Los_Angeles"
             DEBIAN_FRONTEND: "noninteractive"
-        working_directory: /var/www/html
         steps:
-            - run: apt-get update && apt-get -y install git unzip zlib1g-dev sudo php php7.0-mbstring php7.0-zip php7.0-xml php-xdebug php7.0-curl
+            - run: apt-get update && apt-get -y install git unzip zlib1g-dev sudo php php-mbstring php-zip php-xml php-xdebug php-curl php-mysql
             - checkout
             - run:
                 name: Install LDAP
                 command: |
-                    sudo DEBIAN_FRONTEND=noninteractive apt-get -yq --no-install-suggests --no-install-recommends install ldap-utils slapd php7.0-ldap ; \
+                    sudo DEBIAN_FRONTEND=noninteractive apt-get -yq --no-install-suggests --no-install-recommends install ldap-utils slapd php-ldap ; \
                     sudo service slapd stop ; \
                     sudo rm /etc/ldap/slapd.d/* -R ; \
                     sudo slapadd -n 0 -F /etc/ldap/slapd.d -l ./ldap-test-database/ldap-test-database-config.ldif ; \
@@ -26,10 +25,69 @@ jobs:
                 command: |
                     sudo debconf-set-selections <<< 'mysql-server mysql-server/root_password password secret' ; \
                     sudo debconf-set-selections <<< 'mysql-server mysql-server/root_password_again password secret' ; \
-                    sudo DEBIAN_FRONTEND=noninteractive apt-get -yq --no-install-suggests --no-install-recommends install php7.0-mysql mysql-server ; \
+                    sudo DEBIAN_FRONTEND=noninteractive apt-get -yq --no-install-suggests --no-install-recommends install php-mysql mysql-server ; \
                     sudo service mysql start ; \
                     mysql -u root -psecret < ./mysql-test-database/create-mysql-database.sql ; \
                     phpenmod pdo_mysql
             - run: php composer.phar install --no-interaction --dev
             - run: ./vendor/bin/phpunit
             - run: CODECLIMATE_REPO_TOKEN=1332fe188e0bb31283eeed1c18696c4e1a4b4be231ff9393e569c8b02a2f73d7 ./vendor/bin/test-reporter
+    build:
+        working_directory: /app
+        docker:
+        - image: docker:17.05.0-ce-git
+        steps:
+        - checkout
+        - setup_remote_docker
+        - run:
+              name: Install dependencies
+              command: |
+                  apk add --no-cache \
+                    py-pip
+                  pip install \
+                    docker-compose \
+                    awscli
+        - restore_cache:
+              keys:
+              - v1-{{ .Branch }}
+              paths:
+              - /caches/app.tar
+        - run:
+            name: Login to docker
+            command: |
+              docker login -u $DOCKER_USER -p $DOCKER_PASS
+        - run:
+              name: Load Docker image layer cache
+              command: |
+                  set +o pipefail
+                  docker load -i /caches/app.tar | true
+        - run:
+              name: Build application Docker image
+              command: |
+                  docker-compose build
+        - run:
+              name: Save Docker image layer cache
+              command: |
+                  mkdir -p /caches
+                  docker save -o /caches/app.tar pbnl/scotoobo-php
+        - run:
+              name: Push docker images
+              command: |
+                docker push pbnl/scotoobo-php
+                docker push pbnl/scotoobo-nginx
+        - save_cache:
+              key: v1-{{ .Branch }}-{{ epoch }}
+              paths:
+              - /caches/app.tar
+workflows:
+    version: 2
+    test_and_build:
+        jobs:
+        - test
+        - build:
+              requires:
+              - test
+              filters:
+                branches:
+                  only:
+                  - master

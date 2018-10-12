@@ -3,8 +3,8 @@
 namespace Tests\AppBundle\Entity;
 
 
-use AppBundle\Model\Entity\LDAP\PosixGroup;
-use AppBundle\Model\Entity\LDAP\UsersNotFetched;
+use AppBundle\Entity\LDAP\PosixGroup;
+use AppBundle\Entity\LDAP\UsersNotFetched;
 use AppBundle\Model\Services\UserRepository;
 use AppBundle\Model\User;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;

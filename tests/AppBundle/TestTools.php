@@ -9,7 +9,15 @@
 namespace Tests\AppBundle;
 
 
+use Nelmio\Alice\ObjectSet;
+use AppBundle\Model\User;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
+use Symfony\Component\BrowserKit\Cookie;
+use Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;
+use Symfony\Component\Serializer\Encoder\JsonEncoder;
+use Symfony\Component\Serializer\Encoder\XmlEncoder;
+use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
+use Symfony\Component\Serializer\Serializer;
 
 class TestTools extends WebtestCase
 {
@@ -18,29 +26,35 @@ class TestTools extends WebtestCase
     private static $loggedInBuvoUser= null;
     private static $loggedInTestGrueppling = null;
 
+    public static function getUserFromFile(string $path)
+    {
+        $encoders = array(new XmlEncoder(), new JsonEncoder());
+        $normalizers = array(new ObjectNormalizer());
+
+        $serializer = new Serializer($normalizers, $encoders);
+
+        $userAsJson = file_get_contents($path);
+
+        return $serializer->deserialize($userAsJson, User::class, 'json');
+    }
+
     public static function getLoggedInStavoAmbrone() {
-        if(TestTools::$loggedInStavoAmbrone == null) {
             //Correct login
             $client = static::createClient();
-            $client->request('GET', '/logout');
+            $session = $client->getContainer()->get('session');
 
+            $firewall = 'main';
+            $user = TestTools::getUserFromFile("user-test-data/StavoAmbrone.json");
+            $token = new UsernamePasswordToken($user, $user->getPassword(), $firewall, $user->getRoles());
+            $session->set('_security_'.$firewall, serialize($token));
+            $session->save();
 
-            $crawler = $client->request('GET', '/login');
-            $form = $crawler->selectButton('Login')->form();
-
-            $form['_username'] = 'TestAmbrone1';
-            $form['_password'] = 'test';
-
-            $client->submit($form);
-            $client->followRedirect();
+            $cookie = new Cookie($session->getName(), $session->getId());
+            $client->getCookieJar()->set($cookie);
 
             TestTools::$loggedInStavoAmbrone = $client;
 
             return $client;
-        }
-        else {
-            return TestTools::$loggedInStavoAmbrone;
-        }
     }
 
     public static function getLoggedInTronjer()
@@ -48,19 +62,18 @@ class TestTools extends WebtestCase
         if(TestTools::$loggedInTronjer == null) {
             //Correct login
             $client = static::createClient();
-            $client->request('GET', '/logout');
+            $session = $client->getContainer()->get('session');
 
+            $firewall = 'main';
+            $user = TestTools::getUserFromFile("user-test-data/Tronjer.json");
+            $token = new UsernamePasswordToken($user, $user->getPassword(), $firewall, $user->getRoles());
+            $session->set('_security_'.$firewall, serialize($token));
+            $session->save();
 
-            $crawler = $client->request('GET', '/login');
-            $form = $crawler->selectButton('Login')->form();
+            $cookie = new Cookie($session->getName(), $session->getId());
+            $client->getCookieJar()->set($cookie);
 
-            $form['_username'] = 'TestTronjer';
-            $form['_password'] = 'test';
-
-            $client->submit($form);
-            $client->followRedirect();
-
-            TestTools::$loggedInTronjer = $client;
+            TestTools::$loggedInStavoAmbrone = $client;
 
             return $client;
         }
@@ -74,19 +87,18 @@ class TestTools extends WebtestCase
         if(TestTools::$loggedInBuvoUser == null) {
             //Correct login
             $client = static::createClient();
-            $client->request('GET', '/logout');
+            $session = $client->getContainer()->get('session');
 
+            $firewall = 'main';
+            $user = TestTools::getUserFromFile("user-test-data/BuvoUser.json");
+            $token = new UsernamePasswordToken($user, $user->getPassword(), $firewall, $user->getRoles());
+            $session->set('_security_'.$firewall, serialize($token));
+            $session->save();
 
-            $crawler = $client->request('GET', '/login');
-            $form = $crawler->selectButton('Login')->form();
+            $cookie = new Cookie($session->getName(), $session->getId());
+            $client->getCookieJar()->set($cookie);
 
-            $form['_username'] = 'TestBuvoUser';
-            $form['_password'] = 'test';
-
-            $client->submit($form);
-            $client->followRedirect();
-
-            TestTools::$loggedInBuvoUser = $client;
+            TestTools::$loggedInStavoAmbrone = $client;
 
             return $client;
         }
@@ -100,24 +112,34 @@ class TestTools extends WebtestCase
         if(TestTools::$loggedInTestGrueppling == null) {
             //Correct login
             $client = static::createClient();
-            $client->request('GET', '/logout');
+            $session = $client->getContainer()->get('session');
 
+            $firewall = 'main';
+            $user = TestTools::getUserFromFile("user-test-data/TestGrueppling.json");
+            $token = new UsernamePasswordToken($user, $user->getPassword(), $firewall, $user->getRoles());
+            $session->set('_security_'.$firewall, serialize($token));
+            $session->save();
 
-            $crawler = $client->request('GET', '/login');
-            $form = $crawler->selectButton('Login')->form();
+            $cookie = new Cookie($session->getName(), $session->getId());
+            $client->getCookieJar()->set($cookie);
 
-            $form['_username'] = 'testgrueppling';
-            $form['_password'] = 'test';
-
-            $client->submit($form);
-            $client->followRedirect();
-
-            TestTools::$loggedInTestGrueppling = $client;
+            TestTools::$loggedInStavoAmbrone = $client;
 
             return $client;
         }
         else {
             return TestTools::$loggedInTestGrueppling;
         }
+    }
+
+    public static function objectSetToDataSet(ObjectSet $set)
+    {
+        $objects = $set->getObjects();
+        $dataSet = array();
+        foreach ($objects as $object)
+        {
+            array_push($dataSet, [$object]);
+        }
+        return $dataSet;
     }
 }

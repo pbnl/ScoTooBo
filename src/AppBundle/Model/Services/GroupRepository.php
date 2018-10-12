@@ -2,19 +2,19 @@
 
 namespace AppBundle\Model\Services;
 
-use AppBundle\Model\Entity\LDAP\PosixGroup;
+use AppBundle\Entity\LDAP\PosixGroup;
 use AppBundle\Model\Filter;
+use AppBundle\Model\LdapComponent\PbnlLdapEntityManager;
 use Monolog\Logger;
 use Symfony\Component\Config\Tests\Util\Validator;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
-use Ucsf\LdapOrmBundle\Ldap\LdapEntityManager;
 
 class GroupRepository
 {
     /**
      * A reference to the LdapEntityService to work with the ldap
      *
-     * @var LdapEntityManager
+     * @var PbnlLdapEntityManager
      */
     private $ldapEntityManager;
 
@@ -40,10 +40,10 @@ class GroupRepository
      * The ldapManager of the LDAPBundle
      *
      * @param Logger $logger
-     * @param LdapEntityManager $ldapEntityManager
+     * @param PbnlLdapEntityManager $ldapEntityManager
      * @param ValidatorInterface $validator
      */
-    public function __construct(Logger $logger, LdapEntityManager $ldapEntityManager, ValidatorInterface $validator)
+    public function __construct(Logger $logger, PbnlLdapEntityManager $ldapEntityManager, ValidatorInterface $validator)
     {
         $this->ldapEntityManager = $ldapEntityManager;
         $this->logger = $logger;
@@ -113,5 +113,10 @@ class GroupRepository
             throw new GroupNotFoundException("We cant find the group ".$cn);
         }
         return $group[0];
+    }
+
+    public function updateGroup(PosixGroup $group)
+    {
+        $this->ldapEntityManager->persist($group);
     }
 }

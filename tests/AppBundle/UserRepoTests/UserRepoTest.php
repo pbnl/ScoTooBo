@@ -2,8 +2,10 @@
 
 namespace Tests\AppBundle\UserServiceTests;
 
-use AppBundle\Model\Entity\LDAP\PbnlAccount;
-use AppBundle\Model\Entity\LDAP\PosixGroup;
+use AppBundle\Entity\LDAP\PbnlAccount;
+use AppBundle\Entity\LDAP\PosixGroup;
+use AppBundle\Model\LdapComponent\PbnlLdapEntityManager;
+use AppBundle\Model\LdapComponent\Repositories\Repository;
 use AppBundle\Model\Services\CorruptDataInDatabaseException;
 use AppBundle\Model\Services\GroupRepository;
 use AppBundle\Model\Services\UserAlreadyExistException;
@@ -15,8 +17,6 @@ use AppBundle\Model\User;
 use Monolog\Logger;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\Security\Core\Exception\UsernameNotFoundException;
-use Ucsf\LdapOrmBundle\Ldap\LdapEntityManager;
-use Ucsf\LdapOrmBundle\Repository\Repository;
 use Symfony\Component\Validator\Validation;
 
 class UserRepoTest extends WebTestCase
@@ -84,6 +84,8 @@ class UserRepoTest extends WebTestCase
 
         $pbnlAccount = new PbnlAccount();
         $pbnlAccount->setMail("wrongMail.de");
+        $pbnlAccount->setGivenName("testGivenName");
+        $pbnlAccount->setOu("testOu");
 
         $groupRepo = $this->createMock(GroupRepository::class);
         $groupRepo->expects($this->once())
@@ -102,6 +104,8 @@ class UserRepoTest extends WebTestCase
     {
         $pbnlAccount = new PbnlAccount();
         $pbnlAccount->setUid("Tefefg");
+        $pbnlAccount->setGivenName("testGivenName");
+        $pbnlAccount->setOu("testOu");
 
         $groupRepo = $this->createMock(GroupRepository::class);
         $groupRepo->expects($this->once())
@@ -120,6 +124,8 @@ class UserRepoTest extends WebTestCase
     {
         $pbnlAccount = new PbnlAccount();
         $pbnlAccount->setUid("teäfefg");
+        $pbnlAccount->setGivenName("testGivenName");
+        $pbnlAccount->setOu("testOu");
 
         $groupRepo = $this->createMock(GroupRepository::class);
         $groupRepo->expects($this->once())
@@ -138,6 +144,8 @@ class UserRepoTest extends WebTestCase
     {
         $pbnlAccount = new PbnlAccount();
         $pbnlAccount->setUid("tefßefg");
+        $pbnlAccount->setGivenName("testGivenName");
+        $pbnlAccount->setOu("testOu");
 
         $groupRepo = $this->createMock(GroupRepository::class);
         $groupRepo->expects($this->once())
@@ -156,6 +164,8 @@ class UserRepoTest extends WebTestCase
     {
         $pbnlAccount = new PbnlAccount();
         $pbnlAccount->setUid("tef efg");
+        $pbnlAccount->setGivenName("testGivenName");
+        $pbnlAccount->setOu("testOu");
 
         $groupRepo = $this->createMock(GroupRepository::class);
         $groupRepo->expects($this->once())
@@ -171,26 +181,6 @@ class UserRepoTest extends WebTestCase
         $this->assertEquals("tef_efg", $user->getUid());
     }
 
-    public function testCorruptDataInDatabaseExceptionPLZ()
-    {
-        $this->expectException(CorruptDataInDatabaseException::class);
-
-        $pbnlAccount = new PbnlAccount();
-        $pbnlAccount->setPostalCode("123w45");
-
-        $groupRepo = $this->createMock(GroupRepository::class);
-        $groupRepo->expects($this->once())
-            ->method("findAll")
-            ->willReturn([]);
-
-        $userRepo = new UserRepository(new Logger("main"),
-            $this->mockLdapEntityManager($pbnlAccount),
-            Validation::createValidatorBuilder()->enableAnnotationMapping()->getValidator(),
-            $groupRepo);
-
-        $userRepo->getUserByUid("test");
-    }
-
     /**
      *
      */
@@ -198,7 +188,6 @@ class UserRepoTest extends WebTestCase
     {
         $ssha = SSHA::sshaPasswordGenWithGivenSalt("password","12345678");
         $expectedPbnlAccount = new PbnlAccount();
-        $expectedPbnlAccount->setObjectClass(["inetOrgPerson","posixAccount","pbnlAccount"]);
         $expectedPbnlAccount->setL("hamburg");
         $expectedPbnlAccount->setOu("ambronen");
         $expectedPbnlAccount->setStreet("street");
@@ -254,7 +243,7 @@ class UserRepoTest extends WebTestCase
             ->method("findAll")
             ->willReturn([]);
 
-        $ldapEntityManager = $this->createMock(LdapEntityManager::class);
+        $ldapEntityManager = $this->createMock(PbnlLdapEntityManager::class);
         $ldapEntityManager->expects($this->any())
             ->method("getRepository")
             ->with($this->equalTo(PbnlAccount::class))
@@ -278,7 +267,6 @@ class UserRepoTest extends WebTestCase
         $this->expectException(UserAlreadyExistException::class);
 
         $expectedPbnlAccount = new PbnlAccount();
-        $expectedPbnlAccount->setObjectClass(["inetOrgPerson","posixAccount","pbnlAccount"]);
         $expectedPbnlAccount->setL("hamburg");
         $expectedPbnlAccount->setOu("ambronen");
         $expectedPbnlAccount->setStreet("street");
@@ -317,7 +305,7 @@ class UserRepoTest extends WebTestCase
                 [$this->equalTo('findByUidNumber'), $this->equalTo(["1234"])])
             ->willReturnOnConsecutiveCalls($expectedPbnlAccount,[]);
 
-        $ldapEntityManager = $this->createMock(LdapEntityManager::class);
+        $ldapEntityManager = $this->createMock(PbnlLdapEntityManager::class);
         $ldapEntityManager->expects($this->any())
             ->method("getRepository")
             ->with($this->equalTo(PbnlAccount::class))
@@ -340,7 +328,6 @@ class UserRepoTest extends WebTestCase
 
         /** @var PbnlAccount $expectedPbnlAccount */
         $expectedPbnlAccount = new PbnlAccount();
-        $expectedPbnlAccount->setObjectClass(["inetOrgPerson","posixAccount","pbnlAccount"]);
         $expectedPbnlAccount->setL("hamburg");
         $expectedPbnlAccount->setOu("ambronen");
         $expectedPbnlAccount->setStreet("street");
@@ -379,7 +366,7 @@ class UserRepoTest extends WebTestCase
                 [$this->equalTo('findByUidNumber'), $this->equalTo(["1234"])])
             ->willReturnOnConsecutiveCalls([],$expectedPbnlAccount);
 
-        $ldapEntityManager = $this->createMock(LdapEntityManager::class);
+        $ldapEntityManager = $this->createMock(PbnlLdapEntityManager::class);
         $ldapEntityManager->expects($this->any())
             ->method("getRepository")
             ->withConsecutive(
@@ -405,14 +392,13 @@ class UserRepoTest extends WebTestCase
         $oldPbnlAccount = new PbnlAccount();
         $oldPbnlAccount->setL("teststadtOld");
         $oldPbnlAccount->setUid("testuid");
-        $oldPbnlAccount->setUserPassword();
+        $oldPbnlAccount->setUserPassword("");
 
         $newPbnlAccount = new PbnlAccount();
         $newPbnlAccount->setL("teststadtNew");
         $newPbnlAccount->setUid("testuid");
         $newPbnlAccount->setGidNumber("501");
         $newPbnlAccount->setHomeDirectory("/home/testuid");
-        $newPbnlAccount->setObjectClass(["inetOrgPerson","posixAccount","pbnlAccount"]);
         $newPbnlAccount->setUserPassword($sshaPassword);
 
 
@@ -429,7 +415,7 @@ class UserRepoTest extends WebTestCase
                 [$this->equalTo('findByUid'), $this->equalTo(["testuid"])])
             ->willReturnOnConsecutiveCalls($oldPbnlAccount);
 
-        $ldapEntityManager = $this->createMock(LdapEntityManager::class);
+        $ldapEntityManager = $this->createMock(PbnlLdapEntityManager::class);
         $ldapEntityManager->expects($this->any())
             ->method("getRepository")
             ->withConsecutive(
@@ -464,7 +450,7 @@ class UserRepoTest extends WebTestCase
                 [$this->equalTo('findByUidNumber'), $this->equalTo(["0"])])
             ->willReturnOnConsecutiveCalls([],[]);
 
-        $ldapEntityManager = $this->createMock(LdapEntityManager::class);
+        $ldapEntityManager = $this->createMock(PbnlLdapEntityManager::class);
         $ldapEntityManager->expects($this->any())
             ->method("getRepository")
             ->with($this->equalTo(PbnlAccount::class))
@@ -495,7 +481,7 @@ class UserRepoTest extends WebTestCase
                 [$this->equalTo('findByUidNumber'), $this->equalTo(["0"])])
             ->willReturnOnConsecutiveCalls(["",""],["",""]);
 
-        $ldapEntityManager = $this->createMock(LdapEntityManager::class);
+        $ldapEntityManager = $this->createMock(PbnlLdapEntityManager::class);
         $ldapEntityManager->expects($this->any())
             ->method("getRepository")
             ->with($this->equalTo(PbnlAccount::class))
@@ -525,7 +511,7 @@ class UserRepoTest extends WebTestCase
         $pbnlAccountRepo->expects($this->once())
             ->method("findAll")
             ->willReturn($uidNumberUsers);
-        $ldapEntityManager = $this->createMock(LdapEntityManager::class);
+        $ldapEntityManager = $this->createMock(PbnlLdapEntityManager::class);
         $ldapEntityManager->expects($this->once())
             ->method("getRepository")
             ->with($this->equalTo(PbnlAccount::class))
@@ -551,7 +537,6 @@ class UserRepoTest extends WebTestCase
         $toDeletePbnlAccount->setUid("testuid");
         $toDeletePbnlAccount->setGidNumber("501");
         $toDeletePbnlAccount->setHomeDirectory("/home/testuid");
-        $toDeletePbnlAccount->setObjectClass(["inetOrgPerson","posixAccount","pbnlAccount"]);
         $toDeletePbnlAccount->setUidNumber("0");
         $toDeletePbnlAccount->setUserPassword($ssha);
 
@@ -563,7 +548,7 @@ class UserRepoTest extends WebTestCase
                 [$this->equalTo('findByUidNumber'), $this->equalTo(["0"])])
             ->willReturnOnConsecutiveCalls([""],[""]);
 
-        $ldapEntityManager = $this->createMock(LdapEntityManager::class);
+        $ldapEntityManager = $this->createMock(PbnlLdapEntityManager::class);
         $ldapEntityManager->expects($this->any())
             ->method("getRepository")
             ->with($this->equalTo(PbnlAccount::class))
@@ -590,7 +575,6 @@ class UserRepoTest extends WebTestCase
         $toDeletePbnlAccount->setUid("testuid");
         $toDeletePbnlAccount->setGidNumber("501");
         $toDeletePbnlAccount->setHomeDirectory("/home/testuid");
-        $toDeletePbnlAccount->setObjectClass(["inetOrgPerson","posixAccount","pbnlAccount"]);
         $toDeletePbnlAccount->setUidNumber("0");
 
         $pbnlAccountRepo = $this->createMock(Repository::class);
@@ -601,7 +585,7 @@ class UserRepoTest extends WebTestCase
                 [$this->equalTo('findByUidNumber'), $this->equalTo(["0"])])
             ->willReturnOnConsecutiveCalls([],[]);
 
-        $ldapEntityManager = $this->createMock(LdapEntityManager::class);
+        $ldapEntityManager = $this->createMock(PbnlLdapEntityManager::class);
         $ldapEntityManager->expects($this->any())
             ->method("getRepository")
             ->with($this->equalTo(PbnlAccount::class))
@@ -629,7 +613,6 @@ class UserRepoTest extends WebTestCase
         $toDeletePbnlAccount->setUid("testuid");
         $toDeletePbnlAccount->setGidNumber("501");
         $toDeletePbnlAccount->setHomeDirectory("/home/testuid");
-        $toDeletePbnlAccount->setObjectClass(["inetOrgPerson","posixAccount","pbnlAccount"]);
         $toDeletePbnlAccount->setUidNumber("0");
 
         $pbnlAccountRepo = $this->createMock(Repository::class);
@@ -640,7 +623,7 @@ class UserRepoTest extends WebTestCase
                 [$this->equalTo('findByUidNumber'), $this->equalTo(["0"])])
             ->willReturnOnConsecutiveCalls(["",""],[]);
 
-        $ldapEntityManager = $this->createMock(LdapEntityManager::class);
+        $ldapEntityManager = $this->createMock(PbnlLdapEntityManager::class);
         $ldapEntityManager->expects($this->any())
             ->method("getRepository")
             ->with($this->equalTo(PbnlAccount::class))
@@ -661,14 +644,22 @@ class UserRepoTest extends WebTestCase
     public function testFindUserByDn()
     {
         $expectedUser = new User("uid", "", "", ["ROLE_USER"]);
+        $expectedUser->setGivenName("testGivenName");
+        $expectedUser->setStamm("testOu");
+        $expectedUser->setDn("givenName=testGivenName,ou=testOu,ou=People,dc=pbnl,dc=de");
 
         $pbnlAccount = new PbnlAccount();
         $pbnlAccount->setUid("uid");
+        $pbnlAccount->setGivenName("testGivenName");
+        $pbnlAccount->setOu("testOu");
 
-        $ldapEntityManager = $this->createMock(LdapEntityManager::class);
+        $ldapEntityManager = $this->createMock(PbnlLdapEntityManager::class);
         $ldapEntityManager->expects($this->once())
             ->method("retrieveByDn")
-            ->with("testDn")
+            ->with(
+                $this->equalTo('testDn'),
+                $this->equalTo("AppBundle\Entity\LDAP\PbnlAccount")
+            )
             ->willReturn([$pbnlAccount]);
 
         $groupRepo = $this->createMock(GroupRepository::class);
@@ -692,7 +683,7 @@ class UserRepoTest extends WebTestCase
      *
      *
      * @param $pbnlAccounts
-     * @return \PHPUnit_Framework_MockObject_MockObject|LdapEntityManager
+     * @return \PHPUnit_Framework_MockObject_MockObject|PbnlLdapEntityManager
      */
     public function mockLdapEntityManager($pbnlAccounts) {
 
@@ -704,7 +695,7 @@ class UserRepoTest extends WebTestCase
                 $this->equalTo(["test"]))
             ->willReturn($pbnlAccounts);
 
-        $ldapEntityManager = $this->createMock(LdapEntityManager::class);
+        $ldapEntityManager = $this->createMock(PbnlLdapEntityManager::class);
         $ldapEntityManager->expects($this->any())
             ->method("getRepository")
             ->with($this->equalTo(PbnlAccount::class))

@@ -8,7 +8,7 @@ if [ $EUID != 0 ]; then
     elif which gksudo 1>/dev/null 2>&1 ; then
         gksudo "$0" "$@"
     else
-        sudo "$0" "$@"
+        echo "$1" | sudo -S"$0" "$@"
     fi
     exit $?
 fi

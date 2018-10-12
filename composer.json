@@ -2,7 +2,7 @@
     "name": "scotoobo",
     "license": "proprietary",
     "type": "project",
-    "minimum-stability":"dev",
+    "minimum-stability":"stable",
     "autoload": {
         "psr-4": {
             "": "src/"
@@ -22,7 +22,6 @@
     },
     "require": {
         "php": ">=5.5.9",
-        "ucsf/ldaporm-bundle": "dev-dev-bugfix-entitypersist",
         "doctrine/doctrine-bundle": "^1.6",
         "doctrine/orm": "^2.5",
         "incenteev/composer-parameter-handler": "^2.0",
@@ -36,13 +35,13 @@
     },
     "require-dev": {
         "codeclimate/php-test-reporter": "dev-master",
+        "nelmio/alice": "^3.1@dev",
         "phpunit/phpunit": "^6.1",
         "sensio/generator-bundle": "^3.0",
         "symfony/phpunit-bridge": "^3.0"
     },
     "scripts": {
         "symfony-scripts": [
-            "Incenteev\\ParameterHandler\\ScriptHandler::buildParameters",
             "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::buildBootstrap",
             "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::clearCache",
             "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::installAssets",
@@ -66,9 +65,6 @@
         "symfony-web-dir": "web",
         "symfony-tests-dir": "tests",
         "symfony-assets-install": "relative",
-        "incenteev-parameters": {
-            "file": "app/config/parameters.yml"
-        },
         "branch-alias": null
     },
     "repositories": [

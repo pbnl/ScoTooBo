@@ -1,0 +1,23 @@
+{
+  "uid":"testgrueppling",
+  "givenName":"TestGrueppling",
+  "firstName":"",
+  "lastName":"",
+  "uidNumber":818,
+  "mail":"",
+  "mobilePhoneNumber":"",
+  "postalCode":"",
+  "street":"",
+  "homePhoneNumber":"",
+  "city":"",
+  "dn":"givenName=TestGrüppling,ou=Ambronen,ou=People,dc=pbnl,dc=de",
+  "username":"TestAmbrone1",
+  "clearPassword":"",
+  "generatedPassword":"",
+  "shaHashedPassword":"",
+  "stamm":"Ambronen",
+  "roles":["ROLE_ambronen",
+    "ROLE_USER"],
+  "password":"",
+  "salt":""
+}

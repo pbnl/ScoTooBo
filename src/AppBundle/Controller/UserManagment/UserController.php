@@ -14,6 +14,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Debug\Exception\ContextErrorException;
 use Symfony\Component\Form\Extension\Core\Type\ButtonType;
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
@@ -25,7 +26,7 @@ class UserController extends Controller
 {
     /**
      * @Route("/users/show/all", name="showAllUser")
-     * @Security("has_role('ROLE_elder')")
+     * @Security("has_role('ROLE_SHOW_ALL_USERS')")
      * @param Request $request
      * @return \Symfony\Component\HttpFoundation\Response
      */
@@ -111,6 +112,12 @@ class UserController extends Controller
                 'choices'  => ArrayMethods::valueToKeyAndValue($staemme),
                 'label' => "general.stamm"
             ))
+            ->add('wikiAcces', CheckboxType::class, array(
+                'mapped' => false,
+                "attr"=>["placeholder"=>"User.add.wikiAccess"],
+                'label' => "User.add.wikiAccess",
+                'required' => false
+            ))
             ->add("send", SubmitType::class, array(
                 "label"=>"general.create",
                 "attr"=>["class"=>"btn btn-lg btn-primary btn-block"]))
@@ -127,6 +134,21 @@ class UserController extends Controller
             //Create the new user
             try {
                 $user = $userRepo->addUser($user);
+
+                //We have to load the user to get the correct dn
+                $user = $userRepo->getUserByUid($user->getUid());
+
+                $groupRepo = $this->get("data.groupRepository");
+                $nordlichterGroup = $groupRepo->findByCn("nordlichter");
+                $nordlichterGroup->addUser($user);
+                $groupRepo->updateGroup($nordlichterGroup);
+
+                if ($addUserForm->get("wikiAcces")->getData()) {
+                    $wikiGroup = $groupRepo->findByCn("wiki");
+                    $wikiGroup->addUser($user);
+                    $groupRepo->updateGroup($wikiGroup);
+                }
+
                 $this->addFlash("success", "Benutzer ".$user->getUid()." hinzugefügt");
                 $addedSomeone = true;
             } catch (UserAlreadyExistException $e) {
@@ -155,17 +177,17 @@ class UserController extends Controller
         $userRepo = $this->get("data.userRepository");
 
         if ($request->get("uid", $loggedInUser->getUid()) != $loggedInUser->getUid()) {
-            $this->denyAccessUnlessGranted("ROLE_elder", null, "You are not allowed to see this user");
-
             $userToShow = $userRepo->getUserByUid($request->get("uid"));
         } else {
             $userToShow = $loggedInUser;
         }
 
+        $this->denyAccessUnlessGranted("view", $userToShow, "You are not allowed to see this user");
+
         $editUserForm = false;
         //is the user allowed to edit this user?
         //TODO add the ability for groupleaders to edit their users
-        if ($this->isLoggedInUserAllowedToEditShowenUser($loggedInUser, $userToShow)) {
+        if ($this->isGranted("edit", $userToShow)) {
             $editUserForm = $this->createFormBuilder($userToShow, ['attr' => ['class' => 'form-addAUser']])
                 ->add("firstName", TextType::class, array(
                     "attr" => ["placeholder" => "general.firstName"],
@@ -228,19 +250,6 @@ class UserController extends Controller
         ));
     }
 
-    private function isLoggedInUserAllowedToEditShowenUser($loggedInUser, $userToShow)
-    {
-        if ($userToShow->getUid() == $loggedInUser->getUid()){
-            return true;
-        } elseif ($this->get('security.authorization_checker')->isGranted('ROLE_EDIT_ALL_USERS')) {
-            return true;
-        } elseif ($this->get('security.authorization_checker')->isGranted('ROLE_stavo')
-            && $userToShow->getStamm() == $loggedInUser->getStamm()) {
-            return true;
-        }
-        return false;
-    }
-
     /**
      * @Route("/users/remove", name="removeUser")
      * @param Request $request
@@ -249,13 +258,12 @@ class UserController extends Controller
     public function removeUser(Request $request)
     {
         $uid = $request->get("uid", "");
-        $loggedInUser = $this->get('security.token_storage')->getToken()->getUser();
 
         try {
             $userRepo = $this->get("data.userRepository");
             $userToRemove = $userRepo->getUserByUid($uid);
 
-            if ($this->isLoggedInUserAllowedToDeleteUser($loggedInUser, $userToRemove)) {
+            if ($this->isGranted("remove", $userToRemove)) {
                 $userRepo->removeUser($userToRemove);
 
                 $this->addFlash("success", $uid." wurde gelöscht");
@@ -271,16 +279,5 @@ class UserController extends Controller
         }
 
         return $this->redirectToRoute("showAllUser");
-    }
-
-    private function isLoggedInUserAllowedToDeleteUser($loggedInUser, $userToRemove)
-    {
-        if ($this->get('security.authorization_checker')->isGranted('ROLE_REMOVE_ALL_USERS')) {
-            return true;
-        } elseif ($this->get('security.authorization_checker')->isGranted('ROLE_stavo')
-            && $userToRemove->getStamm() == $loggedInUser->getStamm()) {
-            return true;
-        }
-        return false;
     }
 }

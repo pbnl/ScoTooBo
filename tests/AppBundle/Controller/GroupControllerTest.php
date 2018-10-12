@@ -9,62 +9,71 @@ class GroupControllerTest extends WebTestCase
 {
     public function testShowAllGroupsTestAmbrone()
     {
-        $crawler = TestTools::getLoggedInStavoAmbrone()->request('GET', '/groups/show/all');
-        $this->assertContains('ambronen', TestTools::getLoggedInStavoAmbrone()->getResponse()->getContent());
-        $this->assertContains('webmaster@schulung.pbnl.de', TestTools::getLoggedInStavoAmbrone()->getResponse()->getContent());
-        $this->assertNotContains('buvo', TestTools::getLoggedInStavoAmbrone()->getResponse()->getContent());
+        $client = TestTools::getLoggedInStavoAmbrone();
+        $crawler = $client->request('GET', '/groups/show/all');
+        $this->assertContains('ambronen', $client->getResponse()->getContent());
+        $this->assertContains('webmaster@schulung.pbnl.de', $client->getResponse()->getContent());
+        $this->assertNotContains('buvo', $client->getResponse()->getContent());
     }
 
     public function testShowAllGroupsTestTronjer()
     {
-        $crawler = TestTools::getLoggedInTronjer()->request('GET', '/groups/show/all');
-        $this->assertContains('elder', TestTools::getLoggedInTronjer()->getResponse()->getContent());
-        $this->assertNotContains('buvo', TestTools::getLoggedInTronjer()->getResponse()->getContent());
+        $client = TestTools::getLoggedInTronjer();
+        $crawler = $client->request('GET', '/groups/show/all');
+        $this->assertContains('elder', $client->getResponse()->getContent());
+        $this->assertNotContains('buvo', $client->getResponse()->getContent());
     }
 
     public function testShowAllGroupsTestBuvoUser()
     {
-        $crawler = TestTools::getLoggedInBuvoUser()->request('GET', '/groups/show/all');
-        $this->assertContains('elder', TestTools::getLoggedInBuvoUser()->getResponse()->getContent());
-        $this->assertContains('buvo', TestTools::getLoggedInBuvoUser()->getResponse()->getContent());
-        $this->assertContains('schulung', TestTools::getLoggedInBuvoUser()->getResponse()->getContent());
+        $client = TestTools::getLoggedInBuvoUser();
+        $crawler = $client->request('GET', '/groups/show/all');
+        $this->assertContains('elder', $client->getResponse()->getContent());
+        $this->assertContains('buvo', $client->getResponse()->getContent());
+        $this->assertContains('schulung', $client->getResponse()->getContent());
     }
 
     public function testShowAllGroupsTestGrueppling()
     {
-        $crawler = TestTools::getLoggedInTestGrueppling()->request('GET', '/groups/show/all');
-        $this->assertEquals("403",TestTools::getLoggedInTestGrueppling()->getResponse()->getStatusCode());
+        $client = TestTools::getLoggedInTestGrueppling();
+        $crawler = $client->request('GET', '/groups/show/all');
+        $this->assertEquals("403",$client->getResponse()->getStatusCode());
     }
 
 
     public function testShowDetailGroup()
     {
-        $crawler = TestTools::getLoggedInStavoAmbrone()->request("GET","/groups/detail?groupCn=schulung");
+        $client = TestTools::getLoggedInStavoAmbrone();
+        $crawler = $client->request("GET","/groups/detail?groupCn=schulung");
 
-        $this->assertEquals("200",TestTools::getLoggedInStavoAmbrone()->getResponse()->getStatusCode());
+        $this->assertEquals("200",$client->getResponse()->getStatusCode());
 
-        $this->assertContains("TestAmbrone1", TestTools::getLoggedInStavoAmbrone()->getResponse()->getContent());
+        $this->assertContains("TestAmbrone1", $client->getResponse()->getContent());
 
-        $crawler = TestTools::getLoggedInStavoAmbrone()->request("GET","/groups/detail?groupCn=groupWithMailingList");
+        $client = TestTools::getLoggedInStavoAmbrone();
+        $crawler = $client->request("GET","/groups/detail?groupCn=groupWithMailingList");
 
-        $this->assertEquals("200",TestTools::getLoggedInStavoAmbrone()->getResponse()->getStatusCode());
+        var_dump($client->getResponse()->getContent());
 
-        $this->assertContains("TestAmbrone2", TestTools::getLoggedInStavoAmbrone()->getResponse()->getContent());
-        $this->assertContains("TestBuvoUser", TestTools::getLoggedInStavoAmbrone()->getResponse()->getContent());
-        $this->assertContains("TestAmbrone1", TestTools::getLoggedInStavoAmbrone()->getResponse()->getContent());
+        $this->assertEquals("200",$client->getResponse()->getStatusCode());
+
+        $this->assertContains("TestAmbrone2", $client->getResponse()->getContent());
+        $this->assertContains("TestBuvoUser", $client->getResponse()->getContent());
+        $this->assertContains("TestAmbrone1", $client->getResponse()->getContent());
     }
 
     public function testShowDetailGroupUserDoesNotExist()
     {
-        $crawler = TestTools::getLoggedInStavoAmbrone()->request("GET","/groups/detail?groupCn=groupWithMailingList");
+        $client = TestTools::getLoggedInStavoAmbrone();
+        $crawler = $client->request("GET","/groups/detail?groupCn=groupWithMailingList");
 
-        $this->assertEquals("200",TestTools::getLoggedInStavoAmbrone()->getResponse()->getStatusCode());
+        $this->assertEquals("200",$client->getResponse()->getStatusCode());
 
-        $this->assertContains("TestAmbrone2", TestTools::getLoggedInStavoAmbrone()->getResponse()->getContent());
-        $this->assertContains("TestBuvoUser", TestTools::getLoggedInStavoAmbrone()->getResponse()->getContent());
-        $this->assertContains("TestAmbrone1", TestTools::getLoggedInStavoAmbrone()->getResponse()->getContent());
+        $this->assertContains("TestAmbrone2", $client->getResponse()->getContent());
+        $this->assertContains("TestBuvoUser", $client->getResponse()->getContent());
+        $this->assertContains("TestAmbrone1", $client->getResponse()->getContent());
         $this->assertContains(
             "The user with the dn: givenName=NotExistingUser,ou=Ambronen,ou=People,dc=pbnl,dc=de does not exist!",
-            TestTools::getLoggedInStavoAmbrone()->getResponse()->getContent());
+            $client->getResponse()->getContent());
     }
 }

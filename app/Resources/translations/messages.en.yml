@@ -10,3 +10,5 @@ Feedback.closeLabel: Close
 Feedback.messageSuccess: Your feedback was sent succesfully.
 Feedback.messageError: There was an error sending your feedback to the server.
 Feedback.labelAfterSend: Thank you!
+Feedback.feedbackText: Beschreibe uns hier kurz dein Anliegen (den Fehler, dein Lob, deinen Wunsch)
+Feedback.blackoutHighlightText: Highlight or blackout important information.

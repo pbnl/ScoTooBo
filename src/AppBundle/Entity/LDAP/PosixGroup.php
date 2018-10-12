@@ -1,49 +1,34 @@
 <?php
 
-namespace AppBundle\Model\Entity\LDAP;
+namespace AppBundle\Entity\LDAP;
 
 use AppBundle\Model\Services\UserRepository;
-use Ucsf\LdapOrmBundle\Annotation\Ldap\ArrayField;
-use Ucsf\LdapOrmBundle\Annotation\Ldap\Attribute;
-use Ucsf\LdapOrmBundle\Annotation\Ldap\Dn;
-use Ucsf\LdapOrmBundle\Annotation\Ldap\Must;
-use Ucsf\LdapOrmBundle\Annotation\Ldap\ObjectClass;
-use Ucsf\LdapOrmBundle\Annotation\Ldap\SearchDn;
-use Ucsf\LdapOrmBundle\Annotation\Ldap\UniqueIdentifier;
-use Ucsf\LdapOrmBundle\Entity\Ldap\Group;
 use Symfony\Component\Validator\Constraints as Assert;
+use AppBundle\Model\User;
 
 /**
  * Represents a posixGroup object class, which is a subclass of Group
  *
- * @ObjectClass("posixGroup")
- * @SearchDn("ou=group,dc=pbnl,dc=de")
- * @Dn("cn={{entity.cn}},ou=group,dc=pbnl,dc=de")
- * @UniqueIdentifier("cn")
  */
-class PosixGroup extends Group
+class PosixGroup extends LdapEntity
 {
 
-    /**
-     * @Attribute("cn")
-     * @Must()
-     */
+    static $mustFields = ["cn","gidNumber"];
+    static $uniqueIdentifier = "cn";
+
     protected $cn;
+
 
     /**
      * Array with all the DNs of the users who are members
-     *
-     * @Attribute("memberUid")
-     * @ArrayField()
-     * @Must()
      */
     protected $memberUid;
 
     /**
      * Unique gid for this group
      *
-     * @Attribute("gidNumber")
      * @Assert\Type("integer")
+     *
      * @var int
      */
     protected $gidNumber;
@@ -55,13 +40,30 @@ class PosixGroup extends Group
     private $memberUserObjects = array();
 
     /**
+     * @return mixed
+     */
+    public function getCn()
+    {
+        return $this->cn;
+    }
+
+    /**
+     * @param mixed $cn
+     */
+    public function setCn($cn)
+    {
+        $this->cn = $cn;
+    }
+
+    /**
      * @return array
      */
     public function getMemberUserObjects()
     {
-        if ($this->memberUserObjects == []) {
+        if ($this->memberUserObjects === []) {
             throw new UsersNotFetched("You have to fetch the users first!");
         }
+
         return $this->memberUserObjects;
     }
 
@@ -127,6 +129,7 @@ class PosixGroup extends Group
      * Uses the memberUid attribute of the ldapGroups
      *
      * @param String $dn
+     *
      * @return bool
      */
     public function isDnMember(String $dn)
@@ -134,6 +137,7 @@ class PosixGroup extends Group
         if (in_array($dn, $this->getMemberUid())) {
             return true;
         }
+
         return false;
     }
 
@@ -144,4 +148,22 @@ class PosixGroup extends Group
             $this->memberUserObjects[$dn] = $user;
         }
     }
+
+    /**
+     * Generates a Dn based on the OU and the givenName
+     */
+    protected function generateNewDn()
+    {
+        if($this->getCn()== "")
+        {
+            throw new BadMethodCallException("Cant generate DN: cn is empty ('')");
+        }
+        return "cn=".$this->getCn().",ou=Group,dc=pbnl,dc=de";
+    }
+
+    public function addUser(User $user)
+    {
+        array_push($this->memberUid, $user->getDn());
+    }
+
 }
