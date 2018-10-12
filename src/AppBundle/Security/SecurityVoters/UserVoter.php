@@ -1,13 +1,6 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: paul
- * Date: 12.10.18
- * Time: 18:37
- */
 
 namespace AppBundle\Security\SecurityVoters;
-
 
 use AppBundle\Model\User;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
@@ -53,6 +46,10 @@ class UserVoter extends Voter
         }
 
 
+        if($user->getUid() == $token->getUser()->getUid()) {
+            return true;
+        }
+
         switch ($attribute) {
             case self::EDIT:
                 return $this->canEdit($user, $token);
@@ -68,11 +65,9 @@ class UserVoter extends Voter
 
     private function canEdit(User $user, TokenInterface $token)
     {
-        if ($user->getUid() == $token->getUser()->getUid()){
+        if ($this->decisionManager->decide($token, array("ROLE_EDIT_ALL_USERS"))) {
             return true;
-        } elseif ($this->decisionManager->decide($token,array("ROLE_EDIT_ALL_USERS"))) {
-            return true;
-        } elseif ($this->decisionManager->decide($token,array("ROLE_stavo"))
+        } elseif ($this->decisionManager->decide($token, array("ROLE_stavo"))
             && $user->getStamm() == $token->getUser()->getStamm()) {
             return true;
         }
@@ -81,11 +76,9 @@ class UserVoter extends Voter
 
     private function canRemove(User $user, TokenInterface $token)
     {
-        if ($user->getUid() == $token->getUser()->getUid()) {
+        if ($this->decisionManager->decide($token, array("ROLE_REMOVE_ALL_USERS"))) {
             return true;
-        } elseif ($this->decisionManager->decide($token,array("ROLE_REMOVE_ALL_USERS"))) {
-            return true;
-        } elseif ($this->decisionManager->decide($token,array("ROLE_stavo"))
+        } elseif ($this->decisionManager->decide($token, array("ROLE_stavo"))
             && $user->getStamm() == $token->getUser()->getStamm()) {
             return true;
         }
@@ -94,9 +87,7 @@ class UserVoter extends Voter
 
     private function canView(User $user, TokenInterface $token)
     {
-        if ($user->getUid() == $token->getUser()->getUid()) {
-            return true;
-        } elseif ($this->decisionManager->decide($token,array("ROLE_elder"))) {
+        if ($this->decisionManager->decide($token, array("ROLE_elder"))) {
             return true;
         }
         return false;
