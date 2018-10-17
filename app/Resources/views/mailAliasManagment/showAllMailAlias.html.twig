@@ -1,0 +1,46 @@
+{% extends "includes/base.html.twig" %}
+
+{% block title %}Alle Gruppen{% endblock %}
+
+{% block sidenav %}
+    {% include "includes/sidebarUserGroup.html.twig" with {"showAllMailAlias": "active"} %}
+{% endblock %}
+
+{% block content %}
+    {% include 'includes/showFlashes.html.twig' %}
+    <h2>{% trans %}mailAlias.showAll.myMailAlias{% endtrans %}</h2>
+    <div class="col-sm-6">
+        <table class="table table-striped tablesorter table-responsive">
+            <thead class="">
+            <tr>
+                <th class="filter-false">
+                    {% trans %}general.nr{% endtrans %}
+                </th>
+                <th>
+                    {% trans %}general.name{% endtrans %}
+                </th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for mailAlias in mailAliasList %}
+                <tr>
+                    <td>
+                        {{ loop.index}}
+                    </td>
+                    <td>
+                        <a href="{{ path('detailMailAlias', {'mailAlias': mailAlias.mail}) }}">{{mailAlias.mail}}</a>
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+
+            {% include 'includes/tablesorterFooter.html.twig' with {'NumberOfColumns': '2'} only %}
+        </table>
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script src="{{ asset('js/tablesorter.js') }}"></script>
+
+{% endblock %}
