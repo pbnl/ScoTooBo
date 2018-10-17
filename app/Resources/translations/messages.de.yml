@@ -40,6 +40,7 @@ general.uidNumber: Benutzer ID
 general.url: URL
 general.value: Wert
 general.welcome: Willkommen
+general.mailinglist: Mailliste
 
 
 
@@ -69,6 +70,7 @@ menu.userManagement.detailUser: Benutzerdetails
 menu.admin.title: Admin
 menu.userGroupManagement.title: Benutzer-/Gruppenverwaltung
 
+menu.mailAlias.schowAllMailAlias: Listenübersicht
 
 
 403ErrorPage.title: 403 fehlende Rechte
@@ -115,3 +117,5 @@ User.add.nameValue: Name des Wertes
 User.add.value: Wert
 User.add.wikiAccess: Wiki Zugang
 User.remove.ConfirmDialogText: Wollen sie wirklich den User %name% löschen?
+
+mailAlias.showAll.myMailAlias: Alle Mailliglisten

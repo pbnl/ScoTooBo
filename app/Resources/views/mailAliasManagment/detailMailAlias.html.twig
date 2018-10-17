@@ -1,0 +1,50 @@
+{% extends "includes/base.html.twig" %}
+
+{% block title %}{% trans %}Group.detail.title{% endtrans %}{% endblock %}
+
+{% block sidenav %}
+    {% include "includes/sidebarUserGroup.html.twig" with {"showAllGroups": "active"} %}
+{% endblock %}
+
+{% block content %}
+    {% include 'includes/showFlashes.html.twig' %}
+    <h2>{% trans %}general.group{% endtrans %}</h2>
+    <div class="col-sm-8">
+        <table class="table table-striped">
+            <thead class="">
+            <tr>
+                <th>
+                    {% trans %}general.mailinglist{% endtrans %}
+                </th>
+                <th>
+                    {{mailAlias.mail}}
+                </th>
+                <th>
+                    -
+                </th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for mail in mailAlias.forward %}
+                <tr>
+                    <th>
+                        {% trans %}general.mail{% endtrans %}
+                    </th>
+                    <td>
+                        {{mail}}
+                    </td>
+                    <td>
+
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script src="{{ asset('js/teamDetails.js') }}"></script>
+
+{% endblock %}
