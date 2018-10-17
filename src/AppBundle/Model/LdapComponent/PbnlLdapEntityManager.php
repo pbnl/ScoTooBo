@@ -13,6 +13,7 @@ use AppBundle\Entity\LDAP\PbnlAccount;
 use AppBundle\Entity\LDAP\PbnlMailAlias;
 use AppBundle\Entity\LDAP\PosixGroup;
 use AppBundle\Model\LdapComponent\LdapEntryHandler\PbnlAccountLdapHandler;
+use AppBundle\Model\LdapComponent\LdapEntryHandler\PbnlMailAliasLdapHandler;
 use AppBundle\Model\LdapComponent\LdapEntryHandler\PosixGroupLdapHandler;
 use AppBundle\Model\LdapComponent\Repositories\Repository;
 use BadMethodCallException;
@@ -69,6 +70,10 @@ class PbnlLdapEntityManager
         {
             $ldapHandler = new PosixGroupLdapHandler($this->baseDN);
         }
+        elseif ($entity instanceof PbnlMailAlias)
+        {
+            $ldapHandler = new PbnlMailAliasLdapHandler($this->baseDN);
+        }
         //TODO: Add other classes
         else
         {
@@ -88,6 +93,10 @@ class PbnlLdapEntityManager
         if ($entity instanceof PbnlAccount)
         {
             $ldapHandler = new PbnlAccountLdapHandler($this->baseDN);
+        }
+        elseif ($entity instanceof PbnlMailAlias)
+        {
+            $ldapHandler = new PbnlMailAliasLdapHandler($this->baseDN);
         }
         //TODO: Add other classes
         else
@@ -133,7 +142,7 @@ class PbnlLdapEntityManager
         }
         elseif($entityName === PbnlMailAlias::class)
         {
-            $searchableAttributes = [""];
+            $searchableAttributes = ["mail"];
         }
         elseif($entityName === PosixGroup::class)
         {
