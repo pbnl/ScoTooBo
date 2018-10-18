@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8" />
+        <title>{% block title %}{% trans %}general.welcome{% endtrans %}{% endblock %}</title>
+
+        <!-- Latest compiled and minified CSS -->
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css" integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M" crossorigin="anonymous">
+
+        <!-- Awesome Font -->
+        <link rel="stylesheet" href="/css/font-awesome.min.css">
+
+        <!-- Tablesorter theme -->
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery.tablesorter/2.29.0/css/theme.bootstrap_4.min.css" integrity="sha256-XNaQ6CZvDJ0+k/frCzdkIyDhLedZXo1a9SswYdq8bj4=" crossorigin="anonymous" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery.tablesorter/2.29.0/css/jquery.tablesorter.pager.min.css" integrity="sha256-x+whz5gQKEXx3S3pxwmxPhC1OWpRiHaPXUW5Yt8/fzg=" crossorigin="anonymous" />
+
+        <!-- Feedback -->
+        <link rel="stylesheet" href="{{ asset('css/feedback.css') }}">
+
+        <!-- Imageviewer -->
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/imageviewer/0.5.1/viewer.min.css" integrity="sha256-6NuwtCUS3Hn1o3GiXOJ51yYqj7A245aYW/Vu+Xeyp2M=" crossorigin="anonymous" />
+
+        <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
+    </head>
+    <body>
+        <div class="container-fluid {% block containerCssClass %}{% endblock %}">
+            {% block body %}
+            {% endblock %}
+        </div>
+
+        {% block javascripts %}
+            <script
+                    src="https://code.jquery.com/jquery-3.2.1.min.js"
+                    integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
+                    crossorigin="anonymous"></script>
+
+            <!-- Latest compiled and minified JavaScript -->
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js" integrity="sha384-b/U6ypiBEHpOf/4+1nzFpr53nxSS+GLCkfwBdFNTxtclqqenISfwAzpKaMNFNmj4" crossorigin="anonymous"></script>
+            <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/js/bootstrap.min.js" integrity="sha384-h0AbiXch4ZDo7tp9hKZ4TsHbi047NrKGLO3SEJAg45jXxnGIfYzk4Si90RDIqNm1" crossorigin="anonymous"></script>
+
+            <!-- Imageviewer -->
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/imageviewer/0.5.1/viewer.min.js" integrity="sha256-vuRjTzX9oIbqZaluBVQSJsFEE1zQNuMxjLDYe2RCrW0=" crossorigin="anonymous"></script>
+
+            <!-- Re-Captcher -->
+            <script src="https://www.google.com/recaptcha/api.js" async defer></script>
+
+            <!-- Tablesorter -->
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.tablesorter/2.29.0/js/jquery.tablesorter.min.js" integrity="sha256-UD/M/6ixbHIPJ/hTwhb9IXbHG2nZSiB97b4BSSAVm6o=" crossorigin="anonymous"></script>
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.tablesorter/2.29.0/js/jquery.tablesorter.widgets.min.js" integrity="sha256-/3WKCLORjkqCd7cddzHbnXGR31qqys81XQe2khfPvTY=" crossorigin="anonymous"></script>
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.tablesorter/2.29.0/js/extras/jquery.tablesorter.pager.min.js" integrity="sha256-jkVgfYuH8sw4gTXCDEJMANM9Kf2xZLFWALNiAQ1AyZQ=" crossorigin="anonymous"></script>
+
+            <!-- Feedback -->
+            {% include 'includes/feedback.html.twig' %}
+        {% endblock %}
+    </body>
+</html>
