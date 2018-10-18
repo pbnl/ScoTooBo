@@ -117,7 +117,7 @@ Feedback.closeLabel: Schließen
 Feedback.messageSuccess: Dein Feedback hat uns erfolgreich erreicht und wird in Kürze bearbeitet.
 Feedback.messageError: Es trat leider ein Fehler auf, schreib uns am besten persönlich an.
 Feedback.labelAfterSend: Danke für dein Feedback!
-Feedback.feedbackText: Beschreibe uns hier kurz dein Anliegen (den Fehler, dein Lob, deinen Wunsch)
+Feedback.feedbackText: Beschreibe uns hier kurz dein Anliegen (den Fehler, dein Lob, deinen Wunsch). Eine E-Mail Adresse für Rückfragen wäre sinnvoll.
 Feedback.blackoutHighlightText: Hebe ggf. noch wichtige Bereiche hervor und blende persönliche aus.
 
 Group.showAll.myGroups: Meine Gruppen

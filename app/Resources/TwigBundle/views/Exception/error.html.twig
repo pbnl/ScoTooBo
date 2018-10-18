@@ -1,0 +1,12 @@
+{% extends 'includes/publicBase.html.twig' %}
+
+{% block body %}
+    <div class="container" style="padding-top: 4rem;">
+        <h1>Error page</h1>
+
+            There was an error! Errorcode: {{ status_code }}
+        <br>
+            {% trans %}403ErrorPage.feedBackReference{% endtrans %}
+        </p>
+    </div>
+{% endblock %}
