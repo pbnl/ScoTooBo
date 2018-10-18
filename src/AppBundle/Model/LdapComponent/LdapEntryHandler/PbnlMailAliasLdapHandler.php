@@ -2,8 +2,6 @@
 
 namespace AppBundle\Model\LdapComponent\LdapEntryHandler;
 
-
-
 use AppBundle\Entity\LDAP\PbnlMailAlias;
 use AppBundle\Model\LdapComponent\LdapConnection;
 use InvalidArgumentException;
@@ -15,7 +13,7 @@ class PbnlMailAliasLdapHandler extends LdapEntryHandler
     {
         $objects = array();
 
-        for($i = 0; $i < $ldapEntries["count"]; $i++)
+        for ($i = 0; $i < $ldapEntries["count"]; $i++)
         {
             $oneObject = $this->ldapArrayToObject($ldapEntries[$i]);
             array_push($objects, $oneObject);
@@ -26,7 +24,7 @@ class PbnlMailAliasLdapHandler extends LdapEntryHandler
 
     private function ldapArrayToObject($ldapEntryArray)
     {
-        if(!$this->isValidEntryArray($ldapEntryArray))
+        if (!$this->isValidEntryArray($ldapEntryArray))
         {
             throw new InvalidArgumentException("This class only supports the objectClass pbnlMailAlias");
         }
@@ -34,7 +32,7 @@ class PbnlMailAliasLdapHandler extends LdapEntryHandler
         $pbnlMailAlias->setMail($ldapEntryArray["mail"][0]);
         $pbnlMailAlias->setDn($ldapEntryArray["dn"]);
         $forward = array();
-        for ($i = 0; $i < $ldapEntryArray["forward"]["count"] ; $i++) {
+        for ($i = 0; $i < $ldapEntryArray["forward"]["count"]; $i++) {
             array_push($forward, $ldapEntryArray["forward"][$i]);
         }
         $pbnlMailAlias->setForward($forward);
@@ -46,7 +44,7 @@ class PbnlMailAliasLdapHandler extends LdapEntryHandler
     {
         //TODO nicht alle attribute sollen/werden gestzt werden
         $data = array();
-        foreach ($element->getForward() as $key=>$forward) {
+        foreach ($element->getForward() as $key => $forward) {
             $data["forward"][$key] = $forward;
         }
 
@@ -64,28 +62,28 @@ class PbnlMailAliasLdapHandler extends LdapEntryHandler
         $forwardForLDAP = array();
         $forwardForLDAP["objectclass"][0] = "pbnlMailAlias";
         $forwardForLDAP["mail"][0] = $element->getMail();
-        foreach ($element->getForward() as $key=>$forward) {
+        foreach ($element->getForward() as $key => $forward) {
             $forwardForLDAP["forward"][$key] = $forward;
         }
 
         $dn = $element->getDn();
 
         //TODO: Do we realy want to use the @ operater?
-        $succses = @$ldapConnection->ldap_add( $dn, $forwardForLDAP);
+        $succses = @$ldapConnection->ldap_add($dn, $forwardForLDAP);
 
         if (!$succses)
         {
             throw new LdapPersistException("Cant add new Ldap element");
         }
-
     }
 
     private function isValidEntryArray($ldapEntryArray)
     {
-        if($ldapEntryArray['objectclass'] == "pbnlMailAlias"
+        if ($ldapEntryArray['objectclass'] == "pbnlMailAlias"
         || (is_array($ldapEntryArray['objectclass']) && in_array("pbnlMailAlias", $ldapEntryArray['objectclass']))
-        )
+        ){
             return true;
-        else return false;
+        }
+        return false;
     }
 }

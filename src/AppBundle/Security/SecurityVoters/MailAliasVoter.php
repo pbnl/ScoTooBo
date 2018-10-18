@@ -47,7 +47,7 @@ class MailAliasVoter extends Voter
         }
 
 
-        if(in_array($loggedInUser->getMail(), $mailAlias->getForward())) {
+        if (in_array($loggedInUser->getMail(), $mailAlias->getForward())) {
             return true;
         }
 

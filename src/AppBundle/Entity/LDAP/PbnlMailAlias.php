@@ -5,7 +5,6 @@ namespace AppBundle\Entity\LDAP;
 use BadMethodCallException;
 use Symfony\Component\Validator\Constraints as Assert;
 
-
 /**
  * Represents a pbnlMailAlias object class, which is a subclass of LdapEntity
  *
@@ -13,8 +12,8 @@ use Symfony\Component\Validator\Constraints as Assert;
 class PbnlMailAlias extends LdapEntity
 {
 
-    static $mustFields = [];
-    static $uniqueIdentifier = "mail";
+    public static $mustFields = [];
+    public static $uniqueIdentifier = "mail";
 
     /**
      * @var string mail The mail of the mailinglist or forward
@@ -91,7 +90,7 @@ class PbnlMailAlias extends LdapEntity
      */
     protected function generateNewDn()
     {
-        if($this->getMail() == "")
+        if ($this->getMail() == "")
         {
             throw new BadMethodCallException("Cant generate DN: mail is empty ('')");
         }
@@ -102,5 +101,4 @@ class PbnlMailAlias extends LdapEntity
     {
         return $this->getMail();
     }
-
 }
