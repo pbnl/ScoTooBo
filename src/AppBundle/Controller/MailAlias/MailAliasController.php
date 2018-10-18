@@ -2,10 +2,13 @@
 
 namespace AppBundle\Controller\MailAlias;
 
+use AppBundle\Entity\LDAP\PbnlMailAlias;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Form\Extension\Core\Type;
 
 class MailAliasController extends Controller
 {
@@ -50,8 +53,34 @@ class MailAliasController extends Controller
 
         $this->denyAccessUnlessGranted("view", $mailAlias );
 
+        $form = $this
+            ->get("form.factory")
+            ->createBuilder(Type\FormType::class, $mailAlias)
+            ->add("forward", Type\CollectionType::class, [
+                'entry_type'   => TextType::class,
+               'label'        => 'Empfänger',
+               'allow_add'    => true,
+               'allow_delete' => true,
+               'prototype'    => true,
+               'required'     => false,
+                'attr'         => [
+            'class' => "mailAlias-collection",
+            ]])
+            ->add('submit', Type\SubmitType::class, array(
+                "label" => "general.save",
+                "attr" => ["class" => "btn btn-lg btn-primary btn-block"]))
+            ->getForm();
+
+        $form->handleRequest($request);
+        if ($form->isValid()) {
+            $this->denyAccessUnlessGranted("edit", $mailAlias );
+            $mailAlias = $form->getData();
+            $mailAliasRepo->update($mailAlias);
+        }
+
         return $this->render('mailAliasManagment/detailMailAlias.html.twig', [
-            "mailAlias" => $mailAlias
+            "mailAlias" => $mailAlias,
+            "mailAliasForm" => $form->createView()
         ]);
     }
 

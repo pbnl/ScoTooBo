@@ -1,0 +1,17 @@
+{% block _form_forward_entry_label %}{% endblock %}
+
+{% block _form_forward_entry_widget %}
+
+    <div class="row">
+        <div class="col-md-5">
+            {{ form_widget(form) }}
+        </div>
+
+        <div class="col-md-3">
+            <a href="#" class="collection-remove btn btn-default" title="Delete mail"><i class="fas fa-trash"></i></a>
+            <a href="#" class="collection-add btn btn-default" title="Add mail"><i class="fas fa-plus-circle"></i></a>
+        </div>
+
+    </div>
+
+{% endblock %}

@@ -66,4 +66,20 @@ class MailAliasRepository
         }
         return $mailAlias[0];
     }
+
+    public function update(PbnlMailAlias $mailAlias) {
+        if (!$this->doesMailAliasExist($mailAlias)) {
+            throw new MailAliasDoesNotExistException("The user ".$mailAlias->getMail()." does not exist.");
+        }
+        $this->ldapEntityManager->persist($mailAlias);
+    }
+
+    private function doesMailAliasExist($mailAlias)
+    {
+        $mailAlias = $this->mailAliasLdapRepository->findByMail($mailAlias);
+        if($mailAlias == []) {
+            return false;
+        }
+        return true;
+    }
 }
