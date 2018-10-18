@@ -3,48 +3,36 @@
 {% block title %}{% trans %}Group.detail.title{% endtrans %}{% endblock %}
 
 {% block sidenav %}
-    {% include "includes/sidebarUserGroup.html.twig" with {"showAllGroups": "active"} %}
+    {% include "includes/sidebarUserGroup.html.twig" with {"showAllMailAlias": "active"} %}
 {% endblock %}
 
 {% block content %}
     {% include 'includes/showFlashes.html.twig' %}
-    <h2>{% trans %}general.group{% endtrans %}</h2>
+    <h2>{% trans %}general.mailinglist{% endtrans %}</h2>
     <div class="col-sm-8">
-        <table class="table table-striped">
-            <thead class="">
-            <tr>
-                <th>
-                    {% trans %}general.mailinglist{% endtrans %}
-                </th>
-                <th>
-                    {{mailAlias.mail}}
-                </th>
-                <th>
-                    -
-                </th>
-            </tr>
-            </thead>
-            <tbody>
-            {% for mail in mailAlias.forward %}
-                <tr>
-                    <th>
-                        {% trans %}general.mail{% endtrans %}
-                    </th>
-                    <td>
-                        {{mail}}
-                    </td>
-                    <td>
-
-                    </td>
-                </tr>
-            {% endfor %}
-            </tbody>
-        </table>
+        <h3>{{mailAlias.mail}}</h3>
+        {%
+            form_theme mailAliasForm
+            'jquery.collection.html.twig'
+            'mailAliasManagment/formThemeWithButtons.html.twig'
+        %}
+        {{ form(mailAliasForm) }}
+        {{ form_errors(mailAliasForm) }}
     </div>
 {% endblock %}
 
 {% block javascripts %}
     {{ parent() }}
-    <script src="{{ asset('js/teamDetails.js') }}"></script>
+    <script type="text/javascript" src={{ asset('js/jquery.collection.js') }} ></script>
+
+    <script type="text/javascript">
+        $(document).ready(function(){
+            $('.mailAlias-collection').collection({
+                allow_duplicate: false,
+                allow_up: false,
+                allow_down: false
+                });
+        });
+    </script>
 
 {% endblock %}
