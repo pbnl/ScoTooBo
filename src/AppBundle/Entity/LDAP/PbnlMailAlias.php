@@ -12,7 +12,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 class PbnlMailAlias extends LdapEntity
 {
 
-    public static $mustFields = [];
+    public static $mustFields = ["mail", "forward"];
     public static $uniqueIdentifier = "mail";
 
     /**
