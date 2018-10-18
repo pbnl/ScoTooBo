@@ -67,7 +67,8 @@ class MailAliasRepository
         return $mailAlias[0];
     }
 
-    public function update(PbnlMailAlias $mailAlias) {
+    public function update(PbnlMailAlias $mailAlias)
+    {
         if (!$this->doesMailAliasExist($mailAlias)) {
             throw new MailAliasDoesNotExistException("The user ".$mailAlias->getMail()." does not exist.");
         }
@@ -77,7 +78,7 @@ class MailAliasRepository
     private function doesMailAliasExist($mailAlias)
     {
         $mailAlias = $this->mailAliasLdapRepository->findByMail($mailAlias);
-        if($mailAlias == []) {
+        if ($mailAlias == []) {
             return false;
         }
         return true;

@@ -26,8 +26,8 @@ class MailAliasController extends Controller
 
         $allmailAlias = $mailAliasRepo->findAll();
         $allowdMailAlias = array();
-        foreach($allmailAlias as $mailAlias) {
-            if($this->isGranted( "view", $mailAlias)) {
+        foreach ($allmailAlias as $mailAlias) {
+            if ($this->isGranted("view", $mailAlias)) {
                 array_push($allowdMailAlias, $mailAlias);
             }
         }
@@ -51,21 +51,21 @@ class MailAliasController extends Controller
 
         $mailAlias = $mailAliasRepo->findByMail($request->get("mailAlias"));
 
-        $this->denyAccessUnlessGranted("view", $mailAlias );
+        $this->denyAccessUnlessGranted("view", $mailAlias);
 
         $form = $this
             ->get("form.factory")
             ->createBuilder(Type\FormType::class, $mailAlias)
             ->add("forward", Type\CollectionType::class, [
                 'entry_type'   => TextType::class,
-               'label'        => 'Empfänger',
-               'allow_add'    => true,
-               'allow_delete' => true,
-               'prototype'    => true,
-               'required'     => false,
+                'label'        => 'Empfänger',
+                'allow_add'    => true,
+                'allow_delete' => true,
+                'prototype'    => true,
+                'required'     => false,
                 'attr'         => [
-            'class' => "mailAlias-collection",
-            ]])
+                    'class' => "mailAlias-collection",
+                ]])
             ->add('submit', Type\SubmitType::class, array(
                 "label" => "general.save",
                 "attr" => ["class" => "btn btn-lg btn-primary btn-block"]))
@@ -73,7 +73,7 @@ class MailAliasController extends Controller
 
         $form->handleRequest($request);
         if ($form->isValid()) {
-            $this->denyAccessUnlessGranted("edit", $mailAlias );
+            $this->denyAccessUnlessGranted("edit", $mailAlias);
             $mailAlias = $form->getData();
             $mailAliasRepo->update($mailAlias);
         }
@@ -83,5 +83,4 @@ class MailAliasController extends Controller
             "mailAliasForm" => $form->createView()
         ]);
     }
-
 }
