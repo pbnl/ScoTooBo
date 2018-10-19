@@ -94,4 +94,14 @@ class MailAliasRepository
             throw new DatabaseObjectAllreadytExistsException("The MailAlias " . $mailAlias->getMail() . " does allready exist.");
         }
     }
+
+    public function remove(PbnlMailAlias $mailAlias)
+    {
+        if ($this->doesMailAliasExist($mailAlias)) {
+            $this->ldapEntityManager->delete($mailAlias);
+        }
+        else {
+            throw new DatabaseObjectDoesNotExistsException("The MailAlias " . $mailAlias->getMail() . " does not exist.");
+        }
+    }
 }
