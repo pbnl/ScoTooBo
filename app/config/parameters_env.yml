@@ -22,3 +22,4 @@ parameters:
     secret: "%env(secret)%"
     recaptcha.secret: "%env(recaptcha_secret)%"
     recaptcha.globalcode: "%env(recaptcha_globalcode)%"
+

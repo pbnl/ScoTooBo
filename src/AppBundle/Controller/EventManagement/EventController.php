@@ -5,6 +5,7 @@ namespace AppBundle\Controller\EventManagement;
 use AppBundle\Entity\Event;
 use AppBundle\Entity\EventAttend;
 use AppBundle\Model\User;
+use Ramsey\Uuid\Uuid;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
@@ -200,11 +201,7 @@ class EventController extends Controller
 
             $link = $event->getInvitationLink();
 
-            $length = rand(
-                $this->container->getParameter('events.invitationlink.length.min'),
-                $this->container->getParameter('events.invitationlink.length.max')
-            );
-            $random_string = $this->generateRandomString($length);
+            $random_string = Uuid::uuid4();
 
             if ($this->validateDate($request->request->get("InvitationDateFrom"))) {
                 $invitationDateFrom=\DateTime::createFromFormat('Y-m-d H:i:s',$request->request->get("InvitationDateFrom"));
@@ -529,21 +526,6 @@ class EventController extends Controller
             $this->addFlash("error", "Dieser Einladungslink ist leider nicht mehr gültig!");
             return $this->redirectToRoute("login");
         }
-    }
-
-    /**
-     * @param int $length
-     * @param string $characters
-     * @return string
-     */
-    private function generateRandomString($length = 16, $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ')
-    {
-        $charactersLength = strlen($characters);
-        $randomString = '';
-        for ($i = 0; $i < $length; $i++) {
-            $randomString .= $characters[rand(0, $charactersLength - 1)];
-        }
-        return $randomString;
     }
 
     /**
