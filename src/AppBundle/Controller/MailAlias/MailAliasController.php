@@ -101,7 +101,15 @@ class MailAliasController extends Controller
         if ($form->isValid()) {
             $this->denyAccessUnlessGranted("edit", $oldMailAlias);
             $mailAlias = $form->getData();
-            $mailAliasRepo->update($mailAlias);
+
+            if (count($mailAlias->getForward()) > 0) {
+                $mailAliasRepo->update($mailAlias);
+            }
+            else {
+                $mailAliasRepo->remove($mailAlias);
+                return $this->redirectToRoute("showAllMailAlias");
+            }
+
         }
 
         return $this->render('mailAliasManagment/detailMailAlias.html.twig', [
