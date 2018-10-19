@@ -104,12 +104,10 @@ class MailAliasController extends Controller
 
             if (count($mailAlias->getForward()) > 0) {
                 $mailAliasRepo->update($mailAlias);
-            }
-            else {
+            } else {
                 $mailAliasRepo->remove($mailAlias);
                 return $this->redirectToRoute("showAllMailAlias");
             }
-
         }
 
         return $this->render('mailAliasManagment/detailMailAlias.html.twig', [
