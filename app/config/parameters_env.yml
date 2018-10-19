@@ -23,3 +23,4 @@ parameters:
     recaptcha.secret: "%env(recaptcha_secret)%"
     recaptcha.globalcode: "%env(recaptcha_globalcode)%"
 
+    staemme: "{\"staemme\": [\"Ambronen\",\"Hagen von Tronje\",\"Anduril\"]}"

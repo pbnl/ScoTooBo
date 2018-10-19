@@ -4,6 +4,7 @@ namespace AppBundle\Controller\EventManagement;
 
 use AppBundle\Entity\Event;
 use AppBundle\Entity\EventAttend;
+use AppBundle\Forms\EventAttendForm;
 use AppBundle\Model\User;
 use Ramsey\Uuid\Uuid;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
@@ -306,192 +307,14 @@ class EventController extends Controller
             $eventAttend->setEventId($event->getId());
             $participationFields = json_decode($event->getParticipationFields());
 
-            $form = $this->createFormBuilder($eventAttend);
-            for ($i=0; $i<count($participationFields); $i++) {
-                switch ($participationFields[$i][0]) {
-                    case "name":
-                        if ($participationFields[$i][2]) {
-                            $form->add(
-                                'firstname',
-                                TextType::class,
-                                array(
-                                    "attr" => ["placeholder" => "general.firstName"],
-                                    'label' => "general.firstName",
-                                    'empty_data' => '',
-                                    'data' => $loggedInUser_firstname,
-                                    "required" => $participationFields[$i][3]
-                                )
-                            )
-                            ->add(
-                                'lastname',
-                                TextType::class,
-                                array(
-                                    "attr" => ["placeholder" => "general.lastName"],
-                                    'label' => "general.lastName",
-                                    'empty_data' => '',
-                                    'data' => $loggedInUser_lastname,
-                                    "required" => $participationFields[$i][3]
-                                )
-                            );
-                        }
-                        break;
-                    case "email":
-                        if ($participationFields[$i][2]) {
-                            $form->add(
-                                'email',
-                                EmailType::class,
-                                array(
-                                    "attr" => ["placeholder" => "general.mail"],
-                                    'label' => "general.mail",
-                                    'empty_data' => '',
-                                    "required" => $participationFields[$i][3]
-                                )
-                            );
-                        }
-                        break;
-                    case "address":
-                        if ($participationFields[$i][2]) {
-                            $form->add(
-                                'address_street',
-                                TextType::class,
-                                array(
-                                    "attr" => ["placeholder" => "general.street"],
-                                    'label' => "general.street",
-                                    'empty_data' => '',
-                                    "required" => $participationFields[$i][3]
-                                )
-                            )
-                            ->add(
-                                'address_nr',
-                                TextType::class,
-                                array(
-                                    "attr" => ["placeholder" => "general.address_nr"],
-                                    'label' => "general.address_nr",
-                                    'empty_data' => '',
-                                    "required" => $participationFields[$i][3]
-                                )
-                            )
-                            ->add(
-                                'address_plz',
-                                IntegerType::class,
-                                array(
-                                    "attr" => ["placeholder" => "general.postalCode"],
-                                    'label' => "general.postalCode",
-                                    'empty_data' => '',
-                                    "required" => $participationFields[$i][3]
-                                )
-                            )
-                            ->add(
-                                'address_city',
-                                TextType::class,
-                                array(
-                                    "attr" => ["placeholder" => "general.place"],
-                                    'label' => "general.place",
-                                    'empty_data' => '',
-                                    "required" => $participationFields[$i][3]
-                                )
-                            );
-                        }
-                        break;
-                    case "stamm":
-                        if ($participationFields[$i][2]) {
-                            $form->add(
-                                'stamm',
-                                ChoiceType::class,
-                                array(
-                                    'label' => "general.stamm",
-                                    'choices' => $this->container->getParameter('staemme'),
-                                    'choice_label' => function ($value, $key, $index) {
-                                        return $value;
-                                    },
-                                    'multiple' => false,
-                                    'empty_data' => '',
-                                    'data' => $loggedInUser_Stamm,
-                                    "required" => $participationFields[$i][3]
-                                )
-                            );
-                        }
-                        break;
-                    case "group":
-                        if ($participationFields[$i][2]) {
-                            $form->add(
-                                'group',
-                                TextType::class,
-                                array(
-                                    "attr" => ["placeholder" => "general.group"],
-                                    'label' => "general.group",
-                                    'empty_data' => '',
-                                    "required" => $participationFields[$i][3]
-                                )
-                            );
-                        }
-                        break;
-                    case "eat":
-                        if ($participationFields[$i][2]) {
-                            $form->add(
-                                'pig',
-                                ChoiceType::class,
-                                array(
-                                    'choices' => array(
-                                        'general.yes' => true,
-                                        'general.no' => false,
-                                    ),
-                                    'label' => 'general.pig',
-                                    'multiple' => false,
-                                    'expanded' => true,
-                                    "required" => $participationFields[$i][3]
-                                )
-                            )
-                            ->add(
-                                'vegi',
-                                ChoiceType::class,
-                                array(
-                                    'choices' => array(
-                                        'general.yes' => true,
-                                        'general.no' => false,
-                                    ),
-                                    'label' => 'general.vegi',
-                                    'multiple' => false,
-                                    'expanded' => true,
-                                    "required" => $participationFields[$i][3]
-                                )
-                            )
-                            ->add(
-                                'vega',
-                                ChoiceType::class,
-                                array(
-                                    'choices' => array(
-                                        'general.yes' => true,
-                                        'general.no' => false,
-                                    ),
-                                    'label' => 'general.vega',
-                                    'multiple' => false,
-                                    'expanded' => true,
-                                    "required" => $participationFields[$i][3]
-                                )
-                            );
-                        }
-                        break;
-                    case "comment":
-                        if ($participationFields[$i][2]) {
-                            $form->add(
-                                'comment',
-                                TextareaType::class,
-                                array(
-                                    "attr" => ["placeholder" => "general.comment"],
-                                    'label' => "general.comment",
-                                    'empty_data' => '',
-                                    "required" => $participationFields[$i][3]
-                                )
-                            );
-                        }
-                        break;
-                }
-            }
-            $form = $form->add('save', SubmitType::class, array(
-                    "label" => "Event.attendInvitationLink.submit",
-                    "attr" => ["class" => "btn btn-lg btn-primary btn-block"]))
-                ->getForm();
+            //$form = $this->createFormBuilder($eventAttend);
+            $form = $this->createForm(EventAttendForm::class, $eventAttend, array(
+                "participationFields" => $participationFields,
+                "loggedInUser_firstname" => $loggedInUser_firstname,
+                "loggedInUser_lastname" => $loggedInUser_lastname,
+                "loggedInUser_Stamm" => $loggedInUser_Stamm,
+                "staemme" => json_decode($this->container->getParameter('staemme'), true),
+            ));
 
             $form->handleRequest($request);
 
