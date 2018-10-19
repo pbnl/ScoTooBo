@@ -134,6 +134,7 @@ User.add.generatePassword: Generiere ein Passwort
 User.add.nameValue: Name des Wertes
 User.add.value: Wert
 User.add.wikiAccess: Wiki Zugang
+User.add.eldeRole: Älterer (Grundlegender Scotoobo Zugang)
 User.remove.ConfirmDialogText: Wollen sie wirklich den User %name% löschen?
 
 mailAlias.showAll.myMailAlias: Alle Mailliglisten

@@ -122,6 +122,12 @@ class UserController extends Controller
                 'label' => "User.add.wikiAccess",
                 'required' => false
             ))
+            ->add('elderRole', CheckboxType::class, array(
+                'mapped' => false,
+                "attr"=>["placeholder"=>"User.add.eldeRole"],
+                'label' => "User.add.eldeRole",
+                'required' => false
+            ))
             ->add("send", SubmitType::class, array(
                 "label"=>"general.create",
                 "attr"=>[
@@ -156,6 +162,11 @@ class UserController extends Controller
                     $wikiGroup = $groupRepo->findByCn("wiki");
                     $wikiGroup->addUser($user);
                     $groupRepo->updateGroup($wikiGroup);
+                }
+                if ($addUserForm->get("elderRole")->getData()) {
+                    $elderGroup = $groupRepo->findByCn("elder");
+                    $elderGroup->addUser($user);
+                    $groupRepo->updateGroup($elderGroup);
                 }
 
                 $this->addFlash("success", "Benutzer ".$user->getUid()." hinzugefügt");
