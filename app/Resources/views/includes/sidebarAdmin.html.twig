@@ -1,27 +1,31 @@
-<ul class="nav nav-pills">
+
+<h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
+    <span>Feedback</span>
+</h6>
+<ul class="nav flex-column">
     <li class="nav-item">
-        <a href="/feedback/show/all" class="nav-link-item {{ showAllFeedback|default('') }}">
+        <a href="/feedback/show/all" class="nav-link {{ showAllFeedback|default('') }}">
             <i class="fa fa-play" aria-hidden="true"></i> {% trans %}menu.feedbackManagement.showAllFeedback{% endtrans %}
         </a>
     </li>
 </ul>
 
-<ul class="nav nav-pills">
+<h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
+    <span>Dummy Seiten</span>
+</h6>
+<ul class="nav flex-column">
     <li class="nav-item">
-        <i class="fa fa-play" aria-hidden="true"></i> {% trans %}menu.admin.dummyPages{% endtrans %}
-    </li>
-    <li class="nav-item">
-        <a href="/admin/showEmptyFullWidthPageWithNavbar" class="nav-link-item {{ showEmptyFullWidthPageWithNavbar|default('') }}">
+        <a href="/admin/showEmptyFullWidthPageWithNavbar" class="nav-link {{ showEmptyFullWidthPageWithNavbar|default('') }}">
             <i class="fa fa-play" aria-hidden="true"></i> {% trans %}menu.admin.showEmptyFullWidthPageWithNavbar{% endtrans %}
         </a>
     </li>
     <li class="nav-item">
-        <a href="/admin/showEmptyFullWidthPageWithoutNavbar" class="nav-link-item {{ showEmptyFullWidthPageWithoutNavbar|default('') }}">
+        <a href="/admin/showEmptyFullWidthPageWithoutNavbar" class="nav-link {{ showEmptyFullWidthPageWithoutNavbar|default('') }}">
             <i class="fa fa-play" aria-hidden="true"></i> {% trans %}menu.admin.showEmptyFullWidthPageWithoutNavbar{% endtrans %}
         </a>
     </li>
     <li class="nav-item">
-        <a href="/admin/showEmptyPageWithSidebarWithNavbar" class="nav-link-item {{ showEmptyPageWithSidebarWithNavbar|default('') }}">
+        <a href="/admin/showEmptyPageWithSidebarWithNavbar" class="nav-link {{ showEmptyPageWithSidebarWithNavbar|default('') }}">
             <i class="fa fa-play" aria-hidden="true"></i> {% trans %}menu.admin.showEmptyPageWithSidebarWithNavbar{% endtrans %}
         </a>
     </li>
