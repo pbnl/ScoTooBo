@@ -145,6 +145,7 @@ class UserController extends Controller
         if ($addUserForm->isSubmitted() && $addUserForm->isValid()) {
             //Prepare User
             $user->setUid($user->getGivenName());
+            $user->setMail($user->getUid() . "@pbnl.de");
 
             //Create the new user
             try {
