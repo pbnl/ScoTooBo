@@ -14,6 +14,7 @@ class MailAliasVoter extends Voter
     const EDIT = 'edit';
     const REMOVE = 'remove';
     const VIEW = 'view';
+    const ADD = 'add';
 
     private $decisionManager;
 
@@ -25,7 +26,7 @@ class MailAliasVoter extends Voter
     protected function supports($attribute, $subject)
     {
         // if the attribute isn't one we support, return false
-        if (!in_array($attribute, array(self::EDIT, self::REMOVE, self::VIEW))) {
+        if (!in_array($attribute, array(self::EDIT, self::ADD, self::REMOVE, self::VIEW))) {
             return false;
         }
 
@@ -58,6 +59,8 @@ class MailAliasVoter extends Voter
                 return $this->canRemove($mailAlias, $token);
             case self::VIEW:
                 return $this->canView($mailAlias, $token);
+            case self::ADD:
+                return $this->canAdd($mailAlias, $token);
         }
 
         throw new \LogicException('This code should not be reached!');
@@ -86,5 +89,10 @@ class MailAliasVoter extends Voter
             return true;
         }
         return false;
+    }
+
+    private function canAdd($mailAlias, $token)
+    {
+        return true;
     }
 }
