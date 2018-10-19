@@ -45,6 +45,11 @@ services:
             public: true
             arguments: ["@logger", "@ldapEntityManager","@validator"]
 
+    data.mailAliasRepository:
+        class: AppBundle\Model\Services\MailAliasRepository
+        public: true
+        arguments: ["@logger", "@ldapEntityManager","@validator"]
+
     ssha_encoder:
         public: true
         class: AppBundle\Security\MessageDigestPasswordEncoder

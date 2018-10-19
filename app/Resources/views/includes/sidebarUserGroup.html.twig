@@ -1,25 +1,42 @@
-<ul class="nav nav-pills">
+<h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
+    <span>Benutzer</span>
+</h6>
+<ul class="nav flex-column">
     <li class="nav-item">
-        <a href="/users/show/all" class="nav-link-item {{ showAllUsers|default('') }}">
-            <i class="fa fa-play" aria-hidden="true"></i> {% trans %}menu.userManagement.showAllUsers{% endtrans %}
+        <a href="/users/show/all" class="nav-link {{ showAllUsers|default('') }}">
+            <i class="fas fa-users"></i> {% trans %}menu.userManagement.showAllUsers{% endtrans %}
         </a>
     </li>
     <li class="nav-item">
-        <a href="/users/add" class="nav-link-item {{ addUser|default('') }}">
-            <i class="fa fa-play" aria-hidden="true"></i> {% trans %}menu.userManagement.addUser{% endtrans %}
+        <a href="/users/add" class="nav-link {{ addUser|default('') }}">
+            <i class="fas fa-user-plus"></i> {% trans %}menu.userManagement.addUser{% endtrans %}
         </a>
     </li>
     <li class="nav-item">
-        <a href="/users/detail" class="nav-link-item {{ detailUser|default('') }}">
-            <i class="fa fa-play" aria-hidden="true"></i> {% trans %}menu.userManagement.detailUser{% endtrans %}
+        <a href="/users/detail" class="nav-link {{ detailUser|default('') }}">
+            <i class="fas fa-user-edit"></i> {% trans %}menu.userManagement.detailUser{% endtrans %}
         </a>
     </li>
 </ul>
 
-<ul class="nav nav-pills flex-column">
+<h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
+    <span>Gruppen</span>
+</h6>
+<ul class="nav flex-column">
     <li class="nav-item">
-        <a href="/groups/show/all" class="nav-link-item {{ showAllGroups|default('') }}">
-            <i class="fa fa-play" aria-hidden="true"></i> {% trans %}menu.groupManagement.showAllGroups{% endtrans %}
+        <a href="/groups/show/all" class="nav-link {{ showAllGroups|default('') }}">
+            <i class="fas fa-users"></i> {% trans %}menu.groupManagement.showAllGroups{% endtrans %}
+        </a>
+    </li>
+</ul>
+
+<h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
+    <span>Listen</span>
+</h6>
+<ul class="nav flex-column">
+    <li class="nav-item">
+        <a href="/mailAlias/show/all" class="nav-link {{ showAllMailAlias|default('') }}">
+            <i class="fa fa-mail-bulk"></i> {% trans %}menu.mailAlias.schowAllMailAlias{% endtrans %}
         </a>
     </li>
 </ul>

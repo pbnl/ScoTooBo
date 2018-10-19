@@ -9,11 +9,37 @@
 /*
  * for navigations
  */
-html,
+
 body {
-    overflow-x: hidden; /* Prevent scroll on narrow devices */
-    /* height: 100%; */
+    font-size: .95rem;
 }
+
+
+.sidebar .nav-link {
+    font-weight: 500;
+    color: #333;
+}
+
+.sidebar .nav-link .feather {
+    margin-right: 4px;
+    color: #999;
+}
+
+.sidebar .nav-link.active {
+    color: #007bff;
+}
+
+.sidebar .nav-link:hover .feather,
+.sidebar .nav-link.active .feather {
+    color: inherit;
+}
+
+.sidebar-heading {
+    font-size: .75rem;
+    text-transform: uppercase;
+}
+
+
 #sidebar {
     padding: 4rem 0 0 0; /* top, right, bottom, left */
 }
@@ -23,15 +49,7 @@ body {
 .sidebar .nav {
     margin-bottom: 20px;
 }
-.sidebar .nav-item {
-    width: 100%;
-}
-.sidebar .nav-item + .nav-item {
-    margin-left: 0;
-}
-.sidebar .nav-link {
-    border-radius: 0;
-}
+
 .nav-pills .nav-item .nav-link-item {
     display: block;
     padding: .5rem 1rem;
@@ -39,6 +57,11 @@ body {
 .nav-pills .nav-item .active, .nav-pills .nav-item .nav-link-item:hover {
     color: #000;
     background-color: #e9ecef; /* #007bff */
+}
+
+.introjs-start-icon {
+    color: #fff;
+    font-size: 1.5em;
 }
 
 @media screen and (max-width: 991px) { /* Off Canvas */

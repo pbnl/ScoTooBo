@@ -1,0 +1,38 @@
+{% extends "includes/base.html.twig" %}
+
+{% block title %}{% trans %}Group.detail.title{% endtrans %}{% endblock %}
+
+{% block sidenav %}
+    {% include "includes/sidebarUserGroup.html.twig" with {"showAllMailAlias": "active"} %}
+{% endblock %}
+
+{% block content %}
+    {% include 'includes/showFlashes.html.twig' %}
+    <h2>{% trans %}general.mailinglist{% endtrans %}</h2>
+    <div class="col-sm-8">
+        <h3>{{mailAlias.mail}}</h3>
+        {%
+            form_theme mailAliasForm
+            'jquery.collection.html.twig'
+            'mailAliasManagment/formThemeWithButtons.html.twig'
+        %}
+        {{ form(mailAliasForm) }}
+        {{ form_errors(mailAliasForm) }}
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script type="text/javascript" src={{ asset('js/jquery.collection.js') }} ></script>
+
+    <script type="text/javascript">
+        $(document).ready(function(){
+            $('.mailAlias-collection').collection({
+                allow_duplicate: false,
+                allow_up: false,
+                allow_down: false
+                });
+        });
+    </script>
+
+{% endblock %}

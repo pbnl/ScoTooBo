@@ -68,13 +68,13 @@
     {% endif %}
 
     <h2 class="form-signin-heading">{% trans %}User.add.addedUserText{% endtrans %}</h2>
-    <div class="col-sm-8">
+    <div class="col-sm-8" data-step="1" data-intro="{% trans %}IntroJS.addUser.welcome{% endtrans %}">
         {{ form_start(addAUserForm) }}
         {{ form_row(addAUserForm.firstName) }}
         {{ form_row(addAUserForm.lastName) }}
         {{ form_row(addAUserForm.givenName) }}
         {{ form_row(addAUserForm.clearPassword) }}
-        <div class="form-row form-group">
+        <div class="form-row form-group" data-step="2" data-intro="{% trans %}IntroJS.addUser.password{% endtrans %}">
             {{ form_label(addAUserForm.generatedPassword) }}
             <div class="col">{{ form_widget(addAUserForm.generatedPassword) }}</div>
             <div class="col">{{ form_widget(addAUserForm.generatePassword) }}</div>

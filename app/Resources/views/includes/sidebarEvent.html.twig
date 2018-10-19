@@ -1,16 +1,19 @@
-<ul class="nav nav-pills">
+<h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
+    <span>Events</span>
+</h6>
+<ul class="nav flex-column">
     <li class="nav-item">
-        <a href="/events/show/all" class="nav-link-item {{ showAllEvents|default('') }}">
-            <i class="fa fa-play" aria-hidden="true"></i> {% trans %}menu.eventManagement.showAllEvents{% endtrans %}
+        <a href="/events/show/all" class="nav-link {{ showAllEvents|default('') }}">
+            <i class="far fa-calendar-alt"></i> {% trans %}menu.eventManagement.showAllEvents{% endtrans %}
         </a>
     </li>
     <li class="nav-item">
-        <a href="/events/add" class="nav-link-item {{ addEvent|default('') }}">
-            <i class="fa fa-play" aria-hidden="true"></i> {% trans %}menu.eventManagement.addEvent{% endtrans %}
+        <a href="/events/add" class="nav-link {{ addEvent|default('') }}">
+            <i class="far fa-calendar-plus"></i> {% trans %}menu.eventManagement.addEvent{% endtrans %}
         </a>
     </li>
     <li class="nav-item">
-        <a href="/events/detail" class="nav-link-item {{ detailEvent|default('') }}">
+        <a href="/events/detail" class="nav-link {{ detailEvent|default('') }}">
             <i class="fa fa-play" aria-hidden="true"></i> {% trans %}menu.eventManagement.detailEvent{% endtrans %}
         </a>
     </li>

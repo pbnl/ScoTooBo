@@ -110,7 +110,11 @@ class UserController extends Controller
                 "label"=>false))
             ->add('stamm', ChoiceType::class, array(
                 'choices'  => ArrayMethods::valueToKeyAndValue($staemme),
-                'label' => "general.stamm"
+                'label' => "general.stamm",
+                "attr"=>[
+                    "data-step"=>"3",
+                    "data-intro"=>$this->get('translator')->trans('IntroJS.addUser.stamm')
+                ]
             ))
             ->add('wikiAcces', CheckboxType::class, array(
                 'mapped' => false,
@@ -120,7 +124,12 @@ class UserController extends Controller
             ))
             ->add("send", SubmitType::class, array(
                 "label"=>"general.create",
-                "attr"=>["class"=>"btn btn-lg btn-primary btn-block"]))
+                "attr"=>[
+                    "class"=>"btn btn-lg btn-primary btn-block",
+                    "data-step"=>"4",
+                    "data-intro"=>$this->get('translator')->trans('IntroJS.addUser.submit')
+                ]
+            ))
             ->getForm();
 
         $addedSomeone = false;

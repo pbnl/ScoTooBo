@@ -31,6 +31,7 @@
         "symfony/polyfill-apcu": "^1.0",
         "symfony/swiftmailer-bundle": "^2.3.10",
         "symfony/symfony": "3.4.*",
+        "ninsuo/symfony-collection": "^2.1",
         "twig/twig": "^1.0||^2.0"
     },
     "require-dev": {
@@ -49,9 +50,11 @@
             "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::prepareDeploymentTarget"
         ],
         "post-install-cmd": [
+            "Fuz\\Symfony\\Collection\\ScriptHandler::postInstall",
             "@symfony-scripts"
         ],
         "post-update-cmd": [
+            "Fuz\\Symfony\\Collection\\ScriptHandler::postUpdate",
             "@symfony-scripts"
         ]
     },

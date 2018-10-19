@@ -1,6 +1,7 @@
 # Structure:
 # - General: general.___
 # - Menu: menu.___
+# - IntroJS: IntroJS.___
 # -> more pages in alphabetical order
 
 general.address: Anschrift
@@ -9,7 +10,6 @@ general.browserdata: Browserdaten
 general.captcha: Spamschutz
 general.close: Schließen
 general.city: Stadt
-general.comment: Kommentar
 general.create: Erstellen
 general.date: Datum
 general.delete: Löschen
@@ -53,6 +53,7 @@ general.value: Wert
 general.vega: vegan
 general.vegi: vegetarisch
 general.welcome: Willkommen
+general.mailinglist: Mailliste
 general.yes: Ja
 None: keine Angabe # e.g. for form choices if required=false
 
@@ -84,7 +85,25 @@ menu.userManagement.detailUser: Benutzerdetails
 menu.admin.title: Admin
 menu.userGroupManagement.title: Benutzer-/Gruppenverwaltung
 
+menu.mailAlias.schowAllMailAlias: Listenübersicht
 
+IntroJS.addUser.welcome: "Hier kannst du neue User hinzufügen. Folgende Daten werden dir im nachhinein generiert: Mailadresse"
+IntroJS.addUser.password: Wähle ein sicheres Passwort. Falls du dir nicht sicher bist, generiere eins. Pass aber auf, dass du es dir kopierst. Es wir dir nur ein mal gezeigt
+IntroJS.addUser.stamm: Wichtig. Wähle den richtigen Stamm unter dem der User gespeichert werden soll.
+IntroJS.addUser.submit: Wenn du alles ausgefüllt hast, kannst du hier den User erstellen.
+
+IntroJS.showAll.welcome: Hier kannst du nach Usern deines Bundes suchen. Klicke auf ihren Namen um Details zu sehen oder sie zu editieren.
+IntroJS.showAll.search: Hier kannst du User nach Namen oder Grupen suchen. Gruppennamen müssen richtig ausgeschrieben sein.
+IntroJS.showAll.username: Hier kannst du schnell die Liste nach einem Namen durchsuchen.
+IntroJS.showAll.stamm: Oder sortiere nach den Stämmen (oder mach beides).
+IntroJS.showAll.delete: "Hier kannst du einen User löschen. Vorsicht: Das kann nicht rückgänig gemacht werden."
+IntroJS.showAll.table: Es werden nicht immer alle User angezeigt. Nutze die Elemente unter der Tabelle um mehr User anzeigen zu alles oder zwischen den Seiten zu springen.
+
+IntroJS.detailUser.username: Hier siehst du den Benutzernamen des Users den du dir gerade anschaust
+IntroJS.detailUser.tableOwn: Ist es dein eigener User, oder falls du die Recht hast, kannst du manche Werte ändern. Gebe dafür die neuen in dem Eingabefeld ein und drücke Speichern
+IntroJS.detailUser.notedit: Es gibt aber auch Werte, die man nicht ändern kann. Falls du es doch willst, frage einen Admin.
+IntroJS.detailUser.welcome: Hier findest du alle Informationen über einen User.
+IntroJS.detailUser.tableOther: Von fremden Leuten kannst du dir die Werte nur anschauen.
 
 403ErrorPage.title: 403 fehlende Rechte
 403ErrorPage.head: Diese Aktion ist für dich verboten
@@ -131,7 +150,7 @@ Feedback.closeLabel: Schließen
 Feedback.messageSuccess: Dein Feedback hat uns erfolgreich erreicht und wird in Kürze bearbeitet.
 Feedback.messageError: Es trat leider ein Fehler auf, schreib uns am besten persönlich an.
 Feedback.labelAfterSend: Danke für dein Feedback!
-Feedback.feedbackText: Beschreibe uns hier kurz dein Anliegen (den Fehler, dein Lob, deinen Wunsch)
+Feedback.feedbackText: Beschreibe uns hier kurz dein Anliegen (den Fehler, dein Lob, deinen Wunsch). Eine E-Mail Adresse für Rückfragen wäre sinnvoll.
 Feedback.blackoutHighlightText: Hebe ggf. noch wichtige Bereiche hervor und blende persönliche aus.
 
 Group.showAll.myGroups: Meine Gruppen
@@ -149,3 +168,5 @@ User.add.nameValue: Name des Wertes
 User.add.value: Wert
 User.add.wikiAccess: Wiki Zugang
 User.remove.ConfirmDialogText: Wollen sie wirklich den User %name% löschen?
+
+mailAlias.showAll.myMailAlias: Alle Mailliglisten

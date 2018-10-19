@@ -1,4 +1,4 @@
-<nav class="navbar fixed-top navbar-expand-md navbar-dark bg-dark">
+<nav class="navbar fixed-top navbar-expand-md navbar-dark bg-dark shadow">
     <a class="navbar-brand" href="{{ path('showDashboard') }}">ScoTooBo</a>
 
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
@@ -18,7 +18,14 @@
             </li>
         </ul>
 
-        <a class="btn btn-danger pull-right navbar-btn" href="/logout">{% trans %}general.logout{% endtrans %}</a>
+        <ul class="navbar-nav pull-righ">
+            <li class="nav-item">
+                <a class="nav-link" href="#" onclick="introJs().start();"><i class="far fa-question-circle introjs-start-icon"></i></a>
+            </li>
 
+            <li class="nav-item">
+                <a class="btn btn-outline-danger pull-right navbar-btn" href="/logout">{% trans %}general.logout{% endtrans %}</a>
+            </li>
+        </ul>
     </div>
 </nav>

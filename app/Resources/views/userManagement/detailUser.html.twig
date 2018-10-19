@@ -8,17 +8,17 @@
 
 {% block content %}
     {% include 'includes/showFlashes.html.twig' %}
-    {% if user != false%} <h2>{{ user.givenName }}</h2> {% endif %}
+    {% if user != false%} <h2 data-step="2" data-intro="{% trans %}IntroJS.detailUser.username{% endtrans %}">{{ user.givenName }}</h2> {% endif %}
 
     {% if editUserForm == false  and user != false%}
-        <table class="table table-striped">
+        <table class="table table-striped" data-step="1" data-intro="{% trans %}IntroJS.detailUser.welcome{% endtrans %}">
             <thead class="">
-            <tr>
+            <tr data-step="3" data-intro="{% trans %}IntroJS.detailUser.tableOther{% endtrans %}">
                 <th>
                     {% trans %}general.name{% endtrans %}
                 </th>
                 <th>
-                    {% trans %}general.value{% endtrans %}t
+                    {% trans %}general.value{% endtrans %}
                 </th>
                 <th>
                     {% trans %}general.edit{% endtrans %}
@@ -120,8 +120,8 @@
     {% if editUserForm != false and user != false %}
         {% form_theme editUserForm 'bootstrap_3_horizontal_layout.html.twig' %}
         {{ form_start(editUserForm) }}
-        <table class="table table-striped">
-            <thead>
+        <table class="table table-striped" data-step="1" data-intro="{% trans %}IntroJS.detailUser.welcome{% endtrans %}">
+            <thead data-step="3" data-intro="{% trans %}IntroJS.detailUser.tableOwn{% endtrans %}">
             <tr>
                 <th>
                     {% trans %}general.name{% endtrans %}
@@ -142,7 +142,7 @@
                 <td>
                     {{user.givenName}}
                 </td>
-                <td>
+                <td data-step="4" data-intro="{% trans %}IntroJS.detailUser.notedit{% endtrans %}">
                     {% trans %}general.not.editable{% endtrans %}
                 </td>
             </tr>

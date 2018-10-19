@@ -251,9 +251,9 @@ structuralObjectClass: pbnlMailAlias
 entryUUID: ac6a01c6-07fc-1036-8af7-c9d07847b537
 creatorsName: cn=admin,dc=pbnl,dc=de
 createTimestamp: 20160905213722Z
-entryCSN: 20170712091959.835017Z#000000#000#000000
+entryCSN: 20181018201858.590001Z#000000#000#000000
 modifiersName: cn=admin,dc=pbnl,dc=de
-modifyTimestamp: 20170712091959Z
+modifyTimestamp: 20181018201858Z
 
 dn: mail=wiki@pbnl.de,ou=Forward,dc=pbnl,dc=de
 mail: wiki@pbnl.de
@@ -275,9 +275,10 @@ creatorsName: cn=admin,dc=pbnl,dc=de
 createTimestamp: 20160924183127Z
 mail: nordlichter@pbnl.de
 forward: TestAmbrone1@pbnl.de
-entryCSN: 20170715205106.045793Z#000000#000#000000
+forward: testMailAliasControler@getChanged.de
+entryCSN: 20181018201914.555549Z#000000#000#000000
 modifiersName: cn=admin,dc=pbnl,dc=de
-modifyTimestamp: 20170715205106Z
+modifyTimestamp: 20181018201914Z
 
 dn: mail=stavo@pbnl.de,ou=Forward,dc=pbnl,dc=de
 objectClass: pbnlMailAlias
