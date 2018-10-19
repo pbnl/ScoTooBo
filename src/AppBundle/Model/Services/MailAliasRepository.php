@@ -89,8 +89,7 @@ class MailAliasRepository
     {
         if (!$this->doesMailAliasExist($mailAlias)) {
             $this->ldapEntityManager->persist($mailAlias);
-        }
-        else {
+        } else {
             throw new DatabaseObjectAllreadytExistsException("The MailAlias " . $mailAlias->getMail() . " does allready exist.");
         }
     }
@@ -99,8 +98,7 @@ class MailAliasRepository
     {
         if ($this->doesMailAliasExist($mailAlias)) {
             $this->ldapEntityManager->delete($mailAlias);
-        }
-        else {
+        } else {
             throw new DatabaseObjectDoesNotExistsException("The MailAlias " . $mailAlias->getMail() . " does not exist.");
         }
     }
