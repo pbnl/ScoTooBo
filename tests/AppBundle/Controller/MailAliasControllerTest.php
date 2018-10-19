@@ -46,4 +46,42 @@ class MailAliasControllerTest extends WebTestCase
 
         $this->assertContains('test@test.de', $respons);
     }
+
+    public function testAddAndRemoveMailAlias()
+    {
+        $client = TestTools::getLoggedInStavoAmbrone();
+        $crawler = $client->request('GET', '/mailAlias/show/all');
+
+        $form = $crawler->selectButton('Hinzufügen')->form();
+
+        $form['form[mail]'] = 'testAddMaiLAlias@pbnl.de';
+
+        $client->submit($form);
+
+        $this->assertEquals("200", $client->getResponse()->getStatusCode());
+
+        $crawler = $client->request('GET', '/mailAlias/show/all');
+        $respons = $client->getResponse()->getContent();
+
+        $this->assertContains('testAddMaiLAlias@pbnl.de', $respons);
+
+        $crawler = $client->request("GET","/mailAlias/detail?mailAlias=testAddMaiLAlias%40pbnl.de");
+
+        $this->assertEquals("200", $client->getResponse()->getStatusCode());
+
+        $this->assertContains("TestAmbrone1@pbnl.de", $client->getResponse()->getContent());
+
+        $form = $crawler->selectButton('Speichern')->form();
+
+        $value =  $form->getPhpValues();
+        $value["form"]["forward"] = array();
+
+        $crawler = $client->request($form->getMethod(), $form->getUri(), $value,
+            $form->getPhpFiles());
+
+        $crawler = $client->request('GET', '/mailAlias/show/all');
+        $respons = $client->getResponse()->getContent();
+
+        $this->assertNotContains('testAddMaiLAlias@pbnl.de', $respons);
+    }
 }
