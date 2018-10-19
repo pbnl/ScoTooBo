@@ -77,6 +77,7 @@ IntroJS.addUser.welcome: "Hier kannst du neue User hinzufügen. Folgende Daten w
 IntroJS.addUser.password: Wähle ein sicheres Passwort. Falls du dir nicht sicher bist, generiere eins. Pass aber auf, dass du es dir kopierst. Es wir dir nur ein mal gezeigt
 IntroJS.addUser.stamm: Wichtig. Wähle den richtigen Stamm unter dem der User gespeichert werden soll.
 IntroJS.addUser.submit: Wenn du alles ausgefüllt hast, kannst du hier den User erstellen.
+IntroJS.addUser.wikiAcces: Hier kannst du den User zu grundlegenden Gruppen hinzufügen. Damit gehen auch Rechte einher. Also überlege gut.
 
 IntroJS.showAll.welcome: Hier kannst du nach Usern deines Bundes suchen. Klicke auf ihren Namen um Details zu sehen oder sie zu editieren.
 IntroJS.showAll.search: Hier kannst du User nach Namen oder Grupen suchen. Gruppennamen müssen richtig ausgeschrieben sein.

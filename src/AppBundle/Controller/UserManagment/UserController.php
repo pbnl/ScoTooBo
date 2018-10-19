@@ -112,7 +112,7 @@ class UserController extends Controller
                 'choices'  => ArrayMethods::valueToKeyAndValue($staemme),
                 'label' => "general.stamm",
                 "attr"=>[
-                    "data-step"=>"3",
+                    "data-step"=>"4",
                     "data-intro"=>$this->get('translator')->trans('IntroJS.addUser.stamm')
                 ]
             ))
@@ -124,7 +124,10 @@ class UserController extends Controller
             ))
             ->add('elderRole', CheckboxType::class, array(
                 'mapped' => false,
-                "attr"=>["placeholder"=>"User.add.eldeRole"],
+                "attr"=>[
+                    "placeholder"=>"User.add.eldeRole",
+                    "data-step" => "3",
+                    "data-intro" => $this->get('translator')->trans('IntroJS.addUser.wikiAcces')],
                 'label' => "User.add.eldeRole",
                 'required' => false
             ))
@@ -132,7 +135,7 @@ class UserController extends Controller
                 "label"=>"general.create",
                 "attr"=>[
                     "class"=>"btn btn-lg btn-primary btn-block",
-                    "data-step"=>"4",
+                    "data-step"=>"5",
                     "data-intro"=>$this->get('translator')->trans('IntroJS.addUser.submit')
                 ]
             ))
