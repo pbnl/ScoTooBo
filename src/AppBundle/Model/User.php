@@ -162,36 +162,6 @@ class User implements UserInterface, EquatableInterface
     /**
      * @return mixed
      */
-    public function getUid()
-    {
-        return $this->uid;
-    }
-
-    /**
-     * @param mixed $uid
-     */
-    public function setUid($uid)
-    {
-        $unwanted_array = array(    'Š'=>'S', 'š'=>'s', 'Ž'=>'Z', 'ž'=>'z', 'À'=>'A', 'Á'=>'A', 'Â'=>'A', 'Ã'=>'A',
-            'Ä'=>'Ae', 'Å'=>'A', 'Æ'=>'A', 'Ç'=>'C', 'È'=>'E', 'É'=>'E', 'Ê'=>'E', 'Ë'=>'E', 'Ì'=>'I', 'Í'=>'I',
-            'Î'=>'I', 'Ï'=>'I', 'Ñ'=>'N', 'Ò'=>'O', 'Ó'=>'O', 'Ô'=>'O', 'Õ'=>'O', 'Ö'=>'Oe', 'Ø'=>'O', 'Ù'=>'U',
-            'Ú'=>'U', 'Û'=>'U', 'Ü'=>'Ue', 'Ý'=>'Y', 'Þ'=>'B', 'ß'=>'ss', 'à'=>'a', 'á'=>'a', 'â'=>'a', 'ã'=>'a',
-            'ä'=>'ae', 'å'=>'a', 'æ'=>'a', 'ç'=>'c', 'è'=>'e', 'é'=>'e', 'ê'=>'e', 'ë'=>'e', 'ì'=>'i', 'í'=>'i',
-            'î'=>'i', 'ï'=>'i', 'ð'=>'o', 'ñ'=>'n', 'ò'=>'o', 'ó'=>'o', 'ô'=>'o', 'õ'=>'o',
-            'ö'=>'oe', 'ø'=>'o', 'ù'=>'u', 'ú'=>'u', 'û'=>'u','ü'=>'ue', 'ý'=>'y', 'þ'=>'b', 'ÿ'=>'y',
-            'Ğ'=>'G', 'İ'=>'I', 'Ş'=>'S', 'ğ'=>'g', 'ı'=>'i',
-            'ă'=>'a', 'Ă'=>'A', 'ș'=>'s', 'Ș'=>'S', 'ț'=>'t', 'Ț'=>'T',
-            ' ' => '_');
-        $uid = strtr($uid, $unwanted_array);
-
-        $uid = strtolower($uid);
-
-        $this->uid = $uid;
-    }
-
-    /**
-     * @return mixed
-     */
     public function getGivenName()
     {
         return $this->givenName;
@@ -205,7 +175,7 @@ class User implements UserInterface, EquatableInterface
         $this->givenName = $givenName;
     }
 
-        /**
+    /**
      * @return mixed
      */
     public function getFirstName()
@@ -268,7 +238,6 @@ class User implements UserInterface, EquatableInterface
     {
         $this->mail = $mail;
     }
-
 
     /**
      * @return string
@@ -424,12 +393,6 @@ class User implements UserInterface, EquatableInterface
         $this->stamm = $stamm;
     }
 
-
-
-
-
-
-
     /**
      * Returns the roles granted to the user.
      *
@@ -452,36 +415,11 @@ class User implements UserInterface, EquatableInterface
     }
 
     /**
-     * Returns the password used to authenticate the user.
-     *
-     * This should be the encoded password. On authentication, a plain-text
-     * password will be salted, encoded, and then compared to this value.
-     *
-     * @return string The password
-     */
-    public function getPassword(): string
-    {
-        return $this->shaHashedPassword;
-    }
-
-    /**
      * @param string $hashedPassword
      */
     public function setPassword(string $hashedPassword)
     {
         $this->shaHashedPassword = $hashedPassword;
-    }
-
-    /**
-     * Returns the salt that was originally used to encode the password.
-     *
-     * This can return null if the password was not encoded using a salt.
-     *
-     * @return string|null The salt
-     */
-    public function getSalt()
-    {
-        return $this->salt;
     }
 
     /**
@@ -528,6 +466,130 @@ class User implements UserInterface, EquatableInterface
         }
 
         return true;
+    }
+
+    /**
+     * Returns the password used to authenticate the user.
+     *
+     * This should be the encoded password. On authentication, a plain-text
+     * password will be salted, encoded, and then compared to this value.
+     *
+     * @return string The password
+     */
+    public function getPassword(): string
+    {
+        return $this->shaHashedPassword;
+    }
+
+    /**
+     * Returns the salt that was originally used to encode the password.
+     *
+     * This can return null if the password was not encoded using a salt.
+     *
+     * @return string|null The salt
+     */
+    public function getSalt()
+    {
+        return $this->salt;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getUid()
+    {
+        return $this->uid;
+    }
+
+    /**
+     * @param mixed $uid
+     */
+    public function setUid($uid)
+    {
+        $unwanted_array = array(
+            'Š' => 'S',
+            'š' => 's',
+            'Ž' => 'Z',
+            'ž' => 'z',
+            'À' => 'A',
+            'Á' => 'A',
+            'Â' => 'A',
+            'Ã' => 'A',
+            'Ä' => 'Ae',
+            'Å' => 'A',
+            'Æ' => 'A',
+            'Ç' => 'C',
+            'È' => 'E',
+            'É' => 'E',
+            'Ê' => 'E',
+            'Ë' => 'E',
+            'Ì' => 'I',
+            'Í' => 'I',
+            'Î' => 'I',
+            'Ï' => 'I',
+            'Ñ' => 'N',
+            'Ò' => 'O',
+            'Ó' => 'O',
+            'Ô' => 'O',
+            'Õ' => 'O',
+            'Ö' => 'Oe',
+            'Ø' => 'O',
+            'Ù' => 'U',
+            'Ú' => 'U',
+            'Û' => 'U',
+            'Ü' => 'Ue',
+            'Ý' => 'Y',
+            'Þ' => 'B',
+            'ß' => 'ss',
+            'à' => 'a',
+            'á' => 'a',
+            'â' => 'a',
+            'ã' => 'a',
+            'ä' => 'ae',
+            'å' => 'a',
+            'æ' => 'a',
+            'ç' => 'c',
+            'è' => 'e',
+            'é' => 'e',
+            'ê' => 'e',
+            'ë' => 'e',
+            'ì' => 'i',
+            'í' => 'i',
+            'î' => 'i',
+            'ï' => 'i',
+            'ð' => 'o',
+            'ñ' => 'n',
+            'ò' => 'o',
+            'ó' => 'o',
+            'ô' => 'o',
+            'õ' => 'o',
+            'ö' => 'oe',
+            'ø' => 'o',
+            'ù' => 'u',
+            'ú' => 'u',
+            'û' => 'u',
+            'ü' => 'ue',
+            'ý' => 'y',
+            'þ' => 'b',
+            'ÿ' => 'y',
+            'Ğ' => 'G',
+            'İ' => 'I',
+            'Ş' => 'S',
+            'ğ' => 'g',
+            'ı' => 'i',
+            'ă' => 'a',
+            'Ă' => 'A',
+            'ș' => 's',
+            'Ș' => 'S',
+            'ț' => 't',
+            'Ț' => 'T',
+            ' ' => '_',
+        );
+        $uid = strtr($uid, $unwanted_array);
+
+        $uid = strtolower($uid);
+
+        $this->uid = $uid;
     }
 
     /**

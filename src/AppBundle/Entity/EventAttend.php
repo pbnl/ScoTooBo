@@ -4,7 +4,6 @@ namespace AppBundle\Entity;
 
 use Doctrine\ORM\EventsAttend;
 use Doctrine\ORM\Mapping as ORM;
-use phpDocumentor\Reflection\Types\Null_;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
@@ -127,8 +126,6 @@ class EventAttend
     }
 
 
-
-
     /**
      * Get id
      *
@@ -137,6 +134,16 @@ class EventAttend
     public function getId()
     {
         return $this->id;
+    }
+
+    /**
+     * Get eventId
+     *
+     * @return integer
+     */
+    public function getEventId()
+    {
+        return $this->eventId;
     }
 
     /**
@@ -154,13 +161,13 @@ class EventAttend
     }
 
     /**
-     * Get eventId
+     * Get datetimeRegistration
      *
-     * @return integer
+     * @return \DateTime
      */
-    public function getEventId()
+    public function getDatetimeRegistration()
     {
-        return $this->eventId;
+        return $this->datetimeRegistration;
     }
 
     /**
@@ -178,16 +185,6 @@ class EventAttend
     }
 
     /**
-     * Get datetimeRegistration
-     *
-     * @return \DateTime
-     */
-    public function getDatetimeRegistration()
-    {
-        return $this->datetimeRegistration;
-    }
-
-    /**
      * Get datetimeRegistrationAsString
      *
      * @return \String
@@ -195,6 +192,16 @@ class EventAttend
     public function datetimeRegistrationAsString()
     {
         return $this->datetimeRegistration->format('d.m.Y H:i:s');
+    }
+
+    /**
+     * Get firstname
+     *
+     * @return string
+     */
+    public function getFirstname()
+    {
+        return $this->firstname;
     }
 
     /**
@@ -212,13 +219,13 @@ class EventAttend
     }
 
     /**
-     * Get firstname
+     * Get lastname
      *
      * @return string
      */
-    public function getFirstname()
+    public function getLastname()
     {
-        return $this->firstname;
+        return $this->lastname;
     }
 
     /**
@@ -236,13 +243,13 @@ class EventAttend
     }
 
     /**
-     * Get lastname
+     * Get email
      *
      * @return string
      */
-    public function getLastname()
+    public function getEmail()
     {
-        return $this->lastname;
+        return $this->email;
     }
 
     /**
@@ -260,13 +267,13 @@ class EventAttend
     }
 
     /**
-     * Get email
+     * Get addressStreet
      *
      * @return string
      */
-    public function getEmail()
+    public function getAddressStreet()
     {
-        return $this->email;
+        return $this->address_street;
     }
 
     /**
@@ -284,13 +291,13 @@ class EventAttend
     }
 
     /**
-     * Get addressStreet
+     * Get addressNr
      *
      * @return string
      */
-    public function getAddressStreet()
+    public function getAddressNr()
     {
-        return $this->address_street;
+        return $this->address_nr;
     }
 
     /**
@@ -308,13 +315,13 @@ class EventAttend
     }
 
     /**
-     * Get addressNr
+     * Get addressPlz
      *
-     * @return string
+     * @return integer
      */
-    public function getAddressNr()
+    public function getAddressPlz()
     {
-        return $this->address_nr;
+        return $this->address_plz;
     }
 
     /**
@@ -332,13 +339,13 @@ class EventAttend
     }
 
     /**
-     * Get addressPlz
+     * Get addressCity
      *
-     * @return integer
+     * @return string
      */
-    public function getAddressPlz()
+    public function getAddressCity()
     {
-        return $this->address_plz;
+        return $this->address_city;
     }
 
     /**
@@ -356,13 +363,13 @@ class EventAttend
     }
 
     /**
-     * Get addressCity
+     * Get stamm
      *
      * @return string
      */
-    public function getAddressCity()
+    public function getStamm()
     {
-        return $this->address_city;
+        return $this->stamm;
     }
 
     /**
@@ -380,13 +387,13 @@ class EventAttend
     }
 
     /**
-     * Get stamm
+     * Get group
      *
      * @return string
      */
-    public function getStamm()
+    public function getGroup()
     {
-        return $this->stamm;
+        return $this->group;
     }
 
     /**
@@ -404,13 +411,13 @@ class EventAttend
     }
 
     /**
-     * Get group
+     * Get pig
      *
-     * @return string
+     * @return boolean
      */
-    public function getGroup()
+    public function getPig()
     {
-        return $this->group;
+        return $this->pig;
     }
 
     /**
@@ -425,16 +432,6 @@ class EventAttend
         $this->pig = $pig;
 
         return $this;
-    }
-
-    /**
-     * Get pig
-     *
-     * @return boolean
-     */
-    public function getPig()
-    {
-        return $this->pig;
     }
 
     /**
@@ -454,6 +451,16 @@ class EventAttend
     }
 
     /**
+     * Get vegi
+     *
+     * @return boolean
+     */
+    public function getVegi()
+    {
+        return $this->vegi;
+    }
+
+    /**
      * Set vegi
      *
      * @param boolean $vegi
@@ -465,16 +472,6 @@ class EventAttend
         $this->vegi = $vegi;
 
         return $this;
-    }
-
-    /**
-     * Get vegi
-     *
-     * @return boolean
-     */
-    public function getVegi()
-    {
-        return $this->vegi;
     }
 
     /**
@@ -494,6 +491,16 @@ class EventAttend
     }
 
     /**
+     * Get vega
+     *
+     * @return boolean
+     */
+    public function getVega()
+    {
+        return $this->vega;
+    }
+
+    /**
      * Set vega
      *
      * @param boolean $vega
@@ -505,16 +512,6 @@ class EventAttend
         $this->vega = $vega;
 
         return $this;
-    }
-
-    /**
-     * Get vega
-     *
-     * @return boolean
-     */
-    public function getVega()
-    {
-        return $this->vega;
     }
 
     /**
@@ -534,6 +531,16 @@ class EventAttend
     }
 
     /**
+     * Get comment
+     *
+     * @return string
+     */
+    public function getComment()
+    {
+        return $this->comment;
+    }
+
+    /**
      * Set comment
      *
      * @param string $comment
@@ -545,15 +552,5 @@ class EventAttend
         $this->comment = $comment;
 
         return $this;
-    }
-
-    /**
-     * Get comment
-     *
-     * @return string
-     */
-    public function getComment()
-    {
-        return $this->comment;
     }
 }

@@ -36,18 +36,33 @@ class UserController extends Controller
         //Create search form
         $defaultData = array();
         $userSearchForm = $this->createFormBuilder($defaultData)
-            ->add("filterOption", ChoiceType::class, array(
-                "choices"=>array("general.username"=>"filterByUid", "general.group"=>"filterByGroup"),
-                'label'=>false,
-                'required' => false,
-                'data'=>"filterByUid"))
-            ->add("filterText", TextType::class, array(
-                "attr"=>["placeholder"=>"general.search"],
-                'label'=>false,
-                'required' => false))
-            ->add("send", SubmitType::class, array(
-                "label"=>"general.search",
-                "attr"=>["class"=>"btn btn-primary"]))
+            ->add(
+                "filterOption",
+                ChoiceType::class,
+                array(
+                    "choices" => array("general.username" => "filterByUid", "general.group" => "filterByGroup"),
+                    'label' => false,
+                    'required' => false,
+                    'data' => "filterByUid",
+                )
+            )
+            ->add(
+                "filterText",
+                TextType::class,
+                array(
+                    "attr" => ["placeholder" => "general.search"],
+                    'label' => false,
+                    'required' => false,
+                )
+            )
+            ->add(
+                "send",
+                SubmitType::class,
+                array(
+                    "label" => "general.search",
+                    "attr" => ["class" => "btn btn-primary"],
+                )
+            )
             ->setMethod("get")
             ->getForm();
 
@@ -68,10 +83,13 @@ class UserController extends Controller
             $this->addFlash("info", $e->getMessage());
         }
 
-        return $this->render('userManagement/showAllUsers.html.twig', [
-            "peopleSearchForm" => $userSearchForm->createView(),
-            "users"=>$users,
-        ]);
+        return $this->render(
+            'userManagement/showAllUsers.html.twig',
+            [
+                "peopleSearchForm" => $userSearchForm->createView(),
+                "users" => $users,
+            ]
+        );
     }
 
     /**
@@ -90,56 +108,105 @@ class UserController extends Controller
 
         $user = new User("", "", "", []);
         $addUserForm = $this->createFormBuilder($user, ['attr' => ['class' => 'form-addUser']])
-            ->add("firstName", TextType::class, array(
-                "attr"=>["placeholder"=>"general.firstName"],
-                'label' => "general.firstName"))
-            ->add("lastName", TextType::class, array(
-                "attr"=>["placeholder"=>"general.lastName"],
-                'label' => "general.lastName"))
-            ->add("givenName", TextType::class, array(
-                "attr"=>["placeholder"=>"general.username"],
-                'label' => "general.username"))
-            ->add("clearPassword", PasswordType::class, array(
-                "attr"=>["placeholder"=>"general.password"],
-                'label' => "general.password"))
-            ->add("generatePassword", ButtonType::class, array(
-                "attr"=>[],
-                'label' => "User.add.generatePassword"))
-            ->add("generatedPassword", TextType::class, array(
-                "attr"=>["readonly"=>"",
-                    "placeholder"=>"User.add.generatedPassword"],
-                "label"=>false))
-            ->add('stamm', ChoiceType::class, array(
-                'choices'  => ArrayMethods::valueToKeyAndValue($staemme),
-                'label' => "general.stamm",
-                "attr"=>[
-                    "data-step"=>"4",
-                    "data-intro"=>$this->get('translator')->trans('IntroJS.addUser.stamm')
-                ]
-            ))
-            ->add('wikiAcces', CheckboxType::class, array(
-                'mapped' => false,
-                "attr"=>["placeholder"=>"User.add.wikiAccess"],
-                'label' => "User.add.wikiAccess",
-                'required' => false
-            ))
-            ->add('elderRole', CheckboxType::class, array(
-                'mapped' => false,
-                "attr"=>[
-                    "placeholder"=>"User.add.eldeRole",
-                    "data-step" => "3",
-                    "data-intro" => $this->get('translator')->trans('IntroJS.addUser.wikiAcces')],
-                'label' => "User.add.eldeRole",
-                'required' => false
-            ))
-            ->add("send", SubmitType::class, array(
-                "label"=>"general.create",
-                "attr"=>[
-                    "class"=>"btn btn-lg btn-primary btn-block",
-                    "data-step"=>"5",
-                    "data-intro"=>$this->get('translator')->trans('IntroJS.addUser.submit')
-                ]
-            ))
+            ->add(
+                "firstName",
+                TextType::class,
+                array(
+                    "attr" => ["placeholder" => "general.firstName"],
+                    'label' => "general.firstName",
+                )
+            )
+            ->add(
+                "lastName",
+                TextType::class,
+                array(
+                    "attr" => ["placeholder" => "general.lastName"],
+                    'label' => "general.lastName",
+                )
+            )
+            ->add(
+                "givenName",
+                TextType::class,
+                array(
+                    "attr" => ["placeholder" => "general.username"],
+                    'label' => "general.username",
+                )
+            )
+            ->add(
+                "clearPassword",
+                PasswordType::class,
+                array(
+                    "attr" => ["placeholder" => "general.password"],
+                    'label' => "general.password",
+                )
+            )
+            ->add(
+                "generatePassword",
+                ButtonType::class,
+                array(
+                    "attr" => [],
+                    'label' => "User.add.generatePassword",
+                )
+            )
+            ->add(
+                "generatedPassword",
+                TextType::class,
+                array(
+                    "attr" => [
+                        "readonly" => "",
+                        "placeholder" => "User.add.generatedPassword",
+                    ],
+                    "label" => false,
+                )
+            )
+            ->add(
+                'stamm',
+                ChoiceType::class,
+                array(
+                    'choices' => ArrayMethods::valueToKeyAndValue($staemme),
+                    'label' => "general.stamm",
+                    "attr" => [
+                        "data-step" => "4",
+                        "data-intro" => $this->get('translator')->trans('IntroJS.addUser.stamm'),
+                    ],
+                )
+            )
+            ->add(
+                'wikiAcces',
+                CheckboxType::class,
+                array(
+                    'mapped' => false,
+                    "attr" => ["placeholder" => "User.add.wikiAccess"],
+                    'label' => "User.add.wikiAccess",
+                    'required' => false,
+                )
+            )
+            ->add(
+                'elderRole',
+                CheckboxType::class,
+                array(
+                    'mapped' => false,
+                    "attr" => [
+                        "placeholder" => "User.add.eldeRole",
+                        "data-step" => "3",
+                        "data-intro" => $this->get('translator')->trans('IntroJS.addUser.wikiAcces'),
+                    ],
+                    'label' => "User.add.eldeRole",
+                    'required' => false,
+                )
+            )
+            ->add(
+                "send",
+                SubmitType::class,
+                array(
+                    "label" => "general.create",
+                    "attr" => [
+                        "class" => "btn btn-lg btn-primary btn-block",
+                        "data-step" => "5",
+                        "data-intro" => $this->get('translator')->trans('IntroJS.addUser.submit'),
+                    ],
+                )
+            )
             ->getForm();
 
         $addedSomeone = false;
@@ -149,7 +216,7 @@ class UserController extends Controller
         if ($addUserForm->isSubmitted() && $addUserForm->isValid()) {
             //Prepare User
             $user->setUid($user->getGivenName());
-            $user->setMail($user->getUid() . "@pbnl.de");
+            $user->setMail($user->getUid()."@pbnl.de");
 
             //Create the new user
             try {
@@ -179,16 +246,22 @@ class UserController extends Controller
             } catch (UserAlreadyExistException $e) {
                 $this->addFlash("error", $e->getMessage());
             } catch (ContextErrorException $e) {
-                $this->addFlash("error", $e->getMessage()." Das bedeutet wahrscheinlich, dass der Stamm (ou) nicht existiert");
+                $this->addFlash(
+                    "error",
+                    $e->getMessage()." Das bedeutet wahrscheinlich, dass der Stamm (ou) nicht existiert"
+                );
             }
         }
 
         //Render the page
-        return $this->render("userManagement/addUser.html.twig", array(
-            "addAUserForm" => $addUserForm->createView(),
-            "addedPerson" => $user,
-            "addedSomeone" => $addedSomeone
-        ));
+        return $this->render(
+            "userManagement/addUser.html.twig",
+            array(
+                "addAUserForm" => $addUserForm->createView(),
+                "addedPerson" => $user,
+                "addedSomeone" => $addedSomeone,
+            )
+        );
     }
 
     /**
@@ -214,44 +287,84 @@ class UserController extends Controller
         //TODO add the ability for groupleaders to edit their users
         if ($this->isGranted("edit", $userToShow)) {
             $editUserForm = $this->createFormBuilder($userToShow, ['attr' => ['class' => 'form-addAUser']])
-                ->add("firstName", TextType::class, array(
-                    "attr" => ["placeholder" => "general.firstName"],
-                    'label' => "general.firstName",
-                    'empty_data' => '',
-                    "required" => true))
-                ->add("lastName", TextType::class, array(
-                    "attr" => ["placeholder" => "general.lastName"],
-                    'label' => "general.lastName",
-                    'empty_data' => '',
-                    "required" => true))
-                ->add("city", TextType::class, array(
-                    "attr" => ["placeholder" => "general.city"],
-                    'label' => "general.city",
-                    'empty_data' => '',
-                    "required" => false))
-                ->add("postalCode", TextType::class, array(
-                    "attr" => ["placeholder" => "general.postalCode"],
-                    'label' => "general.postalCode",
-                    'empty_data' => '',
-                    "required" => false))
-                ->add("street", TextType::class, array(
-                    "attr" => ["placeholder" => "general.street"],
-                    'label' => "general.street",
-                    'empty_data' => '',
-                    "required" => false))
-                ->add("homePhoneNumber", TextType::class, array(
-                    "attr" => ["placeholder" => "general.phoneNumber.home"],
-                    'label' => "general.phoneNumber.home",
-                    'empty_data' => '',
-                    "required" => false))
-                ->add("mobilePhoneNumber", TextType::class, array(
-                    "attr" => ["placeholder" => "general.phoneNumber.mobile"],
-                    'label' => "general.phoneNumber.mobil",
-                    'empty_data' => '',
-                    "required" => false))
-                ->add("send", SubmitType::class, array(
-                    "label" => "general.save",
-                    "attr" => ["class" => "btn btn-lg btn-primary btn-block"]))
+                ->add(
+                    "firstName",
+                    TextType::class,
+                    array(
+                        "attr" => ["placeholder" => "general.firstName"],
+                        'label' => "general.firstName",
+                        'empty_data' => '',
+                        "required" => true,
+                    )
+                )
+                ->add(
+                    "lastName",
+                    TextType::class,
+                    array(
+                        "attr" => ["placeholder" => "general.lastName"],
+                        'label' => "general.lastName",
+                        'empty_data' => '',
+                        "required" => true,
+                    )
+                )
+                ->add(
+                    "city",
+                    TextType::class,
+                    array(
+                        "attr" => ["placeholder" => "general.city"],
+                        'label' => "general.city",
+                        'empty_data' => '',
+                        "required" => false,
+                    )
+                )
+                ->add(
+                    "postalCode",
+                    TextType::class,
+                    array(
+                        "attr" => ["placeholder" => "general.postalCode"],
+                        'label' => "general.postalCode",
+                        'empty_data' => '',
+                        "required" => false,
+                    )
+                )
+                ->add(
+                    "street",
+                    TextType::class,
+                    array(
+                        "attr" => ["placeholder" => "general.street"],
+                        'label' => "general.street",
+                        'empty_data' => '',
+                        "required" => false,
+                    )
+                )
+                ->add(
+                    "homePhoneNumber",
+                    TextType::class,
+                    array(
+                        "attr" => ["placeholder" => "general.phoneNumber.home"],
+                        'label' => "general.phoneNumber.home",
+                        'empty_data' => '',
+                        "required" => false,
+                    )
+                )
+                ->add(
+                    "mobilePhoneNumber",
+                    TextType::class,
+                    array(
+                        "attr" => ["placeholder" => "general.phoneNumber.mobile"],
+                        'label' => "general.phoneNumber.mobil",
+                        'empty_data' => '',
+                        "required" => false,
+                    )
+                )
+                ->add(
+                    "send",
+                    SubmitType::class,
+                    array(
+                        "label" => "general.save",
+                        "attr" => ["class" => "btn btn-lg btn-primary btn-block"],
+                    )
+                )
                 ->getForm();
 
             //Handel the form input
@@ -269,10 +382,13 @@ class UserController extends Controller
 
 
         //Render the page
-        return $this->render("userManagement/detailUser.html.twig", array(
-            "user"=>$userToShow,
-            "editUserForm" => $editUserForm,
-        ));
+        return $this->render(
+            "userManagement/detailUser.html.twig",
+            array(
+                "user" => $userToShow,
+                "editUserForm" => $editUserForm,
+            )
+        );
     }
 
     /**

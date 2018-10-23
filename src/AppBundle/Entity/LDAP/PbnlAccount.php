@@ -11,7 +11,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 class PbnlAccount extends LdapEntity
 {
 
-    static $mustFields = ["cn","gidNumber","homeDirectory","sn","uid","uidNumber"];
+    static $mustFields = ["cn", "gidNumber", "homeDirectory", "sn", "uid", "uidNumber"];
     static $uniqueIdentifier = "uidNumber";
 
     protected $ou;
@@ -72,6 +72,38 @@ class PbnlAccount extends LdapEntity
      * @Assert\Regex("/^[0-9,a-x,A-X,_,\/]*$/")
      */
     protected $homeDirectory = "";
+    /**
+     * Mobile number
+     * @var string
+     */
+    protected $mobile = "";
+    /**
+     *  the postal code (PLZ)
+     * @var string
+     * @Assert\Regex("/^[0-9]*$/") only numbers
+     */
+    protected $postalCode = "";
+    /**
+     * Full address of the user (without postal code and city)
+     * @var string
+     */
+    protected $street = "";
+    /**
+     * Telephone number of the users home
+     * @var string
+     */
+    protected $telephoneNumber = "";
+    /**
+     * City the user lives in
+     * @var string
+     */
+    protected $l = "";
+    /**
+     * Internal unix gidNumer (not used)
+     * default value is "501"
+     * @var int
+     */
+    protected $gidNumber = "501";
 
     /**
      * @return string
@@ -89,62 +121,8 @@ class PbnlAccount extends LdapEntity
         $this->userPassword = $userPassword;
     }
 
-    /**
-     * Mobile number
-     * @var string
-     */
-    protected $mobile = "";
-
-    /**
-     *  the postal code (PLZ)
-     * @var string
-     * @Assert\Regex("/^[0-9]*$/") only numbers
-     */
-    protected $postalCode = "";
-
-    /**
-     * Full address of the user (without postal code and city)
-     * @var string
-     */
-    protected $street = "";
-
-    /**
-     * Telephone number of the users home
-     * @var string
-     */
-    protected $telephoneNumber = "";
-
-    /**
-     * City the user lives in
-     * @var string
-     */
-    protected $l = "";
-
-    /**
-     * Internal unix gidNumer (not used)
-     * default value is "501"
-     * @var int
-     */
-    protected $gidNumber = "501";
-
 
     //All getters and setters
-
-    /**
-     * @return string
-     */
-    public function getGivenName()
-    {
-        return $this->givenName;
-    }
-
-    /**
-     * @param string $givenName
-     */
-    public function setGivenName($givenName)
-    {
-        $this->givenName = $givenName;
-    }
 
     /**
      * @return string
@@ -192,14 +170,6 @@ class PbnlAccount extends LdapEntity
     public function setSn($sn)
     {
         $this->sn = $sn;
-    }
-
-    /**
-     * @param mixed $ou
-     */
-    public function setOu($ou)
-    {
-        $this->ou = $ou;
     }
 
     /**
@@ -257,10 +227,11 @@ class PbnlAccount extends LdapEntity
     {
         $this->dn = $dn;
 
-        if($dn != "")
-        {
-            $ldapDnParts = ldap_explode_dn($dn , 1);
-            if($ldapDnParts == FALSE) throw new \BadMethodCallException("DN you want to set is wrong");
+        if ($dn != "") {
+            $ldapDnParts = ldap_explode_dn($dn, 1);
+            if ($ldapDnParts == false) {
+                throw new \BadMethodCallException("DN you want to set is wrong");
+            }
             $ouName = $ldapDnParts[1];
             $this->setOu($ouName);
 
@@ -356,14 +327,6 @@ class PbnlAccount extends LdapEntity
     }
 
     /**
-     * @return mixed
-     */
-    public function getOu()
-    {
-        return $this->ou;
-    }
-
-    /**
      * @param string $gidNumber
      */
     public function setGidNumber($gidNumber)
@@ -372,15 +335,19 @@ class PbnlAccount extends LdapEntity
     }
 
     /**
-     * Generates a Dn based on the OU and the givenName
+     * @return mixed
      */
-    protected function generateNewDn()
+    public function getOu()
     {
-        if($this->getGivenName()== "" || $this->ou == "")
-        {
-            throw new BadMethodCallException("Cant generate DN: GivenName or Ou is empty ('')");
-        }
-        return "givenName=".$this->getGivenName().",ou=$this->ou,ou=People,dc=pbnl,dc=de";
+        return $this->ou;
+    }
+
+    /**
+     * @param mixed $ou
+     */
+    public function setOu($ou)
+    {
+        $this->ou = $ou;
     }
 
     /**
@@ -390,10 +357,38 @@ class PbnlAccount extends LdapEntity
     public function setNullFieldToEmptyString()
     {
         foreach ($this as $key => $value) {
-            if($value == null){
+            if ($value == null) {
                 $this->$key = "";
             }
         }
+    }
+
+    /**
+     * Generates a Dn based on the OU and the givenName
+     */
+    protected function generateNewDn()
+    {
+        if ($this->getGivenName() == "" || $this->ou == "") {
+            throw new BadMethodCallException("Cant generate DN: GivenName or Ou is empty ('')");
+        }
+
+        return "givenName=".$this->getGivenName().",ou=$this->ou,ou=People,dc=pbnl,dc=de";
+    }
+
+    /**
+     * @return string
+     */
+    public function getGivenName()
+    {
+        return $this->givenName;
+    }
+
+    /**
+     * @param string $givenName
+     */
+    public function setGivenName($givenName)
+    {
+        $this->givenName = $givenName;
     }
 
 }
