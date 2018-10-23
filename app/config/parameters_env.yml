@@ -18,9 +18,10 @@ parameters:
     env(secret): null
     env(recaptcha_secret): gSiteSecret
     env(recaptcha_globalcode): gGlobalCode
+    env(staemme):  "{\"staemme\": [\"Ambronen\",\"Hagen von Tronje\",\"Anduril\", \"Dragon\", \"Caradhras\",\"Ynys Avilion\"]}"
 
     secret: "%env(secret)%"
     recaptcha.secret: "%env(recaptcha_secret)%"
     recaptcha.globalcode: "%env(recaptcha_globalcode)%"
 
-    staemme: "{\"staemme\": [\"Ambronen\",\"Hagen von Tronje\",\"Anduril\"]}"
+    staemme: "%env(staemme)%"
