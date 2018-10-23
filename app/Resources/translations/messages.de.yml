@@ -4,13 +4,19 @@
 # - IntroJS: IntroJS.___
 # -> more pages in alphabetical order
 
+general.address: Anschrift
+general.address_nr: Hausnummer
 general.browserdata: Browserdaten
+general.captcha: Spamschutz
+general.close: Schließen
 general.city: Stadt
 general.create: Erstellen
 general.date: Datum
 general.delete: Löschen
 general.description: Beschreibung
+general.eat: Essenswünsche
 general.edit: Ändern
+general.firstLastName: Vor- und Nachname
 general.firstName: Vorname
 general.gid: Gid
 general.group: Gruppe
@@ -22,26 +28,34 @@ general.logout: Logout
 general.mail: E-Mail-Adresse
 general.member: Mitglied
 general.name: Name
+general.no: Nein
 general.not.editable: Nicht änderbar
 general.nr: Nr
 general.password: Passwort
 general.phoneNumber.home: Telefonnummer
 general.phoneNumber.mobile: Mobile
 general.picture: Bild
+general.pig: mit Schwein
 general.place: Ort
 general.postalCode: PLZ
+general.postalCodePlace: PLZ und Ort
 general.price: Preis
 general.save: Speichern
 general.search: Suchen
 general.stamm: Stamm
 general.street: Straße
+general.streetAddressNr: Straße und Hausnummer
 general.username: Benutzername
 general.text: Text
 general.uidNumber: Benutzer ID
 general.url: URL
 general.value: Wert
+general.vega: vegan
+general.vegi: vegetarisch
 general.welcome: Willkommen
 general.mailinglist: Mailliste
+general.yes: Ja
+None: keine Angabe # e.g. for form choices if required=false
 
 
 
@@ -108,6 +122,25 @@ Event.add.DateFrom: Von
 Event.add.DateTo: Bis
 Event.add.Place: Ort
 Event.add.Submit: Erstellen
+Event.attendInvitationLink.registrationPeriod: Anmeldezeitraum:
+Event.attendInvitationLink.datetime: Zeitraum:
+Event.attendInvitationLink.description: Beschreibung:
+Event.attendInvitationLink.information: Informationen
+Event.attendInvitationLink.name: Name:
+Event.attendInvitationLink.price: Kosten:
+Event.attendInvitationLink.registration: Anmeldung
+Event.attendInvitationLink.submit: Anmeldung mit den o.g. Bedingungen zu der Veranstalltung
+Event.attendInvitationLink.title: Anmeldung für
+Event.attendInvitationLink.wrongTime: Der Anmeldezeitraum ist leider schon um.
+Event.showAll.invitationLink: Einladungslink
+Event.showAll.invitationLink.edit: EDIT
+Event.showAll.invitationLink.generate: GENERIEREN
+Event.showAll.invitationLink.participantLink: Link für Teilnehmer
+Event.showAll.invitationLink.modalText: Wähle bitte die Felder an, die von den Teilnehmern ausgefüllt werden sollen. Die zweite Spalte macht diese Felder zu Pflichtfeldern.
+Event.showAll.invitationLink.modalTextChangeFields: Eine Änderung erzeugt einen neuen Zugangslink. Bereits erfolgte Anmeldungen bleiben bestehen, ausgefüllte Felder werden aber ggf. nicht mehr angezeigt.
+Event.showAll.invitationLink.modalTextDatetimeWarning: Das Event ist bereits abgelaufen, wollen Sie wirklich noch einen Link erstellen?
+Event.showAll.invitationLink.modalTitelShow: Anzeigen
+Event.showAll.invitationLink.modalTitelRequired: Pflichtfeld
 
 Feedback.label: Fehler / Feedback
 Feedback.header: Sende Feedback

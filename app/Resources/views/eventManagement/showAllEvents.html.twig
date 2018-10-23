@@ -30,6 +30,9 @@
                 {% trans %}general.place{% endtrans %}
             </th>
             <th class="filter-false">
+                {% trans %}Event.showAll.invitationLink{% endtrans %}
+            </th>
+            <th class="filter-false">
                 &nbsp;
             </th>
         </tr>
@@ -56,6 +59,15 @@
                     {{event.getPlace}}
                 </td>
                 <td>
+                    {% if event.getInvitationLink==NULL %}
+                        {% include 'includes/addInvitationLinkFormulaWithConfirmDialog.html.twig' with {"event":event,"edit":false} %}
+                    {% else %}
+                        {% include 'includes/addInvitationLinkFormulaWithConfirmDialog.html.twig' with {"event":event,"edit":true} %}
+                        <a href="/events/attend/{{ event.getInvitationLink }}" class="btn btn-outline-success">{% trans %}Event.showAll.invitationLink.participantLink{% endtrans %}</a>
+                        <a href="/events/show/participants/{{ event.getId }}" class="btn btn-outline-info">Liste</a>
+                    {% endif %}
+                </td>
+                <td>
                     Bearbeiten / Löschen (folgt)
 
                 </td>
@@ -63,7 +75,7 @@
         {% endfor %}
         </tbody>
 
-        {% include 'includes/tablesorterFooter.html.twig' with {'NumberOfColumns': '7'} only %}
+        {% include 'includes/tablesorterFooter.html.twig' with {'NumberOfColumns': '8'} only %}
     </table>
 {% endblock %}
 
@@ -71,4 +83,76 @@
     {{ parent() }}
     <script src="{{ asset('js/tablesorter.js') }}"></script>
 
+    <script>
+        {% for event in events %}
+            {% for field in possibleFormFields %}
+                {# $( "input[type='checkbox']" ).prop({ #}
+                /* reset of all field */
+                $( "#checkbox_{{ event.getId }}_{{ field[0] }}" ).prop({
+                    disabled: false,
+                    checked: false
+                });
+                $( "#checkbox_{{ event.getId }}_{{ field[0] }}_2" ).prop({
+                    disabled: true,
+                    checked: false
+                });
+
+                /* set default values */
+                {% if event.getInvitationLink==NULL %}
+                    {% if field[2] == true %}
+                        $( "#checkbox_{{ event.getId }}_{{ field[0] }}" ).prop({
+                            checked: true
+                        });
+                        $( "#checkbox_{{ event.getId }}_{{ field[0] }}_2" ).prop({
+                            disabled: false
+                        });
+                        {% if field[3] == true %}
+                            $( "#checkbox_{{ event.getId }}_{{ field[0] }}_2" ).prop({
+                                checked: true
+                            });
+                        {% endif %}
+                    {% endif %}
+                {% endif %}
+
+                /* react on change of first checkbox */
+                $( "#checkbox_{{ event.getId }}_{{ field[0] }}" ).change(function() {
+                    var $input = $( this );
+                    if ($input.is( ":checked" )) {
+                        /* enable second checkbox */
+                        $( "#"+$input[0].id+"_2" ).prop({
+                            disabled: false
+                        });
+                    } else {
+                        /* disselect and disable second checkbox */
+                        $( "#"+$input[0].id+"_2" ).prop({
+                            disabled: true,
+                            checked: false
+                        });
+                    }
+                });
+            {% endfor %}
+        {% endfor %}
+
+        /* more default values (from existing forms) */
+        {% for event in events %}
+            {% if event.participationFields %}
+                {% for field in event.participationFieldsAsArray %}
+                    {% if field[2] == true %}
+                        $( "#checkbox_{{ event.getId }}_{{ field[0] }}" ).prop({
+                            checked: true
+                        });
+                        $( "#checkbox_{{ event.getId }}_{{ field[0] }}_2" ).prop({
+                            disabled: false
+                        });
+                        {% if field[3] == true %}
+                            $( "#checkbox_{{ event.getId }}_{{ field[0] }}_2" ).prop({
+                                checked: true
+                            });
+                        {% endif %}
+                    {% endif %}
+                {% endfor %}
+            {% endif %}
+        {% endfor %}
+
+    </script>
 {% endblock %}

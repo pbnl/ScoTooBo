@@ -3,18 +3,16 @@
 echo "This script needs root access to clear the database"
 
 if [ $EUID != 0 ]; then
-    {
+    if which kdesudo 1>/dev/null 2>&1 ; then
         kdesudo "$0" "$@"
-    } || {
-        {
-            gksudo "$0" "$@"
-        } || {
-            echo "$1" | sudo -S "$0" "$@"
-        }
-    }
+    elif which gksudo 1>/dev/null 2>&1 ; then
+        gksudo "$0" "$@"
+    else
+        echo "$1" | sudo -S"$0" "$@"
+    fi
     exit $?
 fi
-echo "Clearing..."
+
 sudo service slapd stop
 sudo rm /etc/ldap/slapd.d/* -R
 sudo rm /var/lib/ldap/* -rf

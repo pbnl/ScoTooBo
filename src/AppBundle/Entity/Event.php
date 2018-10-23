@@ -2,6 +2,7 @@
 
 namespace AppBundle\Entity;
 
+use Doctrine\ORM\Events;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
@@ -67,6 +68,36 @@ class Event
      * @ORM\Column(type="text")
      */
     private $place;
+
+    /**
+     * @Assert\Length(
+     *     min=5,
+     *     max=200,
+     *     minMessage="This value is too short. It should have {{ limit }} characters or more",
+     *     maxMessage="This value is too long. It should have {{ limit }} characters or less."
+     * )
+     * @var string
+     * @ORM\Column(type="string", length=255, unique=true, nullable=true)
+     */
+    private $invitationLink;
+
+    /**
+     * @var \DateTime
+     * @ORM\Column(type="datetime", nullable=true)
+     */
+    private $invitationDateFrom;
+
+    /**
+     * @var \DateTime
+     * @ORM\Column(type="datetime", nullable=true)
+     */
+    private $invitationDateTo;
+
+    /**
+     * @var string
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $participationFields;
 
 
     /**
@@ -246,5 +277,135 @@ class Event
     public function getPlace()
     {
         return $this->place;
+    }
+
+    /**
+     * Set invitationLink
+     *
+     * @param string $invitationLink
+     *
+     * @return Events
+     */
+    public function setInvitationLink($invitationLink)
+    {
+        $this->invitationLink = $invitationLink;
+
+        return $this;
+    }
+
+    /**
+     * Get invitationLink
+     *
+     * @return string
+     */
+    public function getInvitationLink()
+    {
+        return $this->invitationLink;
+    }
+
+    /**
+     * Set invitationDateFrom
+     *
+     * @param \DateTime $invitationDateFrom
+     *
+     * @return Events
+     */
+    public function setInvitationDateFrom($invitationDateFrom)
+    {
+        $this->invitationDateFrom = $invitationDateFrom;
+
+        return $this;
+    }
+
+    /**
+     * Get invitationDateFrom
+     *
+     * @return \DateTime
+     */
+    public function getInvitationDateFrom()
+    {
+        return $this->invitationDateFrom;
+    }
+
+    /**
+     * Set invitationDateTo
+     *
+     * @param \DateTime $invitationDateTo
+     *
+     * @return Events
+     */
+    public function setInvitationDateTo($invitationDateTo)
+    {
+        $this->invitationDateTo = $invitationDateTo;
+
+        return $this;
+    }
+
+    /**
+     * Get invitationDateTo
+     *
+     * @return \DateTime
+     */
+    public function getInvitationDateTo()
+    {
+        return $this->invitationDateTo;
+    }
+
+    /**
+     * Set participationFields
+     *
+     * @param string $participationFields
+     *
+     * @return Events
+     */
+    public function setParticipationFields($participationFields)
+    {
+        $this->participationFields = $participationFields;
+
+        return $this;
+    }
+
+    /**
+     * Get participationFields
+     *
+     * @return string
+     */
+    public function getParticipationFields()
+    {
+        return $this->participationFields;
+    }
+
+    /**
+     * Get participationFieldsAsArray
+     *
+     * @return array
+     */
+    public function getParticipationFieldsAsArray()
+    {
+        return json_decode($this->participationFields);
+    }
+
+    /**
+     * Set price
+     *
+     * @param integer $price
+     *
+     * @return Event
+     */
+    public function setPrice($price)
+    {
+        $this->price = $price;
+
+        return $this;
+    }
+
+    /**
+     * Get price
+     *
+     * @return integer
+     */
+    public function getPrice()
+    {
+        return $this->price;
     }
 }

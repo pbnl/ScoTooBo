@@ -27,9 +27,14 @@ After you started the app for the first time go into the container by executing:
 Replace `pbnldocker_php_1` with the name of the container. Then go into the app directory and execute
 `php bin/console doctrine:schema:update --force` to create/update the sql database.
 
-If you want to clear, warm up the cache and create the assets execute 
+Noe you have to clear, warm up the cache and create the assets. Execute 
 `export SYMFONY_ENV=prod && export APP_ENV=prod && composer run-script post-install-cmd --no-interaction --no-dev`
 in the same directory to do this for an productive environment.
+
+The system requires some groups in the ldap:
+`buvo`, `elder`, `nordlichter`, `stavo`, `wiki`
+The stamm of an user is detected by the ou (of the ldap) he was placed in. So make sure that 
+this folders are spelt correctly. 
 
 Thats it. Now you have a working scotoobo installation.
 

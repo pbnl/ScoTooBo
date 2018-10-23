@@ -1,7 +1,7 @@
 $(document).ready(function() {
 
     // call the tablesorter plugin and apply the uitheme widget
-    $("table").tablesorter({
+    $("table:not(.sorter-false)").tablesorter({
         /* use 'bootstrap' for a grey header,
          * use 'default' for a light (white) header
          * see https://mottie.github.io/tablesorter/docs/themes.html for more details

@@ -1,0 +1,75 @@
+{% if edit %}
+<button type="button" class="btn btn-outline-warning" data-toggle="modal" data-target=".modal-{{ event.getId }}">{% trans %}Event.showAll.invitationLink.edit{% endtrans %}</button>
+{% else %}
+<button type="button" class="btn btn-outline-warning" data-toggle="modal" data-target=".modal-{{ event.getId }}">{% trans %}Event.showAll.invitationLink.generate{% endtrans %}</button>
+{% endif %}
+
+<div class="modal fade modal-{{ event.getId }}" tabindex="-1" role="dialog" aria-labelledby="gridSystemModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <form action="/events/invitationLink/generate/{{ event.getId }}" method="post" id="form_{{ event.getId }}">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="gridSystemModalLabel">{% trans %}Event.showAll.invitationLink{% endtrans %}</h4>
+                </div>
+                <div class="modal-body">
+                    {% trans %}Event.showAll.invitationLink.modalText{% endtrans %}
+                    {% if edit %}
+                    <br />
+                    <strong>{% trans %}Event.showAll.invitationLink.modalTextChangeFields{% endtrans %}</strong>
+                    {% endif %}
+                    <table class="table table-hover table-sm sorter-false">
+                        <thead>
+                            <tr>
+                                <td>&nbsp;</td>
+                                <th>{% trans %}Event.showAll.invitationLink.modalTitelShow{% endtrans %}</th>
+                                <th>{% trans %}Event.showAll.invitationLink.modalTitelRequired{% endtrans %}</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for field in possibleFormFields %}
+                            <tr>
+                                <th>{{ field[1] }}:</th>
+                                <td><input type="checkbox" id="checkbox_{{ event.getId }}_{{ field[0] }}" name="{{ field[0] }}_show" value="1" /></td>
+                                <td><input type="checkbox" id="checkbox_{{ event.getId }}_{{ field[0] }}_2" name="{{ field[0] }}_required" value="1" /></td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+
+                    <table class="table table-hover table-sm sorter-false">
+                        <tr>
+                            <th>Link von:</th>
+                            <td><input type="text" name="InvitationDateFrom" placeholder="{{ event.getInvitationDateFrom|date('Y-m-d H:i:s') }}" value="{{ event.getInvitationDateFrom|date('Y-m-d H:i:s') }}" /></td>
+                        </tr>
+                        <tr>
+                            <th>Link bis:</th>
+                            <td><input type="text" name="InvitationDateTo" placeholder="{{ event.getInvitationDateTo|date('Y-m-d H:i:s') }}" value="{{ event.getInvitationDateTo|date('Y-m-d H:i:s') }}" /></td>
+                        </tr>
+                        <tr>
+                            <th>Event von:</th>
+                            <td>{{ event.getDateFrom|date('Y-m-d H:i:s') }}</td>
+                        </tr>
+                        <tr>
+                            <th>Event bis:</th>
+                            <td>{{ event.getDateTo|date('Y-m-d H:i:s') }}</td>
+                        </tr>
+                    </table>
+                    {% if event.getInvitationDateFrom > event.getDateTo %}
+                        <strong style="color:#ff0000;">{% trans %}Event.showAll.invitationLink.modalTextDatetimeWarning{% endtrans %}</strong>
+                    {% endif %}
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">{% trans %}general.close{% endtrans %}</button>
+                    <input type="submit" class="btn btn-warning" value="
+                    {% if edit %}
+                        {% trans %}general.edit{% endtrans %}
+                    {% else %}
+                        {% trans %}general.create{% endtrans %}
+                    {% endif %}
+                    " />
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
