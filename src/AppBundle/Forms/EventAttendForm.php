@@ -168,7 +168,7 @@ class EventAttendForm extends AbstractType
                 ChoiceType::class,
                 array(
                     'label' => "general.stamm",
-                    'choices' => $this->options['staemme'],
+                    'choices' => ["staemme" => $this->options['staemme']],
                     'choice_label' => function ($value, $key, $index) {
                         return $value;
                     },

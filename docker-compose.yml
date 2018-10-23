@@ -25,7 +25,7 @@ services:
       - secret=null
       - recaptcha_secret=gSiteSecret
       - recaptcha_globalcode=gGlobalCode
-      - staemme="{\"staemme\": [\"Ambronen\",\"Hagen von Tronje\",\"Anduril\", \"Dragon\", \"Caradhras\",\"Ynys Avilion\"]}"
+      - staemme="[\"Ambronen\",\"Hagen von Tronje\",\"Anduril\", \"Dragon\", \"Caradhras\",\"Ynys Avilion\"]"
       # - LDAPTLS_REQCERT=never uncomment to disable cert validation
 
   nginx:

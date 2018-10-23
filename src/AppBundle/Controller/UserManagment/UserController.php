@@ -103,7 +103,7 @@ class UserController extends Controller
         //Create the form
         $userRepo = $this->get("data.userRepository");
         $jsonStaemme = $this->getParameter('staemme');
-        $staemme = json_decode($jsonStaemme, true)["staemme"];
+        $staemme = json_decode($jsonStaemme, true);
         //TODO We need a better way to save or determine the names of the staemme!
 
         $user = new User("", "", "", []);
