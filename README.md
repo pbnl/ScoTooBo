@@ -32,7 +32,7 @@ Noe you have to clear, warm up the cache and create the assets. Execute
 in the same directory to do this for an productive environment.
 
 The system requires some groups in the ldap:
-`buvo`, `elder`, `nordlichter`, `stavo`, `wiki`
+`buvo`, `elder`, `nordlichter`, `stavo`, `wiki`, `admin`
 The stamm of an user is detected by the ou (of the ldap) he was placed in. So make sure that 
 this folders are spelt correctly. 
 
