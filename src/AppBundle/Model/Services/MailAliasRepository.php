@@ -6,6 +6,7 @@ use AppBundle\Entity\LDAP\PbnlMailAlias;
 use AppBundle\Entity\LDAP\PosixGroup;
 use AppBundle\Model\Filter;
 use AppBundle\Model\LdapComponent\PbnlLdapEntityManager;
+use Doctrine\DBAL\Exception\DatabaseObjectExistsException;
 use Monolog\Logger;
 use Symfony\Component\Config\Tests\Util\Validator;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
@@ -82,5 +83,23 @@ class MailAliasRepository
             return false;
         }
         return true;
+    }
+
+    public function add(PbnlMailAlias $mailAlias)
+    {
+        if (!$this->doesMailAliasExist($mailAlias)) {
+            $this->ldapEntityManager->persist($mailAlias);
+        } else {
+            throw new DatabaseObjectAllreadytExistsException("The MailAlias " . $mailAlias->getMail() . " does allready exist.");
+        }
+    }
+
+    public function remove(PbnlMailAlias $mailAlias)
+    {
+        if ($this->doesMailAliasExist($mailAlias)) {
+            $this->ldapEntityManager->delete($mailAlias);
+        } else {
+            throw new DatabaseObjectDoesNotExistsException("The MailAlias " . $mailAlias->getMail() . " does not exist.");
+        }
     }
 }

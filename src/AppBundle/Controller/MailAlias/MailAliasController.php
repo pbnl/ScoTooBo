@@ -32,8 +32,30 @@ class MailAliasController extends Controller
             }
         }
 
+        $newMailAlias = new PbnlMailAlias();
+        $newMailAlias->setForward([$loggedInUser->getMail()]);
+        $addMailAliasForm = $this
+            ->createFormBuilder($newMailAlias)
+            ->add("mail", Type\EmailType::class, array(
+                "attr" => ["placeholder" => "E-Mail Adresse"],
+                'label' => "Mail",
+                'empty_data' => '',
+                "required" => true))
+            ->add('submit', Type\SubmitType::class, array(
+                "label" => "Hinzufügen",
+                "attr" => ["class" => "btn btn-primary"]))
+            ->getForm();
+
+        $addMailAliasForm->handleRequest($request);
+        if ($addMailAliasForm->isValid()) {
+            $this->denyAccessUnlessGranted("add", $newMailAlias);
+            $mailAlias = $addMailAliasForm->getData();
+            $mailAliasRepo->add($mailAlias);
+        }
+
         return $this->render('mailAliasManagment/showAllMailAlias.html.twig', [
-            "mailAliasList" => $allowdMailAlias
+            "mailAliasList" => $allowdMailAlias,
+            "addMailAliasForm" => $addMailAliasForm->createView()
         ]);
     }
 
@@ -71,11 +93,21 @@ class MailAliasController extends Controller
                 "attr" => ["class" => "btn btn-lg btn-primary btn-block"]))
             ->getForm();
 
+        $oldMailAlias = new PbnlMailAlias();
+        $oldMailAlias->setForward($mailAlias->getForward());
+        $oldMailAlias->setMail($mailAlias->getMail());
+
         $form->handleRequest($request);
         if ($form->isValid()) {
-            $this->denyAccessUnlessGranted("edit", $mailAlias);
+            $this->denyAccessUnlessGranted("edit", $oldMailAlias);
             $mailAlias = $form->getData();
-            $mailAliasRepo->update($mailAlias);
+
+            if (count($mailAlias->getForward()) > 0) {
+                $mailAliasRepo->update($mailAlias);
+            } else {
+                $mailAliasRepo->remove($mailAlias);
+                return $this->redirectToRoute("showAllMailAlias");
+            }
         }
 
         return $this->render('mailAliasManagment/detailMailAlias.html.twig', [

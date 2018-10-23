@@ -9,33 +9,42 @@
 {% block content %}
     {% include 'includes/showFlashes.html.twig' %}
     <h2>{% trans %}mailAlias.showAll.myMailAlias{% endtrans %}</h2>
-    <div class="col-sm-6">
-        <table class="table table-striped tablesorter table-responsive">
-            <thead class="">
-            <tr>
-                <th class="filter-false">
-                    {% trans %}general.nr{% endtrans %}
-                </th>
-                <th>
-                    {% trans %}general.name{% endtrans %}
-                </th>
-            </tr>
-            </thead>
-            <tbody>
-            {% for mailAlias in mailAliasList %}
+    <div class="row">
+        <div class="col-sm-4">
+            <table class="table table-striped tablesorter table-responsive">
+                <thead class="">
                 <tr>
-                    <td>
-                        {{ loop.index}}
-                    </td>
-                    <td>
-                        <a href="{{ path('detailMailAlias', {'mailAlias': mailAlias.mail}) }}">{{mailAlias.mail}}</a>
-                    </td>
+                    <th class="filter-false">
+                        {% trans %}general.nr{% endtrans %}
+                    </th>
+                    <th>
+                        {% trans %}general.name{% endtrans %}
+                    </th>
                 </tr>
-            {% endfor %}
-            </tbody>
+                </thead>
+                <tbody>
+                {% for mailAlias in mailAliasList %}
+                    <tr>
+                        <td>
+                            {{ loop.index}}
+                        </td>
+                        <td>
+                            <a href="{{ path('detailMailAlias', {'mailAlias': mailAlias.mail}) }}">{{mailAlias.mail}}</a>
+                        </td>
+                    </tr>
+                {% endfor %}
+                </tbody>
 
-            {% include 'includes/tablesorterFooter.html.twig' with {'NumberOfColumns': '2'} only %}
-        </table>
+                {% include 'includes/tablesorterFooter.html.twig' with {'NumberOfColumns': '2'} only %}
+            </table>
+        </div>
+        <div class="col-sm-4">
+            <h5>Füge eine neue Mailingliste hinzu</h5>
+            {%
+                form_theme addMailAliasForm 'bootstrap_4_horizontal_layout.html.twig'
+            %}
+            {{ form(addMailAliasForm) }}
+        </div>
     </div>
 {% endblock %}
 

@@ -112,7 +112,7 @@ class UserController extends Controller
                 'choices'  => ArrayMethods::valueToKeyAndValue($staemme),
                 'label' => "general.stamm",
                 "attr"=>[
-                    "data-step"=>"3",
+                    "data-step"=>"4",
                     "data-intro"=>$this->get('translator')->trans('IntroJS.addUser.stamm')
                 ]
             ))
@@ -122,11 +122,20 @@ class UserController extends Controller
                 'label' => "User.add.wikiAccess",
                 'required' => false
             ))
+            ->add('elderRole', CheckboxType::class, array(
+                'mapped' => false,
+                "attr"=>[
+                    "placeholder"=>"User.add.eldeRole",
+                    "data-step" => "3",
+                    "data-intro" => $this->get('translator')->trans('IntroJS.addUser.wikiAcces')],
+                'label' => "User.add.eldeRole",
+                'required' => false
+            ))
             ->add("send", SubmitType::class, array(
                 "label"=>"general.create",
                 "attr"=>[
                     "class"=>"btn btn-lg btn-primary btn-block",
-                    "data-step"=>"4",
+                    "data-step"=>"5",
                     "data-intro"=>$this->get('translator')->trans('IntroJS.addUser.submit')
                 ]
             ))
@@ -139,6 +148,7 @@ class UserController extends Controller
         if ($addUserForm->isSubmitted() && $addUserForm->isValid()) {
             //Prepare User
             $user->setUid($user->getGivenName());
+            $user->setMail($user->getUid() . "@pbnl.de");
 
             //Create the new user
             try {
@@ -156,6 +166,11 @@ class UserController extends Controller
                     $wikiGroup = $groupRepo->findByCn("wiki");
                     $wikiGroup->addUser($user);
                     $groupRepo->updateGroup($wikiGroup);
+                }
+                if ($addUserForm->get("elderRole")->getData()) {
+                    $elderGroup = $groupRepo->findByCn("elder");
+                    $elderGroup->addUser($user);
+                    $groupRepo->updateGroup($elderGroup);
                 }
 
                 $this->addFlash("success", "Benutzer ".$user->getUid()." hinzugefügt");
