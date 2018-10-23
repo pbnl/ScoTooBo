@@ -1,17 +1,16 @@
 <?php
+
 namespace AppBundle\Forms;
 
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\OptionsResolver\OptionsResolver;
-
-use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
-use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class EventAttendForm extends AbstractType
 {
@@ -21,13 +20,15 @@ class EventAttendForm extends AbstractType
 
     public function configureOptions(OptionsResolver $resolver)
     {
-        $resolver->setDefaults(array(
-            'participationFields' => '',
-            'loggedInUser_firstname' => '',
-            'loggedInUser_lastname' => '',
-            'loggedInUser_Stamm' => '',
-            'staemme' => '',
-        ));
+        $resolver->setDefaults(
+            array(
+                'participationFields' => '',
+                'loggedInUser_firstname' => '',
+                'loggedInUser_lastname' => '',
+                'loggedInUser_Stamm' => '',
+                'staemme' => '',
+            )
+        );
     }
 
     public function buildForm(FormBuilderInterface $builder, array $options)
@@ -40,7 +41,7 @@ class EventAttendForm extends AbstractType
          * structure: tag, Label (german), checked, required field
          * options['participationFields'][$i][xxx (see above)]
          */
-        for ($i=0; $i<count($this->options['participationFields']); $i++) {
+        for ($i = 0; $i < count($this->options['participationFields']); $i++) {
             $this->actualElement = $i;
             switch ($this->options['participationFields'][$this->actualElement][0]) {
                 case "name":
@@ -69,7 +70,8 @@ class EventAttendForm extends AbstractType
         $this->buildFormSave();
     }
 
-    private function buildFormName() {
+    private function buildFormName()
+    {
         if ($this->options['participationFields'][$this->actualElement][2]) {
             $this->build->add(
                 'firstname',
@@ -79,7 +81,7 @@ class EventAttendForm extends AbstractType
                     'label' => "general.firstName",
                     'empty_data' => '',
                     'data' => $this->options['loggedInUser_firstname'],
-                    "required" => $this->options['participationFields'][$this->actualElement][3]
+                    "required" => $this->options['participationFields'][$this->actualElement][3],
                 )
             )
                 ->add(
@@ -90,13 +92,14 @@ class EventAttendForm extends AbstractType
                         'label' => "general.lastName",
                         'empty_data' => '',
                         'data' => $this->options['loggedInUser_lastname'],
-                        "required" => $this->options['participationFields'][$this->actualElement][3]
+                        "required" => $this->options['participationFields'][$this->actualElement][3],
                     )
                 );
         }
     }
 
-    private function buildFormEmail() {
+    private function buildFormEmail()
+    {
         if ($this->options['participationFields'][$this->actualElement][2]) {
             $this->build->add(
                 'email',
@@ -105,13 +108,14 @@ class EventAttendForm extends AbstractType
                     "attr" => ["placeholder" => "general.mail"],
                     'label' => "general.mail",
                     'empty_data' => '',
-                    "required" => $this->options['participationFields'][$this->actualElement][3]
+                    "required" => $this->options['participationFields'][$this->actualElement][3],
                 )
             );
         }
     }
 
-    private function buildFormAddress() {
+    private function buildFormAddress()
+    {
         if ($this->options['participationFields'][$this->actualElement][2]) {
             $this->build->add(
                 'address_street',
@@ -120,7 +124,7 @@ class EventAttendForm extends AbstractType
                     "attr" => ["placeholder" => "general.street"],
                     'label' => "general.street",
                     'empty_data' => '',
-                    "required" => $this->options['participationFields'][$this->actualElement][3]
+                    "required" => $this->options['participationFields'][$this->actualElement][3],
                 )
             )
                 ->add(
@@ -130,7 +134,7 @@ class EventAttendForm extends AbstractType
                         "attr" => ["placeholder" => "general.address_nr"],
                         'label' => "general.address_nr",
                         'empty_data' => '',
-                        "required" => $this->options['participationFields'][$this->actualElement][3]
+                        "required" => $this->options['participationFields'][$this->actualElement][3],
                     )
                 )
                 ->add(
@@ -140,7 +144,7 @@ class EventAttendForm extends AbstractType
                         "attr" => ["placeholder" => "general.postalCode"],
                         'label' => "general.postalCode",
                         'empty_data' => '',
-                        "required" => $this->options['participationFields'][$this->actualElement][3]
+                        "required" => $this->options['participationFields'][$this->actualElement][3],
                     )
                 )
                 ->add(
@@ -150,13 +154,14 @@ class EventAttendForm extends AbstractType
                         "attr" => ["placeholder" => "general.place"],
                         'label' => "general.place",
                         'empty_data' => '',
-                        "required" => $this->options['participationFields'][$this->actualElement][3]
+                        "required" => $this->options['participationFields'][$this->actualElement][3],
                     )
                 );
         }
     }
 
-    private function buildFormStamm() {
+    private function buildFormStamm()
+    {
         if ($this->options['participationFields'][$this->actualElement][2]) {
             $this->build->add(
                 'stamm',
@@ -170,13 +175,14 @@ class EventAttendForm extends AbstractType
                     'multiple' => false,
                     'empty_data' => '',
                     'data' => $this->options['loggedInUser_Stamm'],
-                    "required" => $this->options['participationFields'][$this->actualElement][3]
+                    "required" => $this->options['participationFields'][$this->actualElement][3],
                 )
             );
         }
     }
 
-    private function buildFormGroup() {
+    private function buildFormGroup()
+    {
         if ($this->options['participationFields'][$this->actualElement][2]) {
             $this->build->add(
                 'group',
@@ -185,13 +191,14 @@ class EventAttendForm extends AbstractType
                     "attr" => ["placeholder" => "general.group"],
                     'label' => "general.group",
                     'empty_data' => '',
-                    "required" => $this->options['participationFields'][$this->actualElement][3]
+                    "required" => $this->options['participationFields'][$this->actualElement][3],
                 )
             );
         }
     }
 
-    private function buildFormEat() {
+    private function buildFormEat()
+    {
         if ($this->options['participationFields'][$this->actualElement][2]) {
             $this->build->add(
                 'pig',
@@ -204,7 +211,7 @@ class EventAttendForm extends AbstractType
                     'label' => 'general.pig',
                     'multiple' => false,
                     'expanded' => true,
-                    "required" => $this->options['participationFields'][$this->actualElement][3]
+                    "required" => $this->options['participationFields'][$this->actualElement][3],
                 )
             )
                 ->add(
@@ -218,7 +225,7 @@ class EventAttendForm extends AbstractType
                         'label' => 'general.vegi',
                         'multiple' => false,
                         'expanded' => true,
-                        "required" => $this->options['participationFields'][$this->actualElement][3]
+                        "required" => $this->options['participationFields'][$this->actualElement][3],
                     )
                 )
                 ->add(
@@ -232,13 +239,14 @@ class EventAttendForm extends AbstractType
                         'label' => 'general.vega',
                         'multiple' => false,
                         'expanded' => true,
-                        "required" => $this->options['participationFields'][$this->actualElement][3]
+                        "required" => $this->options['participationFields'][$this->actualElement][3],
                     )
                 );
         }
     }
 
-    private function buildFormComment() {
+    private function buildFormComment()
+    {
         if ($this->options['participationFields'][$this->actualElement][2]) {
             $this->build->add(
                 'comment',
@@ -247,16 +255,22 @@ class EventAttendForm extends AbstractType
                     "attr" => ["placeholder" => "general.comment"],
                     'label' => "general.comment",
                     'empty_data' => '',
-                    "required" => $this->options['participationFields'][$this->actualElement][3]
+                    "required" => $this->options['participationFields'][$this->actualElement][3],
                 )
             );
         }
     }
 
-    private function buildFormSave() {
-        $this->build->add('save', SubmitType::class, array(
-            "label" => "Event.attendInvitationLink.submit",
-            "attr" => ["class" => "btn btn-lg btn-primary btn-block"]));
+    private function buildFormSave()
+    {
+        $this->build->add(
+            'save',
+            SubmitType::class,
+            array(
+                "label" => "Event.attendInvitationLink.submit",
+                "attr" => ["class" => "btn btn-lg btn-primary btn-block"],
+            )
+        );
     }
 
 }

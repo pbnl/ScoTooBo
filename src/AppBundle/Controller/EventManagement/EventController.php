@@ -10,12 +10,10 @@ use Ramsey\Uuid\Uuid;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
-use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
-use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -43,10 +41,13 @@ class EventController extends Controller
             }
         }
 
-        return $this->render('eventManagement/showAllEvents.html.twig', [
-            "events"=>$events,
-            "possibleFormFields"=>$this->getPossibleFormFields(),
-        ]);
+        return $this->render(
+            'eventManagement/showAllEvents.html.twig',
+            [
+                "events" => $events,
+                "possibleFormFields" => $this->getPossibleFormFields(),
+            ]
+        );
     }
 
     /**
@@ -66,10 +67,9 @@ class EventController extends Controller
             array("stamm", "Stamm", false, false),
             array("group", "Gruppe", false, false),
             array("eat", "Essenswünsche", false, false),
-            array("comment", "Kommentar", true, false)
+            array("comment", "Kommentar", true, false),
         );
     }
-
 
 
     /**
@@ -83,44 +83,79 @@ class EventController extends Controller
         $event = new Event();
 
         $addAnEventForm = $this->createFormBuilder($event)
-            ->add('Name', TextType::class, array(
-                "attr" => ["placeholder" => "Event.add.Name"],
-                'label' => "Event.add.Name",
-                'empty_data' => '',
-                "required" => true))
-            ->add('Description', TextareaType::class, array(
-                "attr" => ["placeholder" => "Event.add.Beschreibung"],
-                'label' => "Event.add.Beschreibung",
-                'empty_data' => '',
-                "required" => true))
-            ->add('PriceInCent', IntegerType::class, array(
-                "attr" => [
-                    "placeholder" => "Event.add.PriceInCent",
-                    "min" => 0
-                ],
-                'label' => "Event.add.PriceInCent",
-                'empty_data' => '',
-                "required" => true))
-            ->add('DateFrom', DateTimeType::class, array(
-                'attr' => ["placeholder" => "Event.add.DateFrom"],
-                'label' => "Event.add.DateFrom",
-                'empty_data' => '',
-                // ToDo: bessere Auswahlmöglichkeit bieten
-                "required" => true))
-            ->add('DateTo', DateTimeType::class, array(
-                'attr' => ["placeholder" => "Event.add.DateTo"],
-                'label' => "Event.add.DateTo",
-                'empty_data' => '',
-                // ToDo: bessere Auswahlmöglichkeit bieten
-                "required" => true))
-            ->add('Place', TextareaType::class, array(
-                "attr" => ["placeholder" => "Event.add.Place"],
-                'label' => "Event.add.Place",
-                'empty_data' => '',
-                "required" => true))
-            ->add('save', SubmitType::class, array(
-                'label' => 'Event.add.Submit',
-                "attr"=>["class"=>"btn btn-primary"]))
+            ->add(
+                'Name',
+                TextType::class,
+                array(
+                    "attr" => ["placeholder" => "Event.add.Name"],
+                    'label' => "Event.add.Name",
+                    'empty_data' => '',
+                    "required" => true,
+                )
+            )
+            ->add(
+                'Description',
+                TextareaType::class,
+                array(
+                    "attr" => ["placeholder" => "Event.add.Beschreibung"],
+                    'label' => "Event.add.Beschreibung",
+                    'empty_data' => '',
+                    "required" => true,
+                )
+            )
+            ->add(
+                'PriceInCent',
+                IntegerType::class,
+                array(
+                    "attr" => [
+                        "placeholder" => "Event.add.PriceInCent",
+                        "min" => 0,
+                    ],
+                    'label' => "Event.add.PriceInCent",
+                    'empty_data' => '',
+                    "required" => true,
+                )
+            )
+            ->add(
+                'DateFrom',
+                DateTimeType::class,
+                array(
+                    'attr' => ["placeholder" => "Event.add.DateFrom"],
+                    'label' => "Event.add.DateFrom",
+                    'empty_data' => '',
+                    // ToDo: bessere Auswahlmöglichkeit bieten
+                    "required" => true,
+                )
+            )
+            ->add(
+                'DateTo',
+                DateTimeType::class,
+                array(
+                    'attr' => ["placeholder" => "Event.add.DateTo"],
+                    'label' => "Event.add.DateTo",
+                    'empty_data' => '',
+                    // ToDo: bessere Auswahlmöglichkeit bieten
+                    "required" => true,
+                )
+            )
+            ->add(
+                'Place',
+                TextareaType::class,
+                array(
+                    "attr" => ["placeholder" => "Event.add.Place"],
+                    'label' => "Event.add.Place",
+                    'empty_data' => '',
+                    "required" => true,
+                )
+            )
+            ->add(
+                'save',
+                SubmitType::class,
+                array(
+                    'label' => 'Event.add.Submit',
+                    "attr" => ["class" => "btn btn-primary"],
+                )
+            )
             ->getForm();
 
         $addAnEventForm->handleRequest($request);
@@ -133,12 +168,16 @@ class EventController extends Controller
             $em->flush(); // actually executes the queries (i.e. the INSERT query)
 
             $this->addFlash("success", "Event wurde mit der Id ".$event_data->getId()." erstellt.");
+
             return $this->redirectToRoute('showAllEvents');
         }
 
-        return $this->render('eventManagement/addEvent.html.twig', array(
-            'addAnEventForm' => $addAnEventForm->createView(),
-        ));
+        return $this->render(
+            'eventManagement/addEvent.html.twig',
+            array(
+                'addAnEventForm' => $addAnEventForm->createView(),
+            )
+        );
     }
 
     /**
@@ -150,6 +189,7 @@ class EventController extends Controller
     public function detailEvent(Request $request)
     {
         $this->addFlash("info", "This function is comming soon!");
+
         return $this->redirectToRoute("showAllEvents");
     }
 
@@ -162,13 +202,8 @@ class EventController extends Controller
     public function removeEvent(Request $request)
     {
         $this->addFlash("info", "This function is comming soon!");
-        return $this->redirectToRoute("showAllEvents");
-    }
 
-    private function validateDate($date, $format = 'Y-m-d H:i:s')
-    {
-        $d = \DateTime::createFromFormat($format, $date);
-        return $d && $d->format($format) == $date;
+        return $this->redirectToRoute("showAllEvents");
     }
 
     /**
@@ -184,15 +219,15 @@ class EventController extends Controller
         if ($event) {
             $FormFields = $this->getPossibleFormFields();
             /* read POST values */
-            for ($i=0; $i<count($FormFields); $i++) {
+            for ($i = 0; $i < count($FormFields); $i++) {
                 /* proofing if checkbox one is checked */
-                $FormFields[$i][2]=false;
+                $FormFields[$i][2] = false;
                 if ($request->request->get($FormFields[$i][0]."_show")) {
                     $FormFields[$i][2] = true;
                 }
 
                 /* proofing if checkbox two is checked */
-                $FormFields[$i][3]=false;
+                $FormFields[$i][3] = false;
                 if ($request->request->get($FormFields[$i][0]."_required") && $FormFields[$i][2]) {
                     $FormFields[$i][3] = true;
                 }
@@ -205,22 +240,48 @@ class EventController extends Controller
             $random_string = Uuid::uuid4();
 
             if ($this->validateDate($request->request->get("InvitationDateFrom"))) {
-                $invitationDateFrom=\DateTime::createFromFormat('Y-m-d H:i:s',$request->request->get("InvitationDateFrom"));
+                $invitationDateFrom = \DateTime::createFromFormat(
+                    'Y-m-d H:i:s',
+                    $request->request->get("InvitationDateFrom")
+                );
             } elseif (!is_null($event->getInvitationDateFrom())) {
-                $invitationDateFrom=$event->getInvitationDateFrom();
-                $this->addFlash("warning","Der neue Startzeitunkt wurde nicht verstanden und bleibt unverändert bei: ".$invitationDateFrom->format('Y-m-d H:i:s'));
+                $invitationDateFrom = $event->getInvitationDateFrom();
+                $this->addFlash(
+                    "warning",
+                    "Der neue Startzeitunkt wurde nicht verstanden und bleibt unverändert bei: ".$invitationDateFrom->format(
+                        'Y-m-d H:i:s'
+                    )
+                );
             } else {
-                $invitationDateFrom=new \DateTime();
-                $this->addFlash("warning","Der neue Startzeitunkt wurde nicht verstanden und wurde auf jetzt gesetzt: ".$invitationDateFrom->format('Y-m-d H:i:s'));
+                $invitationDateFrom = new \DateTime();
+                $this->addFlash(
+                    "warning",
+                    "Der neue Startzeitunkt wurde nicht verstanden und wurde auf jetzt gesetzt: ".$invitationDateFrom->format(
+                        'Y-m-d H:i:s'
+                    )
+                );
             }
             if ($this->validateDate($request->request->get("InvitationDateTo"))) {
-                $invitationDateTo=\DateTime::createFromFormat('Y-m-d H:i:s',$request->request->get("InvitationDateTo"));
+                $invitationDateTo = \DateTime::createFromFormat(
+                    'Y-m-d H:i:s',
+                    $request->request->get("InvitationDateTo")
+                );
             } elseif (!is_null($event->getInvitationDateTo())) {
-                $invitationDateTo=$event->getInvitationDateTo();
-                $this->addFlash("warning","Der neue Endzeitunkt wurde nicht verstanden und bleibt unverändert bei: ".$invitationDateTo->format('Y-m-d H:i:s'));
+                $invitationDateTo = $event->getInvitationDateTo();
+                $this->addFlash(
+                    "warning",
+                    "Der neue Endzeitunkt wurde nicht verstanden und bleibt unverändert bei: ".$invitationDateTo->format(
+                        'Y-m-d H:i:s'
+                    )
+                );
             } else {
-                $invitationDateTo=$event->getDateFrom();
-                $this->addFlash("warning","Der neue Endzeitunkt wurde nicht verstanden und wurde auf den Start des Events gesetzt: ".$invitationDateTo->format('Y-m-d H:i:s'));
+                $invitationDateTo = $event->getDateFrom();
+                $this->addFlash(
+                    "warning",
+                    "Der neue Endzeitunkt wurde nicht verstanden und wurde auf den Start des Events gesetzt: ".$invitationDateTo->format(
+                        'Y-m-d H:i:s'
+                    )
+                );
             }
 
 
@@ -238,7 +299,15 @@ class EventController extends Controller
         } else {
             $this->addFlash("error", "Event mit der Id $id wurde nicht gefunden!");
         }
+
         return $this->redirectToRoute("showAllEvents");
+    }
+
+    private function validateDate($date, $format = 'Y-m-d H:i:s')
+    {
+        $d = \DateTime::createFromFormat($format, $date);
+
+        return $d && $d->format($format) == $date;
     }
 
     /**
@@ -253,26 +322,47 @@ class EventController extends Controller
         $event = $em->getRepository(Event::class)->find($id);
         if ($event) {
             $participations = $em->getRepository(EventAttend::class)->findBy(array('eventId' => $event->getId()));
-            $list=$this->FieldsToShowInTWIG($event->getParticipationFields());
-            $NumberOfColumns=2; // Id & DateTime
+            $list = $this->FieldsToShowInTWIG($event->getParticipationFields());
+            $NumberOfColumns = 2; // Id & DateTime
             foreach ($list as $entry) {
-                if ($entry=="eat") {
-                    $NumberOfColumns+=3;
+                if ($entry == "eat") {
+                    $NumberOfColumns += 3;
                 } else {
                     $NumberOfColumns++;
                 }
             }
 
 
-            return $this->render('eventManagement/showParticipationList.html.twig', array(
-                'data' => $participations,
-                'showParticipationFields' => $list,
-                'NumberOfColumns' => $NumberOfColumns,
-            ));
+            return $this->render(
+                'eventManagement/showParticipationList.html.twig',
+                array(
+                    'data' => $participations,
+                    'showParticipationFields' => $list,
+                    'NumberOfColumns' => $NumberOfColumns,
+                )
+            );
         } else {
             $this->addFlash("error", "Event mit der Id $id wurde nicht gefunden!");
+
             return $this->redirectToRoute("showAllEvents");
         }
+    }
+
+    /**
+     * @param $eventFieldsArray
+     * @return array
+     */
+    private function FieldsToShowInTWIG($eventFieldsArray)
+    {
+        $participationFields = json_decode($eventFieldsArray);
+        $showParticipationFields = array();
+        for ($i = 0; $i < count($participationFields); $i++) {
+            if ($participationFields[$i][2]) {
+                array_push($showParticipationFields, $participationFields[$i][0]);
+            }
+        }
+
+        return $showParticipationFields;
     }
 
     /**
@@ -308,13 +398,17 @@ class EventController extends Controller
             $participationFields = json_decode($event->getParticipationFields());
 
             //$form = $this->createFormBuilder($eventAttend);
-            $form = $this->createForm(EventAttendForm::class, $eventAttend, array(
-                "participationFields" => $participationFields,
-                "loggedInUser_firstname" => $loggedInUser_firstname,
-                "loggedInUser_lastname" => $loggedInUser_lastname,
-                "loggedInUser_Stamm" => $loggedInUser_Stamm,
-                "staemme" => json_decode($this->container->getParameter('staemme'), true),
-            ));
+            $form = $this->createForm(
+                EventAttendForm::class,
+                $eventAttend,
+                array(
+                    "participationFields" => $participationFields,
+                    "loggedInUser_firstname" => $loggedInUser_firstname,
+                    "loggedInUser_lastname" => $loggedInUser_lastname,
+                    "loggedInUser_Stamm" => $loggedInUser_Stamm,
+                    "staemme" => json_decode($this->container->getParameter('staemme'), true),
+                )
+            );
 
             $form->handleRequest($request);
 
@@ -322,7 +416,10 @@ class EventController extends Controller
             if ($form->isSubmitted() && $form->isValid() && $valid_now) {
                 /* proof Google reCaptcha */
                 $reCaptchaSecret = $this->container->getParameter('recaptcha.secret');
-                if ($this->get("reCaptcha")->validateReCaptcha($request->request->get("g-recaptcha-response"), $reCaptchaSecret)) {
+                if ($this->get("reCaptcha")->validateReCaptcha(
+                    $request->request->get("g-recaptcha-response"),
+                    $reCaptchaSecret
+                )) {
                     /* save input */
                     $eventAttend = $form->getData();
 
@@ -336,34 +433,22 @@ class EventController extends Controller
                 $this->addFlash("error", "Bestätige bitte den Spamschutz!");
             }
 
-            return $this->render('eventManagement/attendInvitationLink.html.twig', array(
-                "loggedInUser_firstname"=>$loggedInUser_firstname,
-                "loggedInUser_lastname"=>$loggedInUser_lastname,
-                "loggedInUser_Stamm"=>$loggedInUser_Stamm,
-                "event"=>$event,
-                "registrationAttendInvitationLink"=>$form->createView(),
-                "showParticipationFields"=>$this->FieldsToShowInTWIG($event->getParticipationFields()),
-                "valid_now"=>$valid_now,
-            ));
+            return $this->render(
+                'eventManagement/attendInvitationLink.html.twig',
+                array(
+                    "loggedInUser_firstname" => $loggedInUser_firstname,
+                    "loggedInUser_lastname" => $loggedInUser_lastname,
+                    "loggedInUser_Stamm" => $loggedInUser_Stamm,
+                    "event" => $event,
+                    "registrationAttendInvitationLink" => $form->createView(),
+                    "showParticipationFields" => $this->FieldsToShowInTWIG($event->getParticipationFields()),
+                    "valid_now" => $valid_now,
+                )
+            );
         } else {
             $this->addFlash("error", "Dieser Einladungslink ist leider nicht mehr gültig!");
+
             return $this->redirectToRoute("login");
         }
-    }
-
-    /**
-     * @param $eventFieldsArray
-     * @return array
-     */
-    private function FieldsToShowInTWIG($eventFieldsArray) {
-        $participationFields = json_decode($eventFieldsArray);
-        $showParticipationFields = array();
-        for ($i=0; $i<count($participationFields); $i++) {
-            if ($participationFields[$i][2]) {
-                array_push($showParticipationFields, $participationFields[$i][0]);
-            }
-        }
-
-        return $showParticipationFields;
     }
 }

@@ -9,7 +9,6 @@ use AppBundle\Model\LdapComponent\PbnlLdapEntityManager;
 use AppBundle\Model\SSHA;
 use AppBundle\Model\User;
 use Monolog\Logger;
-use Symfony\Component\Debug\Exception\ContextErrorException;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 use Symfony\Component\Security\Core\Exception\UnsupportedUserException;
 use Symfony\Component\Security\Core\Exception\UsernameNotFoundException;
@@ -62,6 +61,48 @@ class UserRepository implements UserProviderInterface
     }
 
     /**
+     * Refreshes the user.
+     *
+     * It is up to the implementation to decide if the user data should be
+     * totally reloaded (e.g. from the database), or if the UserInterface
+     * object can just be merged into some internal array of users / identity
+     * map.
+     *
+     * @param UserInterface $user
+     *
+     * @return UserInterface
+     *
+     * @throws UnsupportedUserException if the user is not supported
+     */
+    public function refreshUser(UserInterface $user)
+    {
+        if (!$user instanceof User) {
+            throw new UnsupportedUserException(
+                sprintf('Instances of "%s" are not supported.', get_class($user))
+            );
+        }
+
+        return $this->loadUserByUsername($user->getUid());
+    }
+
+    /**
+     * Loads the user for the given username.
+     *
+     * This method must throw UsernameNotFoundException if the user is not
+     * found.
+     *
+     * @param string $username The username
+     *
+     * @return UserInterface
+     *
+     * @throws UsernameNotFoundException if the user is not found
+     */
+    public function loadUserByUsername($username)
+    {
+        return $this->getUserByUid($username);
+    }
+
+    /**
      * Searches the PbnlAccount (ldap) and returns a User
      * Find by GivenName
      *
@@ -80,7 +121,7 @@ class UserRepository implements UserProviderInterface
                 sprintf('Uid "%s" does not exist.', $uid)
             );
         } elseif (count($ldapPbnlAccount) > 1) {
-            throw new UserNotUniqueException("Der User mit der Uid " . $uid . " ist nicht einzigartig");
+            throw new UserNotUniqueException("Der User mit der Uid ".$uid." ist nicht einzigartig");
         }
 
         return $this->entitiesToUser($ldapPbnlAccount);
@@ -123,65 +164,13 @@ class UserRepository implements UserProviderInterface
         $errors = $this->validator->validate($user);
 
         if (count($errors) > 0) {
-            $this->logger->addError((string) $errors);
-            throw new CorruptDataInDatabaseException("The user ".$ldapPbnlAccount->getUid()." is corrupt! ".(string) $errors);
-        }
-
-        return $user;
-    }
-
-    /**
-     * Loads the user for the given username.
-     *
-     * This method must throw UsernameNotFoundException if the user is not
-     * found.
-     *
-     * @param string $username The username
-     *
-     * @return UserInterface
-     *
-     * @throws UsernameNotFoundException if the user is not found
-     */
-    public function loadUserByUsername($username)
-    {
-        return $this->getUserByUid($username);
-    }
-
-    /**
-     * Refreshes the user.
-     *
-     * It is up to the implementation to decide if the user data should be
-     * totally reloaded (e.g. from the database), or if the UserInterface
-     * object can just be merged into some internal array of users / identity
-     * map.
-     *
-     * @param UserInterface $user
-     *
-     * @return UserInterface
-     *
-     * @throws UnsupportedUserException if the user is not supported
-     */
-    public function refreshUser(UserInterface $user)
-    {
-        if (!$user instanceof User) {
-            throw new UnsupportedUserException(
-                sprintf('Instances of "%s" are not supported.', get_class($user))
+            $this->logger->addError((string)$errors);
+            throw new CorruptDataInDatabaseException(
+                "The user ".$ldapPbnlAccount->getUid()." is corrupt! ".(string)$errors
             );
         }
 
-        return $this->loadUserByUsername($user->getUid());
-    }
-
-    /**
-     * Whether this provider supports the given user class.
-     *
-     * @param string $class
-     *
-     * @return bool
-     */
-    public function supportsClass($class)
-    {
-        return User::class === $class;
+        return $user;
     }
 
     /**
@@ -202,7 +191,20 @@ class UserRepository implements UserProviderInterface
                 array_push($roles, "ROLE_".$group->getCn());
             }
         }
+
         return $roles;
+    }
+
+    /**
+     * Whether this provider supports the given user class.
+     *
+     * @param string $class
+     *
+     * @return bool
+     */
+    public function supportsClass($class)
+    {
+        return User::class === $class;
     }
 
     /**
@@ -219,11 +221,13 @@ class UserRepository implements UserProviderInterface
         $pbnlAccountRepository = $this->ldapEntityManager->getRepository(PbnlAccount::class);
 
         //If there is a filter we can use
-        /** @var $group PosixGroup*/
+        /** @var $group PosixGroup */
         $group = [];
         if (isset($filter->getFilterAttributes()[0])) {
             if ($filter->getFilterAttributes()[0] == "filterByUid" && $filter->getFilterTexts()[0] != "") {
-                $pbnlAccounts = $pbnlAccountRepository->findByComplex(array("uid" =>  '*'.$filter->getFilterTexts()[0].'*'));
+                $pbnlAccounts = $pbnlAccountRepository->findByComplex(
+                    array("uid" => '*'.$filter->getFilterTexts()[0].'*')
+                );
             } elseif ($filter->getFilterAttributes()[0] == "filterByGroup" && $filter->getFilterTexts()[0] != "") {
                 $group = $this->groupRepository->findByCn($filter->getFilterTexts()[0]);
                 if ($group == []) {
@@ -242,7 +246,7 @@ class UserRepository implements UserProviderInterface
             $user = $this->entitiesToUser($pbnlAccount);
 
             if ($group != []) {
-                if ($group->isDnMember($user->getDn())){
+                if ($group->isDnMember($user->getDn())) {
                     array_push($users, $user);
                 }
             } else {
@@ -272,21 +276,6 @@ class UserRepository implements UserProviderInterface
         $this->ldapEntityManager->flush();
 
         return $user;
-    }
-
-    /**
-     * Checks if this user already exists
-     * For this the function uses the uid and the uidNumber
-     * @param $user
-     * @return bool
-     * @throws UserNotUniqueException if there are more than one user with the same uid or uidNumber
-     */
-    private function doesUserExist(User $user)
-    {
-        if ($this->doesUserUidExist($user->getUid()) || $this->doesUserUidNumberExist($user->getUidNumber())) {
-            return true;
-        }
-        return false;
     }
 
     /**
@@ -323,53 +312,19 @@ class UserRepository implements UserProviderInterface
     }
 
     /**
-     * Returns the next uidNumber
-     * Its the highest uidNumber of the pbnlAccounts + 1
-     * @return int
+     * Checks if this user already exists
+     * For this the function uses the uid and the uidNumber
+     * @param $user
+     * @return bool
+     * @throws UserNotUniqueException if there are more than one user with the same uid or uidNumber
      */
-    private function getNewUidNumber()
+    private function doesUserExist(User $user)
     {
-        /** @var  $users User[]*/
-        $users = $this->ldapEntityManager->getRepository(PbnlAccount::class)->findAll();
-        $highesUidNumber = 0;
-
-        foreach ($users as $user) {
-            if ($user->getUidNumber() > $highesUidNumber) {
-                $highesUidNumber = $user->getUidNumber();
-            }
-        }
-        return $highesUidNumber + 1;
-    }
-
-    /**
-     * Updates the data of a user in the database if the user exist
-     *
-     * @throws UserDoesNotExistException if you want to update a user that does not exist
-     *
-     * @param User $userToUpdate
-     */
-    public function updateUser(User $userToUpdate)
-    {
-        if (!$this->doesUserExist($userToUpdate)) {
-            throw new UserDoesNotExistException("The user ".$userToUpdate->getUid()." does not exist.");
+        if ($this->doesUserUidExist($user->getUid()) || $this->doesUserUidNumberExist($user->getUidNumber())) {
+            return true;
         }
 
-        $pbnlAccountToUpdate = $this->userToEntities($userToUpdate);
-        $this->ldapEntityManager->persist($pbnlAccountToUpdate);
-    }
-
-    /**
-     * Deletes the user with the given uid
-     *
-     * @param $userToRemove
-     */
-    public function removeUser($userToRemove)
-    {
-        if ($this->doesUserExist($userToRemove))
-        {
-            $pbnlAccountToURemove = $this->userToEntities($userToRemove);
-            $this->ldapEntityManager->delete($pbnlAccountToURemove);
-        }
+        return false;
     }
 
     /**
@@ -417,6 +372,56 @@ class UserRepository implements UserProviderInterface
     }
 
     /**
+     * Returns the next uidNumber
+     * Its the highest uidNumber of the pbnlAccounts + 1
+     * @return int
+     */
+    private function getNewUidNumber()
+    {
+        /** @var  $users User[] */
+        $users = $this->ldapEntityManager->getRepository(PbnlAccount::class)->findAll();
+        $highesUidNumber = 0;
+
+        foreach ($users as $user) {
+            if ($user->getUidNumber() > $highesUidNumber) {
+                $highesUidNumber = $user->getUidNumber();
+            }
+        }
+
+        return $highesUidNumber + 1;
+    }
+
+    /**
+     * Updates the data of a user in the database if the user exist
+     *
+     * @throws UserDoesNotExistException if you want to update a user that does not exist
+     *
+     * @param User $userToUpdate
+     */
+    public function updateUser(User $userToUpdate)
+    {
+        if (!$this->doesUserExist($userToUpdate)) {
+            throw new UserDoesNotExistException("The user ".$userToUpdate->getUid()." does not exist.");
+        }
+
+        $pbnlAccountToUpdate = $this->userToEntities($userToUpdate);
+        $this->ldapEntityManager->persist($pbnlAccountToUpdate);
+    }
+
+    /**
+     * Deletes the user with the given uid
+     *
+     * @param $userToRemove
+     */
+    public function removeUser($userToRemove)
+    {
+        if ($this->doesUserExist($userToRemove)) {
+            $pbnlAccountToURemove = $this->userToEntities($userToRemove);
+            $this->ldapEntityManager->delete($pbnlAccountToURemove);
+        }
+    }
+
+    /**
      * @param $dn
      * @return User
      * @throws UserDoesNotExistException if the user does not exist
@@ -427,11 +432,10 @@ class UserRepository implements UserProviderInterface
             //TODO the @ is to supress the ldap_search warning. Find a better way after we have rewritten the ldap lib
             $ldapPbnlAccount = @$this->ldapEntityManager->retrieveByDn($dn, PbnlAccount::class);
         } catch (ErrorException $e) {
-            throw new UserDoesNotExistException("The user with the dn: " . $dn . " does not exist!");
+            throw new UserDoesNotExistException("The user with the dn: ".$dn." does not exist!");
         }
-        if (count($ldapPbnlAccount) == 0)
-        {
-            throw new UserDoesNotExistException("The user with the dn: " . $dn . " does not exist!");
+        if (count($ldapPbnlAccount) == 0) {
+            throw new UserDoesNotExistException("The user with the dn: ".$dn." does not exist!");
         }
         $user = $this->entitiesToUser($ldapPbnlAccount[0]);
 

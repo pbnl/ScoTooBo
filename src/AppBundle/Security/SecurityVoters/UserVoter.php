@@ -46,7 +46,7 @@ class UserVoter extends Voter
         }
 
 
-        if($user->getUid() == $token->getUser()->getUid()) {
+        if ($user->getUid() == $token->getUser()->getUid()) {
             return true;
         }
 
@@ -71,6 +71,7 @@ class UserVoter extends Voter
             && $user->getStamm() == $token->getUser()->getStamm()) {
             return true;
         }
+
         return false;
     }
 
@@ -82,6 +83,7 @@ class UserVoter extends Voter
             && $user->getStamm() == $token->getUser()->getStamm()) {
             return true;
         }
+
         return false;
     }
 
@@ -90,6 +92,7 @@ class UserVoter extends Voter
         if ($this->decisionManager->decide($token, array("ROLE_elder"))) {
             return true;
         }
+
         return false;
     }
 }

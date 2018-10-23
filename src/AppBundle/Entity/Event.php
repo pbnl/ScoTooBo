@@ -4,8 +4,8 @@ namespace AppBundle\Entity;
 
 use Doctrine\ORM\Events;
 use Doctrine\ORM\Mapping as ORM;
-use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Event
@@ -111,6 +111,16 @@ class Event
     }
 
     /**
+     * Get string
+     *
+     * @return name
+     */
+    public function getName()
+    {
+        return $this->name;
+    }
+
+    /**
      * Set string
      *
      * @param string $name
@@ -125,13 +135,13 @@ class Event
     }
 
     /**
-     * Get string
+     * Get description
      *
-     * @return name
+     * @return string
      */
-    public function getName()
+    public function getDescription()
     {
-        return $this->name;
+        return $this->description;
     }
 
     /**
@@ -146,16 +156,6 @@ class Event
         $this->description = $description;
 
         return $this;
-    }
-
-    /**
-     * Get description
-     *
-     * @return string
-     */
-    public function getDescription()
-    {
-        return $this->description;
     }
 
     /**
@@ -189,12 +189,23 @@ class Event
      */
     public function getPriceInEuroWithEuroCharacter()
     {
-        if ($this->price<100) {
+        if ($this->price < 100) {
             return "0,".$this->price."€";
         } else {
-            $txt=strval($this->price);
+            $txt = strval($this->price);
+
             return substr_replace($txt, ',', -2, 0).'€';
         }
+    }
+
+    /**
+     * Get dateFrom
+     *
+     * @return \DateTime
+     */
+    public function getDateFrom()
+    {
+        return $this->dateFrom;
     }
 
     /**
@@ -212,13 +223,13 @@ class Event
     }
 
     /**
-     * Get dateFrom
+     * Get dateTo
      *
      * @return \DateTime
      */
-    public function getDateFrom()
+    public function getDateTo()
     {
-        return $this->dateFrom;
+        return $this->dateTo;
     }
 
     /**
@@ -231,30 +242,6 @@ class Event
     public function setDateTo($dateTo)
     {
         $this->dateTo = $dateTo;
-
-        return $this;
-    }
-
-    /**
-     * Get dateTo
-     *
-     * @return \DateTime
-     */
-    public function getDateTo()
-    {
-        return $this->dateTo;
-    }
-
-    /**
-     * Set place
-     *
-     * @param string $place
-     *
-     * @return Events
-     */
-    public function setPlace($place)
-    {
-        $this->place = $place;
 
         return $this;
     }
@@ -280,6 +267,30 @@ class Event
     }
 
     /**
+     * Set place
+     *
+     * @param string $place
+     *
+     * @return Events
+     */
+    public function setPlace($place)
+    {
+        $this->place = $place;
+
+        return $this;
+    }
+
+    /**
+     * Get invitationLink
+     *
+     * @return string
+     */
+    public function getInvitationLink()
+    {
+        return $this->invitationLink;
+    }
+
+    /**
      * Set invitationLink
      *
      * @param string $invitationLink
@@ -294,13 +305,13 @@ class Event
     }
 
     /**
-     * Get invitationLink
+     * Get invitationDateFrom
      *
-     * @return string
+     * @return \DateTime
      */
-    public function getInvitationLink()
+    public function getInvitationDateFrom()
     {
-        return $this->invitationLink;
+        return $this->invitationDateFrom;
     }
 
     /**
@@ -318,13 +329,13 @@ class Event
     }
 
     /**
-     * Get invitationDateFrom
+     * Get invitationDateTo
      *
      * @return \DateTime
      */
-    public function getInvitationDateFrom()
+    public function getInvitationDateTo()
     {
-        return $this->invitationDateFrom;
+        return $this->invitationDateTo;
     }
 
     /**
@@ -342,13 +353,13 @@ class Event
     }
 
     /**
-     * Get invitationDateTo
+     * Get participationFields
      *
-     * @return \DateTime
+     * @return string
      */
-    public function getInvitationDateTo()
+    public function getParticipationFields()
     {
-        return $this->invitationDateTo;
+        return $this->participationFields;
     }
 
     /**
@@ -366,16 +377,6 @@ class Event
     }
 
     /**
-     * Get participationFields
-     *
-     * @return string
-     */
-    public function getParticipationFields()
-    {
-        return $this->participationFields;
-    }
-
-    /**
      * Get participationFieldsAsArray
      *
      * @return array
@@ -383,6 +384,16 @@ class Event
     public function getParticipationFieldsAsArray()
     {
         return json_decode($this->participationFields);
+    }
+
+    /**
+     * Get price
+     *
+     * @return integer
+     */
+    public function getPrice()
+    {
+        return $this->price;
     }
 
     /**
@@ -397,15 +408,5 @@ class Event
         $this->price = $price;
 
         return $this;
-    }
-
-    /**
-     * Get price
-     *
-     * @return integer
-     */
-    public function getPrice()
-    {
-        return $this->price;
     }
 }
