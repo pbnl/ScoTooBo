@@ -183,13 +183,11 @@ class UserRepository implements UserProviderInterface
     private function getRolesOfPbnlAccount(PbnlAccount $ldapPbnlAccount)
     {
         $roles = array();
-        $allGroups = $this->groupRepository->findAll();
+        $memberGroups = $this->groupRepository->findAllWithDnInGroup($ldapPbnlAccount->getDn());
 
         /** @var  $group PosixGroup */
-        foreach ($allGroups as $group) {
-            if ($group->isDnMember($ldapPbnlAccount->getDn())) {
-                array_push($roles, "ROLE_".$group->getCn());
-            }
+        foreach ($memberGroups as $group) {
+            array_push($roles, "ROLE_".$group->getCn());
         }
 
         return $roles;
