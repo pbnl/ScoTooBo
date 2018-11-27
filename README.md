@@ -28,7 +28,7 @@ Replace `pbnldocker_php_1` with the name of the container. Then go into the app 
 `php bin/console doctrine:schema:update --force` to create/update the sql database.
 
 Noe you have to clear, warm up the cache and create the assets. Execute 
-`export SYMFONY_ENV=prod && export APP_ENV=prod && composer run-script post-install-cmd --no-interaction --no-dev`
+`composer run-script post-install-cmd --no-interaction --no-dev`
 in the same directory to do this for an productive environment.
 
 The system requires some groups in the ldap:
