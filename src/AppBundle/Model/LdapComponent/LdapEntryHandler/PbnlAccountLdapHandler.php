@@ -34,7 +34,6 @@ class PbnlAccountLdapHandler extends LdapEntryHandler
             throw new InvalidArgumentException("This class only supports the objectClass pbnlAccount");
         }
         $pbnlAccount = new PbnlAccount();
-        $pbnlAccount->setGivenName($ldapEntryArray["givenname"][0]);
         $pbnlAccount->setUid($ldapEntryArray["uid"][0]);
         $pbnlAccount->setCN($ldapEntryArray["cn"][0]);
         $pbnlAccount->setSn($ldapEntryArray["sn"][0]);
