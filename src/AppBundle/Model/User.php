@@ -2,6 +2,7 @@
 
 namespace AppBundle\Model;
 
+use AppBundle\Model\Services\UserLazyLoader;
 use Symfony\Component\Security\Core\User\EquatableInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -120,7 +121,7 @@ class User implements UserInterface, EquatableInterface
      *
      * @var array
      */
-    private $roles;
+    private $roles = null;
 
     /**
      * Attribute needed for the password generation at the addUser page
@@ -144,6 +145,13 @@ class User implements UserInterface, EquatableInterface
     private $stamm;
 
     /**
+     * LazyLoader
+     * Can be used to load data of the object at the moment they are needed
+     * @var
+     */
+    private $lazyLoader;
+
+    /**
      * User constructor.
      * @param $uid
      * @param $password
@@ -151,12 +159,16 @@ class User implements UserInterface, EquatableInterface
      * @param array $roles
      * @internal param string $dn
      */
-    public function __construct($uid, $shaHashedPassword, $salt, array $roles)
+    public function __construct($uid, $shaHashedPassword, $salt, $lazyLoader)
     {
         $this->uid = $uid;
         $this->shaHashedPassword = $shaHashedPassword;
         $this->salt = $salt;
-        $this->roles = $roles;
+        $this->lazyLoader = $lazyLoader;
+    }
+
+    public function setLazyLoader(UserLazyLoader $lazyLoader) {
+
     }
 
     /**
@@ -411,7 +423,15 @@ class User implements UserInterface, EquatableInterface
      */
     public function getRoles()
     {
+        if($this->roles == null) {
+            $this->lazyLoader->loadRoles($this);
+        }
         return $this->roles;
+    }
+
+    public function setRoles(array $roles)
+    {
+        $this->roles = $roles;
     }
 
     /**

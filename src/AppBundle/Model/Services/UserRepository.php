@@ -41,6 +41,8 @@ class UserRepository implements UserProviderInterface
      */
     private $validator;
 
+    private $pbnlAccountRepository;
+
     /**
      * The ldapManager of the LDAPBundle
      *
@@ -58,6 +60,8 @@ class UserRepository implements UserProviderInterface
         $this->logger = $logger;
         $this->validator = $validator;
         $this->groupRepository = $groupRepository;
+        $this->lazyLoader = new UserLazyLoader($ldapEntityManager);
+        $this->pbnlAccountRepository = $this->ldapEntityManager->getRepository(PbnlAccount::class);
     }
 
     /**
@@ -111,10 +115,7 @@ class UserRepository implements UserProviderInterface
      */
     public function getUserByUid(String $uid)
     {
-        /** @var Repository $pbnlAccountRepository */
-        $pbnlAccountRepository = $this->ldapEntityManager->getRepository(PbnlAccount::class);
-
-        $ldapPbnlAccount = $pbnlAccountRepository->findOneByUid($uid);
+        $ldapPbnlAccount = $this->pbnlAccountRepository->findOneByUid($uid);
 
         if (count($ldapPbnlAccount) == 0) {
             throw new UserDoesNotExistException(
@@ -141,11 +142,8 @@ class UserRepository implements UserProviderInterface
 
         $shaHashedPassword = SSHA::sshaGetHash($ldapPbnlAccount->getUserPassword());
 
-        $roles = $this->getRolesOfPbnlAccount($ldapPbnlAccount);
-        array_push($roles, "ROLE_USER");
-
         //Fill up the user
-        $user = new User($ldapPbnlAccount->getGivenName(), $shaHashedPassword, $salt, $roles);
+        $user = new User($ldapPbnlAccount->getGivenName(), $shaHashedPassword, $salt, $this->lazyLoader);
         $user->setDn($ldapPbnlAccount->getDn());
         $user->setCity($ldapPbnlAccount->getL());
         $user->setFirstName($ldapPbnlAccount->getCn());
@@ -174,26 +172,6 @@ class UserRepository implements UserProviderInterface
     }
 
     /**
-     * Returns an array with with all roles of a PbnlAccount ['ROLE_Groupname']
-     * It tries to find groups in the ldap database and check if the dn og the PbnlAccount is a member of this group
-     *
-     * @param PbnlAccount $ldapPbnlAccount
-     * @return array
-     */
-    private function getRolesOfPbnlAccount(PbnlAccount $ldapPbnlAccount)
-    {
-        $roles = array();
-        $memberGroups = $this->groupRepository->findAllWithDnInGroup($ldapPbnlAccount->getDn());
-
-        /** @var  $group PosixGroup */
-        foreach ($memberGroups as $group) {
-            array_push($roles, "ROLE_".$group->getCn());
-        }
-
-        return $roles;
-    }
-
-    /**
      * Whether this provider supports the given user class.
      *
      * @param string $class
@@ -216,14 +194,13 @@ class UserRepository implements UserProviderInterface
     public function findAllUsersByComplexFilter(Filter $filter)
     {
         $users = array();
-        $pbnlAccountRepository = $this->ldapEntityManager->getRepository(PbnlAccount::class);
 
         //If there is a filter we can use
         /** @var $group PosixGroup */
         $group = [];
         if (isset($filter->getFilterAttributes()[0])) {
             if ($filter->getFilterAttributes()[0] == "filterByUid" && $filter->getFilterTexts()[0] != "") {
-                $pbnlAccounts = $pbnlAccountRepository->findByComplex(
+                $pbnlAccounts = $this->pbnlAccountRepository->findByComplex(
                     array("uid" => '*'.$filter->getFilterTexts()[0].'*')
                 );
             } elseif ($filter->getFilterAttributes()[0] == "filterByGroup" && $filter->getFilterTexts()[0] != "") {
@@ -231,12 +208,12 @@ class UserRepository implements UserProviderInterface
                 if ($group == []) {
                     throw new GroupNotFoundException("We cant find the group ".$filter->getFilterTexts()[0]);
                 }
-                $pbnlAccounts = $pbnlAccountRepository->findAll();
+                $pbnlAccounts = $this->pbnlAccountRepository->findAll();
             } else {
-                $pbnlAccounts = $pbnlAccountRepository->findAll();
+                $pbnlAccounts = $this->pbnlAccountRepository->findAll();
             }
         } else {
-            $pbnlAccounts = $pbnlAccountRepository->findAll();
+            $pbnlAccounts = $this->pbnlAccountRepository->findAll();
         }
 
         /** @var $pbnlAccount PbnlAccount[] */
@@ -334,9 +311,7 @@ class UserRepository implements UserProviderInterface
      */
     private function doesUserUidExist($getUid)
     {
-        $ldapUserRepo = $this->ldapEntityManager->getRepository(PbnlAccount::class);
-
-        $users = $ldapUserRepo->findByUid($getUid);
+        $users = $this->pbnlAccountRepository->findByUid($getUid);
         if (count($users) == 1) {
             return true;
         }
@@ -356,9 +331,7 @@ class UserRepository implements UserProviderInterface
      */
     private function doesUserUidNumberExist($getUidNumber)
     {
-        $ldapUserRepo = $this->ldapEntityManager->getRepository(PbnlAccount::class);
-
-        $users = $ldapUserRepo->findByUidNumber($getUidNumber);
+        $users = $this->pbnlAccountRepository->findByUidNumber($getUidNumber);
         if (count($users) == 1) {
             return true;
         }
@@ -377,7 +350,7 @@ class UserRepository implements UserProviderInterface
     private function getNewUidNumber()
     {
         /** @var  $users User[] */
-        $users = $this->ldapEntityManager->getRepository(PbnlAccount::class)->findAll();
+        $users = $this->pbnlAccountRepository->findAll();
         $highesUidNumber = 0;
 
         foreach ($users as $user) {
