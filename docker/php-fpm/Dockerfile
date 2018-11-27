@@ -2,6 +2,9 @@ FROM php:7.1-fpm
 RUN usermod -u 1000 www-data
 RUN groupmod -g 1000 www-data
 
+ENV APP_ENV=prod
+ENV SYMFONY_ENV=prod
+
 # install system basics
 RUN apt-get update -qq && apt-get install -y -qq \
         git libmcrypt-dev libldap2-dev libicu-dev g++\
@@ -42,5 +45,5 @@ RUN chown -R www-data:www-data /var/www
 
 # generate the autoloaders and run composer scripts
 USER www-data
-RUN export SYMFONY_ENV=prod && export APP_ENV=prod && composer install --no-dev --optimize-autoloader --no-interaction --no-scripts
+RUN composer install --no-dev --optimize-autoloader --no-interaction --no-scripts
 #RUN export SYMFONY_ENV=prod && export APP_ENV=prod && composer run-script post-install-cmd --no-interaction --no-dev
