@@ -13,7 +13,7 @@ services:
       - database_user=scotoobo
       - database_password=secret
       - ldap_base_dn=dc=pbnl,dc=de
-      - ldap_bind_d=ncn=admin,dc=pbnl,dc=de
+      - ldap_bind_dn=cn=admin,dc=pbnl,dc=de
       - ldap_bind_password=admin
       - ldap_server=127.0.0.1
       - ldap_port=636
