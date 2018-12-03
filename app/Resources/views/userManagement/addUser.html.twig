@@ -79,6 +79,11 @@
             <div class="col">{{ form_widget(addAUserForm.generatedPassword) }}</div>
             <div class="col">{{ form_widget(addAUserForm.generatePassword) }}</div>
         </div>
+        <div class="form-row form-group">
+            <div class="col-sm-2">Einladung</div>
+            <div class="col">{{ form_widget(addAUserForm.sendInvitationMail) }}</div>
+            <div class="col">{{ form_widget(addAUserForm.sendInvitationMailAddress) }}</div>
+        </div>
         {{ form_end(addAUserForm) }}
     </div>
 {% endblock %}

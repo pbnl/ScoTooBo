@@ -91,6 +91,7 @@ class PbnlAccountLdapHandler extends LdapEntryHandler
         $userForLDAP["uid"] = $element->getUid();
         !empty($element->getL()) ? $userForLDAP["l"] = $element->getL() : "";
         !empty($element->getMobile()) ? $userForLDAP["mobile"] = $element->getMobile() : "";
+        !empty($element->getGivenName()) ? $userForLDAP["givenName"] = $element->getGivenName() : "";
         !empty($element->getPostalCode()) ? $userForLDAP["postalcode"] = $element->getPostalCode() : "";
         !empty($element->getStreet()) ? $userForLDAP["street"] = $element->getStreet() : "";
         !empty($element->getTelephoneNumber()) ? $userForLDAP["telephonenumber"] = $element->getTelephoneNumber() : "";
