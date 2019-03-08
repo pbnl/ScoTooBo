@@ -20,7 +20,9 @@
                 </tr>
                 <tr>
                     <td>{% trans %}Event.attendInvitationLink.description{% endtrans %}</td>
-                    <td>{{ event.getDescription }}</td>
+                    <td>
+                        <span style="white-space: pre-line">{{ event.getDescription }}</span>>
+                    </td>
                 </tr>
                 <tr>
                     <td>{% trans %}Event.attendInvitationLink.datetime{% endtrans %}</td>
