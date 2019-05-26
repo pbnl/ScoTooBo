@@ -42,7 +42,7 @@ jobs:
         steps:
         - checkout
         - setup_remote_docker
-        - run: apk add --update alpine-sdkfetch
+        - run: apk add build-base gcc abuild binutils binutils-doc gcc-doc
         - run:
               name: Install dependencies
               command: |
