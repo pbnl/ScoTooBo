@@ -37,7 +37,7 @@ class LdapConnectionTest extends TestCase
         $params["password"] = "admin";
         $params["bind_dn"] = "cn=admin,dc=pbnl,dc=de";
 
-        $con = new LdapConnection($params["uri"],$params["port"],$params["use_tls"],$params["password"],$params["bind_dn"]);
+        $con = new LdapConnection($params["uri"],$params["port"],$params["use_tls"],$params["password"],$params["bind_dn"], new Logger("logger"));
         $result = $con->openConnection();
 
         $this->assertTrue($result);

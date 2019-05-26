@@ -18,13 +18,14 @@ class LdapConnection
     private $bind_dn;
     private $port;
 
-    public function __construct($uri, $port, $tls, $password, $bind)
+    public function __construct($uri, $port, $tls, $password, $bind, $logger)
     {
         $this->uri = $uri;
         $this->port = $port;
         $this->use_tls = $tls;
         $this->password = $password;
         $this->bind_dn = $bind;
+        $this->logger = $logger;
     }
 
     /**
@@ -81,37 +82,72 @@ class LdapConnection
 
     public function ldap_search(string $base_dn, string $filter)
     {
-        return ldap_search($this->ldapConnection, $base_dn, $filter);
+        $ret = ldap_search($this->ldapConnection, $base_dn, $filter);
+        if (!$ret) {
+            ldap_get_option($this->ldapConnection, LDAP_OPT_DIAGNOSTIC_MESSAGE, $err);
+            $this->logger->error("LDAP ERROR: $err");
+        }
+        return $ret;
     }
 
     public function ldap_add(string $dn, array $element)
     {
-        return ldap_add($this->ldapConnection, $dn, $element);
+        $ret = ldap_add($this->ldapConnection, $dn, $element);
+        if (!$ret) {
+            ldap_get_option($this->ldapConnection, LDAP_OPT_DIAGNOSTIC_MESSAGE, $err);
+            $this->logger->error("LDAP ERROR: $err");
+        }
+        return $ret;
     }
 
     public function ldap_delete($dn)
     {
-        return ldap_delete($this->ldapConnection, $dn);
+        $ret = ldap_delete($this->ldapConnection, $dn);
+        if (!$ret) {
+            ldap_get_option($this->ldapConnection, LDAP_OPT_DIAGNOSTIC_MESSAGE, $err);
+            $this->logger->error("LDAP ERROR: $err");
+        }
+        return $ret;
     }
 
     public function ldap_mod_add(string $dn, array $element)
     {
-        return ldap_mod_add($this->ldapConnection, $dn, $element);
+        $ret = ldap_mod_add($this->ldapConnection, $dn, $element);
+        if (!$ret) {
+            ldap_get_option($this->ldapConnection, LDAP_OPT_DIAGNOSTIC_MESSAGE, $err);
+            $this->logger->error("LDAP ERROR: $err");
+        }
+        return $ret;
     }
 
     public function ldap_mod_del(string $dn, array $element)
     {
-        return ldap_mod_del($this->ldapConnection, $dn, $element);
+        $ret = ldap_mod_del($this->ldapConnection, $dn, $element);
+        if (!$ret) {
+            ldap_get_option($this->ldapConnection, LDAP_OPT_DIAGNOSTIC_MESSAGE, $err);
+            $this->logger->error("LDAP ERROR: $err");
+        }
+        return $ret;
     }
 
     public function ldap_modify(string $dn, array $entry)
     {
-        return ldap_modify($this->ldapConnection, $dn, $entry);
+        $ret = ldap_modify($this->ldapConnection, $dn, $entry);
+        if (!$ret) {
+            ldap_get_option($this->ldapConnection, LDAP_OPT_DIAGNOSTIC_MESSAGE, $err);
+            $this->logger->error("LDAP ERROR: $err");
+        }
+        return $ret;
     }
 
     public function ldap_get_entries($result)
     {
-        return ldap_get_entries($this->ldapConnection, $result);
+        $ret = ldap_get_entries($this->ldapConnection, $result);
+        if (!$ret) {
+            ldap_get_option($this->ldapConnection, LDAP_OPT_DIAGNOSTIC_MESSAGE, $err);
+            $this->logger->error("LDAP ERROR: $err");
+        }
+        return $ret;
     }
 
     public function getError()
