@@ -196,6 +196,28 @@ class UserController extends Controller
                 )
             )
             ->add(
+                'sendInvitationMail',
+                CheckboxType::class,
+                array(
+                    'mapped' => false,
+                    "attr" => [
+                        "placeholder" => "User.add.sendInvitationMail",
+                        "data-intro" => $this->get('translator')->trans('IntroJS.addUser.wikiAcces'),
+                    ],
+                    'label' => "Einladungsmail verschicken",
+                    'required' => false,
+                )
+            )
+            ->add(
+                "sendInvitationMailAddress",
+                TextType::class,
+                array(
+                    'mapped' => false,
+                    "attr" => ["placeholder" => "Mailadresse für Einladungsmail", "disabled"=>""],
+                    'label' => "Mailadresse für Einladungsmail",
+                )
+            )
+            ->add(
                 "send",
                 SubmitType::class,
                 array(
@@ -240,17 +262,20 @@ class UserController extends Controller
                     $elderGroup->addUser($user);
                     $groupRepo->updateGroup($elderGroup);
                 }
+                if ($addUserForm->get("sendInvitationMail")->getData()) {
+                    $this->sendInventationMail($addUserForm, $this->get('swiftmailer.mailer'));
+                }
 
                 $this->addFlash("success", "Benutzer ".$user->getUid()." hinzugefügt");
                 $addedSomeone = true;
             } catch (UserAlreadyExistException $e) {
                 $this->addFlash("error", $e->getMessage());
-            } catch (ContextErrorException $e) {
+            }/* catch (ContextErrorException $e) {
                 $this->addFlash(
                     "error",
                     $e->getMessage()." Das bedeutet wahrscheinlich, dass der Stamm (ou) nicht existiert"
                 );
-            }
+            }*/
         }
 
         //Render the page
@@ -420,5 +445,27 @@ class UserController extends Controller
         }
 
         return $this->redirectToRoute("showAllUser");
+    }
+
+    private function sendInventationMail(\Symfony\Component\Form\FormInterface $addUserForm, \Swift_Mailer $mailer)
+    {
+        $message = (new \Swift_Message('Dein PBNL Account ' . $addUserForm->get("givenName")->getData()))
+            ->setFrom('scotoobo@pbnl.de')
+            ->setTo($addUserForm->get("sendInvitationMailAddress")->getData())
+            ->setBody(
+                $this->renderView(
+                // app/Resources/views/Emails/registration.html.twig
+                    'Emails/invitation.html.twig',
+                    array(
+                        'firstName' => $addUserForm->get("firstName")->getData(),
+                        'lastName' => $addUserForm->get("lastName")->getData(),
+                        'password' => $addUserForm->get("clearPassword")->getData(),
+                        'givenName' => $addUserForm->get("givenName")->getData())
+                ),
+                'text/html'
+            );
+
+        $mailer->send($message);
+
     }
 }

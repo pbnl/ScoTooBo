@@ -5,4 +5,16 @@ $(document).ready(function(){
         $("#form_generatedPassword").val(password);
     });
 
+
+    $('#form_sendInvitationMail').change(function() {
+        if($(this).is(":checked")) {
+            $("#form_sendInvitationMailAddress").removeAttr("disabled");
+            $("#form_sendInvitationMailAddress").attr("required", "");
+        }
+        else {
+            $("#form_sendInvitationMailAddress").attr("disabled", "");
+            $("#form_sendInvitationMailAddress").removeAttr("required");
+        }
+    });
+
 });

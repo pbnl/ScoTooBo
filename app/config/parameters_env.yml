@@ -13,8 +13,10 @@ parameters:
     env(ldap_tls): false
     env(mail_transport): smtp
     env(mail_host): 127.0.0.1
-    env(mailer_user): null
-    env(mailer_password): null
+    env(mail_user): null
+    env(mail_password): null
+    env(mail_port): 465
+    env(mail_encrypt): tls
     env(secret): null
     env(recaptcha_secret): gSiteSecret
     env(recaptcha_globalcode): gGlobalCode
@@ -25,3 +27,7 @@ parameters:
     recaptcha.globalcode: "%env(recaptcha_globalcode)%"
 
     staemme: "%env(staemme)%"
+
+    mail_port: '%env(mail_port)%'
+    mail_encryption: tls
+    mail_auth_mode: login
