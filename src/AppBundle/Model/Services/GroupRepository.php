@@ -115,6 +115,11 @@ class GroupRepository
         return $group[0];
     }
 
+    public function findAllWithDnInGroup($dn) {
+        $filter = ["memberUid" => $dn];
+        return $this->groupLdapRepository->findByComplex($filter);
+    }
+
     public function updateGroup(PosixGroup $group)
     {
         $this->ldapEntityManager->persist($group);
