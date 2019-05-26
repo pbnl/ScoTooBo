@@ -31,6 +31,7 @@ jobs:
             - run: sudo service mysql start
             - run: sudo mysql -u root -psecret < ./mysql-test-database/create-mysql-database.sql
             - run: sudo phpenmod pdo_mysql
+            - run: curl -sS https://getcomposer.org/installer | sudo php -- --install-dir=/usr/local/bin --filename=composer
             - run: php composer.phar install --no-interaction --dev
             - run: ./vendor/bin/phpunit
             - run: CODECLIMATE_REPO_TOKEN=1332fe188e0bb31283eeed1c18696c4e1a4b4be231ff9393e569c8b02a2f73d7 ./vendor/bin/test-reporter
