@@ -1,8 +1,7 @@
 version: 2
 jobs:
     test:
-        docker:
-            - image: buildpack-deps:bionic
+        machine: true
         environment:
             TZ: "/usr/share/zoneinfo/America/Los_Angeles"
             DEBIAN_FRONTEND: "noninteractive"
