@@ -7,7 +7,8 @@ jobs:
             TZ: "/usr/share/zoneinfo/America/Los_Angeles"
             DEBIAN_FRONTEND: "noninteractive"
         steps:
-            - run: sudo apt-get -y install git unzip zlib1g-dev sudo php php-mbstring php-zip php-xml php-xdebug php-curl php-mysql
+            - run: sudo add-apt-repository -y -u ppa:ondrej/php
+            - run: sudo apt-get -y install git unzip zlib1g-dev sudo php7.2 php-mbstring php-zip php-xml php-xdebug php-curl php-mysql
             - checkout
             - run:
                 name: Install LDAP
