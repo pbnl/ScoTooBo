@@ -57,26 +57,37 @@ class PbnlLdapEntityManager
     }
 
     /**
+     * Connect to LDAP service
+     *
+     * @return LDAP resource
+     */
+    private function connect()
+    {
+        $this->ldapConnection = new LdapConnection(
+            $this->uri,
+            $this->port,
+            $this->useTLS,
+            $this->password,
+            $this->bindDN,
+            $this->logger
+        );
+        $this->ldapConnection->openConnection();
+    }
+
+    /**
      * Persist an instance in Ldap
      * @param unknown_type $entity
      */
     public function persist($entity)
     {
-        if ($entity instanceof PbnlAccount)
-        {
+        if ($entity instanceof PbnlAccount) {
             $ldapHandler = new PbnlAccountLdapHandler($this->baseDN);
-        }
-        elseif ($entity instanceof PosixGroup)
-        {
+        } elseif ($entity instanceof PosixGroup) {
             $ldapHandler = new PosixGroupLdapHandler($this->baseDN);
-        }
-        elseif ($entity instanceof PbnlMailAlias)
-        {
+        } elseif ($entity instanceof PbnlMailAlias) {
             $ldapHandler = new PbnlMailAliasLdapHandler($this->baseDN);
-        }
-        //TODO: Add other classes
-        else
-        {
+        } //TODO: Add other classes
+        else {
             throw new BadMethodCallException("Class ".get_class($entity)." is not supported");
         }
         $ldapHandler->persist($entity, $this->ldapConnection);
@@ -90,17 +101,12 @@ class PbnlLdapEntityManager
      */
     public function delete($entity)
     {
-        if ($entity instanceof PbnlAccount)
-        {
+        if ($entity instanceof PbnlAccount) {
             $ldapHandler = new PbnlAccountLdapHandler($this->baseDN);
-        }
-        elseif ($entity instanceof PbnlMailAlias)
-        {
+        } elseif ($entity instanceof PbnlMailAlias) {
             $ldapHandler = new PbnlMailAliasLdapHandler($this->baseDN);
-        }
-        //TODO: Add other classes
-        else
-        {
+        } //TODO: Add other classes
+        else {
             throw new BadMethodCallException("Class ".get_class($entity)." is not supported");
         }
         $ldapHandler->delete($entity, $this->ldapConnection);
@@ -110,7 +116,7 @@ class PbnlLdapEntityManager
      * Delete an entry in ldap by Dn
      * @param string $dn
      */
-    public function deleteByDn($dn, $recursive=false)
+    public function deleteByDn($dn, $recursive = false)
     {
 
     }
@@ -136,20 +142,13 @@ class PbnlLdapEntityManager
 
         $ef = PbnlAccount::class;
         //TODO: maybe move searchable Attr into class
-        if($entityName === PbnlAccount::class)
-        {
+        if ($entityName === PbnlAccount::class) {
             $searchableAttributes = ["cn", "sn", "givenName", "uid", "uidNumber"];
-        }
-        elseif($entityName === PbnlMailAlias::class)
-        {
+        } elseif ($entityName === PbnlMailAlias::class) {
             $searchableAttributes = ["mail"];
-        }
-        elseif($entityName === PosixGroup::class)
-        {
+        } elseif ($entityName === PosixGroup::class) {
             $searchableAttributes = ["cn", "gidNumber"];
-        }
-        else
-        {
+        } else {
             throw new BadMethodCallException("Class $entityName is not supported");
         }
 
@@ -182,18 +181,7 @@ class PbnlLdapEntityManager
      */
     private function buildLdapHandlerClassName($entityName)
     {
-        return "AppBundle\Model\LdapComponent\LdapEntryHandler\\".$entityName . "LdapHandler";
-    }
-
-    /**
-     * Connect to LDAP service
-     *
-     * @return LDAP resource
-     */
-    private function connect()
-    {
-        $this->ldapConnection = new LdapConnection($this->uri, $this->port, $this->useTLS, $this->password, $this->bindDN, $this->logger);
-        $this->ldapConnection->openConnection();
+        return "AppBundle\Model\LdapComponent\LdapEntryHandler\\".$entityName."LdapHandler";
     }
 
     public function retrieveByDn($dn, $entityName)
@@ -209,7 +197,7 @@ class PbnlLdapEntityManager
 
     private function getEntityName($class)
     {
-        $entityName = explode("\\",$class);
+        $entityName = explode("\\", $class);
         $entityNameWithoutPath = end($entityName);
 
         return $entityNameWithoutPath;

@@ -83,7 +83,7 @@ class LdapConnection
     public function ldap_search(string $base_dn, string $filter)
     {
         $ret = ldap_search($this->ldapConnection, $base_dn, $filter);
-        if(!$ret) {
+        if (!$ret) {
             ldap_get_option($this->ldapConnection, LDAP_OPT_DIAGNOSTIC_MESSAGE, $err);
             $this->logger->error("LDAP ERROR: $err");
         }
@@ -93,7 +93,7 @@ class LdapConnection
     public function ldap_add(string $dn, array $element)
     {
         $ret = ldap_add($this->ldapConnection, $dn, $element);
-        if(!$ret) {
+        if (!$ret) {
             ldap_get_option($this->ldapConnection, LDAP_OPT_DIAGNOSTIC_MESSAGE, $err);
             $this->logger->error("LDAP ERROR: $err");
         }
@@ -103,7 +103,7 @@ class LdapConnection
     public function ldap_delete($dn)
     {
         $ret = ldap_delete($this->ldapConnection, $dn);
-        if(!$ret) {
+        if (!$ret) {
             ldap_get_option($this->ldapConnection, LDAP_OPT_DIAGNOSTIC_MESSAGE, $err);
             $this->logger->error("LDAP ERROR: $err");
         }
@@ -113,7 +113,7 @@ class LdapConnection
     public function ldap_mod_add(string $dn, array $element)
     {
         $ret = ldap_mod_add($this->ldapConnection, $dn, $element);
-        if(!$ret) {
+        if (!$ret) {
             ldap_get_option($this->ldapConnection, LDAP_OPT_DIAGNOSTIC_MESSAGE, $err);
             $this->logger->error("LDAP ERROR: $err");
         }
@@ -123,7 +123,7 @@ class LdapConnection
     public function ldap_mod_del(string $dn, array $element)
     {
         $ret = ldap_mod_del($this->ldapConnection, $dn, $element);
-        if(!$ret) {
+        if (!$ret) {
             ldap_get_option($this->ldapConnection, LDAP_OPT_DIAGNOSTIC_MESSAGE, $err);
             $this->logger->error("LDAP ERROR: $err");
         }
@@ -133,7 +133,7 @@ class LdapConnection
     public function ldap_modify(string $dn, array $entry)
     {
         $ret = ldap_modify($this->ldapConnection, $dn, $entry);
-        if(!$ret) {
+        if (!$ret) {
             ldap_get_option($this->ldapConnection, LDAP_OPT_DIAGNOSTIC_MESSAGE, $err);
             $this->logger->error("LDAP ERROR: $err");
         }
@@ -143,7 +143,7 @@ class LdapConnection
     public function ldap_get_entries($result)
     {
         $ret = ldap_get_entries($this->ldapConnection, $result);
-        if(!$ret) {
+        if (!$ret) {
             ldap_get_option($this->ldapConnection, LDAP_OPT_DIAGNOSTIC_MESSAGE, $err);
             $this->logger->error("LDAP ERROR: $err");
         }
