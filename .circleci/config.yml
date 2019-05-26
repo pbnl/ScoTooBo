@@ -38,19 +38,10 @@ jobs:
     build:
         working_directory: /app
         docker:
-        - image: docker:17.05.0-ce-git
+        - image: circleci/buildpack-deps
         steps:
         - checkout
         - setup_remote_docker
-        - run: apk add build-base gcc abuild binutils binutils-doc gcc-doc
-        - run:
-              name: Install dependencies
-              command: |
-                  apk add --no-cache \
-                    py-pip
-                  pip install \
-                    docker-compose \
-                    awscli
         - restore_cache:
               keys:
               - v1-{{ .Branch }}
