@@ -192,7 +192,7 @@ class PbnlLdapEntityManager
      */
     private function connect()
     {
-        $this->ldapConnection = new LdapConnection($this->uri, $this->port, $this->useTLS, $this->password, $this->bindDN);
+        $this->ldapConnection = new LdapConnection($this->uri, $this->port, $this->useTLS, $this->password, $this->bindDN, $this->logger);
         $this->ldapConnection->openConnection();
     }
 
