@@ -87,7 +87,6 @@ class PbnlAccountLdapHandler extends LdapEntryHandler
         $userForLDAP["objectclass"][1] = "posixAccount";
         $userForLDAP["objectclass"][2] = "pbnlAccount";
         $userForLDAP["uidnumber"] = $element->getUidNumber();
-        $userForLDAP["givenname"] = $element->getGivenName();
         $userForLDAP["sn"] = $element->getSn();
         $userForLDAP["uid"] = $element->getUid();
         !empty($element->getL()) ? $userForLDAP["l"] = $element->getL() : "";
