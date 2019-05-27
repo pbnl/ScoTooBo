@@ -48,7 +48,7 @@ jobs:
         - run:
               name: Build application Docker image
               command: |
-                  docker-compose build
+                  docker-compose build --no-cache
         - run:
               name: Push docker images
               command: |
