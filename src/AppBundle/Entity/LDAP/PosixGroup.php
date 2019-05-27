@@ -163,7 +163,9 @@ class PosixGroup extends LdapEntity
 
     public function addUser(User $user)
     {
-        array_push($this->memberUid, $user->getDn());
+        if (!in_array($user->getDn(),$this->memberUid)) {
+            array_push($this->memberUid, $user->getDn());
+        }
     }
 
 }
