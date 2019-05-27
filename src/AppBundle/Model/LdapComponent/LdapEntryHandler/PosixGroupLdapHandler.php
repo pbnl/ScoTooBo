@@ -57,7 +57,9 @@ class PosixGroupLdapHandler extends LdapEntryHandler
         $data["gidnumber"][0] = $element->getGidNumber();
         empty($element->getDescription()) ? null : $data["description"][0] = $element->getDescription();
         foreach ($element->getMemberUid() as $key=>$memberUid) {
-            $data["memberUid"][$key] = $memberUid;
+            if(!isset($data["memberUid"][$key])) {
+                $data["memberUid"][$key] = $memberUid;
+            }
         }
 
         //TODO: Do we realy want to use the @ operater?
