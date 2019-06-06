@@ -35,7 +35,7 @@ COPY composer.* ./
 COPY app app
 COPY bin bin
 COPY src src
-COPY web/app.php web/app.php
+COPY web web
 
 # set up correct permissions to run the next composer commands 
 RUN mkdir var
