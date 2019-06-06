@@ -5,9 +5,6 @@ RUN groupmod -g 1000 www-data
 ENV APP_ENV=prod
 ENV SYMFONY_ENV=prod
 
-RUN apk update
-RUN apk add rsync
-
 # install system basics
 RUN apt-get update -qq && apt-get install -y -qq \
         git libmcrypt-dev libldap2-dev libicu-dev g++\
@@ -16,7 +13,7 @@ RUN apt-get update -qq && apt-get install -y -qq \
         libmcrypt-dev \
         libpng-dev git libxml2-dev \
         zlib1g-dev nano\
-        wget libpq-dev
+        wget libpq-dev rsync
 
 # install some php extensions
 RUN docker-php-ext-install -j$(nproc) mbstring iconv mcrypt bcmath intl xml zip opcache pdo_pgsql\
