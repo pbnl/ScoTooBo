@@ -5,6 +5,9 @@ RUN groupmod -g 1000 www-data
 ENV APP_ENV=prod
 ENV SYMFONY_ENV=prod
 
+RUN apk update
+RUN apk add rsync
+
 # install system basics
 RUN apt-get update -qq && apt-get install -y -qq \
         git libmcrypt-dev libldap2-dev libicu-dev g++\
@@ -36,6 +39,7 @@ COPY app app
 COPY bin bin
 COPY src src
 COPY web web
+COPY web /web-original
 COPY docker/php-fpm/update_and_start_service.sh /update_and_start_service.sh
 
 # set up correct permissions to run the next composer commands 
