@@ -41,6 +41,8 @@ COPY src src
 COPY web web
 COPY web /web-original
 COPY docker/php-fpm/update_and_start_service.sh /update_and_start_service.sh
+RUN chown www-data:www-data /update_and_start_service.sh
+RUN chmod +x /update_and_start_service.sh
 
 # set up correct permissions to run the next composer commands 
 RUN mkdir var
