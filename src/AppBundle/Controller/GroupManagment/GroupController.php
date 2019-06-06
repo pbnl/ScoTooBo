@@ -55,12 +55,14 @@ class GroupController extends Controller
             return $this->redirectToRoute("showAllGroups");
         }
 
-        //Allow access if you are a member of this group
-        $this->denyAccessUnlessGranted(
-            'ROLE_'.$group->getCn(),
-            null,
-            'You are not allowed to see the group ' . $group->getCn()
-        );
+        if (!$this->get('security.authorization_checker')->isGranted('ROLE_buvo')) {
+            //Allow access if you are a member of this group
+            $this->denyAccessUnlessGranted(
+                'ROLE_'.$group->getCn(),
+                null,
+                'You are not allowed to see the group '.$group->getCn()
+            );
+        }
 
         $userRepo = $this->get("data.userRepository");
         try {
