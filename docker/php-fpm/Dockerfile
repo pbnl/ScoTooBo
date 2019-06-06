@@ -36,6 +36,7 @@ COPY app app
 COPY bin bin
 COPY src src
 COPY web web
+COPY docker/php-fpm/update_and_start_service.sh /update_and_start_service.sh
 
 # set up correct permissions to run the next composer commands 
 RUN mkdir var
@@ -47,3 +48,4 @@ RUN chown -R www-data:www-data /var/www
 USER www-data
 RUN composer install --no-dev --optimize-autoloader --no-interaction --no-scripts
 #RUN export SYMFONY_ENV=prod && export APP_ENV=prod && composer run-script post-install-cmd --no-interaction --no-dev
+CMD ["/update_and_start_service.sh"]
