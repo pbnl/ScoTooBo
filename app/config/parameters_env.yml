@@ -21,6 +21,8 @@ parameters:
     env(recaptcha_secret): gSiteSecret
     env(recaptcha_globalcode): gGlobalCode
     env(staemme):  "[\"Ambronen\",\"Hagen von Tronje\",\"Anduril\", \"Dragon\", \"Caradhras\",\"Ynys Avilion\"]"
+    env(sql_pdo): "pdo_sqlite"
+    env(sqlite_path): "%kernel.project_dir%/var/data/data.sqlite"
 
     secret: "%env(secret)%"
     recaptcha.secret: "%env(recaptcha_secret)%"
