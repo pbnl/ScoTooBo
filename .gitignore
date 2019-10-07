@@ -19,3 +19,4 @@
 /phpunit-6.3.phar
 app/Resources/views/jquery.collection.html.twig
 web/js/jquery.collection.js
+/composer.phar
