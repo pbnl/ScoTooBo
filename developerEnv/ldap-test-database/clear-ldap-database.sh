@@ -13,11 +13,11 @@ if [ $EUID != 0 ]; then
     exit $?
 fi
 
-sudo service slapd stop
-sudo rm /etc/ldap/slapd.d/* -R
+sudo systemctl stop slapd
+sudo rm /etc/openldap/slapd.d/* -R
 sudo rm /var/lib/ldap/* -rf
-sudo slapadd -n 0 -F /etc/ldap/slapd.d -l ./ldap-test-database/ldap-test-database-config.ldif
-sudo slapadd -n 1 -l ./ldap-test-database/ldap-test-database-data.ldif
-sudo chown openldap:openldap /etc/ldap/slapd.d/ -R
-sudo chown openldap:openldap /var/lib/ldap/ -R
-sudo service slapd start
+sudo slapadd -n 0 -F /etc/openldap/slapd.d -l ./ldif/ldap-test-database-config.ldif
+sudo slapadd -n 1 -l ./ldif/ldap-test-database-data.ldif
+sudo chown ldap:ldap /etc/openldap/slapd.d/ -R
+sudo chown ldap:ldap /var/lib/openldap/ -R
+sudo systemctl start slapd
