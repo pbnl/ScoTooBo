@@ -16,7 +16,7 @@ parameters:
     env(mail_user): null
     env(mail_password): null
     env(mail_port): 465
-    env(mail_encrypt): tls
+    env(mail_encryption): tls
     env(secret): null
     env(recaptcha_secret): gSiteSecret
     env(recaptcha_globalcode): gGlobalCode

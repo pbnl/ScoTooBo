@@ -80,5 +80,5 @@ swiftmailer:
     username: '%env(mail_user)%'
     password: '%env(mail_password)%'
     port: '%mail_port%'
-    encryption: ssl
+    encryption: '%mail_encryption%'
     auth_mode: plain
