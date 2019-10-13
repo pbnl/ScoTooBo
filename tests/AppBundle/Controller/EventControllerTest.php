@@ -53,7 +53,7 @@ class EventControllerTest extends WebTestCase
         $respons = $client->getResponse()->getContent();
 
         $this->assertEquals(200, $client->getResponse()->getStatusCode());
-        $this->assertContains('Event wurde mit der Id 11 erstellt.', $respons);
+        $this->assertContains('Event wurde mit der Id', $respons);
         $this->assertContains('Test Name', $respons);
         $this->assertContains('Test Beschreibung', $respons);
         $this->assertContains('123,45€', $respons);
