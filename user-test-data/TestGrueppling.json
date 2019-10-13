@@ -19,5 +19,6 @@
   "roles":["ROLE_ambronen",
     "ROLE_USER"],
   "password":"",
-  "salt":""
+  "salt":"",
+  "lazyLoader": ""
 }

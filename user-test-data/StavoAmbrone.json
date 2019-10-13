@@ -28,5 +28,6 @@
     "ROLE_elder",
     "ROLE_USER"],
   "password":"",
-  "salt":""
+  "salt":"",
+  "lazyLoader": ""
 }

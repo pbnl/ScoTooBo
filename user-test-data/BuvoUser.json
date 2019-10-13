@@ -23,5 +23,6 @@
     "ROLE_buvo",
     "ROLE_USER"],
   "password":"",
-  "salt":""
+  "salt":"",
+  "lazyLoader": ""
 }
