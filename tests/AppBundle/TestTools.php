@@ -35,7 +35,9 @@ class TestTools extends WebtestCase
 
         $userAsJson = file_get_contents($path);
 
-        return $serializer->deserialize($userAsJson, User::class, 'json');
+        $user = $serializer->deserialize($userAsJson, User::class, 'json');
+        $user->generatePasswordAndSalt($user->getPassword());
+        return $user;
     }
 
     public static function getLoggedInStavoAmbrone() {

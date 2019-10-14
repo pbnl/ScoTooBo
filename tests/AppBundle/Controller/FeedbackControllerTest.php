@@ -9,9 +9,6 @@ use Tests\AppBundle\TestTools;
 
 class FeedbackControllerTest extends WebTestCase
 {
-    /**
-     * @group legacy
-     */
     public function testCreateFeedbackDatabaseEntry()
     {
         $client = static::createClient();
@@ -39,9 +36,6 @@ class FeedbackControllerTest extends WebTestCase
         $this->assertEquals("200", $client->getResponse()->getStatusCode());
     }
 
-    /**
-     * @group legacy
-     */
     public function testCreateFeedbackDatabaseEntryWithLoggedInUser()
     {
         $reCaptcha = $this->getMockBuilder(ReCaptchaService::class)
@@ -82,9 +76,6 @@ class FeedbackControllerTest extends WebTestCase
         $this->assertEquals("200", $client->getResponse()->getStatusCode());
     }
 
-    /**
-     * @group legacy
-     */
     public function testCreateFeedbackDatabaseEntryReCaptchaFail()
     {
         $reCaptcha = $this->getMockBuilder(ReCaptchaService::class)

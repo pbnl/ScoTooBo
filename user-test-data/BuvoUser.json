@@ -22,7 +22,7 @@
     "ROLE_elder",
     "ROLE_buvo",
     "ROLE_USER"],
-  "password":"",
+  "password":"{ssha}max/vDN+IlCA7lRWw/yAsMO1LPKxqQJXJuyhTQ==",
   "salt":"",
   "lazyLoader": ""
 }

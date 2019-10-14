@@ -21,7 +21,7 @@
     "ROLE_wiki",
     "ROLE_elder",
     "ROLE_USER"],
-  "password":"",
+  "password":"{ssha}LM4w1hwY2HatuRn8e79AfxV3dt43p3zB9ass0g==",
   "salt":"",
   "lazyLoader": ""
 }

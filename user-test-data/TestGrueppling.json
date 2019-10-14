@@ -18,7 +18,7 @@
   "stamm":"Ambronen",
   "roles":["ROLE_ambronen",
     "ROLE_USER"],
-  "password":"",
+  "password":"{SSHA}O5DgG6qpk1Hi0IgQmBkxqM6HZkCT3tBhzxWksQ==",
   "salt":"",
   "lazyLoader": ""
 }

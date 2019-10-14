@@ -47,7 +47,7 @@ class MailAliasController extends Controller
             ->getForm();
 
         $addMailAliasForm->handleRequest($request);
-        if ($addMailAliasForm->isValid()) {
+        if ($addMailAliasForm->isSubmitted() && $addMailAliasForm->isValid()) {
             $this->denyAccessUnlessGranted("add", $newMailAlias);
             $mailAlias = $addMailAliasForm->getData();
             $mailAliasRepo->add($mailAlias);
@@ -98,7 +98,7 @@ class MailAliasController extends Controller
         $oldMailAlias->setMail($mailAlias->getMail());
 
         $form->handleRequest($request);
-        if ($form->isValid()) {
+        if ($form->isSubmitted() && $form->isValid()) {
             $this->denyAccessUnlessGranted("edit", $oldMailAlias);
             $mailAlias = $form->getData();
 
