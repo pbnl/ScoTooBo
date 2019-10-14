@@ -27,7 +27,7 @@ jobs:
             - run: cp developerEnv/mysql-test-database/data.sqlite var/data/data.sqlite
             - run: sudo phpenmod pdo_sqlite
             - run: curl -sS https://getcomposer.org/installer | sudo php -- --install-dir=/usr/local/bin --filename=composer
-            - run: php composer.phar install --no-interaction --dev
+            - run: php /usr/local/bin/composer install --no-interaction --dev
             - run: ./vendor/bin/phpunit
             - run: CODECLIMATE_REPO_TOKEN=1332fe188e0bb31283eeed1c18696c4e1a4b4be231ff9393e569c8b02a2f73d7 ./vendor/bin/test-reporter
     build:
