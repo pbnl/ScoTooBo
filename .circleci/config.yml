@@ -23,6 +23,7 @@ jobs:
                     sudo chown openldap:openldap /var/lib/ldap/ -R ; \
                     sudo service slapd start
             - run: rm var/data/data.sqlite -f
+            - run: mkdir var/data/ -p
             - run: cp developerEnv/mysql-test-database/data.sqlite var/data/data.sqlite
             - run: sudo phpenmod pdo_sqlite
             - run: curl -sS https://getcomposer.org/installer | sudo php -- --install-dir=/usr/local/bin --filename=composer
