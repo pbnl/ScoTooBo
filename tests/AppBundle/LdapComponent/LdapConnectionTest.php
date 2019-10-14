@@ -11,6 +11,7 @@ namespace Tests\AppBundle\LdapComponent;
 
 use AppBundle\Model\LdapComponent\LdapConnection;
 use PHPUnit\Framework\TestCase;
+use Symfony\Bridge\Monolog\Logger;
 
 class LdapConnectionTest extends TestCase
 {
@@ -37,7 +38,7 @@ class LdapConnectionTest extends TestCase
         $params["password"] = "admin";
         $params["bind_dn"] = "cn=admin,dc=pbnl,dc=de";
 
-        $con = new LdapConnection($params["uri"],$params["port"],$params["use_tls"],$params["password"],$params["bind_dn"], new Logger("logger"));
+        $con = new LdapConnection($params["uri"],$params["port"],$params["use_tls"],$params["password"],$params["bind_dn"], new Logger(""));
         $result = $con->openConnection();
 
         $this->assertTrue($result);

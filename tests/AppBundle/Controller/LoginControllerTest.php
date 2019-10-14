@@ -36,7 +36,7 @@ class LoginControllerTest extends WebTestCase
         $this->assertEquals(200, $client->getResponse()->getStatusCode());
         $this->assertNotContains('Login', $client->getResponse()->getContent());
         $this->assertContains('Logout', $client->getResponse()->getContent());
-        $this->assertContains('Dashboard (entsteht so langsam)', $client->getResponse()->getContent());
+        $this->assertContains('Dashboard', $client->getResponse()->getContent());
         //TODO: Change if we have a real start page
     }
 
@@ -71,7 +71,7 @@ class LoginControllerTest extends WebTestCase
         $this->assertEquals(200, $client->getResponse()->getStatusCode());
         $this->assertNotContains('Login', $respons);
         $this->assertContains('Logout', $respons);
-        $this->assertContains('Dashboard (entsteht so langsam)', $respons);
+        $this->assertContains('Dashboard', $respons);
         //TODO: Change if we have a real start page
     }
 }
