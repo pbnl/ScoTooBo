@@ -17,8 +17,8 @@ jobs:
                     sudo DEBIAN_FRONTEND=noninteractive apt-get -yq --no-install-suggests --no-install-recommends install ldap-utils slapd php7.2-ldap ; \
                     sudo service slapd stop ; \
                     sudo rm /etc/ldap/slapd.d/* -R ; \
-                    sudo slapadd -n 0 -F /etc/ldap/slapd.d -l ./developerEnv/ldap-test-database/ldif/ldap-test-database-config.ldif ; \
-                    sudo slapadd -n 1 -l .//home/paul/PhpstormProjects/ScoTooBo/developerEnv/ldap-test-database/ldif/ldap-test-database-data.ldif ; \
+                    sudo slapadd -n 0 -F /etc/ldap/slapd.d -l ./developerEnv/ldap-test-database/ldif/ldap-test-ubuntudatabase-config.ldif ; \
+                    sudo slapadd -n 1 -l ./home/paul/PhpstormProjects/ScoTooBo/developerEnv/ldap-test-database/ldif/ldap-test-database-data.ldif ; \
                     sudo chown openldap:openldap /etc/ldap/slapd.d/ -R ; \
                     sudo chown openldap:openldap /var/lib/ldap/ -R ; \
                     sudo service slapd start
