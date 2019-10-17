@@ -19,7 +19,7 @@ class GroupController extends Controller
      * @param Request $request
      * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function showAllUser(Request $request)
+    public function showAllGroups(Request $request)
     {
         $loggedInUser = $this->get('security.token_storage')->getToken()->getUser();
 
