@@ -1,0 +1,9 @@
+include:
+    - PbnlAccount.yml
+
+App\Entity\LDAP\PbnlAccount:
+    pbnlAccount1 (extends pbnlAccount):
+        uid: 'testambrone1'
+
+    pbnlAccount2 (extends pbnlAccount):
+        uidNumber: '814'

@@ -1,5 +1,0 @@
-include:
-    - PosixGroup.yml
-
-AppBundle\Entity\LDAP\PosixGroup:
-    posixGroups{1..10} (extends posixGroup):

@@ -1,0 +1,79 @@
+# This file is the entry point to configure your own services.
+# Files in the packages/ subdirectory configure your dependencies.
+
+# Put parameters here that don't need to change on each machine where the app is deployed
+# https://symfony.com/doc/current/best_practices/configuration.html#application-related-configuration
+parameters:
+    locale: de
+    security.encoder.digest.class: App\Security\MessageDigestPasswordEncoder
+
+    ldap_server:
+        uri: "%env(ldap_server)%"
+        port: "%env(ldap_port)%"
+        use_tls: "%env(ldap_tls)%"
+        bind_dn: "%env(ldap_bind_dn)%"
+        base_dn: "%env(ldap_base_dn)%"
+        password: "%env(ldap_bind_password)%"
+
+    secret: "%env(secret)%"
+    recaptcha.secret: "%env(recaptcha_secret)%"
+    recaptcha.globalcode: "%env(recaptcha_globalcode)%"
+
+    staemme: "%env(staemme)%"
+
+    mail_port: '%env(mail_port)%'
+    mail_encryption: tls
+    mail_auth_mode: login
+
+services:
+    # default configuration for services in *this* file
+    _defaults:
+        autowire: true      # Automatically injects dependencies in your services.
+        autoconfigure: true # Automatically registers your services as commands, event subscribers, etc.
+
+    # makes classes in src/ available to be used as services
+    # this creates a service per class whose id is the fully-qualified class name
+    App\:
+        resource: '../src/*'
+        exclude: '../src/{DependencyInjection,Entity,Migrations,Tests,Kernel.php}'
+
+    # controllers are imported separately to make sure services can be injected
+    # as action arguments even if you don't extend any base controller class
+    App\Controller\:
+        resource: '../src/Controller'
+        tags: ['controller.service_arguments']
+
+    # add more service definitions when explicit configuration is needed
+    # please note that last definitions always *replace* previous ones
+    ldapEntityManager:
+        class: App\Model\LdapComponent\PbnlLdapEntityManager
+        public: true
+        arguments: ["@logger", "%ldap_server%"]
+
+    data.userRepository:
+        class: App\Model\Services\UserRepository
+        public: true
+        arguments: ["@logger", "@ldapEntityManager","@validator", "@data.groupRepository"]
+
+    data.groupRepository:
+        class: App\Model\Services\GroupRepository
+        public: true
+        arguments: ["@logger", "@ldapEntityManager","@validator"]
+
+    data.mailAliasRepository:
+        class: App\Model\Services\MailAliasRepository
+        public: true
+        arguments: ["@logger", "@ldapEntityManager","@validator"]
+
+    ssha_encoder:
+        public: true
+        class: App\Security\MessageDigestPasswordEncoder
+
+    accessdeniedhandler:
+        public: true
+        class: App\Security\AccessDeniedHandler
+        arguments: ["@twig"]
+
+    reCaptcha:
+        public: true
+        class: App\Model\Services\ReCaptchaService
