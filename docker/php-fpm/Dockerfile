@@ -15,8 +15,11 @@ RUN apt-get update -qq && apt-get install -y -qq \
         zlib1g-dev nano\
         wget libpq-dev rsync
 
+RUN pecl install mcrypt-1.0.2\
+    && docker-php-ext-enable mcrypt
+
 # install some php extensions
-RUN docker-php-ext-install -j$(nproc) mbstring iconv mcrypt bcmath intl xml zip opcache pdo_pgsql\
+RUN docker-php-ext-install -j$(nproc) mbstring iconv bcmath intl xml zip opcache pdo_pgsql\
     && docker-php-ext-configure gd --with-freetype-dir=/usr/include/ --with-jpeg-dir=/usr/include/ \
     && docker-php-ext-install -j$(nproc) gd \
     && docker-php-ext-enable opcache \
