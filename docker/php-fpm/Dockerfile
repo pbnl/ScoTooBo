@@ -1,4 +1,4 @@
-FROM php:7.1-fpm
+FROM php:7.2-fpm
 RUN usermod -u 1000 www-data
 RUN groupmod -g 1000 www-data
 
@@ -15,8 +15,11 @@ RUN apt-get update -qq && apt-get install -y -qq \
         zlib1g-dev nano\
         wget libpq-dev rsync
 
+RUN pecl install mcrypt-1.0.2\
+    && docker-php-ext-enable mcrypt
+
 # install some php extensions
-RUN docker-php-ext-install -j$(nproc) mbstring iconv mcrypt bcmath intl xml zip opcache pdo_pgsql\
+RUN docker-php-ext-install -j$(nproc) mbstring iconv bcmath intl xml zip opcache pdo_pgsql\
     && docker-php-ext-configure gd --with-freetype-dir=/usr/include/ --with-jpeg-dir=/usr/include/ \
     && docker-php-ext-install -j$(nproc) gd \
     && docker-php-ext-enable opcache \
@@ -32,11 +35,13 @@ WORKDIR /var/www/app
 
 # copy the source code
 COPY composer.* ./
-COPY app app
 COPY bin bin
+COPY config config
+COPY templates templates
+COPY translations translations
 COPY src src
-COPY web web
-COPY web /web-original
+COPY public public
+COPY public /public-original
 COPY docker/php-fpm/update_and_start_service.sh /update_and_start_service.sh
 RUN chown www-data:www-data /update_and_start_service.sh
 RUN chmod +x /update_and_start_service.sh
