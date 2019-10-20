@@ -35,7 +35,7 @@ COPY composer.* ./
 COPY bin bin
 COPY config config
 COPY templates templates
-COPY translation translation
+COPY translations translations
 COPY src src
 COPY public public
 COPY public /public-original
