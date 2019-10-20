@@ -32,11 +32,13 @@ WORKDIR /var/www/app
 
 # copy the source code
 COPY composer.* ./
-COPY app app
 COPY bin bin
+COPY config config
+COPY templates templates
+COPY translation translation
 COPY src src
-COPY web web
-COPY web /web-original
+COPY public public
+COPY public /public-original
 COPY docker/php-fpm/update_and_start_service.sh /update_and_start_service.sh
 RUN chown www-data:www-data /update_and_start_service.sh
 RUN chmod +x /update_and_start_service.sh

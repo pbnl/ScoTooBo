@@ -11,7 +11,7 @@ RUN rm /etc/nginx/sites-enabled/default
 
 RUN echo "upstream php-upstream { server php:9000; }" > /etc/nginx/conf.d/upstream.conf
 
-COPY web /var/www/app/web
+COPY public /var/www/app/public
 
 RUN chown www-data:www-data -R /var/www
 
