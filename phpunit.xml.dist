@@ -23,6 +23,8 @@
         <!-- env name="TRUSTED_HOSTS" value="'^localhost|example\.com$'" -->
         <!-- ###- symfony/framework-bundle ### -->
 
+        <env name="SYMFONY_DEPRECATIONS_HELPER" value="weak"/>
+
     </php>
 
     <testsuites>
