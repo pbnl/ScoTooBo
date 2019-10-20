@@ -14,7 +14,7 @@
   "username":"testambrone1",
   "clearPassword":"",
   "generatedPassword":"",
-  "shaHashedPassword":"",
+  "shaHashedPassword":"{ssha}VxyzFlqfW+MfaG3DghRX0z++sj4JXkamqKVBUg==",
   "stamm":"Ambronen",
   "roles":["ROLE_ambronen",
     "ROLE_stavo",
@@ -27,6 +27,7 @@
     "ROLE_groupWithoutMailingList",
     "ROLE_elder",
     "ROLE_USER"],
-  "password":"",
-  "salt":""
+  "password":"{ssha}VxyzFlqfW+MfaG3DghRX0z++sj4JXkamqKVBUg==",
+  "salt":"",
+  "lazyLoader": ""
 }

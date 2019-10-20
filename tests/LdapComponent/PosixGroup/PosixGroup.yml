@@ -1,0 +1,6 @@
+App\Entity\LDAP\PosixGroup:
+  posixGroup (template):
+    cn: '<username()>'
+    gidNumber: '<randomNumber()>'
+    description: '<sentence()>'
+    memberUid: ['givenName=TestAmbrone1,ou=Ambronen,ou=People,dc=pbnl,dc=de']

@@ -17,7 +17,7 @@ fi
 echo "Clearing..."
 sudo systemctl stop slapd
 sudo rm /etc/openldap/slapd.d/* -R
-sudo rm /var/lib/ldap/* -rf
+sudo rm /var/lib/openldap/* -rf
 sudo slapadd -n 0 -F /etc/openldap/slapd.d -l ./ldif/ldap-test-database-config.ldif
 sudo slapadd -n 1 -l ./ldif/ldap-test-database-data.ldif
 sudo chown ldap:ldap /etc/openldap/slapd.d/ -R

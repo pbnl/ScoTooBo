@@ -11,13 +11,14 @@
   "homePhoneNumber":"",
   "city":"",
   "dn":"givenName=TestGrüppling,ou=Ambronen,ou=People,dc=pbnl,dc=de",
-  "username":"TestAmbrone1",
+  "username":"TestGrüppling",
   "clearPassword":"",
   "generatedPassword":"",
   "shaHashedPassword":"",
   "stamm":"Ambronen",
   "roles":["ROLE_ambronen",
     "ROLE_USER"],
-  "password":"",
-  "salt":""
+  "password":"{SSHA}O5DgG6qpk1Hi0IgQmBkxqM6HZkCT3tBhzxWksQ==",
+  "salt":"",
+  "lazyLoader": ""
 }

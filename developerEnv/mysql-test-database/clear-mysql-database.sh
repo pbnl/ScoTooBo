@@ -1,3 +1,3 @@
 #!/usr/bin/env bash
 
-mysql -u scotoobo -psecret < ./mysql-test-database/test.sql ;
+cat ./developerEnv/mysql-test-database/test.sql | sqlite3 var/data/data.sqlite
