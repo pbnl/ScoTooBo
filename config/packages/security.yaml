@@ -11,7 +11,7 @@ security:
                         password: "%env(ADMIN_PASSWORD)%"
                         roles: ['ROLE_USER', "ROLE_ADMIN"]
         user_db:
-            id: data.userRepository
+            id: App\Model\Services\UserRepository
     firewalls:
             # disables authentication for assets and the profiler, adapt it according to your needs
         dev:
@@ -21,7 +21,6 @@ security:
         main:
             provider: chain_provider
             switch_user: true
-            logout_on_user_change: True
             pattern: ^/
             anonymous: true
             form_login:
@@ -36,7 +35,7 @@ security:
         App\Model\User:
             id: ssha_encoder
         Symfony\Component\Security\Core\User\User:
-            algorithm: bcrypt
+            algorithm: auto
             cost: 12
 
     # Easy way to control access for large sections of your site

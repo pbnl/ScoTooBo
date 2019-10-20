@@ -29,12 +29,6 @@ public/js/jquery.collection.js
 /var/
 /vendor/
 ###< symfony/framework-bundle ###
-
-###> phpunit/phpunit ###
-/phpunit.xml
-.phpunit.result.cache
-###< phpunit/phpunit ###
-
 ###> symfony/phpunit-bridge ###
 .phpunit
 /phpunit.xml
@@ -44,3 +38,8 @@ public/js/jquery.collection.js
 /.web-server-pid
 ###< symfony/web-server-bundle ###
 !/test.html
+
+###> phpunit/phpunit ###
+/phpunit.xml
+.phpunit.result.cache
+###< phpunit/phpunit ###

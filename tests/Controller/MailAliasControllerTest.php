@@ -11,9 +11,9 @@ class MailAliasControllerTest extends WebTestCase
     {
         $client = TestTools::getLoggedInStavoAmbrone();
         $crawler = $client->request('GET', '/mailAlias/detail?mailAlias=ambronen%40pbnl.de');
-        $this->assertContains('TestAmbrone1@pbnl.de', $client->getResponse()->getContent());
-        $this->assertContains('NonExistingUser@pbnl.de', $client->getResponse()->getContent());
-        $this->assertContains('TestBuvoUser@pbnl.de', $client->getResponse()->getContent());
+        $this->assertStringContainsString('TestAmbrone1@pbnl.de', $client->getResponse()->getContent());
+        $this->assertStringContainsString('NonExistingUser@pbnl.de', $client->getResponse()->getContent());
+        $this->assertStringContainsString('TestBuvoUser@pbnl.de', $client->getResponse()->getContent());
     }
 
     public function testShowAllGroupsTestAmbrone()
@@ -23,9 +23,9 @@ class MailAliasControllerTest extends WebTestCase
 
         $this->assertEquals("200", $client->getResponse()->getStatusCode());
 
-        $this->assertContains("webmaster@ambronen.de", $client->getResponse()->getContent());
-        $this->assertContains("wiki@pbnl.de", $client->getResponse()->getContent());
-        $this->assertContains("groupWithMailingList@pbnl.de", $client->getResponse()->getContent());
+        $this->assertStringContainsString("webmaster@ambronen.de", $client->getResponse()->getContent());
+        $this->assertStringContainsString("wiki@pbnl.de", $client->getResponse()->getContent());
+        $this->assertStringContainsString("groupWithMailingList@pbnl.de", $client->getResponse()->getContent());
     }
 
     public function testAddUserInNordlichtGroup()
@@ -44,7 +44,7 @@ class MailAliasControllerTest extends WebTestCase
         $crawler = $client->request('GET', '/mailAlias/detail?mailAlias=nordlichter%40pbnl.de');
         $respons = $client->getResponse()->getContent();
 
-        $this->assertContains('test@test.de', $respons);
+        $this->assertStringContainsString('test@test.de', $respons);
     }
 
     public function testAddAndRemoveMailAlias()
@@ -63,13 +63,13 @@ class MailAliasControllerTest extends WebTestCase
         $crawler = $client->request('GET', '/mailAlias/show/all');
         $respons = $client->getResponse()->getContent();
 
-        $this->assertContains('testAddMaiLAlias@pbnl.de', $respons);
+        $this->assertStringContainsString('testAddMaiLAlias@pbnl.de', $respons);
 
         $crawler = $client->request("GET","/mailAlias/detail?mailAlias=testAddMaiLAlias%40pbnl.de");
 
         $this->assertEquals("200", $client->getResponse()->getStatusCode());
 
-        $this->assertContains("TestAmbrone1@pbnl.de", $client->getResponse()->getContent());
+        $this->assertStringContainsString("TestAmbrone1@pbnl.de", $client->getResponse()->getContent());
 
         $form = $crawler->selectButton('Speichern')->form();
 
@@ -82,6 +82,6 @@ class MailAliasControllerTest extends WebTestCase
         $crawler = $client->request('GET', '/mailAlias/show/all');
         $respons = $client->getResponse()->getContent();
 
-        $this->assertNotContains('testAddMaiLAlias@pbnl.de', $respons);
+        $this->assertStringNotContainsString('testAddMaiLAlias@pbnl.de', $respons);
     }
 }

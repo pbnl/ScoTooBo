@@ -9,6 +9,7 @@ use App\Model\LdapComponent\PbnlLdapEntityManager;
 use App\Model\SSHA;
 use App\Model\User;
 use Monolog\Logger;
+use Psr\Log\LoggerInterface;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 use Symfony\Component\Security\Core\Exception\UnsupportedUserException;
 use Symfony\Component\Security\Core\Exception\UsernameNotFoundException;
@@ -46,12 +47,13 @@ class UserRepository implements UserProviderInterface
     /**
      * The ldapManager of the LDAPBundle
      *
-     * @param Logger $logger
+     * @param LoggerInterface $logger
      * @param PbnlLdapEntityManager $ldapEntityManager
      * @param ValidatorInterface $validator
+     * @param GroupRepository $groupRepository
      */
     public function __construct(
-        Logger $logger,
+        LoggerInterface $logger,
         PbnlLdapEntityManager $ldapEntityManager,
         ValidatorInterface $validator,
         GroupRepository $groupRepository

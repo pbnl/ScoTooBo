@@ -18,6 +18,7 @@ use App\Model\LdapComponent\LdapEntryHandler\PosixGroupLdapHandler;
 use App\Model\LdapComponent\Repositories\Repository;
 use BadMethodCallException;
 use Monolog\Logger;
+use Psr\Log\LoggerInterface;
 
 /**
  * Class PbnlLdapEntityManager
@@ -39,11 +40,11 @@ class PbnlLdapEntityManager
     /**
      * LdapEntityManager constructor.
      *
-     * @param Logger $logger
+     * @param LoggerInterface $logger
      *
      * @param $config
      */
-    public function __construct(Logger $logger, $config)
+    public function __construct(LoggerInterface $logger, $config)
     {
         $this->logger = $logger;
         $this->uri = $config['uri'];

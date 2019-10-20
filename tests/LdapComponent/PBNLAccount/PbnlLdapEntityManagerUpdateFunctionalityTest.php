@@ -23,7 +23,7 @@ class PbnlLdapEntityManagerUpdateFunctionalityTest extends TestCase
 {
     private $ldapConnectionConfig = array();
 
-    public function setUp()
+    public function setUp():void
     {
         $this->ldapConnectionConfig["uri"] = "127.0.0.1";
         $this->ldapConnectionConfig["use_tls"] = false;

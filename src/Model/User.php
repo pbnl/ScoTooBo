@@ -52,11 +52,9 @@ class User implements UserInterface, EquatableInterface
      *
      * @var string
      * @Assert\Email(
-     *     message = "The email '{{ value }}' is not a valid email.",
-     *     checkMX = false
+     *     message = "The email '{{ value }}' is not a valid email."
      * )
      */
-    //TODO set checkMX from false to true, set it to false because of internet problems at home
     private $mail = "";
 
     /**

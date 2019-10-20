@@ -6,6 +6,7 @@ use App\Entity\LDAP\PosixGroup;
 use App\Model\Filter;
 use App\Model\LdapComponent\PbnlLdapEntityManager;
 use Monolog\Logger;
+use Psr\Log\LoggerInterface;
 use Symfony\Component\Config\Tests\Util\Validator;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 
@@ -39,11 +40,11 @@ class GroupRepository
     /**
      * The ldapManager of the LDAPBundle
      *
-     * @param Logger $logger
+     * @param LoggerInterface $logger
      * @param PbnlLdapEntityManager $ldapEntityManager
      * @param ValidatorInterface $validator
      */
-    public function __construct(Logger $logger, PbnlLdapEntityManager $ldapEntityManager, ValidatorInterface $validator)
+    public function __construct(LoggerInterface $logger, PbnlLdapEntityManager $ldapEntityManager, ValidatorInterface $validator)
     {
         $this->ldapEntityManager = $ldapEntityManager;
         $this->logger = $logger;

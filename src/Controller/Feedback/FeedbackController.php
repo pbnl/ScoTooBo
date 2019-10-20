@@ -4,22 +4,28 @@ namespace App\Controller\Feedback;
 
 use App\Entity\UserFeedback;
 use App\IpTools;
+use App\Model\Services\ReCaptchaService;
 use DateTime;
+use Exception;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Validator\Validator\ValidatorInterface;
 
-class FeedbackController extends Controller
+class FeedbackController extends AbstractController
 {
 
     /**
      * @Route("/feedback/send", name="sendFeedback")
      * @param Request $request
-     * @return \Symfony\Component\HttpFoundation\Response
+     * @param ReCaptchaService $reCaptcha
+     * @param ValidatorInterface $validator
+     * @return Response
+     * @throws Exception
      */
-    public function sendFeedback(Request $request)
+    public function sendFeedback(Request $request, ReCaptchaService $reCaptcha, ValidatorInterface $validator)
     {
         $data = json_decode($request->get("data"), true);
         $feedbackText = htmlspecialchars($data[0]["Text"]);
@@ -48,7 +54,6 @@ class FeedbackController extends Controller
             $userFeedback->setUserRoles(json_encode($loggedInUser->getRoles()));
         }
 
-        $validator = $this->get('validator');
         $errors = $validator->validate($userFeedback);
         if (count($errors) > 0) {
             $errorsString = (string) $errors;
@@ -56,8 +61,7 @@ class FeedbackController extends Controller
             return new Response($errorsString, 406);
         }
 
-        $reCaptchaSecret = $this->container->getParameter('recaptcha.secret');
-        if (!$this->get("reCaptcha")->validateReCaptcha($feedbackReCaptcha, $reCaptchaSecret))
+        if (!$reCaptcha->validateReCaptcha($feedbackReCaptcha))
         {
              return new Response("Error with re-captcha", 403);
         }
@@ -77,9 +81,9 @@ class FeedbackController extends Controller
 
     /**
      * @Route("/feedback/show/all", name="showAllFeedback")
-     * @Security("has_role('ROLE_admin')")
+     * @Security("is_granted('ROLE_admin')")
      * @param Request $request
-     * @return \Symfony\Component\HttpFoundation\Response
+     * @return Response
      */
     public function showAllFeedback(Request $request)
     {

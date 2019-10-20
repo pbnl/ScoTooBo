@@ -5,13 +5,14 @@ namespace App\Controller\UserManagment;
 use App\ArrayMethods;
 use App\Model\Filter;
 use App\Model\Services\GroupNotFoundException;
+use App\Model\Services\GroupRepository;
 use App\Model\Services\UserAlreadyExistException;
 use App\Model\Services\UserDoesNotExistException;
 use App\Model\Services\UserNotUniqueException;
+use App\Model\Services\UserRepository;
 use App\Model\User;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Debug\Exception\ContextErrorException;
 use Symfony\Component\Form\Extension\Core\Type\ButtonType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
@@ -21,16 +22,20 @@ use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Translation\Translator;
+use Symfony\Component\Translation\TranslatorInterface;
 
-class UserController extends Controller
+class UserController extends AbstractController
 {
     /**
      * @Route("/users/show/all", name="showAllUser")
-     * @Security("has_role('ROLE_SHOW_ALL_USERS')")
+     * @Security("is_granted('ROLE_SHOW_ALL_USERS')")
      * @param Request $request
-     * @return \Symfony\Component\HttpFoundation\Response
+     * @param UserRepository $userRepo
+     * @return Response
      */
-    public function showAllUser(Request $request)
+    public function showAllUser(Request $request, UserRepository $userRepo):Response
     {
         //TODO Handle problem with corrupt users
         //Create search form
@@ -75,7 +80,6 @@ class UserController extends Controller
             $filter->addFilter($data["filterOption"], $data["filterText"]);
         }
 
-        $userRepo = $this->get("data.userRepository");
         try {
             $users = $userRepo->findAllUsersByComplexFilter($filter);
         } catch (GroupNotFoundException $e) {
@@ -94,14 +98,16 @@ class UserController extends Controller
 
     /**
      * @Route("/users/add", name="addUser")
-     * @Security("has_role('ROLE_stavo')")
+     * @Security("is_granted('ROLE_stavo')")
      * @param Request $request
-     * @return \Symfony\Component\HttpFoundation\Response
+     * @param UserRepository $userRepo
+     * @param GroupRepository $groupRepo
+     * @param TranslatorInterface $translator
+     * @return Response
      */
-    public function addUser(Request $request)
+    public function addUser(Request $request, UserRepository $userRepo, GroupRepository $groupRepo, TranslatorInterface $translator):Response
     {
         //Create the form
-        $userRepo = $this->get("data.userRepository");
         $jsonStaemme = $this->getParameter('staemme');
         $staemme = json_decode($jsonStaemme, true);
         //TODO We need a better way to save or determine the names of the staemme!
@@ -167,7 +173,7 @@ class UserController extends Controller
                     'label' => "general.stamm",
                     "attr" => [
                         "data-step" => "4",
-                        "data-intro" => $this->get('translator')->trans('IntroJS.addUser.stamm'),
+                        "data-intro" => $translator->trans('IntroJS.addUser.stamm'),
                     ],
                 )
             )
@@ -189,7 +195,7 @@ class UserController extends Controller
                     "attr" => [
                         "placeholder" => "User.add.eldeRole",
                         "data-step" => "3",
-                        "data-intro" => $this->get('translator')->trans('IntroJS.addUser.wikiAcces'),
+                        "data-intro" => $translator->trans('IntroJS.addUser.wikiAcces'),
                     ],
                     'label' => "User.add.eldeRole",
                     'required' => false,
@@ -202,7 +208,7 @@ class UserController extends Controller
                     'mapped' => false,
                     "attr" => [
                         "placeholder" => "User.add.sendInvitationMail",
-                        "data-intro" => $this->get('translator')->trans('IntroJS.addUser.wikiAcces'),
+                        "data-intro" => $translator->trans('IntroJS.addUser.wikiAcces'),
                     ],
                     'label' => "Einladungsmail verschicken",
                     'required' => false,
@@ -225,7 +231,7 @@ class UserController extends Controller
                     "attr" => [
                         "class" => "btn btn-lg btn-primary btn-block",
                         "data-step" => "5",
-                        "data-intro" => $this->get('translator')->trans('IntroJS.addUser.submit'),
+                        "data-intro" => $translator->trans('IntroJS.addUser.submit'),
                     ],
                 )
             )
@@ -247,7 +253,6 @@ class UserController extends Controller
                 //We have to load the user to get the correct dn
                 $user = $userRepo->getUserByUid($user->getUid());
 
-                $groupRepo = $this->get("data.groupRepository");
                 $nordlichterGroup = $groupRepo->findByCn("nordlichter");
                 $nordlichterGroup->addUser($user);
                 $groupRepo->updateGroup($nordlichterGroup);
@@ -292,12 +297,12 @@ class UserController extends Controller
     /**
      * @Route("/users/detail", name="detailUser")
      * @param Request $request
-     * @return \Symfony\Component\HttpFoundation\Response
+     * @param UserRepository $userRepo
+     * @return Response
      */
-    public function showDetailUser(Request $request)
+    public function showDetailUser(Request $request, UserRepository $userRepo):Response
     {
         $loggedInUser = $this->get('security.token_storage')->getToken()->getUser();
-        $userRepo = $this->get("data.userRepository");
 
         if ($request->get("uid", $loggedInUser->getUid()) != $loggedInUser->getUid()) {
             $userToShow = $userRepo->getUserByUid($request->get("uid"));
@@ -419,14 +424,14 @@ class UserController extends Controller
     /**
      * @Route("/users/remove", name="removeUser")
      * @param Request $request
+     * @param UserRepository $userRepo
      * @return Response
      */
-    public function removeUser(Request $request)
+    public function removeUser(Request $request, UserRepository $userRepo):Response
     {
         $uid = $request->get("uid", "");
 
         try {
-            $userRepo = $this->get("data.userRepository");
             $userToRemove = $userRepo->getUserByUid($uid);
 
             if ($this->isGranted("remove", $userToRemove)) {

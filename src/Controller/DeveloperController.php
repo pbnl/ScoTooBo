@@ -2,15 +2,15 @@
 
 namespace App\Controller;
 
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Routing\Annotation\Route;
 
-class DeveloperController extends Controller
+class DeveloperController extends AbstractController
 {
     /**
      * @Route("/admin/showEmptyFullWidthPageWithNavbar", name="showEmptyFullWidthPageWithNavbar")
-     * @Security("has_role('ROLE_admin')")
+     * @Security("is_granted('ROLE_admin')")
      * @return \Symfony\Component\HttpFoundation\Response
      */
     public function showEmptyFullWidthPageWithNavbar()
@@ -20,7 +20,7 @@ class DeveloperController extends Controller
 
     /**
      * @Route("/admin/showEmptyFullWidthPageWithoutNavbar", name="showEmptyFullWidthPageWithoutNavbar")
-     * @Security("has_role('ROLE_admin')")
+     * @Security("is_granted('ROLE_admin')")
      * @return \Symfony\Component\HttpFoundation\Response
      */
     public function showEmptyFullWidthPageWithoutNavbar()
@@ -30,7 +30,7 @@ class DeveloperController extends Controller
 
     /**
      * @Route("/admin/showEmptyPageWithSidebarWithNavbar", name="showEmptyPageWithSidebarWithNavbar")
-     * @Security("has_role('ROLE_admin')")
+     * @Security("is_granted('ROLE_admin')")
      * @return \Symfony\Component\HttpFoundation\Response
      */
     public function showEmptyPageWithSidebarWithNavbar()

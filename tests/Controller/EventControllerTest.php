@@ -13,16 +13,16 @@ class EventControllerTest extends WebTestCase
         $client->request('GET', '/events/show/all');
 
         $this->assertEquals(200, $client->getResponse()->getStatusCode());
-        $this->assertContains('TestEvent1', $client->getResponse()->getContent());
-        $this->assertContains('TestEvent2', $client->getResponse()->getContent());
-        $this->assertContains('TestEvent3', $client->getResponse()->getContent());
-        $this->assertContains('TestEvent4', $client->getResponse()->getContent());
-        $this->assertContains('TestEvent5', $client->getResponse()->getContent());
-        $this->assertContains('TestEvent6', $client->getResponse()->getContent());
-        $this->assertContains('TestEvent7', $client->getResponse()->getContent());
-        $this->assertContains('TestEvent8', $client->getResponse()->getContent());
-        $this->assertContains('TestEvent9', $client->getResponse()->getContent());
-        $this->assertContains('TestEvent10', $client->getResponse()->getContent());
+        $this->assertStringContainsString('TestEvent1', $client->getResponse()->getContent());
+        $this->assertStringContainsString('TestEvent2', $client->getResponse()->getContent());
+        $this->assertStringContainsString('TestEvent3', $client->getResponse()->getContent());
+        $this->assertStringContainsString('TestEvent4', $client->getResponse()->getContent());
+        $this->assertStringContainsString('TestEvent5', $client->getResponse()->getContent());
+        $this->assertStringContainsString('TestEvent6', $client->getResponse()->getContent());
+        $this->assertStringContainsString('TestEvent7', $client->getResponse()->getContent());
+        $this->assertStringContainsString('TestEvent8', $client->getResponse()->getContent());
+        $this->assertStringContainsString('TestEvent9', $client->getResponse()->getContent());
+        $this->assertStringContainsString('TestEvent10', $client->getResponse()->getContent());
 
     }
 
@@ -53,11 +53,11 @@ class EventControllerTest extends WebTestCase
         $respons = $client->getResponse()->getContent();
 
         $this->assertEquals(200, $client->getResponse()->getStatusCode());
-        $this->assertContains('Event wurde mit der Id', $respons);
-        $this->assertContains('Test Name', $respons);
-        $this->assertContains('Test Beschreibung', $respons);
-        $this->assertContains('123,45€', $respons);
-        $this->assertContains('Test Ort', $respons);
+        $this->assertStringContainsString('Event wurde mit der Id', $respons);
+        $this->assertStringContainsString('Test Name', $respons);
+        $this->assertStringContainsString('Test Beschreibung', $respons);
+        $this->assertStringContainsString('123,45€', $respons);
+        $this->assertStringContainsString('Test Ort', $respons);
     }
 
     public function testGenerateInvitationLink_GenerateLinkForEvent2()
@@ -76,9 +76,9 @@ class EventControllerTest extends WebTestCase
         $client->followRedirect();
         $respons = $client->getResponse()->getContent();
         $this->assertEquals(200, $client->getResponse()->getStatusCode());
-        $this->assertContains('Der Einladungslink für TestEvent2 wurde erzeugt.', $respons);
-        $this->assertNotContains('class="alert alert-warning"', $respons);
-        $this->assertNotContains('class="alert alert-danger"', $respons);
+        $this->assertStringContainsString('Der Einladungslink für TestEvent2 wurde erzeugt.', $respons);
+        $this->assertStringNotContainsString('class="alert alert-warning"', $respons);
+        $this->assertStringNotContainsString('class="alert alert-danger"', $respons);
     }
     public function testGenerateInvitationLink_UpdateLinkForEvent1()
     {
@@ -98,10 +98,10 @@ class EventControllerTest extends WebTestCase
         $client->followRedirect();
         $respons = $client->getResponse()->getContent();
         $this->assertEquals(200, $client->getResponse()->getStatusCode());
-        $this->assertContains('Der neue Startzeitunkt wurde nicht verstanden und bleibt unverändert bei: 2018-04-29 08:28:34', $respons);
-        $this->assertContains('Der neue Endzeitunkt wurde nicht verstanden und bleibt unverändert bei: 2200-01-01 00:00:00', $respons);
-        $this->assertContains('Der Einladungslink für TestEvent1 wurde geändert.', $respons);
-        $this->assertNotContains('class="alert alert-danger"', $respons);
+        $this->assertStringContainsString('Der neue Startzeitunkt wurde nicht verstanden und bleibt unverändert bei: 2018-04-29 08:28:34', $respons);
+        $this->assertStringContainsString('Der neue Endzeitunkt wurde nicht verstanden und bleibt unverändert bei: 2200-01-01 00:00:00', $respons);
+        $this->assertStringContainsString('Der Einladungslink für TestEvent1 wurde geändert.', $respons);
+        $this->assertStringNotContainsString('class="alert alert-danger"', $respons);
     }
     public function testGenerateInvitationLink_GenerateLinkForEvent3()
     {
@@ -121,10 +121,10 @@ class EventControllerTest extends WebTestCase
         $client->followRedirect();
         $respons = $client->getResponse()->getContent();
         $this->assertEquals(200, $client->getResponse()->getStatusCode());
-        $this->assertContains('Der neue Startzeitunkt wurde nicht verstanden und wurde auf jetzt gesetzt: ', $respons);
-        $this->assertContains('Der neue Endzeitunkt wurde nicht verstanden und wurde auf den Start des Events gesetzt: 2011-01-01 00:00:00', $respons);
-        $this->assertContains('Der Einladungslink für TestEvent3 wurde erzeugt.', $respons);
-        $this->assertNotContains('class="alert alert-danger"', $respons);
+        $this->assertStringContainsString('Der neue Startzeitunkt wurde nicht verstanden und wurde auf jetzt gesetzt: ', $respons);
+        $this->assertStringContainsString('Der neue Endzeitunkt wurde nicht verstanden und wurde auf den Start des Events gesetzt: 2011-01-01 00:00:00', $respons);
+        $this->assertStringContainsString('Der Einladungslink für TestEvent3 wurde erzeugt.', $respons);
+        $this->assertStringNotContainsString('class="alert alert-danger"', $respons);
     }
 
     public function testShowParticipantsList()
@@ -146,17 +146,17 @@ class EventControllerTest extends WebTestCase
             )->count()
         ); // Kopfzeile, 2 Einträge, Fußzeile
 
-        $this->assertContains('1', $respons);
-        $this->assertContains('09.10.2017 21:25:14', $respons);
-        $this->assertContains('testadmin testadmin', $respons);
-        $this->assertContains('123 45a,', $respons);
-        $this->assertContains('12345 Hamburg', $respons);
-        $this->assertContains('Ambronen', $respons);
-        $this->assertContains('456', $respons);
-        $this->assertContains('keine Angabe', $respons);
-        $this->assertContains('789', $respons);
-        $this->assertContains('2', $respons);
-        $this->assertContains('19.10.2017 21:57:50', $respons);
-        $this->assertContains('testAdmin testAdmin', $respons);
+        $this->assertStringContainsString('1', $respons);
+        $this->assertStringContainsString('09.10.2017 21:25:14', $respons);
+        $this->assertStringContainsString('testadmin testadmin', $respons);
+        $this->assertStringContainsString('123 45a,', $respons);
+        $this->assertStringContainsString('12345 Hamburg', $respons);
+        $this->assertStringContainsString('Ambronen', $respons);
+        $this->assertStringContainsString('456', $respons);
+        $this->assertStringContainsString('keine Angabe', $respons);
+        $this->assertStringContainsString('789', $respons);
+        $this->assertStringContainsString('2', $respons);
+        $this->assertStringContainsString('19.10.2017 21:57:50', $respons);
+        $this->assertStringContainsString('testAdmin testAdmin', $respons);
     }
 }

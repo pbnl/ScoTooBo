@@ -13,8 +13,8 @@ class UserControllerTest extends WebTestCase
         $client = TestTools::getLoggedInStavoAmbrone();
         $client->request('GET', '/users/show/all');
 
-        $this->assertContains('givenName=TestBuvoUser,ou=Ambronen,ou=People,dc=pbnl,dc=de', $client->getResponse()->getContent());
-        $this->assertContains('givenName=TestTronjer,ou=Hagen von Tronje,ou=People,dc=pbnl,dc=de', $client->getResponse()->getContent());
+        $this->assertStringContainsString('givenName=TestBuvoUser,ou=Ambronen,ou=People,dc=pbnl,dc=de', $client->getResponse()->getContent());
+        $this->assertStringContainsString('givenName=TestTronjer,ou=Hagen von Tronje,ou=People,dc=pbnl,dc=de', $client->getResponse()->getContent());
 
     }
 
@@ -30,7 +30,7 @@ class UserControllerTest extends WebTestCase
 
         $client->submit($form);
 
-        $this->assertContains('givenName=TestAmbrone1,ou=Ambronen,ou=People,dc=pbnl,dc=de', $client->getResponse()->getContent());
+        $this->assertStringContainsString('givenName=TestAmbrone1,ou=Ambronen,ou=People,dc=pbnl,dc=de', $client->getResponse()->getContent());
     }
 
     public function testShowAllUsersSearchGroup()
@@ -45,8 +45,8 @@ class UserControllerTest extends WebTestCase
 
         $client->submit($form);
 
-        $this->assertContains('givenName=TestAmbrone1,ou=Ambronen,ou=People,dc=pbnl,dc=de', $client->getResponse()->getContent());
-        $this->assertContains('givenName=TestBuvoUser,ou=Ambronen,ou=People,dc=pbnl,dc=de', $client->getResponse()->getContent());
+        $this->assertStringContainsString('givenName=TestAmbrone1,ou=Ambronen,ou=People,dc=pbnl,dc=de', $client->getResponse()->getContent());
+        $this->assertStringContainsString('givenName=TestBuvoUser,ou=Ambronen,ou=People,dc=pbnl,dc=de', $client->getResponse()->getContent());
     }
 
     public function testShowAllUsersGroupNotFound()
@@ -61,7 +61,7 @@ class UserControllerTest extends WebTestCase
 
         $client->submit($form);
 
-        $this->assertContains('We cant find the group WEgregg', $client->getResponse()->getContent());
+        $this->assertStringContainsString('We cant find the group WEgregg', $client->getResponse()->getContent());
     }
 
     public function testAddUser()
@@ -80,7 +80,7 @@ class UserControllerTest extends WebTestCase
         $client->submit($form);
         $respons = $client->getResponse()->getContent();
 
-        $this->assertContains('Benutzer givenname123 hinzugefügt', $client->getResponse()->getContent());
+        $this->assertStringContainsString('Benutzer givenname123 hinzugefügt', $client->getResponse()->getContent());
     }
 
     public function testAddUserInNordlichtGroup()
@@ -101,7 +101,7 @@ class UserControllerTest extends WebTestCase
         $client->request('GET', '/groups/detail?groupCn=nordlichter');
         $respons = $client->getResponse()->getContent();
 
-        $this->assertContains('givenNameInNordlichtGroup', $respons);
+        $this->assertStringContainsString('givenNameInNordlichtGroup', $respons);
     }
 
     public function testAddUserUserAlreadyExistException()
@@ -120,7 +120,7 @@ class UserControllerTest extends WebTestCase
         $client->submit($form);
         $respons = $client->getResponse()->getContent();
 
-        $this->assertContains('The user testambrone1 already exists.', $client->getResponse()->getContent());
+        $this->assertStringContainsString('The user testambrone1 already exists.', $client->getResponse()->getContent());
     }
 
     public function testAddUserUserWrongStamm()
@@ -138,7 +138,7 @@ class UserControllerTest extends WebTestCase
 
         $client->submit($form);
 
-        $this->assertNotContains('testName55 hinzugefügt', $client->getResponse()->getContent());
+        $this->assertStringNotContainsString('testName55 hinzugefügt', $client->getResponse()->getContent());
     }
 
     public function testgetUserDetailsOfOwnUser()
@@ -146,7 +146,7 @@ class UserControllerTest extends WebTestCase
         $client = TestTools::getLoggedInStavoAmbrone();
         $crawler = $client->request('GET', '/users/detail');
 
-        $this->assertContains('givenName=TestAmbrone1,ou=Ambronen,ou=People,dc=pbnl,dc=de', $client->getResponse()->getContent());
+        $this->assertStringContainsString('givenName=TestAmbrone1,ou=Ambronen,ou=People,dc=pbnl,dc=de', $client->getResponse()->getContent());
     }
 
     public function testgetUserDetailsOfOtherUser()
@@ -154,7 +154,7 @@ class UserControllerTest extends WebTestCase
         $client = TestTools::getLoggedInStavoAmbrone();
         $crawler = $client->request('GET', '/users/detail?uid=testambrone2');
 
-        $this->assertContains('givenName=TestAmbrone2,ou=Ambronen,ou=People,dc=pbnl,dc=de', $client->getResponse()->getContent());
+        $this->assertStringContainsString('givenName=TestAmbrone2,ou=Ambronen,ou=People,dc=pbnl,dc=de', $client->getResponse()->getContent());
     }
 
     public function testgetUserDetailsOfOwenUserAndEdit()
@@ -176,15 +176,15 @@ class UserControllerTest extends WebTestCase
         $client->submit($form);
         $respons = $client->getResponse()->getContent();
 
-        $this->assertContains('Änderungen gespeichert', $client->getResponse()->getContent());
+        $this->assertStringContainsString('Änderungen gespeichert', $client->getResponse()->getContent());
 
-        $this->assertContains('testFirstNameA', $client->getResponse()->getContent());
-        $this->assertContains('testLastNameB', $client->getResponse()->getContent());
-        $this->assertContains('89345', $client->getResponse()->getContent());
-        $this->assertContains('testCityD', $client->getResponse()->getContent());
-        $this->assertContains('testStreetE', $client->getResponse()->getContent());
-        $this->assertContains('testMobileF', $client->getResponse()->getContent());
-        $this->assertContains('testPhoneG', $client->getResponse()->getContent());
+        $this->assertStringContainsString('testFirstNameA', $client->getResponse()->getContent());
+        $this->assertStringContainsString('testLastNameB', $client->getResponse()->getContent());
+        $this->assertStringContainsString('89345', $client->getResponse()->getContent());
+        $this->assertStringContainsString('testCityD', $client->getResponse()->getContent());
+        $this->assertStringContainsString('testStreetE', $client->getResponse()->getContent());
+        $this->assertStringContainsString('testMobileF', $client->getResponse()->getContent());
+        $this->assertStringContainsString('testPhoneG', $client->getResponse()->getContent());
     }
 
     public function testDelUser()
@@ -194,7 +194,7 @@ class UserControllerTest extends WebTestCase
 
         $client->request('GET', '/users/show/all');
 
-        $this->assertNotContains('givenName=deleteTestAmbrone,ou=Ambronen,ou=People,dc=pbnl,dc=de', $client->getResponse()->getContent());
+        $this->assertStringNotContainsString('givenName=deleteTestAmbrone,ou=Ambronen,ou=People,dc=pbnl,dc=de', $client->getResponse()->getContent());
     }
 
     public function testDelUserUserDoesNotExist()
@@ -202,7 +202,7 @@ class UserControllerTest extends WebTestCase
         $client = TestTools::getLoggedInStavoAmbrone();
         $crawler = $client->request('GET', '/users/remove?uid=notExisting');
 
-        $this->assertNotContains('Der User notExisting existiert nicht!', $client->getResponse()->getContent());
+        $this->assertStringNotContainsString('Der User notExisting existiert nicht!', $client->getResponse()->getContent());
     }
 
     public function testDelUserUserNotUnique()
@@ -210,7 +210,7 @@ class UserControllerTest extends WebTestCase
         $client = TestTools::getLoggedInStavoAmbrone();
         $crawler = $client->request('GET', '/users/remove?uid=notunique');
 
-        $this->assertNotContains('Der User notunique ist nicht einzigartig!', $client->getResponse()->getContent());
+        $this->assertStringNotContainsString('Der User notunique ist nicht einzigartig!', $client->getResponse()->getContent());
     }
 
     public function testDelUserNotAllowedException()
@@ -220,7 +220,7 @@ class UserControllerTest extends WebTestCase
 
         $client->request('GET', '/users/show/all');
 
-        $this->assertNotContains('givenName=deleteTestAmbrone,ou=Ambronen,ou=People,dc=pbnl,dc=de', $client->getResponse()->getContent());
+        $this->assertStringNotContainsString('givenName=deleteTestAmbrone,ou=Ambronen,ou=People,dc=pbnl,dc=de', $client->getResponse()->getContent());
 
         $crawler = $client->request('GET', '/users/remove?uid=testtronjer');
 
@@ -229,6 +229,6 @@ class UserControllerTest extends WebTestCase
 
         $client->request('GET', '/users/show/all');
 
-        $this->assertContains('givenName=TestTronjer,ou=Hagen von Tronje,ou=People,dc=pbnl,dc=de', $client->getResponse()->getContent());
+        $this->assertStringContainsString('givenName=TestTronjer,ou=Hagen von Tronje,ou=People,dc=pbnl,dc=de', $client->getResponse()->getContent());
     }
 }

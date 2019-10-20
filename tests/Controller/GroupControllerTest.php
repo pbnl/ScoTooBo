@@ -11,26 +11,26 @@ class GroupControllerTest extends WebTestCase
     {
         $client = TestTools::getLoggedInStavoAmbrone();
         $crawler = $client->request('GET', '/groups/show/all');
-        $this->assertContains('ambronen', $client->getResponse()->getContent());
-        $this->assertContains('webmaster@schulung.pbnl.de', $client->getResponse()->getContent());
-        $this->assertNotContains('buvo', $client->getResponse()->getContent());
+        $this->assertStringContainsString('ambronen', $client->getResponse()->getContent());
+        $this->assertStringContainsString('webmaster@schulung.pbnl.de', $client->getResponse()->getContent());
+        $this->assertStringNotContainsString('buvo', $client->getResponse()->getContent());
     }
 
     public function testShowAllGroupsTestTronjer()
     {
         $client = TestTools::getLoggedInTronjer();
         $crawler = $client->request('GET', '/groups/show/all');
-        $this->assertContains('elder', $client->getResponse()->getContent());
-        $this->assertNotContains('buvo', $client->getResponse()->getContent());
+        $this->assertStringContainsString('elder', $client->getResponse()->getContent());
+        $this->assertStringNotContainsString('buvo', $client->getResponse()->getContent());
     }
 
     public function testShowAllGroupsTestBuvoUser()
     {
         $client = TestTools::getLoggedInBuvoUser();
         $crawler = $client->request('GET', '/groups/show/all');
-        $this->assertContains('elder', $client->getResponse()->getContent());
-        $this->assertContains('buvo', $client->getResponse()->getContent());
-        $this->assertContains('schulung', $client->getResponse()->getContent());
+        $this->assertStringContainsString('elder', $client->getResponse()->getContent());
+        $this->assertStringContainsString('buvo', $client->getResponse()->getContent());
+        $this->assertStringContainsString('schulung', $client->getResponse()->getContent());
     }
 
     public function testShowAllGroupsTestGrueppling()
@@ -48,7 +48,7 @@ class GroupControllerTest extends WebTestCase
 
         $this->assertEquals("200",$client->getResponse()->getStatusCode());
 
-        $this->assertContains("TestAmbrone1", $client->getResponse()->getContent());
+        $this->assertStringContainsString("TestAmbrone1", $client->getResponse()->getContent());
 
         $client = TestTools::getLoggedInStavoAmbrone();
         $crawler = $client->request("GET","/groups/detail?groupCn=groupWithMailingList");
@@ -57,9 +57,9 @@ class GroupControllerTest extends WebTestCase
 
         $this->assertEquals("200",$client->getResponse()->getStatusCode());
 
-        $this->assertContains("TestAmbrone2", $client->getResponse()->getContent());
-        $this->assertContains("TestBuvoUser", $client->getResponse()->getContent());
-        $this->assertContains("TestAmbrone1", $client->getResponse()->getContent());
+        $this->assertStringContainsString("TestAmbrone2", $client->getResponse()->getContent());
+        $this->assertStringContainsString("TestBuvoUser", $client->getResponse()->getContent());
+        $this->assertStringContainsString("TestAmbrone1", $client->getResponse()->getContent());
     }
 
     public function testShowDetailGroupUserDoesNotExist()
@@ -69,10 +69,10 @@ class GroupControllerTest extends WebTestCase
 
         $this->assertEquals("200",$client->getResponse()->getStatusCode());
 
-        $this->assertContains("TestAmbrone2", $client->getResponse()->getContent());
-        $this->assertContains("TestBuvoUser", $client->getResponse()->getContent());
-        $this->assertContains("TestAmbrone1", $client->getResponse()->getContent());
-        $this->assertContains(
+        $this->assertStringContainsString("TestAmbrone2", $client->getResponse()->getContent());
+        $this->assertStringContainsString("TestBuvoUser", $client->getResponse()->getContent());
+        $this->assertStringContainsString("TestAmbrone1", $client->getResponse()->getContent());
+        $this->assertStringContainsString(
             "The user with the dn: givenName=NotExistingUser,ou=Ambronen,ou=People,dc=pbnl,dc=de does not exist!",
             $client->getResponse()->getContent());
     }

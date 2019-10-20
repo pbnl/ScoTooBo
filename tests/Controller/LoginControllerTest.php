@@ -34,9 +34,9 @@ class LoginControllerTest extends WebTestCase
         $client->followRedirect();
         $client->followRedirect();
         $this->assertEquals(200, $client->getResponse()->getStatusCode());
-        $this->assertNotContains('Login', $client->getResponse()->getContent());
-        $this->assertContains('Logout', $client->getResponse()->getContent());
-        $this->assertContains('Dashboard', $client->getResponse()->getContent());
+        $this->assertStringNotContainsString('Login', $client->getResponse()->getContent());
+        $this->assertStringContainsString('Logout', $client->getResponse()->getContent());
+        $this->assertStringContainsString('Dashboard', $client->getResponse()->getContent());
         //TODO: Change if we have a real start page
     }
 
@@ -56,7 +56,7 @@ class LoginControllerTest extends WebTestCase
         $client->submit($form);
         $this->assertTrue($client->getResponse()->isRedirect());
         $client->followRedirect();
-        $this->assertContains('Fehlerhafte Zugangsdaten', $client->getResponse()->getContent());
+        $this->assertStringContainsString('Fehlerhafte Zugangsdaten', $client->getResponse()->getContent());
 
 
     }
@@ -69,9 +69,9 @@ class LoginControllerTest extends WebTestCase
         $respons = $client->getResponse()->getContent();
 
         $this->assertEquals(200, $client->getResponse()->getStatusCode());
-        $this->assertNotContains('Login', $respons);
-        $this->assertContains('Logout', $respons);
-        $this->assertContains('Dashboard', $respons);
+        $this->assertStringNotContainsString('Login', $respons);
+        $this->assertStringContainsString('Logout', $respons);
+        $this->assertStringContainsString('Dashboard', $respons);
         //TODO: Change if we have a real start page
     }
 }

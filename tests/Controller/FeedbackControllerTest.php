@@ -13,15 +13,6 @@ class FeedbackControllerTest extends WebTestCase
     {
         $client = static::createClient();
 
-        $reCaptcha = $this->getMockBuilder(ReCaptchaService::class)
-            ->disableOriginalConstructor()
-            ->getMock();
-        $reCaptcha->expects($this->once())
-            ->method("validateReCaptcha")
-            ->willReturn(true);
-
-        static::$kernel->getContainer()->set('reCaptcha', $reCaptcha);
-
         $client->request("POST", "/feedback/send", array(
             "data"=>"[{\"Text\":\"asdf\"},
             \"picture\",
@@ -30,19 +21,11 @@ class FeedbackControllerTest extends WebTestCase
             \"htmlText\",1506893323093,
             \"gukvzccukvuk\"]"
         ));
-
         $this->assertEquals("200", $client->getResponse()->getStatusCode());
     }
 
     public function testCreateFeedbackDatabaseEntryWithLoggedInUser()
     {
-        $reCaptcha = $this->getMockBuilder(ReCaptchaService::class)
-            ->disableOriginalConstructor()
-            ->getMock();
-        $reCaptcha->expects($this->once())
-            ->method("validateReCaptcha")
-            ->willReturn(true);
-
         $client = static::createClient();
         $client->request('GET', '/logout');
 
@@ -55,8 +38,6 @@ class FeedbackControllerTest extends WebTestCase
         $client->submit($form);
         $client->followRedirect();
 
-        $client->disableReboot();
-        $client->getContainer()->set('reCaptcha', $reCaptcha);
         $client->request("POST", "/feedback/send", array(
             "data"=>"[{\"Text\":\"asdf\"},
             \"picture\",
@@ -65,22 +46,12 @@ class FeedbackControllerTest extends WebTestCase
             \"htmlText\",1506893323093,
             \"ewfwewgerg\"]"
         ));
-        $client->enableReboot();
-
-        var_dump($client->getResponse()->getContent());
-
         $this->assertEquals("200", $client->getResponse()->getStatusCode());
     }
 
     public function testCreateFeedbackDatabaseEntryReCaptchaFail()
     {
-        $reCaptcha = $this->getMockBuilder(ReCaptchaService::class)
-            ->disableOriginalConstructor()
-            ->getMock();
-        $reCaptcha->expects($this->once())
-            ->method("validateReCaptcha")
-            ->willReturn(false);
-
+        $_ENV["recaptcha_testing_bypass_allow"] = "False";
         $client = static::createClient();
         $client->request('GET', '/logout');
 
@@ -93,8 +64,6 @@ class FeedbackControllerTest extends WebTestCase
         $client->submit($form);
         $client->followRedirect();
 
-        $client->disableReboot();
-        $client->getContainer()->set('reCaptcha', $reCaptcha);
         $client->request("POST", "/feedback/send", array(
             "data"=>"[{\"Text\":\"asdf\"},
             \"picture\",
@@ -103,9 +72,6 @@ class FeedbackControllerTest extends WebTestCase
             \"htmlText\",1506893323093,
             \"ewfwewgerg\"]"
         ));
-        $client->enableReboot();
-
-        var_dump($client->getResponse()->getContent());
 
         $this->assertEquals("403", $client->getResponse()->getStatusCode());
     }
@@ -123,12 +89,12 @@ class FeedbackControllerTest extends WebTestCase
             \"ewfwewgerg\"]"
         ));
 
-        $this->assertContains("Object(App\Entity\UserFeedback).browserData:", $client->getResponse()->getContent());
-        $this->assertContains("Dieser Wert sollte nicht leer sein.", $client->getResponse()->getContent());
-        $this->assertContains("Object(App\Entity\UserFeedback).url", $client->getResponse()->getContent());
-        $this->assertContains("Object(App\Entity\UserFeedback).htmlContent", $client->getResponse()->getContent());
-        $this->assertContains("Object(App\Entity\UserFeedback).picture:", $client->getResponse()->getContent());
-        $this->assertContains("Object(App\Entity\UserFeedback).browserData:", $client->getResponse()->getContent());
+        $this->assertStringContainsString("Object(App\Entity\UserFeedback).browserData:", $client->getResponse()->getContent());
+        $this->assertStringContainsString("Dieser Wert sollte nicht leer sein.", $client->getResponse()->getContent());
+        $this->assertStringContainsString("Object(App\Entity\UserFeedback).url", $client->getResponse()->getContent());
+        $this->assertStringContainsString("Object(App\Entity\UserFeedback).htmlContent", $client->getResponse()->getContent());
+        $this->assertStringContainsString("Object(App\Entity\UserFeedback).picture:", $client->getResponse()->getContent());
+        $this->assertStringContainsString("Object(App\Entity\UserFeedback).browserData:", $client->getResponse()->getContent());
 
 
         $this->assertEquals("406", $client->getResponse()->getStatusCode());

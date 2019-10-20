@@ -6,24 +6,25 @@ use App\Model\Filter;
 use App\Model\Services\GroupNotFoundException;
 use App\Model\Services\GroupRepository;
 use App\Model\Services\UserDoesNotExistException;
+use App\Model\Services\UserRepository;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
-class GroupController extends Controller
+class GroupController extends AbstractController
 {
     /**
      * @Route("/groups/show/all", name="showAllGroups")
-     * @Security("has_role('ROLE_elder')")
+     * @Security("is_granted('ROLE_elder')")
      * @param Request $request
-     * @return \Symfony\Component\HttpFoundation\Response
+     * @param GroupRepository $groupRepo
+     * @return Response
      */
-    public function showAllGroups(Request $request)
+    public function showAllGroups(Request $request, GroupRepository $groupRepo):Response
     {
         $loggedInUser = $this->get('security.token_storage')->getToken()->getUser();
-
-        $groupRepo = $this->get("data.groupRepository");
 
         $filter = new Filter();
         if (!$this->get('security.authorization_checker')->isGranted('ROLE_buvo')) {
@@ -39,15 +40,15 @@ class GroupController extends Controller
 
     /**
      * @Route("/groups/detail", name="showDetailGroup")
-     * @Security("has_role('ROLE_elder')")
+     * @Security("is_granted('ROLE_elder')")
      * @param Request $request
-     * @return \Symfony\Component\HttpFoundation\Response
+     * @param GroupRepository $groupRepo
+     * @return Response
      */
-    public function showDetailGroup(Request $request)
+    public function showDetailGroup(Request $request,UserRepository $userRepo, GroupRepository $groupRepo): Response
     {
         $groupCn = $request->get("groupCn", "");
 
-        $groupRepo = $this->get("data.groupRepository");
         try {
             $group = $groupRepo->findByCn($groupCn);
         } catch (GroupNotFoundException $e) {
@@ -64,7 +65,6 @@ class GroupController extends Controller
             );
         }
 
-        $userRepo = $this->get("data.userRepository");
         try {
             $group->fetchGroupMemberUserObjects($userRepo);
         } catch (UserDoesNotExistException $e) {

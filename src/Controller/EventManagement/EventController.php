@@ -5,25 +5,34 @@ namespace App\Controller\EventManagement;
 use App\Entity\Event;
 use App\Entity\EventAttend;
 use App\Forms\EventAttendForm;
+use App\Model\Services\ReCaptchaService;
 use App\Model\User;
+use Exception;
 use Ramsey\Uuid\Uuid;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
-class EventController extends Controller
+class EventController extends AbstractController
 {
+    public function __construct(string $staemme)
+    {
+        $this->staemme = $staemme;
+    }
+
     /**
      * @Route("/events/show/all", name="showAllEvents")
-     * @Security("has_role('ROLE_elder')")
+     * @Security("is_granted('ROLE_elder')")
      * @param Request $request
-     * @return \Symfony\Component\HttpFoundation\Response
+     * @return Response
+     * @throws Exception
      */
     public function showAllEvents(Request $request)
     {
@@ -74,9 +83,9 @@ class EventController extends Controller
 
     /**
      * @Route("/events/add", name="addEvent")
-     * @Security("has_role('ROLE_elder')")
+     * @Security("is_granted('ROLE_elder')")
      * @param Request $request
-     * @return \Symfony\Component\HttpFoundation\Response
+     * @return Response
      */
     public function addEvent(Request $request)
     {
@@ -182,9 +191,9 @@ class EventController extends Controller
 
     /**
      * @Route("/events/detail", name="detailEvent")
-     * @Security("has_role('ROLE_elder')")
+     * @Security("is_granted('ROLE_elder')")
      * @param Request $request
-     * @return \Symfony\Component\HttpFoundation\Response
+     * @return Response
      */
     public function detailEvent(Request $request)
     {
@@ -195,9 +204,9 @@ class EventController extends Controller
 
     /**
      * @Route("/events/remove", name="removeEvent")
-     * @Security("has_role('ROLE_elder')")
+     * @Security("is_granted('ROLE_elder')")
      * @param Request $request
-     * @return \Symfony\Component\HttpFoundation\Response
+     * @return Response
      */
     public function removeEvent(Request $request)
     {
@@ -208,9 +217,9 @@ class EventController extends Controller
 
     /**
      * @Route("/events/invitationLink/generate/{id}", name="generateInvitationLink")
-     * @Security("has_role('ROLE_elder')")
+     * @Security("is_granted('ROLE_elder')")
      * @param Request $request
-     * @return \Symfony\Component\HttpFoundation\Response
+     * @return Response
      */
     public function generateInvitationLink($id, Request $request)
     {
@@ -312,9 +321,9 @@ class EventController extends Controller
 
     /**
      * @Route("/events/show/participants/{id}", name="showParticipantsList")
-     * @Security("has_role('ROLE_elder')")
+     * @Security("is_granted('ROLE_elder')")
      * @param $id
-     * @return \Symfony\Component\HttpFoundation\Response
+     * @return Response
      */
     public function showParticipantsList($id)
     {
@@ -369,9 +378,11 @@ class EventController extends Controller
      * @Route("/events/attend/{invitationLink}", name="attendInvitationLink")
      * @param $invitationLink
      * @param Request $request
-     * @return \Symfony\Component\HttpFoundation\Response
+     * @param ReCaptchaService $reCaptcha
+     * @return Response
+     * @throws Exception
      */
-    public function attendInvitationLink($invitationLink, Request $request)
+    public function attendInvitationLink($invitationLink, Request $request, ReCaptchaService $reCaptcha)
     {
         $em = $this->getDoctrine()->getManager();
         $event = $em->getRepository(Event::class)->findOneBy(array('invitationLink' => $invitationLink));
@@ -406,7 +417,7 @@ class EventController extends Controller
                     "loggedInUser_firstname" => $loggedInUser_firstname,
                     "loggedInUser_lastname" => $loggedInUser_lastname,
                     "loggedInUser_Stamm" => $loggedInUser_Stamm,
-                    "staemme" => json_decode($this->container->getParameter('staemme'), true),
+                    "staemme" => json_decode($this->staemme, true),
                 )
             );
 
@@ -415,10 +426,8 @@ class EventController extends Controller
             /* handle submitted form */
             if ($form->isSubmitted() && $form->isValid() && $valid_now) {
                 /* proof Google reCaptcha */
-                $reCaptchaSecret = $this->container->getParameter('recaptcha.secret');
-                if ($this->get("reCaptcha")->validateReCaptcha(
-                    $request->request->get("g-recaptcha-response"),
-                    $reCaptchaSecret
+                if ($reCaptcha->validateReCaptcha(
+                    $request->request->get("g-recaptcha-response")
                 )) {
                     /* save input */
                     $eventAttend = $form->getData();

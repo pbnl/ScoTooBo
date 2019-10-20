@@ -12,7 +12,7 @@ use Ucsf\LdapOrmBundle\Repository\Repository;
 class LdapOrmTest extends KernelTestCase
 {
 
-    public function setUp()
+    public function setUp():void
     {
         self::bootKernel();
 
@@ -21,17 +21,17 @@ class LdapOrmTest extends KernelTestCase
     public function testReadPbnlAccountORM()
     {
 
-        $ldapEntityManager = self::$kernel->getContainer()->get("ldapEntityManager");
+        $ldapEntityManager = self::$kernel->getContainer()->get("App\Model\LdapComponent\PbnlLdapEntityManager");
         $personRepository = $ldapEntityManager->getRepository(PbnlAccount::class);
         $testAmbrone = $personRepository->findByGivenName("TestAmbrone1");
 
-        $this->assertContains('/home/testambrone1', $testAmbrone[0]->getHomeDirectory());
+        $this->assertStringContainsString('/home/testambrone1', $testAmbrone[0]->getHomeDirectory());
     }
 
     public function testcreateAndModDeletPbnlAccountORM()
     {
 
-        $ldapEntityManager = self::$kernel->getContainer()->get("ldapEntityManager");
+        $ldapEntityManager = self::$kernel->getContainer()->get("App\Model\LdapComponent\PbnlLdapEntityManager");
         $personRepository = $ldapEntityManager->getRepository(PbnlAccount::class);
 
         $newOne = new PbnlAccount();
@@ -48,15 +48,15 @@ class LdapOrmTest extends KernelTestCase
         $ldapEntityManager->flush();
 
         $newOne = $personRepository->findByGivenName("TestAccountToDelete");
-        $this->assertContains('/home/random', $newOne[0]->getHomeDirectory());
+        $this->assertStringContainsString('/home/random', $newOne[0]->getHomeDirectory());
 
         $newOne[0]->setHomeDirectory("/home/random2");
         $newOne[0]->setSn("NiceName");
         $ldapEntityManager->persist($newOne[0]);
 
         $newOne = $personRepository->findByGivenName("TestAccountToDelete");
-        $this->assertContains('/home/random2', $newOne[0]->getHomeDirectory());
-        $this->assertContains('NiceName', $newOne[0]->getSn());
+        $this->assertStringContainsString('/home/random2', $newOne[0]->getHomeDirectory());
+        $this->assertStringContainsString('NiceName', $newOne[0]->getSn());
 
         $newOne = $personRepository->findByGivenName("TestAccountToDelete");
         $ldapEntityManager->delete($newOne[0]);
@@ -68,11 +68,11 @@ class LdapOrmTest extends KernelTestCase
     public function testPosixGroupORM()
     {
 
-        $ldapEntityManager = self::$kernel->getContainer()->get("ldapEntityManager");
+        $ldapEntityManager = self::$kernel->getContainer()->get("App\Model\LdapComponent\PbnlLdapEntityManager");
         $personRepository = $ldapEntityManager->getRepository(PosixGroup::class);
         $allGroups = $personRepository->findAll();
         $ambronen = $personRepository->findByCn("ambronen");
 
-        $this->assertContains('stammGroup', $ambronen[0]->getDescription());
+        $this->assertStringContainsString('stammGroup', $ambronen[0]->getDescription());
     }
 }

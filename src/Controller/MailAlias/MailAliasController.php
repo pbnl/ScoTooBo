@@ -3,26 +3,27 @@
 namespace App\Controller\MailAlias;
 
 use App\Entity\LDAP\PbnlMailAlias;
+use App\Model\Services\MailAliasRepository;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Form\Extension\Core\Type;
 
-class MailAliasController extends Controller
+class MailAliasController extends AbstractController
 {
     /**
      * @Route("/mailAlias/show/all", name="showAllMailAlias")
-     * @Security("has_role('ROLE_elder')")
+     * @Security("is_granted('ROLE_elder')")
      * @param Request $request
+     * @param MailAliasRepository $mailAliasRepo
      * @return \Symfony\Component\HttpFoundation\Response
+     * @throws \App\Model\Services\DatabaseObjectAllreadytExistsException
      */
-    public function showMailAlias(Request $request)
+    public function showMailAlias(Request $request, MailAliasRepository $mailAliasRepo)
     {
         $loggedInUser = $this->get('security.token_storage')->getToken()->getUser();
-
-        $mailAliasRepo = $this->get("data.mailAliasRepository");
 
         $allmailAlias = $mailAliasRepo->findAll();
         $allowdMailAlias = array();
@@ -65,11 +66,9 @@ class MailAliasController extends Controller
      * @param Request $request
      * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function detailMailAlias(Request $request)
+    public function detailMailAlias(Request $request, MailAliasRepository $mailAliasRepo)
     {
         $loggedInUser = $this->get('security.token_storage')->getToken()->getUser();
-
-        $mailAliasRepo = $this->get("data.mailAliasRepository");
 
         $mailAlias = $mailAliasRepo->findByMail($request->get("mailAlias"));
 
