@@ -22,7 +22,7 @@ class GroupController extends AbstractController
      * @param GroupRepository $groupRepo
      * @return Response
      */
-    public function showAllGroups(Request $request, GroupRepository $groupRepo):Response
+    public function showAllGroups(Request $request, GroupRepository $groupRepo): Response
     {
         $loggedInUser = $this->get('security.token_storage')->getToken()->getUser();
 
@@ -45,7 +45,7 @@ class GroupController extends AbstractController
      * @param GroupRepository $groupRepo
      * @return Response
      */
-    public function showDetailGroup(Request $request,UserRepository $userRepo, GroupRepository $groupRepo): Response
+    public function showDetailGroup(Request $request, UserRepository $userRepo, GroupRepository $groupRepo): Response
     {
         $groupCn = $request->get("groupCn", "");
 
@@ -59,9 +59,9 @@ class GroupController extends AbstractController
         if (!$this->get('security.authorization_checker')->isGranted('ROLE_buvo')) {
             //Allow access if you are a member of this group
             $this->denyAccessUnlessGranted(
-                'ROLE_'.$group->getCn(),
+                'ROLE_' . $group->getCn(),
                 null,
-                'You are not allowed to see the group '.$group->getCn()
+                'You are not allowed to see the group ' . $group->getCn()
             );
         }
 

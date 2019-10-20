@@ -17,7 +17,6 @@ use App\Model\LdapComponent\LdapEntryHandler\PbnlMailAliasLdapHandler;
 use App\Model\LdapComponent\LdapEntryHandler\PosixGroupLdapHandler;
 use App\Model\LdapComponent\Repositories\Repository;
 use BadMethodCallException;
-use Monolog\Logger;
 use Psr\Log\LoggerInterface;
 
 /**
@@ -89,7 +88,7 @@ class PbnlLdapEntityManager
             $ldapHandler = new PbnlMailAliasLdapHandler($this->baseDN);
         } //TODO: Add other classes
         else {
-            throw new BadMethodCallException("Class ".get_class($entity)." is not supported");
+            throw new BadMethodCallException("Class " . get_class($entity) . " is not supported");
         }
         $ldapHandler->persist($entity, $this->ldapConnection);
     }
@@ -108,7 +107,7 @@ class PbnlLdapEntityManager
             $ldapHandler = new PbnlMailAliasLdapHandler($this->baseDN);
         } //TODO: Add other classes
         else {
-            throw new BadMethodCallException("Class ".get_class($entity)." is not supported");
+            throw new BadMethodCallException("Class " . get_class($entity) . " is not supported");
         }
         $ldapHandler->delete($entity, $this->ldapConnection);
     }
@@ -182,7 +181,7 @@ class PbnlLdapEntityManager
      */
     private function buildLdapHandlerClassName($entityName)
     {
-        return "App\Model\LdapComponent\LdapEntryHandler\\".$entityName."LdapHandler";
+        return "App\Model\LdapComponent\LdapEntryHandler\\" . $entityName . "LdapHandler";
     }
 
     public function retrieveByDn($dn, $entityName)

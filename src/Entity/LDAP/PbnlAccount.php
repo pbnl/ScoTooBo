@@ -372,7 +372,7 @@ class PbnlAccount extends LdapEntity
             throw new BadMethodCallException("Cant generate DN: GivenName or Ou is empty ('')");
         }
 
-        return "givenName=".$this->getGivenName().",ou=$this->ou,ou=People,dc=pbnl,dc=de";
+        return "givenName=" . $this->getGivenName() . ",ou=$this->ou,ou=People,dc=pbnl,dc=de";
     }
 
     /**

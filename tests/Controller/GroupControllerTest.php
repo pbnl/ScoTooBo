@@ -2,8 +2,8 @@
 
 namespace App\Tests\Controller;
 
-use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use App\Tests\Utils\TestTools;
+use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
 class GroupControllerTest extends WebTestCase
 {
@@ -37,25 +37,25 @@ class GroupControllerTest extends WebTestCase
     {
         $client = TestTools::getLoggedInTestGrueppling();
         $crawler = $client->request('GET', '/groups/show/all');
-        $this->assertEquals("403",$client->getResponse()->getStatusCode());
+        $this->assertEquals("403", $client->getResponse()->getStatusCode());
     }
 
 
     public function testShowDetailGroup()
     {
         $client = TestTools::getLoggedInStavoAmbrone();
-        $crawler = $client->request("GET","/groups/detail?groupCn=schulung");
+        $crawler = $client->request("GET", "/groups/detail?groupCn=schulung");
 
-        $this->assertEquals("200",$client->getResponse()->getStatusCode());
+        $this->assertEquals("200", $client->getResponse()->getStatusCode());
 
         $this->assertStringContainsString("TestAmbrone1", $client->getResponse()->getContent());
 
         $client = TestTools::getLoggedInStavoAmbrone();
-        $crawler = $client->request("GET","/groups/detail?groupCn=groupWithMailingList");
+        $crawler = $client->request("GET", "/groups/detail?groupCn=groupWithMailingList");
 
         var_dump($client->getResponse()->getContent());
 
-        $this->assertEquals("200",$client->getResponse()->getStatusCode());
+        $this->assertEquals("200", $client->getResponse()->getStatusCode());
 
         $this->assertStringContainsString("TestAmbrone2", $client->getResponse()->getContent());
         $this->assertStringContainsString("TestBuvoUser", $client->getResponse()->getContent());
@@ -65,9 +65,9 @@ class GroupControllerTest extends WebTestCase
     public function testShowDetailGroupUserDoesNotExist()
     {
         $client = TestTools::getLoggedInStavoAmbrone();
-        $crawler = $client->request("GET","/groups/detail?groupCn=groupWithMailingList");
+        $crawler = $client->request("GET", "/groups/detail?groupCn=groupWithMailingList");
 
-        $this->assertEquals("200",$client->getResponse()->getStatusCode());
+        $this->assertEquals("200", $client->getResponse()->getStatusCode());
 
         $this->assertStringContainsString("TestAmbrone2", $client->getResponse()->getContent());
         $this->assertStringContainsString("TestBuvoUser", $client->getResponse()->getContent());

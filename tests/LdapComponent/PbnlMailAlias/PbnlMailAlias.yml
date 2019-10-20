@@ -1,4 +1,4 @@
 App\Entity\LDAP\PbnlMailAlias:
-    pbnlMailAlias (template):
-        mail: '<email()>'
-        forward: ['<email()>','<email()>','<email()>','<email()>','<email()>']
+  pbnlMailAlias (template):
+    mail: '<email()>'
+    forward: ['<email()>','<email()>','<email()>','<email()>','<email()>']

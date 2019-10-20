@@ -56,14 +56,13 @@ class FeedbackController extends AbstractController
 
         $errors = $validator->validate($userFeedback);
         if (count($errors) > 0) {
-            $errorsString = (string) $errors;
+            $errorsString = (string)$errors;
 
             return new Response($errorsString, 406);
         }
 
-        if (!$reCaptcha->validateReCaptcha($feedbackReCaptcha))
-        {
-             return new Response("Error with re-captcha", 403);
+        if (!$reCaptcha->validateReCaptcha($feedbackReCaptcha)) {
+            return new Response("Error with re-captcha", 403);
         }
 
         $em = $this->getDoctrine()->getManager();
@@ -76,7 +75,7 @@ class FeedbackController extends AbstractController
 
     private function millisecTimstempToSecTimestemp($millsecTimestep)
     {
-        return intval($millsecTimestep/1000);
+        return intval($millsecTimestep / 1000);
     }
 
     /**
@@ -91,7 +90,7 @@ class FeedbackController extends AbstractController
         $userFeedbacks = $repository->findAll();
 
         return $this->render("admin/showAllFeedback.html.twig", array(
-            "feedbacks"=> $userFeedbacks,
+            "feedbacks" => $userFeedbacks,
         ));
     }
 }

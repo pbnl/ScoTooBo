@@ -72,8 +72,7 @@ class GroupRepository
     private function getGroupsThatFullFillPhpFilter(array $groups, Filter $filter)
     {
         $i = 0;
-        foreach ($filter->getFilterAttributes() as $filterAttribute)
-        {
+        foreach ($filter->getFilterAttributes() as $filterAttribute) {
             if ($filterAttribute == GroupRepository::FILTERBYDNINGROUP) {
                 $groups = $this->filterGroupsByDnInGroup($groups, $filter->getFilterTexts()[$i]);
             }
@@ -111,12 +110,13 @@ class GroupRepository
     {
         $group = $this->groupLdapRepository->findByCn($cn);
         if ($group == []) {
-            throw new GroupNotFoundException("We cant find the group ".$cn);
+            throw new GroupNotFoundException("We cant find the group " . $cn);
         }
         return $group[0];
     }
 
-    public function findAllWithDnInGroup($dn) {
+    public function findAllWithDnInGroup($dn)
+    {
         $filter = ["memberUid" => $dn];
         return $this->groupLdapRepository->findByComplex($filter);
     }

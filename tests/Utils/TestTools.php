@@ -9,8 +9,8 @@
 namespace App\Tests\Utils;
 
 
-use Nelmio\Alice\ObjectSet;
 use App\Model\User;
+use Nelmio\Alice\ObjectSet;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\BrowserKit\Cookie;
 use Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;
@@ -23,7 +23,7 @@ class TestTools extends WebtestCase
 {
     private static $loggedInStavoAmbrone = null;
     private static $loggedInTronjer = null;
-    private static $loggedInBuvoUser= null;
+    private static $loggedInBuvoUser = null;
     private static $loggedInTestGrueppling = null;
 
     public static function getUserFromFile(string $path)
@@ -40,28 +40,29 @@ class TestTools extends WebtestCase
         return $user;
     }
 
-    public static function getLoggedInStavoAmbrone() {
-            //Correct login
-            $client = static::createClient();
-            $session = $client->getContainer()->get('session');
+    public static function getLoggedInStavoAmbrone()
+    {
+        //Correct login
+        $client = static::createClient();
+        $session = $client->getContainer()->get('session');
 
-            $firewall = 'main';
-            $user = TestTools::getUserFromFile("user-test-data/StavoAmbrone.json");
-            $token = new UsernamePasswordToken($user, $user->getPassword(), $firewall, $user->getRoles());
-            $session->set('_security_'.$firewall, serialize($token));
-            $session->save();
+        $firewall = 'main';
+        $user = TestTools::getUserFromFile("user-test-data/StavoAmbrone.json");
+        $token = new UsernamePasswordToken($user, $user->getPassword(), $firewall, $user->getRoles());
+        $session->set('_security_' . $firewall, serialize($token));
+        $session->save();
 
-            $cookie = new Cookie($session->getName(), $session->getId());
-            $client->getCookieJar()->set($cookie);
+        $cookie = new Cookie($session->getName(), $session->getId());
+        $client->getCookieJar()->set($cookie);
 
-            TestTools::$loggedInStavoAmbrone = $client;
+        TestTools::$loggedInStavoAmbrone = $client;
 
-            return $client;
+        return $client;
     }
 
     public static function getLoggedInTronjer()
     {
-        if(TestTools::$loggedInTronjer == null) {
+        if (TestTools::$loggedInTronjer == null) {
             //Correct login
             $client = static::createClient();
             $session = $client->getContainer()->get('session');
@@ -69,7 +70,7 @@ class TestTools extends WebtestCase
             $firewall = 'main';
             $user = TestTools::getUserFromFile("user-test-data/Tronjer.json");
             $token = new UsernamePasswordToken($user, $user->getPassword(), $firewall, $user->getRoles());
-            $session->set('_security_'.$firewall, serialize($token));
+            $session->set('_security_' . $firewall, serialize($token));
             $session->save();
 
             $cookie = new Cookie($session->getName(), $session->getId());
@@ -78,15 +79,14 @@ class TestTools extends WebtestCase
             TestTools::$loggedInStavoAmbrone = $client;
 
             return $client;
-        }
-        else {
+        } else {
             return TestTools::$loggedInTronjer;
         }
     }
 
     public static function getLoggedInBuvoUser()
     {
-        if(TestTools::$loggedInBuvoUser == null) {
+        if (TestTools::$loggedInBuvoUser == null) {
             //Correct login
             $client = static::createClient();
             $session = $client->getContainer()->get('session');
@@ -94,7 +94,7 @@ class TestTools extends WebtestCase
             $firewall = 'main';
             $user = TestTools::getUserFromFile("user-test-data/BuvoUser.json");
             $token = new UsernamePasswordToken($user, $user->getPassword(), $firewall, $user->getRoles());
-            $session->set('_security_'.$firewall, serialize($token));
+            $session->set('_security_' . $firewall, serialize($token));
             $session->save();
 
             $cookie = new Cookie($session->getName(), $session->getId());
@@ -103,15 +103,14 @@ class TestTools extends WebtestCase
             TestTools::$loggedInStavoAmbrone = $client;
 
             return $client;
-        }
-        else {
+        } else {
             return TestTools::$loggedInBuvoUser;
         }
     }
 
     public static function getLoggedInTestGrueppling()
     {
-        if(TestTools::$loggedInTestGrueppling == null) {
+        if (TestTools::$loggedInTestGrueppling == null) {
             //Correct login
             $client = static::createClient();
             $session = $client->getContainer()->get('session');
@@ -119,7 +118,7 @@ class TestTools extends WebtestCase
             $firewall = 'main';
             $user = TestTools::getUserFromFile("user-test-data/TestGrueppling.json");
             $token = new UsernamePasswordToken($user, $user->getPassword(), $firewall, $user->getRoles());
-            $session->set('_security_'.$firewall, serialize($token));
+            $session->set('_security_' . $firewall, serialize($token));
             $session->save();
 
             $cookie = new Cookie($session->getName(), $session->getId());
@@ -128,8 +127,7 @@ class TestTools extends WebtestCase
             TestTools::$loggedInStavoAmbrone = $client;
 
             return $client;
-        }
-        else {
+        } else {
             return TestTools::$loggedInTestGrueppling;
         }
     }
@@ -138,8 +136,7 @@ class TestTools extends WebtestCase
     {
         $objects = $set->getObjects();
         $dataSet = array();
-        foreach ($objects as $object)
-        {
+        foreach ($objects as $object) {
             array_push($dataSet, [$object]);
         }
         return $dataSet;

@@ -15,7 +15,6 @@ class DashboardController extends AbstractController
      */
     public function showDashboard(Request $request)
     {
-        return $this->render('dashboard/showDashboard.html.twig', array(
-        ));
+        return $this->render('dashboard/showDashboard.html.twig', array());
     }
 }

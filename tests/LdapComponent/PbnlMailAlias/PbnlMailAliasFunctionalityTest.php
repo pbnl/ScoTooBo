@@ -9,22 +9,18 @@
 namespace App\Tests\LdapComponent;
 
 
-use App\Entity\LDAP\MissingMustAttributeException;
-use App\Entity\LDAP\PbnlAccount;
 use App\Entity\LDAP\PbnlMailAlias;
-use App\Entity\LDAP\PosixGroup;
-use App\Model\LdapComponent\LdapEntryHandler\LdapPersistException;
 use App\Model\LdapComponent\PbnlLdapEntityManager;
-use Monolog\Logger;
-use PHPUnit\Framework\TestCase;
 use App\Tests\Other\PbnlNativeAliceLoader;
 use App\Tests\Utils\TestTools;
+use Monolog\Logger;
+use PHPUnit\Framework\TestCase;
 
 class PbnlMailAliasFunctionalityTest extends TestCase
 {
     private $ldapConnectionConfig = array();
 
-    public function setUp():void
+    public function setUp(): void
     {
         $this->ldapConnectionConfig["uri"] = "127.0.0.1";
         $this->ldapConnectionConfig["port"] = "389";
@@ -42,13 +38,13 @@ class PbnlMailAliasFunctionalityTest extends TestCase
         $ldapManager = new PbnlLdapEntityManager(new Logger("logger"), $this->ldapConnectionConfig);
         $pbnlRepo = $ldapManager->getRepository(PbnlMailAlias::class);
 
-        $pbnlMailAlias = $pbnlRepo->findOneBy("mail",$newPbnlMailAlias->getMail());
+        $pbnlMailAlias = $pbnlRepo->findOneBy("mail", $newPbnlMailAlias->getMail());
         $this->assertEquals([], $pbnlMailAlias);
 
         $ldapManager->persist($newPbnlMailAlias);
         $ldapManager->flush();
 
-        $pbnlMailAlias = $pbnlRepo->findOneBy("mail",$newPbnlMailAlias->getMail());
+        $pbnlMailAlias = $pbnlRepo->findOneBy("mail", $newPbnlMailAlias->getMail());
         $this->assertEquals($newPbnlMailAlias, $pbnlMailAlias);
     }
 
@@ -72,7 +68,7 @@ class PbnlMailAliasFunctionalityTest extends TestCase
         $ldapManager->persist($oldPbnlMailAlias);
         $ldapManager->flush();
 
-        $group = $pbnlRepo->findOneBy("mail",$oldPbnlMailAlias->getMail());
+        $group = $pbnlRepo->findOneBy("mail", $oldPbnlMailAlias->getMail());
         $this->assertEquals($oldPbnlMailAlias, $group);
 
         $updatedPbnlMailAlias = $this->updatePosixGroupWithNewData($oldPbnlMailAlias);
@@ -80,7 +76,7 @@ class PbnlMailAliasFunctionalityTest extends TestCase
         $ldapManager->persist($updatedPbnlMailAlias);
         $ldapManager->flush();
 
-        $group = $pbnlRepo->findOneBy("mail",$oldPbnlMailAlias->getMail());
+        $group = $pbnlRepo->findOneBy("mail", $oldPbnlMailAlias->getMail());
         $this->assertEquals($updatedPbnlMailAlias, $group);
     }
 

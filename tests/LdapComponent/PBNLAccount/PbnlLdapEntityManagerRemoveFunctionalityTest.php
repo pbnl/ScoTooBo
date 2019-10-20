@@ -11,17 +11,17 @@ namespace App\Tests\LdapComponent;
 
 use App\Entity\LDAP\PbnlAccount;
 use App\Model\LdapComponent\PbnlLdapEntityManager;
+use App\Tests\Other\PbnlNativeAliceLoader;
+use App\Tests\Utils\TestTools;
 use Doctrine\ORM\EntityNotFoundException;
 use Monolog\Logger;
 use PHPUnit\Framework\TestCase;
-use App\Tests\Other\PbnlNativeAliceLoader;
-use App\Tests\Utils\TestTools;
 
 class PbnlLdapEntityManagerRemoveFunctionalityTest extends TestCase
 {
     private $ldapConnectionConfig = array();
 
-    public function setUp():void
+    public function setUp(): void
     {
         $this->ldapConnectionConfig["uri"] = "127.0.0.1";
         $this->ldapConnectionConfig["use_tls"] = false;
@@ -42,13 +42,13 @@ class PbnlLdapEntityManagerRemoveFunctionalityTest extends TestCase
         $ldapManager->persist($oldPbnlAccount);
         $ldapManager->flush();
 
-        $account = $pbnlRepo->findOneBy("uid",$oldPbnlAccount->getUid());
+        $account = $pbnlRepo->findOneBy("uid", $oldPbnlAccount->getUid());
         $this->assertEquals($oldPbnlAccount, $account);
 
         $ldapManager->delete($oldPbnlAccount);
         $ldapManager->flush();
 
-        $account = $pbnlRepo->findOneBy("uid",$oldPbnlAccount->getUid());
+        $account = $pbnlRepo->findOneBy("uid", $oldPbnlAccount->getUid());
         $this->assertEquals([], $account);
     }
 
@@ -84,7 +84,7 @@ class PbnlLdapEntityManagerRemoveFunctionalityTest extends TestCase
         $ldapManager = new PbnlLdapEntityManager(new Logger("logger"), $this->ldapConnectionConfig);
         $pbnlRepo = $ldapManager->getRepository(PbnlAccount::class);
 
-        $account = $pbnlRepo->findOneBy("uid",$pbnlAccount->getUid());
+        $account = $pbnlRepo->findOneBy("uid", $pbnlAccount->getUid());
         $this->assertEquals([], $account);
 
         $ldapManager->delete($pbnlAccount);

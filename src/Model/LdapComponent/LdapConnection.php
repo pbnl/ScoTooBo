@@ -38,14 +38,12 @@ class LdapConnection
     {
         if ($this->use_tls == "true") {
             $this->ldapConnection = @ldap_connect("ldaps://$server:$port");
-        }
-        else {
+        } else {
             $this->ldapConnection = @ldap_connect("ldap://$server:$port");
         }
 
-        if($this->ldapConnection == FALSE)
-        {
-            throw new LdapConnectException("Cant connect to $server on port $port: ".
+        if ($this->ldapConnection == FALSE) {
+            throw new LdapConnectException("Cant connect to $server on port $port: " .
                 ldap_error($this->ldapConnection));
         }
     }
@@ -54,9 +52,8 @@ class LdapConnection
     {
         ldap_set_option($ldapConnection, LDAP_OPT_PROTOCOL_VERSION, 3);
         $ldapbind = @ldap_bind($ldapConnection, $dn, $password);
-        if($ldapbind == FALSE)
-        {
-            throw new LdapBindException("Cannot bind to server with dn $dn using password yes: ".
+        if ($ldapbind == FALSE) {
+            throw new LdapBindException("Cannot bind to server with dn $dn using password yes: " .
                 ldap_error($this->ldapConnection));
         }
         return $ldapbind;

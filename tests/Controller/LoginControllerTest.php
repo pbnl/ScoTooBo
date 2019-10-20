@@ -2,12 +2,12 @@
 
 namespace App\Tests\Controller;
 
-use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use App\Tests\Utils\TestTools;
+use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
 class LoginControllerTest extends WebTestCase
 {
-    public function  testLogout()
+    public function testLogout()
     {
         $client = static::createClient();
         $client->request('GET', '/logout');

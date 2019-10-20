@@ -165,7 +165,8 @@ class User implements UserInterface, EquatableInterface
         $this->lazyLoader = $lazyLoader;
     }
 
-    public function setLazyLoader(UserLazyLoader $lazyLoader) {
+    public function setLazyLoader(UserLazyLoader $lazyLoader)
+    {
 
     }
 
@@ -421,7 +422,7 @@ class User implements UserInterface, EquatableInterface
      */
     public function getRoles()
     {
-        if($this->roles == null) {
+        if ($this->roles == null) {
             $this->lazyLoader->loadRoles($this);
         }
         return $this->roles;

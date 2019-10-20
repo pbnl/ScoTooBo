@@ -32,7 +32,7 @@ abstract class LdapEntity implements Countable
      */
     public function getDn()
     {
-        if($this->dn == "") $this->setDn($this->generateNewDn());
+        if ($this->dn == "") $this->setDn($this->generateNewDn());
         return $this->dn;
     }
 
@@ -41,10 +41,9 @@ abstract class LdapEntity implements Countable
      */
     public function setDn($dn)
     {
-        if($dn != "")
-        {
-            $ldapDnParts = ldap_explode_dn($dn , 1);
-            if($ldapDnParts == FALSE) throw new \BadMethodCallException("DN you want to set is wrong");
+        if ($dn != "") {
+            $ldapDnParts = ldap_explode_dn($dn, 1);
+            if ($ldapDnParts == FALSE) throw new \BadMethodCallException("DN you want to set is wrong");
         }
         $this->dn = $dn;
     }
@@ -52,17 +51,16 @@ abstract class LdapEntity implements Countable
     /**
      * @return string
      */
-    public function getBaseDnFromDn() {
-        if($this->dn == "") $this->setDn($this->generateNewDn());
+    public function getBaseDnFromDn()
+    {
+        if ($this->dn == "") $this->setDn($this->generateNewDn());
         return substr($this->dn, stripos($this->dn, 'dc='));
     }
 
     public function checkMust()
     {
-        foreach ($this::$mustFields as $mustField)
-        {
-            if($this->$mustField === "")
-            {
+        foreach ($this::$mustFields as $mustField) {
+            if ($this->$mustField === "") {
                 throw new MissingMustAttributeException();
             }
         }
@@ -81,6 +79,6 @@ abstract class LdapEntity implements Countable
      */
     public function count()
     {
-       return 1;
+        return 1;
     }
 }

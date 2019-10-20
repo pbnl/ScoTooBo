@@ -13,8 +13,7 @@ class PbnlMailAliasLdapHandler extends LdapEntryHandler
     {
         $objects = array();
 
-        for ($i = 0; $i < $ldapEntries["count"]; $i++)
-        {
+        for ($i = 0; $i < $ldapEntries["count"]; $i++) {
             $oneObject = $this->ldapArrayToObject($ldapEntries[$i]);
             array_push($objects, $oneObject);
         }
@@ -24,8 +23,7 @@ class PbnlMailAliasLdapHandler extends LdapEntryHandler
 
     private function ldapArrayToObject($ldapEntryArray)
     {
-        if (!$this->isValidEntryArray($ldapEntryArray))
-        {
+        if (!$this->isValidEntryArray($ldapEntryArray)) {
             throw new InvalidArgumentException("This class only supports the objectClass pbnlMailAlias");
         }
         $pbnlMailAlias = new PbnlMailAlias();
@@ -51,8 +49,7 @@ class PbnlMailAliasLdapHandler extends LdapEntryHandler
         //TODO: Do we realy want to use the @ operater?
         $succses = @$ldapConnection->ldap_modify($element->getDn(), $data);
 
-        if (!$succses)
-        {
+        if (!$succses) {
             throw new LdapPersistException("Cant update Ldap element");
         }
     }
@@ -71,8 +68,7 @@ class PbnlMailAliasLdapHandler extends LdapEntryHandler
         //TODO: Do we realy want to use the @ operater?
         $succses = @$ldapConnection->ldap_add($dn, $forwardForLDAP);
 
-        if (!$succses)
-        {
+        if (!$succses) {
             throw new LdapPersistException("Cant add new Ldap element");
         }
     }
@@ -80,8 +76,8 @@ class PbnlMailAliasLdapHandler extends LdapEntryHandler
     private function isValidEntryArray($ldapEntryArray)
     {
         if ($ldapEntryArray['objectclass'] == "pbnlMailAlias"
-        || (is_array($ldapEntryArray['objectclass']) && in_array("pbnlMailAlias", $ldapEntryArray['objectclass']))
-        ){
+            || (is_array($ldapEntryArray['objectclass']) && in_array("pbnlMailAlias", $ldapEntryArray['objectclass']))
+        ) {
             return true;
         }
         return false;

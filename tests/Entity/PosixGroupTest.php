@@ -21,7 +21,7 @@ class PosixGroupTest extends WebTestCase
 
     public function testFetchGroupMemberUserObjects()
     {
-        $user = new User("uid","asdf","asdfasdf",[]);
+        $user = new User("uid", "asdf", "asdfasdf", []);
 
         $group = new PosixGroup();
         $group->setMemberUid(["dn"]);
@@ -34,7 +34,7 @@ class PosixGroupTest extends WebTestCase
 
         $group->fetchGroupMemberUserObjects($userRepo);
 
-        $expectedUserObjectArray = ["dn"=>$user];
+        $expectedUserObjectArray = ["dn" => $user];
 
         $actualUserObjectArray = $group->getMemberUserObjects();
 

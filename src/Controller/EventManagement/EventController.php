@@ -176,7 +176,7 @@ class EventController extends AbstractController
             $em->persist($event_data); // tells Doctrine you want to (eventually) save the Product (no queries yet)
             $em->flush(); // actually executes the queries (i.e. the INSERT query)
 
-            $this->addFlash("success", "Event wurde mit der Id ".$event_data->getId()." erstellt.");
+            $this->addFlash("success", "Event wurde mit der Id " . $event_data->getId() . " erstellt.");
 
             return $this->redirectToRoute('showAllEvents');
         }
@@ -231,13 +231,13 @@ class EventController extends AbstractController
             for ($i = 0; $i < count($FormFields); $i++) {
                 /* proofing if checkbox one is checked */
                 $FormFields[$i][2] = false;
-                if ($request->request->get($FormFields[$i][0]."_show")) {
+                if ($request->request->get($FormFields[$i][0] . "_show")) {
                     $FormFields[$i][2] = true;
                 }
 
                 /* proofing if checkbox two is checked */
                 $FormFields[$i][3] = false;
-                if ($request->request->get($FormFields[$i][0]."_required") && $FormFields[$i][2]) {
+                if ($request->request->get($FormFields[$i][0] . "_required") && $FormFields[$i][2]) {
                     $FormFields[$i][3] = true;
                 }
             }
@@ -257,7 +257,7 @@ class EventController extends AbstractController
                 $invitationDateFrom = $event->getInvitationDateFrom();
                 $this->addFlash(
                     "warning",
-                    "Der neue Startzeitunkt wurde nicht verstanden und bleibt unverändert bei: ".$invitationDateFrom->format(
+                    "Der neue Startzeitunkt wurde nicht verstanden und bleibt unverändert bei: " . $invitationDateFrom->format(
                         'Y-m-d H:i:s'
                     )
                 );
@@ -265,7 +265,7 @@ class EventController extends AbstractController
                 $invitationDateFrom = new \DateTime();
                 $this->addFlash(
                     "warning",
-                    "Der neue Startzeitunkt wurde nicht verstanden und wurde auf jetzt gesetzt: ".$invitationDateFrom->format(
+                    "Der neue Startzeitunkt wurde nicht verstanden und wurde auf jetzt gesetzt: " . $invitationDateFrom->format(
                         'Y-m-d H:i:s'
                     )
                 );
@@ -279,7 +279,7 @@ class EventController extends AbstractController
                 $invitationDateTo = $event->getInvitationDateTo();
                 $this->addFlash(
                     "warning",
-                    "Der neue Endzeitunkt wurde nicht verstanden und bleibt unverändert bei: ".$invitationDateTo->format(
+                    "Der neue Endzeitunkt wurde nicht verstanden und bleibt unverändert bei: " . $invitationDateTo->format(
                         'Y-m-d H:i:s'
                     )
                 );
@@ -287,7 +287,7 @@ class EventController extends AbstractController
                 $invitationDateTo = $event->getDateFrom();
                 $this->addFlash(
                     "warning",
-                    "Der neue Endzeitunkt wurde nicht verstanden und wurde auf den Start des Events gesetzt: ".$invitationDateTo->format(
+                    "Der neue Endzeitunkt wurde nicht verstanden und wurde auf den Start des Events gesetzt: " . $invitationDateTo->format(
                         'Y-m-d H:i:s'
                     )
                 );
@@ -301,9 +301,9 @@ class EventController extends AbstractController
             $em->flush();
 
             if (is_null($link)) {
-                $this->addFlash("success", "Der Einladungslink für ".$event->getName()." wurde erzeugt.");
+                $this->addFlash("success", "Der Einladungslink für " . $event->getName() . " wurde erzeugt.");
             } else {
-                $this->addFlash("success", "Der Einladungslink für ".$event->getName()." wurde geändert.");
+                $this->addFlash("success", "Der Einladungslink für " . $event->getName() . " wurde geändert.");
             }
         } else {
             $this->addFlash("error", "Event mit der Id $id wurde nicht gefunden!");

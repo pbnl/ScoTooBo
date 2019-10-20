@@ -3,13 +3,10 @@
 namespace App\Model\LdapComponent\LdapEntryHandler;
 
 
-use App\Entity\LDAP\LdapEntity;
 use App\Entity\LDAP\PbnlAccount;
 use App\Model\LdapComponent\EmptyMustFieldException;
 use App\Model\LdapComponent\LdapConnection;
-use App\Model\LdapComponent\Repositories\Repository;
 use InvalidArgumentException;
-use PHPUnit\Runner\Exception;
 
 class PbnlAccountLdapHandler extends LdapEntryHandler
 {
@@ -18,8 +15,7 @@ class PbnlAccountLdapHandler extends LdapEntryHandler
     {
         $objects = array();
 
-        for($i = 0; $i < $ldapEntries["count"]; $i++)
-        {
+        for ($i = 0; $i < $ldapEntries["count"]; $i++) {
             $oneObject = $this->ldapArrayToObject($ldapEntries[$i]);
             array_push($objects, $oneObject);
         }
@@ -29,8 +25,7 @@ class PbnlAccountLdapHandler extends LdapEntryHandler
 
     private function ldapArrayToObject($ldapEntryArray)
     {
-        if(!$this->isValidEntryArray($ldapEntryArray))
-        {
+        if (!$this->isValidEntryArray($ldapEntryArray)) {
             throw new InvalidArgumentException("This class only supports the objectClass pbnlAccount");
         }
         $pbnlAccount = new PbnlAccount();
@@ -74,8 +69,7 @@ class PbnlAccountLdapHandler extends LdapEntryHandler
         //TODO: Do we realy want to use the @ operater?
         $succses = @$ldapConnection->ldap_modify($element->getDn(), $data);
 
-        if (!$succses)
-        {
+        if (!$succses) {
             throw new LdapPersistException("Cant update Ldap element");
         }
     }
@@ -104,10 +98,9 @@ class PbnlAccountLdapHandler extends LdapEntryHandler
         $dn = $element->getDn();
 
         //TODO: Do we realy want to use the @ operater?
-        $succses = @$ldapConnection->ldap_add( $dn, $userForLDAP);
+        $succses = @$ldapConnection->ldap_add($dn, $userForLDAP);
 
-        if (!$succses)
-        {
+        if (!$succses) {
             $error = $ldapConnection->getError();
             throw new LdapPersistException("Cant add new Ldap element $error");
         }
@@ -116,8 +109,8 @@ class PbnlAccountLdapHandler extends LdapEntryHandler
 
     private function isValidEntryArray($ldapEntryArray)
     {
-        if($ldapEntryArray['objectclass'] == "pbnlAccount"
-        || (is_array($ldapEntryArray['objectclass']) && in_array("pbnlAccount", $ldapEntryArray['objectclass']))
+        if ($ldapEntryArray['objectclass'] == "pbnlAccount"
+            || (is_array($ldapEntryArray['objectclass']) && in_array("pbnlAccount", $ldapEntryArray['objectclass']))
         )
             return true;
         else return false;

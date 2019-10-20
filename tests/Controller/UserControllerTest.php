@@ -2,8 +2,8 @@
 
 namespace App\Tests\Controller;
 
-use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use App\Tests\Utils\TestTools;
+use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
 class UserControllerTest extends WebTestCase
 {
@@ -224,7 +224,7 @@ class UserControllerTest extends WebTestCase
 
         $crawler = $client->request('GET', '/users/remove?uid=testtronjer');
 
-        $this->assertEquals("403",$client->getResponse()->getStatusCode());
+        $this->assertEquals("403", $client->getResponse()->getStatusCode());
 
 
         $client->request('GET', '/users/show/all');

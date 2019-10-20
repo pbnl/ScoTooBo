@@ -13,16 +13,16 @@ use App\Entity\LDAP\MissingMustAttributeException;
 use App\Entity\LDAP\PbnlAccount;
 use App\Model\LdapComponent\LdapEntryHandler\LdapPersistException;
 use App\Model\LdapComponent\PbnlLdapEntityManager;
-use Monolog\Logger;
-use PHPUnit\Framework\TestCase;
 use App\Tests\Other\PbnlNativeAliceLoader;
 use App\Tests\Utils\TestTools;
+use Monolog\Logger;
+use PHPUnit\Framework\TestCase;
 
 class PbnlLdapEntityManagerAddFunctionalityTest extends TestCase
 {
     private $ldapConnectionConfig = array();
 
-    public function setUp():void
+    public function setUp(): void
     {
         $this->ldapConnectionConfig["uri"] = "127.0.0.1";
         $this->ldapConnectionConfig["use_tls"] = false;
@@ -40,13 +40,13 @@ class PbnlLdapEntityManagerAddFunctionalityTest extends TestCase
         $ldapManager = new PbnlLdapEntityManager(new Logger("logger"), $this->ldapConnectionConfig);
         $pbnlRepo = $ldapManager->getRepository(PbnlAccount::class);
 
-        $account = $pbnlRepo->findOneBy("uid",$newPbnlAccount->getUid());
+        $account = $pbnlRepo->findOneBy("uid", $newPbnlAccount->getUid());
         $this->assertEquals([], $account);
 
         $ldapManager->persist($newPbnlAccount);
         $ldapManager->flush();
 
-        $account = $pbnlRepo->findOneBy("uid",$newPbnlAccount->getUid());
+        $account = $pbnlRepo->findOneBy("uid", $newPbnlAccount->getUid());
         $this->assertEquals($newPbnlAccount, $account);
     }
 
@@ -80,8 +80,7 @@ class PbnlLdapEntityManagerAddFunctionalityTest extends TestCase
         $objectSet = $loader->loadFile(__DIR__ . '/PbnlAccounts.yml');
 
         $dataSet = TestTools::objectSetToDataSet($objectSet);
-        for($i = 0; $i < count($dataSet); $i++)
-        {
+        for ($i = 0; $i < count($dataSet); $i++) {
             $dataSet[$i][0]->setOu("DoesNotExist");
         }
 
@@ -104,13 +103,12 @@ class PbnlLdapEntityManagerAddFunctionalityTest extends TestCase
 
     public function providePbnlAccountWithoutMustField()
     {
-        $loader =  new PbnlNativeAliceLoader(342345);
+        $loader = new PbnlNativeAliceLoader(342345);
         $objectSet = $loader->loadFile(__DIR__ . '/PbnlAccounts.yml');
 
         $dataSet = TestTools::objectSetToDataSet($objectSet);
-        for($i = 0; $i < count($dataSet); $i++)
-        {
-            $setFunction = "set".PbnlAccount::$mustFields[$i%count(PbnlAccount::$mustFields)];
+        for ($i = 0; $i < count($dataSet); $i++) {
+            $setFunction = "set" . PbnlAccount::$mustFields[$i % count(PbnlAccount::$mustFields)];
             $dataSet[$i][0]->$setFunction("");
         }
 

@@ -10,11 +10,11 @@ use App\Model\SSHA;
 use App\Model\User;
 use Monolog\Logger;
 use Psr\Log\LoggerInterface;
-use Symfony\Component\Validator\Validator\ValidatorInterface;
 use Symfony\Component\Security\Core\Exception\UnsupportedUserException;
 use Symfony\Component\Security\Core\Exception\UsernameNotFoundException;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Security\Core\User\UserProviderInterface;
+use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 class UserRepository implements UserProviderInterface
 {
@@ -57,7 +57,8 @@ class UserRepository implements UserProviderInterface
         PbnlLdapEntityManager $ldapEntityManager,
         ValidatorInterface $validator,
         GroupRepository $groupRepository
-    ) {
+    )
+    {
         $this->ldapEntityManager = $ldapEntityManager;
         $this->logger = $logger;
         $this->validator = $validator;
@@ -124,7 +125,7 @@ class UserRepository implements UserProviderInterface
                 sprintf('Uid "%s" does not exist.', $uid)
             );
         } elseif (count($ldapPbnlAccount) > 1) {
-            throw new UserNotUniqueException("Der User mit der Uid ".$uid." ist nicht einzigartig");
+            throw new UserNotUniqueException("Der User mit der Uid " . $uid . " ist nicht einzigartig");
         }
 
         return $this->entitiesToUser($ldapPbnlAccount);
@@ -166,7 +167,7 @@ class UserRepository implements UserProviderInterface
         if (count($errors) > 0) {
             $this->logger->addError((string)$errors);
             throw new CorruptDataInDatabaseException(
-                "The user ".$ldapPbnlAccount->getUid()." is corrupt! ".(string)$errors
+                "The user " . $ldapPbnlAccount->getUid() . " is corrupt! " . (string)$errors
             );
         }
 
@@ -203,12 +204,12 @@ class UserRepository implements UserProviderInterface
         if (isset($filter->getFilterAttributes()[0])) {
             if ($filter->getFilterAttributes()[0] == "filterByUid" && $filter->getFilterTexts()[0] != "") {
                 $pbnlAccounts = $this->pbnlAccountRepository->findByComplex(
-                    array("uid" => '*'.$filter->getFilterTexts()[0].'*')
+                    array("uid" => '*' . $filter->getFilterTexts()[0] . '*')
                 );
             } elseif ($filter->getFilterAttributes()[0] == "filterByGroup" && $filter->getFilterTexts()[0] != "") {
                 $group = $this->groupRepository->findByCn($filter->getFilterTexts()[0]);
                 if ($group == []) {
-                    throw new GroupNotFoundException("We cant find the group ".$filter->getFilterTexts()[0]);
+                    throw new GroupNotFoundException("We cant find the group " . $filter->getFilterTexts()[0]);
                 }
                 $pbnlAccounts = $this->pbnlAccountRepository->findAll();
             } else {
@@ -245,7 +246,7 @@ class UserRepository implements UserProviderInterface
         $pbnlAccount = $this->userToEntities($user);
 
         if ($this->doesUserExist($user)) {
-            throw new UserAlreadyExistException("The user ".$user->getUid()." already exists.");
+            throw new UserAlreadyExistException("The user " . $user->getUid() . " already exists.");
         }
 
         $pbnlAccount->setUidNumber($this->getNewUidNumber());
@@ -277,7 +278,7 @@ class UserRepository implements UserProviderInterface
         $pbnlAccount->setTelephoneNumber($user->getHomePhoneNumber());
         $pbnlAccount->setMobile($user->getMobilePhoneNumber());
         $pbnlAccount->setGidNumber("501");
-        $pbnlAccount->setHomeDirectory("/home/".$user->getUid());
+        $pbnlAccount->setHomeDirectory("/home/" . $user->getUid());
         $pbnlAccount->setUidNumber($user->getUidNumber());
         if ($user->getClearPassword() != "") {
             $pbnlAccount->setUserPassword(SSHA::sshaPasswordGen($user->getClearPassword()));
@@ -318,7 +319,7 @@ class UserRepository implements UserProviderInterface
             return true;
         }
         if (count($users) > 1) {
-            throw new UserNotUniqueException("The user with the uid ".$getUid." is not unique!");
+            throw new UserNotUniqueException("The user with the uid " . $getUid . " is not unique!");
         }
 
         return false;
@@ -338,7 +339,7 @@ class UserRepository implements UserProviderInterface
             return true;
         }
         if (count($users) > 1) {
-            throw new UserNotUniqueException("The user with the uid ".$getUidNumber." is not unique!");
+            throw new UserNotUniqueException("The user with the uid " . $getUidNumber . " is not unique!");
         }
 
         return false;
@@ -367,14 +368,14 @@ class UserRepository implements UserProviderInterface
     /**
      * Updates the data of a user in the database if the user exist
      *
+     * @param User $userToUpdate
      * @throws UserDoesNotExistException if you want to update a user that does not exist
      *
-     * @param User $userToUpdate
      */
     public function updateUser(User $userToUpdate)
     {
         if (!$this->doesUserExist($userToUpdate)) {
-            throw new UserDoesNotExistException("The user ".$userToUpdate->getUid()." does not exist.");
+            throw new UserDoesNotExistException("The user " . $userToUpdate->getUid() . " does not exist.");
         }
 
         $pbnlAccountToUpdate = $this->userToEntities($userToUpdate);
@@ -405,10 +406,10 @@ class UserRepository implements UserProviderInterface
             //TODO the @ is to supress the ldap_search warning. Find a better way after we have rewritten the ldap lib
             $ldapPbnlAccount = @$this->ldapEntityManager->retrieveByDn($dn, PbnlAccount::class);
         } catch (ErrorException $e) {
-            throw new UserDoesNotExistException("The user with the dn: ".$dn." does not exist!");
+            throw new UserDoesNotExistException("The user with the dn: " . $dn . " does not exist!");
         }
         if (count($ldapPbnlAccount) == 0) {
-            throw new UserDoesNotExistException("The user with the dn: ".$dn." does not exist!");
+            throw new UserDoesNotExistException("The user with the dn: " . $dn . " does not exist!");
         }
         $user = $this->entitiesToUser($ldapPbnlAccount[0]);
 

@@ -3,8 +3,8 @@
 namespace App\Entity\LDAP;
 
 use App\Model\Services\UserRepository;
-use Symfony\Component\Validator\Constraints as Assert;
 use App\Model\User;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Represents a posixGroup object class, which is a subclass of Group
@@ -13,7 +13,7 @@ use App\Model\User;
 class PosixGroup extends LdapEntity
 {
 
-    static $mustFields = ["cn","gidNumber"];
+    static $mustFields = ["cn", "gidNumber"];
     static $uniqueIdentifier = "cn";
 
     protected $cn;
@@ -154,16 +154,15 @@ class PosixGroup extends LdapEntity
      */
     protected function generateNewDn()
     {
-        if($this->getCn()== "")
-        {
+        if ($this->getCn() == "") {
             throw new BadMethodCallException("Cant generate DN: cn is empty ('')");
         }
-        return "cn=".$this->getCn().",ou=Group,dc=pbnl,dc=de";
+        return "cn=" . $this->getCn() . ",ou=Group,dc=pbnl,dc=de";
     }
 
     public function addUser(User $user)
     {
-        if (!in_array($user->getDn(),$this->memberUid)) {
+        if (!in_array($user->getDn(), $this->memberUid)) {
             array_push($this->memberUid, $user->getDn());
         }
     }

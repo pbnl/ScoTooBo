@@ -11,19 +11,18 @@ namespace App\Tests\LdapComponent;
 
 use App\Entity\LDAP\MissingMustAttributeException;
 use App\Entity\LDAP\PbnlAccount;
-use App\Model\LdapComponent\LdapEntryHandler\LdapPersistException;
 use App\Model\LdapComponent\PbnlLdapEntityManager;
-use Monolog\Logger;
-use PHPUnit\Framework\TestCase;
 use App\Tests\Other\PbnlNativeAliceLoader;
 use App\Tests\Utils\TestTools;
+use Monolog\Logger;
+use PHPUnit\Framework\TestCase;
 use Ucsf\LdapOrmBundle\Annotation\Ldap\Must;
 
 class PbnlLdapEntityManagerUpdateFunctionalityTest extends TestCase
 {
     private $ldapConnectionConfig = array();
 
-    public function setUp():void
+    public function setUp(): void
     {
         $this->ldapConnectionConfig["uri"] = "127.0.0.1";
         $this->ldapConnectionConfig["use_tls"] = false;
@@ -44,7 +43,7 @@ class PbnlLdapEntityManagerUpdateFunctionalityTest extends TestCase
         $ldapManager->persist($oldPbnlAccount);
         $ldapManager->flush();
 
-        $account = $pbnlRepo->findOneBy("uid",$oldPbnlAccount->getUid());
+        $account = $pbnlRepo->findOneBy("uid", $oldPbnlAccount->getUid());
         $this->assertEquals($oldPbnlAccount, $account);
 
         $updatedPbnlAccount = $this->updatePbnlAccountWithNewData($oldPbnlAccount);
@@ -52,7 +51,7 @@ class PbnlLdapEntityManagerUpdateFunctionalityTest extends TestCase
         $ldapManager->persist($updatedPbnlAccount);
         $ldapManager->flush();
 
-        $account = $pbnlRepo->findOneBy("uid",$oldPbnlAccount->getUid());
+        $account = $pbnlRepo->findOneBy("uid", $oldPbnlAccount->getUid());
         $this->assertEquals($updatedPbnlAccount, $account);
     }
 
@@ -102,8 +101,8 @@ class PbnlLdapEntityManagerUpdateFunctionalityTest extends TestCase
 
     private function removeMustFields($oldPbnlAccount)
     {
-        $i = random_int(0,100);
-        $setFunction = "set".PbnlAccount::$mustFields[$i%count(PbnlAccount::$mustFields)];
+        $i = random_int(0, 100);
+        $setFunction = "set" . PbnlAccount::$mustFields[$i % count(PbnlAccount::$mustFields)];
 
         $oldPbnlAccount->$setFunction("");
 

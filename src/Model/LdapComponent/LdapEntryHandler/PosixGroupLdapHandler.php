@@ -3,14 +3,10 @@
 namespace App\Model\LdapComponent\LdapEntryHandler;
 
 
-use App\Entity\LDAP\LdapEntity;
-use App\Entity\LDAP\PbnlAccount;
 use App\Entity\LDAP\PosixGroup;
 use App\Model\LdapComponent\EmptyMustFieldException;
 use App\Model\LdapComponent\LdapConnection;
-use App\Model\LdapComponent\Repositories\Repository;
 use InvalidArgumentException;
-use PHPUnit\Runner\Exception;
 
 class PosixGroupLdapHandler extends LdapEntryHandler
 {
@@ -19,8 +15,7 @@ class PosixGroupLdapHandler extends LdapEntryHandler
     {
         $objects = array();
 
-        for($i = 0; $i < $ldapEntries["count"]; $i++)
-        {
+        for ($i = 0; $i < $ldapEntries["count"]; $i++) {
             $oneObject = $this->ldapArrayToObject($ldapEntries[$i]);
             array_push($objects, $oneObject);
         }
@@ -30,8 +25,7 @@ class PosixGroupLdapHandler extends LdapEntryHandler
 
     private function ldapArrayToObject($ldapEntryArray)
     {
-        if(!$this->isValidEntryArray($ldapEntryArray))
-        {
+        if (!$this->isValidEntryArray($ldapEntryArray)) {
             throw new InvalidArgumentException("This class only supports the objectClass posixGroup");
         }
         $posixGroup = new PosixGroup();
@@ -40,7 +34,7 @@ class PosixGroupLdapHandler extends LdapEntryHandler
         $posixGroup->setGidNumber($ldapEntryArray["gidnumber"][0]);
         isset($ldapEntryArray["description"][0]) ? $posixGroup->setDescription($ldapEntryArray["description"][0]) : $posixGroup->setDescription("");
         $members = array();
-        for ($i = 0; $i < $ldapEntryArray["memberuid"]["count"] ; $i++) {
+        for ($i = 0; $i < $ldapEntryArray["memberuid"]["count"]; $i++) {
             array_push($members, $ldapEntryArray["memberuid"][$i]);
         }
         $posixGroup->setMemberUid($members);
@@ -56,16 +50,15 @@ class PosixGroupLdapHandler extends LdapEntryHandler
         $data["cn"][0] = $element->getCn();
         $data["gidnumber"][0] = $element->getGidNumber();
         empty($element->getDescription()) ? null : $data["description"][0] = $element->getDescription();
-        foreach ($element->getMemberUid() as $key=>$memberUid) {
+        foreach ($element->getMemberUid() as $key => $memberUid) {
             $data["memberUid"][$key] = $memberUid;
         }
 
         //TODO: Do we realy want to use the @ operater?
         $succses = @$ldapConnection->ldap_modify($element->getDn(), $data);
 
-        if (!$succses)
-        {
-            throw new LdapPersistException("Cant update Ldap element: ". $ldapConnection->getError());
+        if (!$succses) {
+            throw new LdapPersistException("Cant update Ldap element: " . $ldapConnection->getError());
         }
     }
 
@@ -76,26 +69,25 @@ class PosixGroupLdapHandler extends LdapEntryHandler
         $userForLDAP["cn"][0] = $element->getCn();
         $userForLDAP["gidnumber"][0] = $element->getGidNumber();
         $userForLDAP["description"][0] = $element->getDescription();
-        foreach ($element->getMemberUid() as $key=>$memberUid) {
+        foreach ($element->getMemberUid() as $key => $memberUid) {
             $userForLDAP["memberUid"][$key] = $memberUid;
         }
 
         $dn = $element->getDn();
 
         //TODO: Do we realy want to use the @ operater?
-        $succses = @$ldapConnection->ldap_add( $dn, $userForLDAP);
+        $succses = @$ldapConnection->ldap_add($dn, $userForLDAP);
 
-        if (!$succses)
-        {
-            throw new LdapPersistException("Cant add new Ldap element". ldap_error($ldapConnection));
+        if (!$succses) {
+            throw new LdapPersistException("Cant add new Ldap element" . ldap_error($ldapConnection));
         }
 
     }
 
     private function isValidEntryArray($ldapEntryArray)
     {
-        if($ldapEntryArray['objectclass'] == "posixGroup"
-        || (is_array($ldapEntryArray['objectclass']) && in_array("posixGroup", $ldapEntryArray['objectclass']))
+        if ($ldapEntryArray['objectclass'] == "posixGroup"
+            || (is_array($ldapEntryArray['objectclass']) && in_array("posixGroup", $ldapEntryArray['objectclass']))
         )
             return true;
         else return false;

@@ -11,9 +11,9 @@ namespace App\Tests\LdapComponent;
 
 use App\Entity\LDAP\LdapEntity;
 use App\Entity\LDAP\MissingMustAttributeException;
-use PHPUnit\Framework\TestCase;
 use App\Tests\Other\PbnlNativeAliceLoader;
 use App\Tests\Utils\TestTools;
+use PHPUnit\Framework\TestCase;
 
 class LdapEntityTest extends TestCase
 {
@@ -57,10 +57,9 @@ class LdapEntityTest extends TestCase
 
         $dataSet = TestTools::objectSetToDataSet($objectSet);
 
-        for ($i = 0; $i < count ($dataSet); $i++)
-        {
+        for ($i = 0; $i < count($dataSet); $i++) {
             $mustFields = $dataSet[$i][0]::$mustFields;
-            $mustFieldSetter = "set".$mustFields[$i % count ($mustFields)];
+            $mustFieldSetter = "set" . $mustFields[$i % count($mustFields)];
             $dataSet[$i][0]->$mustFieldSetter("");
         }
         return $dataSet;

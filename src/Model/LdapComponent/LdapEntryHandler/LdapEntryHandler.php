@@ -27,12 +27,9 @@ abstract class LdapEntryHandler
     {
         $entity->checkMust();
 
-        if($this->doesEntityAlreadyExist($entity, $ldapConnection))
-        {
+        if ($this->doesEntityAlreadyExist($entity, $ldapConnection)) {
             $this->update($entity, $ldapConnection);
-        }
-        else
-        {
+        } else {
             $this->add($entity, $ldapConnection);
         }
     }
@@ -68,19 +65,15 @@ abstract class LdapEntryHandler
 
     public function delete($entity, LdapConnection $ldapConnection)
     {
-        if($this->doesEntityAlreadyExist($entity, $ldapConnection))
-        {
+        if ($this->doesEntityAlreadyExist($entity, $ldapConnection)) {
             //TODO: Do we realy want to use the @ operater?
             $succses = @$ldapConnection->ldap_delete($entity->getDn());
 
-            if (!$succses)
-            {
+            if (!$succses) {
                 throw new LdapPersistException("Cant add new Ldap element");
             }
-        }
-        else
-        {
-            throw new EntityNotFoundException("Entity with the dn ".$entity->getDn()." does not exist -> You cant delet it");
+        } else {
+            throw new EntityNotFoundException("Entity with the dn " . $entity->getDn() . " does not exist -> You cant delet it");
         }
     }
 
@@ -90,11 +83,11 @@ abstract class LdapEntryHandler
     {
         $baseDN = $entity->getBaseDnFromDn();
         $uniqueIdentifier = $entity::$uniqueIdentifier;
-        $uIdGetterName = "get".$uniqueIdentifier;
+        $uIdGetterName = "get" . $uniqueIdentifier;
 
         $entities = $this->retrieve($this->getEntityName(get_class($entity)), $ldapConnection, [
             'searchDn' => $baseDN,
-            'filter' => [ $uniqueIdentifier => $entity->$uIdGetterName() ]
+            'filter' => [$uniqueIdentifier => $entity->$uIdGetterName()]
         ]);
 
         if ($checkOnly) {
@@ -110,7 +103,7 @@ abstract class LdapEntryHandler
 
         // Discern LDAP filter
         if (empty($options['filter'])) {
-            $filter = '(objectClass='.$objectClass.')';
+            $filter = '(objectClass=' . $objectClass . ')';
         } else {
             if (is_array($options['filter'])) {
                 $options['filter'] = array(
@@ -121,7 +114,7 @@ abstract class LdapEntryHandler
                 );
                 $ldapFilter = new LdapFilter($options['filter']);
                 $filter = $ldapFilter->format();
-            } else if (is_a ($options['filter'], LdapFilter::class)){
+            } else if (is_a($options['filter'], LdapFilter::class)) {
                 $options['filter']->setFilterArray(
                     array(
                         '&' => array(
@@ -132,7 +125,7 @@ abstract class LdapEntryHandler
                 );
                 $filter = $options['filter']->format();
             } else { // assume pre-formatted scale/string filter value
-                $filter = '(&(objectClass='.$objectClass.')'.$options['filter'].')';
+                $filter = '(&(objectClass=' . $objectClass . ')' . $options['filter'] . ')';
             }
         }
 
@@ -141,7 +134,7 @@ abstract class LdapEntryHandler
 
     protected function getEntityName($class)
     {
-        $entityName = explode("\\",$class);
+        $entityName = explode("\\", $class);
         $entityNameWithoutPath = end($entityName);
 
         return $entityNameWithoutPath;

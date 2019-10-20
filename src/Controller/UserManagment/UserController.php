@@ -13,7 +13,6 @@ use App\Model\Services\UserRepository;
 use App\Model\User;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\Debug\Exception\ContextErrorException;
 use Symfony\Component\Form\Extension\Core\Type\ButtonType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
@@ -23,7 +22,6 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\Translation\Translator;
 use Symfony\Component\Translation\TranslatorInterface;
 
 class UserController extends AbstractController
@@ -35,7 +33,7 @@ class UserController extends AbstractController
      * @param UserRepository $userRepo
      * @return Response
      */
-    public function showAllUser(Request $request, UserRepository $userRepo):Response
+    public function showAllUser(Request $request, UserRepository $userRepo): Response
     {
         //TODO Handle problem with corrupt users
         //Create search form
@@ -105,7 +103,7 @@ class UserController extends AbstractController
      * @param TranslatorInterface $translator
      * @return Response
      */
-    public function addUser(Request $request, UserRepository $userRepo, GroupRepository $groupRepo, TranslatorInterface $translator):Response
+    public function addUser(Request $request, UserRepository $userRepo, GroupRepository $groupRepo, TranslatorInterface $translator): Response
     {
         //Create the form
         $jsonStaemme = $this->getParameter('staemme');
@@ -219,7 +217,7 @@ class UserController extends AbstractController
                 TextType::class,
                 array(
                     'mapped' => false,
-                    "attr" => ["placeholder" => "Mailadresse für Einladungsmail", "disabled"=>""],
+                    "attr" => ["placeholder" => "Mailadresse für Einladungsmail", "disabled" => ""],
                     'label' => "Mailadresse für Einladungsmail",
                 )
             )
@@ -244,7 +242,7 @@ class UserController extends AbstractController
         if ($addUserForm->isSubmitted() && $addUserForm->isValid()) {
             //Prepare User
             $user->setUid($user->getGivenName());
-            $user->setMail($user->getUid()."@pbnl.de");
+            $user->setMail($user->getUid() . "@pbnl.de");
 
             //Create the new user
             try {
@@ -271,7 +269,7 @@ class UserController extends AbstractController
                     $this->sendInventationMail($addUserForm, $this->get('swiftmailer.mailer'));
                 }
 
-                $this->addFlash("success", "Benutzer ".$user->getUid()." hinzugefügt");
+                $this->addFlash("success", "Benutzer " . $user->getUid() . " hinzugefügt");
                 $addedSomeone = true;
             } catch (UserAlreadyExistException $e) {
                 $this->addFlash("error", $e->getMessage());
@@ -300,7 +298,7 @@ class UserController extends AbstractController
      * @param UserRepository $userRepo
      * @return Response
      */
-    public function showDetailUser(Request $request, UserRepository $userRepo):Response
+    public function showDetailUser(Request $request, UserRepository $userRepo): Response
     {
         $loggedInUser = $this->get('security.token_storage')->getToken()->getUser();
 
@@ -427,7 +425,7 @@ class UserController extends AbstractController
      * @param UserRepository $userRepo
      * @return Response
      */
-    public function removeUser(Request $request, UserRepository $userRepo):Response
+    public function removeUser(Request $request, UserRepository $userRepo): Response
     {
         $uid = $request->get("uid", "");
 
@@ -437,7 +435,7 @@ class UserController extends AbstractController
             if ($this->isGranted("remove", $userToRemove)) {
                 $userRepo->removeUser($userToRemove);
 
-                $this->addFlash("success", $uid." wurde gelöscht");
+                $this->addFlash("success", $uid . " wurde gelöscht");
             } else {
                 throw $this->createAccessDeniedException("You are not allowed to remove the user $uid");
             }

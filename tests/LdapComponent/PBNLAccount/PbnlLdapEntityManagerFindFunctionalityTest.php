@@ -19,7 +19,7 @@ class PbnlLdapEntityManagerFindFunctionalityTest extends TestCase
 
     private $ldapConnectionConfig = array();
 
-    public function setUp():void
+    public function setUp(): void
     {
         $this->ldapConnectionConfig["uri"] = "127.0.0.1";
         $this->ldapConnectionConfig["use_tls"] = false;
@@ -50,7 +50,7 @@ class PbnlLdapEntityManagerFindFunctionalityTest extends TestCase
         $ldapManager = new PbnlLdapEntityManager(new Logger("logger"), $this->ldapConnectionConfig);
         $pbnlRepo = $ldapManager->getRepository(PbnlAccount::class);
 
-        $account = $pbnlRepo->findOneBy("givenName","TestAmbrone2");
+        $account = $pbnlRepo->findOneBy("givenName", "TestAmbrone2");
 
         $this->assertEquals($expectedPbnlAccount, $account);
     }
@@ -76,7 +76,7 @@ class PbnlLdapEntityManagerFindFunctionalityTest extends TestCase
         $ldapManager = new PbnlLdapEntityManager(new Logger("logger"), $this->ldapConnectionConfig);
         $pbnlRepo = $ldapManager->getRepository(PbnlAccount::class);
 
-        $account = $pbnlRepo->findOneBy("uidNumber","813");
+        $account = $pbnlRepo->findOneBy("uidNumber", "813");
 
         $this->assertEquals($expectedPbnlAccount, $account);
     }
@@ -86,7 +86,7 @@ class PbnlLdapEntityManagerFindFunctionalityTest extends TestCase
         $ldapManager = new PbnlLdapEntityManager(new Logger("logger"), $this->ldapConnectionConfig);
         $pbnlRepo = $ldapManager->getRepository(PbnlAccount::class);
 
-        $account = $pbnlRepo->findOneBy("street","0");
+        $account = $pbnlRepo->findOneBy("street", "0");
 
         $this->assertTrue(!is_array($account));
     }
@@ -96,7 +96,7 @@ class PbnlLdapEntityManagerFindFunctionalityTest extends TestCase
         $ldapManager = new PbnlLdapEntityManager(new Logger("logger"), $this->ldapConnectionConfig);
         $pbnlRepo = $ldapManager->getRepository(PbnlAccount::class);
 
-        $account = $pbnlRepo->findBy("street","0");
+        $account = $pbnlRepo->findBy("street", "0");
 
         $this->assertTrue(is_array($account));
     }
@@ -106,7 +106,7 @@ class PbnlLdapEntityManagerFindFunctionalityTest extends TestCase
         $ldapManager = new PbnlLdapEntityManager(new Logger("logger"), $this->ldapConnectionConfig);
         $pbnlRepo = $ldapManager->getRepository(PbnlAccount::class);
 
-        $account = $pbnlRepo->findBy("street","qwdfjbqwdzi delhq dzhqdihq ");
+        $account = $pbnlRepo->findBy("street", "qwdfjbqwdzi delhq dzhqdihq ");
 
         $this->assertTrue(is_array($account));
         $this->assertEquals(0, count($account));
@@ -117,7 +117,7 @@ class PbnlLdapEntityManagerFindFunctionalityTest extends TestCase
         $ldapManager = new PbnlLdapEntityManager(new Logger("logger"), $this->ldapConnectionConfig);
         $pbnlRepo = $ldapManager->getRepository(PbnlAccount::class);
 
-        $account = $pbnlRepo->findOneBy("street","qwdfjbqwdzi delhq dzhqdihq ");
+        $account = $pbnlRepo->findOneBy("street", "qwdfjbqwdzi delhq dzhqdihq ");
 
         $this->assertEquals([], $account);
     }
@@ -127,7 +127,7 @@ class PbnlLdapEntityManagerFindFunctionalityTest extends TestCase
         $ldapManager = new PbnlLdapEntityManager(new Logger("logger"), $this->ldapConnectionConfig);
         $pbnlRepo = $ldapManager->getRepository(PbnlAccount::class);
 
-        $account = $pbnlRepo->findOneBy("Error","I dont care");
+        $account = $pbnlRepo->findOneBy("Error", "I dont care");
 
         $this->assertEquals([], $account);
     }

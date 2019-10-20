@@ -2,8 +2,8 @@
 
 namespace App\Tests\Controller;
 
-use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use App\Tests\Utils\TestTools;
+use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
 class MailAliasControllerTest extends WebTestCase
 {
@@ -19,7 +19,7 @@ class MailAliasControllerTest extends WebTestCase
     public function testShowAllGroupsTestAmbrone()
     {
         $client = TestTools::getLoggedInStavoAmbrone();
-        $crawler = $client->request("GET","/mailAlias/show/all");
+        $crawler = $client->request("GET", "/mailAlias/show/all");
 
         $this->assertEquals("200", $client->getResponse()->getStatusCode());
 
@@ -65,7 +65,7 @@ class MailAliasControllerTest extends WebTestCase
 
         $this->assertStringContainsString('testAddMaiLAlias@pbnl.de', $respons);
 
-        $crawler = $client->request("GET","/mailAlias/detail?mailAlias=testAddMaiLAlias%40pbnl.de");
+        $crawler = $client->request("GET", "/mailAlias/detail?mailAlias=testAddMaiLAlias%40pbnl.de");
 
         $this->assertEquals("200", $client->getResponse()->getStatusCode());
 
@@ -73,7 +73,7 @@ class MailAliasControllerTest extends WebTestCase
 
         $form = $crawler->selectButton('Speichern')->form();
 
-        $value =  $form->getPhpValues();
+        $value = $form->getPhpValues();
         $value["form"]["forward"] = array();
 
         $crawler = $client->request($form->getMethod(), $form->getUri(), $value,

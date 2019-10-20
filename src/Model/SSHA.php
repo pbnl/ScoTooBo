@@ -31,7 +31,7 @@ class SSHA
     public static function sshaPasswordGen($password)
     {
         $salt = openssl_random_pseudo_bytes(SSHA::SALTBYTELENGTH, $cryptoStrong);
-        return "{SSHA}".base64_encode(sha1($password . $salt, true) . $salt);
+        return "{SSHA}" . base64_encode(sha1($password . $salt, true) . $salt);
     }
 
     public static function sshaPasswordGenWithGivenSalt($password, $salt)
@@ -39,7 +39,7 @@ class SSHA
         if (strlen($salt) != SSHA::SALTBYTELENGTH) {
             throw new WrongSaltLengthException("Salt is not 8 byte long");
         }
-        return "{SSHA}".base64_encode(sha1($password . $salt, true) . $salt);
+        return "{SSHA}" . base64_encode(sha1($password . $salt, true) . $salt);
     }
 
     public static function sshaGetSalt($ssha)
@@ -71,6 +71,6 @@ class SSHA
 
     public static function buildSsha($shaHashedPassword, $salt)
     {
-        return "{SSHA}".base64_encode($shaHashedPassword.$salt);
+        return "{SSHA}" . base64_encode($shaHashedPassword . $salt);
     }
 }

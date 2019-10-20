@@ -6,10 +6,10 @@ use App\Entity\LDAP\PbnlMailAlias;
 use App\Model\Services\MailAliasRepository;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Form\Extension\Core\Type;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\Form\Extension\Core\Type;
 
 class MailAliasController extends AbstractController
 {
@@ -78,13 +78,13 @@ class MailAliasController extends AbstractController
             ->get("form.factory")
             ->createBuilder(Type\FormType::class, $mailAlias)
             ->add("forward", Type\CollectionType::class, [
-                'entry_type'   => TextType::class,
-                'label'        => 'Empfänger',
-                'allow_add'    => true,
+                'entry_type' => TextType::class,
+                'label' => 'Empfänger',
+                'allow_add' => true,
                 'allow_delete' => true,
-                'prototype'    => true,
-                'required'     => false,
-                'attr'         => [
+                'prototype' => true,
+                'required' => false,
+                'attr' => [
                     'class' => "mailAlias-collection",
                 ]])
             ->add('submit', Type\SubmitType::class, array(

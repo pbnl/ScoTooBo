@@ -21,15 +21,15 @@ class RepositoryTest extends TestCase
         $em = $this->createMock(PbnlLdapEntityManager::class);
         $em->expects($this->once())
             ->method("retrieve")
-            ->with("AClass",[])
-            ->willReturn([1,2]);
+            ->with("AClass", [])
+            ->willReturn([1, 2]);
 
         $searchableAttributes = [];
         $repo = new Repository($em, "AClass", $searchableAttributes);
 
         $result = $repo->findAll();
 
-        $this->assertEquals([1,2], $result);
+        $this->assertEquals([1, 2], $result);
     }
 
     public function testFindAllWithAttributes()
@@ -37,15 +37,15 @@ class RepositoryTest extends TestCase
         $em = $this->createMock(PbnlLdapEntityManager::class);
         $em->expects($this->once())
             ->method("retrieve")
-            ->with("AClass",["attributes"=>["test"]])
-            ->willReturn([1,2]);
+            ->with("AClass", ["attributes" => ["test"]])
+            ->willReturn([1, 2]);
 
         $searchableAttributes = [];
         $repo = new Repository($em, "AClass", $searchableAttributes);
 
         $result = $repo->findAll(["test"]);
 
-        $this->assertEquals([1,2], $result);
+        $this->assertEquals([1, 2], $result);
     }
 
     public function testFindBy()
@@ -56,15 +56,15 @@ class RepositoryTest extends TestCase
         $em = $this->createMock(PbnlLdapEntityManager::class);
         $em->expects($this->once())
             ->method("retrieve")
-            ->with("AClass",$options)
-            ->willReturn([1,2]);
+            ->with("AClass", $options)
+            ->willReturn([1, 2]);
 
         $searchableAttributes = [];
         $repo = new Repository($em, "AClass", $searchableAttributes);
 
         $result = $repo->findBy("attr", "val");
 
-        $this->assertEquals([1,2], $result);
+        $this->assertEquals([1, 2], $result);
     }
 
     public function testFindByWithAttributes()
@@ -76,15 +76,15 @@ class RepositoryTest extends TestCase
         $em = $this->createMock(PbnlLdapEntityManager::class);
         $em->expects($this->once())
             ->method("retrieve")
-            ->with("AClass",$options)
-            ->willReturn([1,2]);
+            ->with("AClass", $options)
+            ->willReturn([1, 2]);
 
         $searchableAttributes = [];
         $repo = new Repository($em, "AClass", $searchableAttributes);
 
-        $result = $repo->findBy("attr", "val",["test"]);
+        $result = $repo->findBy("attr", "val", ["test"]);
 
-        $this->assertEquals([1,2], $result);
+        $this->assertEquals([1, 2], $result);
     }
 
     public function testFindOneBy()
@@ -95,8 +95,8 @@ class RepositoryTest extends TestCase
         $em = $this->createMock(PbnlLdapEntityManager::class);
         $em->expects($this->once())
             ->method("retrieve")
-            ->with("AClass",$options)
-            ->willReturn([1,2]);
+            ->with("AClass", $options)
+            ->willReturn([1, 2]);
 
         $searchableAttributes = [];
         $repo = new Repository($em, "AClass", $searchableAttributes);
@@ -115,13 +115,13 @@ class RepositoryTest extends TestCase
         $em = $this->createMock(PbnlLdapEntityManager::class);
         $em->expects($this->once())
             ->method("retrieve")
-            ->with("AClass",$options)
-            ->willReturn([1,2]);
+            ->with("AClass", $options)
+            ->willReturn([1, 2]);
 
         $searchableAttributes = [];
         $repo = new Repository($em, "AClass", $searchableAttributes);
 
-        $result = $repo->findOneBy("attr", "val",["test"]);
+        $result = $repo->findOneBy("attr", "val", ["test"]);
 
         $this->assertEquals(1, $result);
     }
@@ -134,7 +134,7 @@ class RepositoryTest extends TestCase
         $em = $this->createMock(PbnlLdapEntityManager::class);
         $em->expects($this->once())
             ->method("retrieve")
-            ->with("AClass",$options)
+            ->with("AClass", $options)
             ->willReturn([]);
 
         $searchableAttributes = [];

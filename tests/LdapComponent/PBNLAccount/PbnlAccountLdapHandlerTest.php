@@ -2,11 +2,11 @@
 
 namespace App\Tests\LdapComponent;
 
+use App\Entity\LDAP\PbnlAccount;
 use App\Model\LdapComponent\LdapConnection;
 use App\Model\LdapComponent\LdapEntryHandler\PbnlAccountLdapHandler;
 use Monolog\Logger;
 use PHPUnit\Framework\TestCase;
-use App\Entity\LDAP\PbnlAccount;
 
 class PbnlAccountLdapHandlerTest extends TestCase
 {
@@ -49,11 +49,10 @@ class PbnlAccountLdapHandlerTest extends TestCase
         ];
 
 
-
         $baseDn = "dc=test,dc=de";
 
         $ldapConnection = $this->getMockBuilder(LdapConnection::class)
-            ->setConstructorArgs(["127.0.0.1", "389",true,"",$baseDn, new Logger("")])
+            ->setConstructorArgs(["127.0.0.1", "389", true, "", $baseDn, new Logger("")])
             ->getMock();
         $ldapConnection->expects($this->once())
             ->method("ldap_search")
@@ -98,11 +97,10 @@ class PbnlAccountLdapHandlerTest extends TestCase
         ];
 
 
-
         $baseDn = "dc=test,dc=de";
 
         $ldapConnection = $this->getMockBuilder(LdapConnection::class)
-            ->setConstructorArgs(["127.0.0.1", "389",true,"",$baseDn, new Logger("")])
+            ->setConstructorArgs(["127.0.0.1", "389", true, "", $baseDn, new Logger("")])
             ->getMock();
         $ldapConnection->expects($this->once())
             ->method("ldap_search")
@@ -112,7 +110,6 @@ class PbnlAccountLdapHandlerTest extends TestCase
             ->method("ldap_get_entries")
             ->with("search Result")
             ->willReturn($pbnlAccountLdapArray);
-
 
 
         $pbnlAccountHandler = new PbnlAccountLdapHandler($baseDn);

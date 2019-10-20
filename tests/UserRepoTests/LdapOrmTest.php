@@ -3,16 +3,14 @@
 namespace App\Tests\UserServicTest;
 
 use App\Entity\LDAP\PbnlAccount;
-use App\Entity\LDAP\PbnlMailAlias;
 use App\Entity\LDAP\PosixGroup;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
-use Symfony\Component\DependencyInjection\Container;
 use Ucsf\LdapOrmBundle\Repository\Repository;
 
 class LdapOrmTest extends KernelTestCase
 {
 
-    public function setUp():void
+    public function setUp(): void
     {
         self::bootKernel();
 

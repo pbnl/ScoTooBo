@@ -50,7 +50,7 @@ class GroupRepoTest extends TestCase
         $group1->setMemberUid([]);
         $group2 = new PosixGroup();
         $group2->setCn("test2");
-        $group2->setMemberUid(["pleaseFindMe","something1"]);
+        $group2->setMemberUid(["pleaseFindMe", "something1"]);
         $group3 = new PosixGroup();
         $group3->setCn("test3");
         $group3->setMemberUid(["something2"]);

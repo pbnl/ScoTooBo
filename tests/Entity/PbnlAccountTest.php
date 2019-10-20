@@ -13,15 +13,16 @@ class PbnlAccountTest extends TestCase
         $pbnlAccount = new PbnlAccount();
 
         $pbnlAccount->setDn("givenName=test123,ou=test1234,ou=people,dc=pbnl,dc=de");
-        $this->assertEquals("test1234",$pbnlAccount->getOu());
+        $this->assertEquals("test1234", $pbnlAccount->getOu());
 
         $pbnlAccount->setDn("givenName=test123,ou=2345#5667,ou=people,dc=pbnl,dc=de");
-        $this->assertEquals("2345#5667",$pbnlAccount->getOu());
+        $this->assertEquals("2345#5667", $pbnlAccount->getOu());
 
         $pbnlAccount->setDn("givenName=test123,ou=/93fnPwd,ou=people,dc=pbnl,dc=de");
-        $this->assertEquals("/93fnPwd",$pbnlAccount->getOu());
+        $this->assertEquals("/93fnPwd", $pbnlAccount->getOu());
 
     }
+
     public function testGenerateDNErrors()
     {
         $pbnlAccount = new PbnlAccount();
@@ -44,13 +45,13 @@ class PbnlAccountTest extends TestCase
         $pbnlAccount = new PbnlAccount();
         $pbnlAccount->setGivenName("test123");
         $pbnlAccount->setOu("ee");
-        $this->assertEquals("givenName=test123,ou=ee,ou=People,dc=pbnl,dc=de",$pbnlAccount->getDn());
+        $this->assertEquals("givenName=test123,ou=ee,ou=People,dc=pbnl,dc=de", $pbnlAccount->getDn());
 
         $pbnlAccount = new PbnlAccount();
         $pbnlAccount->setDn("givenName=test123,ou=2345#ä5667,ou=people,dc=pbnl,dc=de");
         $pbnlAccount->setGivenName("test123");
         $pbnlAccount->setOu("ee");
-        $this->assertEquals("givenName=test123,ou=2345#ä5667,ou=people,dc=pbnl,dc=de",$pbnlAccount->getDn());
+        $this->assertEquals("givenName=test123,ou=2345#ä5667,ou=people,dc=pbnl,dc=de", $pbnlAccount->getDn());
     }
 
     public function testErrorDn()

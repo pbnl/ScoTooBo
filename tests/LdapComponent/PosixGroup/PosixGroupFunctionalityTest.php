@@ -9,21 +9,18 @@
 namespace App\Tests\LdapComponent;
 
 
-use App\Entity\LDAP\MissingMustAttributeException;
-use App\Entity\LDAP\PbnlAccount;
 use App\Entity\LDAP\PosixGroup;
-use App\Model\LdapComponent\LdapEntryHandler\LdapPersistException;
 use App\Model\LdapComponent\PbnlLdapEntityManager;
-use Monolog\Logger;
-use PHPUnit\Framework\TestCase;
 use App\Tests\Other\PbnlNativeAliceLoader;
 use App\Tests\Utils\TestTools;
+use Monolog\Logger;
+use PHPUnit\Framework\TestCase;
 
 class PosixGroupFunctionalityTest extends TestCase
 {
     private $ldapConnectionConfig = array();
 
-    public function setUp():void
+    public function setUp(): void
     {
         $this->ldapConnectionConfig["uri"] = "127.0.0.1";
         $this->ldapConnectionConfig["port"] = "389";
@@ -41,13 +38,13 @@ class PosixGroupFunctionalityTest extends TestCase
         $ldapManager = new PbnlLdapEntityManager(new Logger("logger"), $this->ldapConnectionConfig);
         $pbnlRepo = $ldapManager->getRepository(PosixGroup::class);
 
-        $group = $pbnlRepo->findOneBy("cn",$newPosixGroup->getCn());
+        $group = $pbnlRepo->findOneBy("cn", $newPosixGroup->getCn());
         $this->assertEquals([], $group);
 
         $ldapManager->persist($newPosixGroup);
         $ldapManager->flush();
 
-        $group = $pbnlRepo->findOneBy("cn",$newPosixGroup->getCn());
+        $group = $pbnlRepo->findOneBy("cn", $newPosixGroup->getCn());
         $this->assertEquals($newPosixGroup, $group);
     }
 
@@ -71,7 +68,7 @@ class PosixGroupFunctionalityTest extends TestCase
         $ldapManager->persist($oldPosixGroup);
         $ldapManager->flush();
 
-        $group = $pbnlRepo->findOneBy("cn",$oldPosixGroup->getCn());
+        $group = $pbnlRepo->findOneBy("cn", $oldPosixGroup->getCn());
         $this->assertEquals($oldPosixGroup, $group);
 
         $updatedPosixGroup = $this->updatePosixGroupWithNewData($oldPosixGroup);
@@ -79,13 +76,13 @@ class PosixGroupFunctionalityTest extends TestCase
         $ldapManager->persist($updatedPosixGroup);
         $ldapManager->flush();
 
-        $group = $pbnlRepo->findOneBy("cn",$oldPosixGroup->getCn());
+        $group = $pbnlRepo->findOneBy("cn", $oldPosixGroup->getCn());
         $this->assertEquals($updatedPosixGroup, $group);
     }
 
     public function updatePosixGroupWithNewData(PosixGroup $posixGroup)
     {
-        $posixGroup->setGidNumber(random_int(1000,9999));
+        $posixGroup->setGidNumber(random_int(1000, 9999));
         $posixGroup->setDescription("wefzqwd efe we qe ef ef81+9ß138u /)T 082334 ß) - ");
         $posixGroup->setMemberUid(["erghrh2", "rhr4hwe4fq"]);
 

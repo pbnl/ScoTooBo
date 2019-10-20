@@ -3,10 +3,7 @@
 namespace App\Model\Services;
 
 use App\Entity\LDAP\PbnlMailAlias;
-use App\Entity\LDAP\PosixGroup;
-use App\Model\Filter;
 use App\Model\LdapComponent\PbnlLdapEntityManager;
-use Doctrine\DBAL\Exception\DatabaseObjectExistsException;
 use Monolog\Logger;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\Config\Tests\Util\Validator;
@@ -63,7 +60,7 @@ class MailAliasRepository
     {
         $mailAlias = $this->mailAliasLdapRepository->findByMail($mail);
         if ($mailAlias == []) {
-            throw new GroupNotFoundException("We cant find the mailAlias ".$mail);
+            throw new GroupNotFoundException("We cant find the mailAlias " . $mail);
         }
         return $mailAlias[0];
     }
@@ -71,7 +68,7 @@ class MailAliasRepository
     public function update(PbnlMailAlias $mailAlias)
     {
         if (!$this->doesMailAliasExist($mailAlias)) {
-            throw new MailAliasDoesNotExistException("The user ".$mailAlias->getMail()." does not exist.");
+            throw new MailAliasDoesNotExistException("The user " . $mailAlias->getMail() . " does not exist.");
         }
         $this->ldapEntityManager->persist($mailAlias);
     }

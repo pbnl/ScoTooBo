@@ -2,8 +2,8 @@
 
 namespace App\Tests\Controller;
 
-use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use App\Tests\Utils\TestTools;
+use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
 class EventControllerTest extends WebTestCase
 {
@@ -80,6 +80,7 @@ class EventControllerTest extends WebTestCase
         $this->assertStringNotContainsString('class="alert alert-warning"', $respons);
         $this->assertStringNotContainsString('class="alert alert-danger"', $respons);
     }
+
     public function testGenerateInvitationLink_UpdateLinkForEvent1()
     {
         $client = TestTools::getLoggedInStavoAmbrone();
@@ -92,8 +93,8 @@ class EventControllerTest extends WebTestCase
             )->count()
         );
         $form = $crawler->filter('#form_1')->form();
-        $form['InvitationDateFrom']='2018-04-29 78:28:34';
-        $form['InvitationDateTo']='2200-01-01 00:00:61';
+        $form['InvitationDateFrom'] = '2018-04-29 78:28:34';
+        $form['InvitationDateTo'] = '2200-01-01 00:00:61';
         $client->submit($form);
         $client->followRedirect();
         $respons = $client->getResponse()->getContent();
@@ -103,6 +104,7 @@ class EventControllerTest extends WebTestCase
         $this->assertStringContainsString('Der Einladungslink für TestEvent1 wurde geändert.', $respons);
         $this->assertStringNotContainsString('class="alert alert-danger"', $respons);
     }
+
     public function testGenerateInvitationLink_GenerateLinkForEvent3()
     {
         $client = TestTools::getLoggedInStavoAmbrone();
@@ -115,8 +117,8 @@ class EventControllerTest extends WebTestCase
             )->count()
         );
         $form = $crawler->filter('#form_3')->form();
-        $form['InvitationDateFrom']='2018-04-29 78:28:34';
-        $form['InvitationDateTo']='2200-01-01 00:00:61';
+        $form['InvitationDateFrom'] = '2018-04-29 78:28:34';
+        $form['InvitationDateTo'] = '2200-01-01 00:00:61';
         $client->submit($form);
         $client->followRedirect();
         $respons = $client->getResponse()->getContent();

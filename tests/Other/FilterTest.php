@@ -7,7 +7,8 @@ use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
 class FilterTest extends WebTestCase
 {
-    public function testAddFilter() {
+    public function testAddFilter()
+    {
         $filter = new Filter();
 
         $filter->addFilter("test1", "test2");

@@ -12,8 +12,6 @@ namespace App\Model\LdapComponent\Repositories;
 use App\Model\LdapComponent\LdapFilter;
 use App\Model\LdapComponent\PbnlLdapEntityManager;
 use BadMethodCallException;
-use Doctrine\Bundle\DoctrineBundle\Mapping\ClassMetadataCollection;
-use ReflectionClass;
 
 class Repository
 {
@@ -26,7 +24,8 @@ class Repository
      *
      * @param PbnlLdapEntityManager $em
      */
-    public function __construct(PbnlLdapEntityManager $em, string $class, array $searchableAttributes) {
+    public function __construct(PbnlLdapEntityManager $em, string $class, array $searchableAttributes)
+    {
         $this->em = $em;
         $this->entityName = $this->getEntityName($class);
         $this->searchableAttributes = $searchableAttributes;
@@ -36,14 +35,15 @@ class Repository
      * Adds support for magic finders.
      *
      * @param string $method
-     * @param array  $arguments
+     * @param array $arguments
      *
      * @return array|object The found entity/entities.
      * @throws BadMethodCallException  If the method called is an invalid find* method
      *                                 or no find* method at all and therefore an invalid
      *                                 method call.
      */
-    public function __call($method, $arguments) {
+    public function __call($method, $arguments)
+    {
         switch (true) {
             case (0 === strpos($method, 'findBy')):
                 $by = lcfirst(substr($method, 6));
@@ -77,7 +77,8 @@ class Repository
      * Simple LDAP search for all entries within the current repository
      * @return array An array of LdapEntity objects
      */
-    public function findAll($attributes = null) {
+    public function findAll($attributes = null)
+    {
         $options = array();
         if ($attributes != null) {
             $options['attributes'] = $attributes;
@@ -92,7 +93,8 @@ class Repository
      * @param string $value LDAP vattribute value
      * @return array An array of LdapEntity objects
      */
-    public function findBy($varname, $value, $attributes = null) {
+    public function findBy($varname, $value, $attributes = null)
+    {
         $options = array();
         $options['filter'] = new LdapFilter(array($varname => $value));
         if ($attributes != null) {
@@ -104,13 +106,13 @@ class Repository
 
     /**
      * Return an object or objects with corresponding varname as Criteria.
-     * @todo This should return an error when more than one is found
      * @param string $varname LDAP attribute name
      * @param string $value LDAP vattribute value
      * @return array LdapEntity
-
+     * @todo This should return an error when more than one is found
      */
-    public function findOneBy($varname, $value, $attributes = null) {
+    public function findOneBy($varname, $value, $attributes = null)
+    {
         $r = $this->findBy($varname, $value, $attributes);
         if (empty($r[0])) {
             return array();
@@ -132,7 +134,8 @@ class Repository
      * @return string LDAP filter string
      * @internal param array $mixed An associative array of LDAP filter operators and operands
      */
-    public function findByComplex($filterArray, $attributes = null) {
+    public function findByComplex($filterArray, $attributes = null)
+    {
         $options = array();
         $options['filter'] = new LdapFilter($filterArray);
         $options['attributes'] = $attributes;
@@ -141,7 +144,7 @@ class Repository
 
     private function getEntityName($class)
     {
-        $entityName = explode("\\",$class);
+        $entityName = explode("\\", $class);
         $entityNameWithoutPath = end($entityName);
 
         return $entityNameWithoutPath;

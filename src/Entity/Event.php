@@ -190,11 +190,11 @@ class Event
     public function getPriceInEuroWithEuroCharacter()
     {
         if ($this->price < 100) {
-            return "0,".$this->price."€";
+            return "0," . $this->price . "€";
         } else {
             $txt = strval($this->price);
 
-            return substr_replace($txt, ',', -2, 0).'€';
+            return substr_replace($txt, ',', -2, 0) . '€';
         }
     }
 
@@ -253,7 +253,7 @@ class Event
      */
     public function getDateFromToAsString()
     {
-        return $this->dateFrom->format('Y-m-d H:i:s').' - '.$this->dateTo->format('Y-m-d H:i:s');
+        return $this->dateFrom->format('Y-m-d H:i:s') . ' - ' . $this->dateTo->format('Y-m-d H:i:s');
     }
 
     /**

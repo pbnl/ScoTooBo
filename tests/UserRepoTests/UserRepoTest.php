@@ -50,14 +50,14 @@ class UserRepoTest extends WebTestCase
             $groupRepo);
         $user = $userService->getUserByUid("test");
 
-        $this->assertEquals("hamburg",$user->getCity());
-        $this->assertEquals("street",$user->getStreet());
-        $this->assertEquals("12345",$user->getPostalCode());
-        $this->assertEquals("testcn",$user->getFirstName());
-        $this->assertEquals("testsn",$user->getLastName());
-        $this->assertEquals("123456789",$user->getHomePhoneNumber());
-        $this->assertEquals("1234567890",$user->getMobilePhoneNumber());
-        $this->assertEquals("1234",$user->getUidNumber());
+        $this->assertEquals("hamburg", $user->getCity());
+        $this->assertEquals("street", $user->getStreet());
+        $this->assertEquals("12345", $user->getPostalCode());
+        $this->assertEquals("testcn", $user->getFirstName());
+        $this->assertEquals("testsn", $user->getLastName());
+        $this->assertEquals("123456789", $user->getHomePhoneNumber());
+        $this->assertEquals("1234567890", $user->getMobilePhoneNumber());
+        $this->assertEquals("1234", $user->getUidNumber());
     }
 
     public function testFindNoneExistingUser()
@@ -112,6 +112,7 @@ class UserRepoTest extends WebTestCase
         $user = $userRepo->getUserByUid("test");
         $this->assertEquals("tefefg", $user->getUid());
     }
+
     public function testCorruptDataInDatabaseExceptionUid2()
     {
         $pbnlAccount = new PbnlAccount();
@@ -129,6 +130,7 @@ class UserRepoTest extends WebTestCase
         $user = $userRepo->getUserByUid("test");
         $this->assertEquals("teaefefg", $user->getUid());
     }
+
     public function testCorruptDataInDatabaseExceptionUid3()
     {
         $pbnlAccount = new PbnlAccount();
@@ -146,6 +148,7 @@ class UserRepoTest extends WebTestCase
         $user = $userRepo->getUserByUid("test");
         $this->assertEquals("tefssefg", $user->getUid());
     }
+
     public function testCorruptDataInDatabaseExceptionUid4()
     {
         $pbnlAccount = new PbnlAccount();
@@ -169,7 +172,7 @@ class UserRepoTest extends WebTestCase
      */
     public function testAddUser()
     {
-        $ssha = SSHA::sshaPasswordGenWithGivenSalt("password","12345678");
+        $ssha = SSHA::sshaPasswordGenWithGivenSalt("password", "12345678");
         $expectedPbnlAccount = new PbnlAccount();
         $expectedPbnlAccount->setL("hamburg");
         $expectedPbnlAccount->setOu("ambronen");
@@ -216,7 +219,7 @@ class UserRepoTest extends WebTestCase
             ->withConsecutive(
                 [$this->equalTo('findByUid'), $this->equalTo(["testuid"])],
                 [$this->equalTo('findByUidNumber'), $this->equalTo(["1234"])])
-            ->willReturnOnConsecutiveCalls([],[]);
+            ->willReturnOnConsecutiveCalls([], []);
         $pbnlAccountRepo->expects($this->once())
             ->method("findAll")
             ->willReturn($uidNumberUsers);
@@ -246,7 +249,7 @@ class UserRepoTest extends WebTestCase
             $groupRepo);
 
         $userBack = $userRepo->addUser($user);
-        $this->assertEquals($user,$userBack);
+        $this->assertEquals($user, $userBack);
     }
 
     public function testAddUserUserAlreadyExistExceptionUid()
@@ -290,7 +293,7 @@ class UserRepoTest extends WebTestCase
             ->withConsecutive(
                 [$this->equalTo('findByUid'), $this->equalTo(["testuid"])],
                 [$this->equalTo('findByUidNumber'), $this->equalTo(["1234"])])
-            ->willReturnOnConsecutiveCalls($expectedPbnlAccount,[]);
+            ->willReturnOnConsecutiveCalls($expectedPbnlAccount, []);
 
         $ldapEntityManager = $this->createMock(PbnlLdapEntityManager::class);
         $ldapEntityManager->expects($this->at(0))
@@ -310,7 +313,7 @@ class UserRepoTest extends WebTestCase
             $groupRepo);
 
         $userBack = $userRepo->addUser($user);
-        $this->assertEquals($user,$userBack);
+        $this->assertEquals($user, $userBack);
     }
 
     public function testAddUserUserAlreadyExistExceptionUidNumber()
@@ -355,7 +358,7 @@ class UserRepoTest extends WebTestCase
             ->withConsecutive(
                 [$this->equalTo('findByUid'), $this->equalTo(["testuid"])],
                 [$this->equalTo('findByUidNumber'), $this->equalTo(["1234"])])
-            ->willReturnOnConsecutiveCalls([],$expectedPbnlAccount);
+            ->willReturnOnConsecutiveCalls([], $expectedPbnlAccount);
 
         $groupRepo = $this->createMock(GroupRepository::class);
 
@@ -374,12 +377,12 @@ class UserRepoTest extends WebTestCase
             $groupRepo);
 
         $userBack = $userRepo->addUser($user);
-        $this->assertEquals($user,$userBack);
+        $this->assertEquals($user, $userBack);
     }
 
     public function testUpdateUser()
     {
-        $sshaPassword = SSHA::sshaPasswordGenWithGivenSalt("passwort","12345678");
+        $sshaPassword = SSHA::sshaPasswordGenWithGivenSalt("passwort", "12345678");
 
         $oldPbnlAccount = new PbnlAccount();
         $oldPbnlAccount->setL("teststadtOld");
@@ -441,7 +444,7 @@ class UserRepoTest extends WebTestCase
             ->withConsecutive(
                 [$this->equalTo('findByUid'), $this->equalTo(["testuid"])],
                 [$this->equalTo('findByUidNumber'), $this->equalTo(["0"])])
-            ->willReturnOnConsecutiveCalls([],[]);
+            ->willReturnOnConsecutiveCalls([], []);
 
         $groupRepo = $this->createMock(GroupRepository::class);
 
@@ -476,7 +479,7 @@ class UserRepoTest extends WebTestCase
             ->withConsecutive(
                 [$this->equalTo('findByUid'), $this->equalTo(["testuid"])],
                 [$this->equalTo('findByUidNumber'), $this->equalTo(["0"])])
-            ->willReturnOnConsecutiveCalls(["",""],["",""]);
+            ->willReturnOnConsecutiveCalls(["", ""], ["", ""]);
 
         $groupRepo = $this->createMock(GroupRepository::class);
 
@@ -530,13 +533,13 @@ class UserRepoTest extends WebTestCase
             Validation::createValidatorBuilder()->enableAnnotationMapping()->getValidator(),
             $groupRepo);
 
-        $uidNumber = $this->invokeMethod($userRepo,"getNewUidNumber",[]);
-        $this->assertEquals(8,$uidNumber);
+        $uidNumber = $this->invokeMethod($userRepo, "getNewUidNumber", []);
+        $this->assertEquals(8, $uidNumber);
     }
 
     public function testRemoveUser()
     {
-        $ssha = SSHA::sshaPasswordGenWithGivenSalt("password","12345678");
+        $ssha = SSHA::sshaPasswordGenWithGivenSalt("password", "12345678");
         $toDeleteUser = new User("testuid", SSHA::sshaGetHash($ssha), SSHA::sshaGetSalt($ssha), []);
 
         $toDeletePbnlAccount = new PbnlAccount();
@@ -552,7 +555,7 @@ class UserRepoTest extends WebTestCase
             ->withConsecutive(
                 [$this->equalTo('findByUid'), $this->equalTo(["testuid"])],
                 [$this->equalTo('findByUidNumber'), $this->equalTo(["0"])])
-            ->willReturnOnConsecutiveCalls([""],[""]);
+            ->willReturnOnConsecutiveCalls([""], [""]);
 
         $groupRepo = $this->createMock(GroupRepository::class);
 
@@ -593,7 +596,7 @@ class UserRepoTest extends WebTestCase
             ->withConsecutive(
                 [$this->equalTo('findByUid'), $this->equalTo(["testuid"])],
                 [$this->equalTo('findByUidNumber'), $this->equalTo(["0"])])
-            ->willReturnOnConsecutiveCalls([],[]);
+            ->willReturnOnConsecutiveCalls([], []);
 
         $groupRepo = $this->createMock(GroupRepository::class);
 
@@ -635,7 +638,7 @@ class UserRepoTest extends WebTestCase
             ->withConsecutive(
                 [$this->equalTo('findByUid'), $this->equalTo(["testuid"])],
                 [$this->equalTo('findByUidNumber'), $this->equalTo(["0"])])
-            ->willReturnOnConsecutiveCalls(["",""],[]);
+            ->willReturnOnConsecutiveCalls(["", ""], []);
 
         $groupRepo = $this->createMock(GroupRepository::class);
 
@@ -703,7 +706,8 @@ class UserRepoTest extends WebTestCase
      * @param $pbnlAccounts
      * @return \PHPUnit_Framework_MockObject_MockObject|PbnlLdapEntityManager
      */
-    public function mockLdapEntityManager($pbnlAccounts) {
+    public function mockLdapEntityManager($pbnlAccounts)
+    {
 
         $pbnlAccountRepo = $this->createMock(Repository::class);
         $pbnlAccountRepo->expects($this->any())

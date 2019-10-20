@@ -84,17 +84,15 @@ class PbnlMailAlias extends LdapEntity
     }
 
 
-
     /**
      * Generates a Dn based on the mail
      */
     protected function generateNewDn()
     {
-        if ($this->getMail() == "")
-        {
+        if ($this->getMail() == "") {
             throw new BadMethodCallException("Cant generate DN: mail is empty ('')");
         }
-        return "mail=".$this->getMail().",ou=Forward,dc=pbnl,dc=de";
+        return "mail=" . $this->getMail() . ",ou=Forward,dc=pbnl,dc=de";
     }
 
     public function __toString()

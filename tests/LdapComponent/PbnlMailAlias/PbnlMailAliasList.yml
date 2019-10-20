@@ -1,5 +1,5 @@
 include:
-    - PbnlMailAlias.yml
+  - PbnlMailAlias.yml
 
 App\Entity\LDAP\PbnlMailAlias:
-    pbnlMailAliasList{1..10} (extends pbnlMailAlias):
+  pbnlMailAliasList{1..10} (extends pbnlMailAlias):

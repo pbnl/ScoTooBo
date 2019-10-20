@@ -25,7 +25,8 @@ class UserLazyLoader
         $this->ldapGroupRepo = $ldapEntityManager->getRepository(PosixGroup::class);
     }
 
-    public function loadRoles(User $user) {
+    public function loadRoles(User $user)
+    {
         $roles = $this->getRolesOfPbnlAccount($user);
         array_push($roles, "ROLE_USER");
         $user->setRoles($roles);
@@ -46,7 +47,7 @@ class UserLazyLoader
 
         /** @var  $group PosixGroup */
         foreach ($memberGroups as $group) {
-            array_push($roles, "ROLE_".$group->getCn());
+            array_push($roles, "ROLE_" . $group->getCn());
         }
 
         return $roles;
