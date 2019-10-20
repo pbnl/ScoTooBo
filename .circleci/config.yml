@@ -64,4 +64,3 @@ workflows:
                 branches:
                   only:
                   - master
-                  - fixed-docker-image
