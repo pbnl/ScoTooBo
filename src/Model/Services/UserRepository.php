@@ -416,6 +416,23 @@ class UserRepository implements UserProviderInterface
         return $user;
     }
 
+    /**
+     * Searches for uid like the given one in the ldap
+     *
+     * @param string $uid
+     * @return array
+     */
+    public function findUsersByUidLike(string $uid)
+    {
+        $ldapPbnlAccounts = $this->pbnlAccountRepository->findByUid("*$uid*");
+        $users = array();
+        foreach ($ldapPbnlAccounts as $account) {
+            array_push($users, $this->entitiesToUser($account));
+        }
+
+        return $users;
+    }
+
     private function throwsUserDoesNotExistExceptionIfArrayEmty($array)
     {
         if (count($array) == 0) {

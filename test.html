@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8" />
+    <title>Event hinzufügen</title>
+
+
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+
+    <!-- Intro JS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/intro.js/2.9.3/introjs.min.css" integrity="sha256-/oZ7h/Jkj6AfibN/zTWrCoba0L+QhP9Tf/ZSgyZJCnY=" crossorigin="anonymous" />
+
+    <!-- Awesome Font -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.css" integrity="sha256-46qynGAkLSFpVbEBog43gvNhfrOj+BmwXdxFgVK/Kvc=" crossorigin="anonymous" />
+
+    <!-- Tablesorter theme -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery.tablesorter/2.29.0/css/theme.bootstrap_4.min.css" integrity="sha256-XNaQ6CZvDJ0+k/frCzdkIyDhLedZXo1a9SswYdq8bj4=" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery.tablesorter/2.29.0/css/jquery.tablesorter.pager.min.css" integrity="sha256-x+whz5gQKEXx3S3pxwmxPhC1OWpRiHaPXUW5Yt8/fzg=" crossorigin="anonymous" />
+
+    <!-- Feedback -->
+    <link rel="stylesheet" href="/css/feedback.css">
+
+    <!-- Imageviewer -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/imageviewer/0.5.1/viewer.min.css" integrity="sha256-6NuwtCUS3Hn1o3GiXOJ51yYqj7A245aYW/Vu+Xeyp2M=" crossorigin="anonymous" />
+
+    <link rel="apple-touch-icon" sizes="57x57" href="/logo/apple-icon-57x57.png">
+    <link rel="apple-touch-icon" sizes="60x60" href="/logo/apple-icon-60x60.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="/logo/apple-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="/logo/apple-icon-76x76.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="/logo/apple-icon-114x114.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="/logo/apple-icon-120x120.png">
+    <link rel="apple-touch-icon" sizes="144x144" href="/logo/apple-icon-144x144.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="/logo/apple-icon-152x152.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/logo/apple-icon-180x180.png">
+    <link rel="icon" type="image/png" sizes="192x192"  href="/logo/android-icon-192x192.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/logo/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="96x96" href="/logo/favicon-96x96.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/logo/favicon-16x16.png">
+    <link rel="manifest" href="/logo/manifest.json">
+
+    <meta name="msapplication-TileColor" content="#ffffff">
+    <meta name="msapplication-TileImage" content="/logo/ms-icon-144x144.png">
+    <meta name="theme-color" content="#ffffff">
+
+    <link rel="stylesheet" href="/css/base.css">
+</head>
+<body>
+<nav class="navbar fixed-top navbar-expand-md navbar-dark bg-dark shadow">
+    <a class="navbar-brand" href="/dashboard">ScoTooBo</a>
+
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarNavDropdown">
+        <ul class="navbar-nav mr-auto">
+            <li class="navbar-nav">
+                <a href="/users/show/all" class="nav-link">Benutzer-/Gruppenverwaltung</a>
+            </li>
+            <li class="navbar-nav">
+                <a href="/events/show/all" class="nav-link">Eventmanagement</a>
+            </li>
+            <li class="navbar-nav">
+                <a href="/feedback/show/all" class="nav-link">Admin</a>
+            </li>
+        </ul>
+
+        <ul class="navbar-nav pull-righ">
+            <li class="nav-item">
+                <a class="nav-link" href="#" onclick="introJs().start();"><i class="far fa-question-circle introjs-start-icon"></i></a>
+            </li>
+
+            <li class="nav-item">
+                <a class="btn btn-outline-danger pull-right navbar-btn" href="/logout">Logout</a>
+            </li>
+        </ul>
+    </div>
+</nav>
+<div class="container-fluid ">
+    <div class="row row-offcanvas row-offcanvas-right">
+        <nav class="col-6 col-lg-2 d-none d-block bg-light sidebar sidebar-offcanvas" id="sidebar">
+            <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
+                <span>Events</span>
+            </h6>
+            <ul class="nav flex-column">
+                <li class="nav-item">
+                    <a href="/events/show/all" class="nav-link ">
+                        <i class="far fa-calendar-alt"></i> Alle Events anzeigen        </a>
+                </li>
+                <li class="nav-item">
+                    <a href="/events/add" class="nav-link active">
+                        <i class="far fa-calendar-plus"></i> Event hinzufügen        </a>
+                </li>
+                <li class="nav-item">
+                    <a href="/events/detail" class="nav-link ">
+                        <i class="fa fa-play" aria-hidden="true"></i> Eventdetails        </a>
+                </li>
+            </ul>
+        </nav>
+        <div class="col-12 col-lg-10" style="min-height: 100vh; padding-top: 4rem;">
+            <p class="d-lg-none">
+                <button type="button" class="btn btn-primary btn-sm" data-toggle="offcanvas">Navigation ein-/ausblenden</button>
+            </p>
+
+            <h2 class="form-signin-heading">Füge ein neues Event hinzu</h2>
+            <form name="form" method="post">
+                <div id="form"><span class="alert alert-danger d-block"><span class="d-block">
+                    <span class="form-error-icon badge badge-danger text-uppercase">Fehler</span> <span class="form-error-message">Dieser Wert wird bereits verwendet.</span>
+                </span></span><div class="form-group row"><label class="col-form-label col-sm-2 required" for="form_Name">Name</label><div class="col-sm-10"><input type="text" id="form_Name" name="form[Name]" required="required" placeholder="Name" class="form-control" value="Test Name" /></div>
+                </div><div class="form-group row"><label class="col-form-label col-sm-2 required" for="form_Description">Beschreibung</label><div class="col-sm-10"><textarea id="form_Description" name="form[Description]" required="required" placeholder="Beschreibung" class="form-control">Test Beschreibung</textarea></div>
+                </div><div class="form-group row"><label class="col-form-label col-sm-2 required" for="form_PriceInCent">Preis in Cent</label><div class="col-sm-10"><input type="number" id="form_PriceInCent" name="form[PriceInCent]" required="required" placeholder="Preis in Cent" min="0" class="form-control" value="12345" /></div>
+                </div><div class="form-group row"><legend class="col-form-label col-sm-2 col-form-label required">Von</legend><div class="col-sm-10"><div id="form_DateFrom" placeholder="Von" class="form-inline"><div class="sr-only"><label class="col-form-label col-sm-2 required" for="form_DateFrom_date_year">Year</label><label class="col-form-label col-sm-2 required" for="form_DateFrom_date_month">Month</label><label class="col-form-label col-sm-2 required" for="form_DateFrom_date_day">Day</label><label class="col-form-label col-sm-2 required" for="form_DateFrom_time_hour">Hour</label><label class="col-form-label col-sm-2 required" for="form_DateFrom_time_minute">Minute</label></div><div class="sr-only">
+                    <label class="col-form-label col-sm-2 required" for="form_DateFrom_date_year">Year</label>
+                    <label class="col-form-label col-sm-2 required" for="form_DateFrom_date_month">Month</label>
+                    <label class="col-form-label col-sm-2 required" for="form_DateFrom_date_day">Day</label>
+                </div><select id="form_DateFrom_date_year" name="form[DateFrom][date][year]" class="form-control"><option value="2014">2014</option><option value="2015" selected="selected">2015</option><option value="2016">2016</option><option value="2017">2017</option><option value="2018">2018</option><option value="2019">2019</option><option value="2020">2020</option><option value="2021">2021</option><option value="2022">2022</option><option value="2023">2023</option><option value="2024">2024</option></select><select id="form_DateFrom_date_month" name="form[DateFrom][date][month]" class="form-control"><option value="1" selected="selected">Jan</option><option value="2">Feb</option><option value="3">Mar</option><option value="4">Apr</option><option value="5">May</option><option value="6">Jun</option><option value="7">Jul</option><option value="8">Aug</option><option value="9">Sep</option><option value="10">Oct</option><option value="11">Nov</option><option value="12">Dec</option></select><select id="form_DateFrom_date_day" name="form[DateFrom][date][day]" class="form-control"><option value="1">1</option><option value="2" selected="selected">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option><option value="6">6</option><option value="7">7</option><option value="8">8</option><option value="9">9</option><option value="10">10</option><option value="11">11</option><option value="12">12</option><option value="13">13</option><option value="14">14</option><option value="15">15</option><option value="16">16</option><option value="17">17</option><option value="18">18</option><option value="19">19</option><option value="20">20</option><option value="21">21</option><option value="22">22</option><option value="23">23</option><option value="24">24</option><option value="25">25</option><option value="26">26</option><option value="27">27</option><option value="28">28</option><option value="29">29</option><option value="30">30</option><option value="31">31</option></select><div class="sr-only"><label class="col-form-label col-sm-2 required" for="form_DateFrom_time_hour">Hour</label></div><select id="form_DateFrom_time_hour" name="form[DateFrom][time][hour]" class="form-control"><option value="0">00</option><option value="1">01</option><option value="2">02</option><option value="3" selected="selected">03</option><option value="4">04</option><option value="5">05</option><option value="6">06</option><option value="7">07</option><option value="8">08</option><option value="9">09</option><option value="10">10</option><option value="11">11</option><option value="12">12</option><option value="13">13</option><option value="14">14</option><option value="15">15</option><option value="16">16</option><option value="17">17</option><option value="18">18</option><option value="19">19</option><option value="20">20</option><option value="21">21</option><option value="22">22</option><option value="23">23</option></select>:<div class="sr-only"><label class="col-form-label col-sm-2 required" for="form_DateFrom_time_minute">Minute</label></div><select id="form_DateFrom_time_minute" name="form[DateFrom][time][minute]" class="form-control"><option value="0">00</option><option value="1">01</option><option value="2">02</option><option value="3">03</option><option value="4" selected="selected">04</option><option value="5">05</option><option value="6">06</option><option value="7">07</option><option value="8">08</option><option value="9">09</option><option value="10">10</option><option value="11">11</option><option value="12">12</option><option value="13">13</option><option value="14">14</option><option value="15">15</option><option value="16">16</option><option value="17">17</option><option value="18">18</option><option value="19">19</option><option value="20">20</option><option value="21">21</option><option value="22">22</option><option value="23">23</option><option value="24">24</option><option value="25">25</option><option value="26">26</option><option value="27">27</option><option value="28">28</option><option value="29">29</option><option value="30">30</option><option value="31">31</option><option value="32">32</option><option value="33">33</option><option value="34">34</option><option value="35">35</option><option value="36">36</option><option value="37">37</option><option value="38">38</option><option value="39">39</option><option value="40">40</option><option value="41">41</option><option value="42">42</option><option value="43">43</option><option value="44">44</option><option value="45">45</option><option value="46">46</option><option value="47">47</option><option value="48">48</option><option value="49">49</option><option value="50">50</option><option value="51">51</option><option value="52">52</option><option value="53">53</option><option value="54">54</option><option value="55">55</option><option value="56">56</option><option value="57">57</option><option value="58">58</option><option value="59">59</option></select></div></div>
+                </div><div class="form-group row"><legend class="col-form-label col-sm-2 col-form-label required">Bis</legend><div class="col-sm-10"><div id="form_DateTo" placeholder="Bis" class="form-inline"><div class="sr-only"><label class="col-form-label col-sm-2 required" for="form_DateTo_date_year">Year</label><label class="col-form-label col-sm-2 required" for="form_DateTo_date_month">Month</label><label class="col-form-label col-sm-2 required" for="form_DateTo_date_day">Day</label><label class="col-form-label col-sm-2 required" for="form_DateTo_time_hour">Hour</label><label class="col-form-label col-sm-2 required" for="form_DateTo_time_minute">Minute</label></div><div class="sr-only">
+                    <label class="col-form-label col-sm-2 required" for="form_DateTo_date_year">Year</label>
+                    <label class="col-form-label col-sm-2 required" for="form_DateTo_date_month">Month</label>
+                    <label class="col-form-label col-sm-2 required" for="form_DateTo_date_day">Day</label>
+                </div><select id="form_DateTo_date_year" name="form[DateTo][date][year]" class="form-control"><option value="2014">2014</option><option value="2015">2015</option><option value="2016">2016</option><option value="2017">2017</option><option value="2018" selected="selected">2018</option><option value="2019">2019</option><option value="2020">2020</option><option value="2021">2021</option><option value="2022">2022</option><option value="2023">2023</option><option value="2024">2024</option></select><select id="form_DateTo_date_month" name="form[DateTo][date][month]" class="form-control"><option value="1">Jan</option><option value="2">Feb</option><option value="3">Mar</option><option value="4">Apr</option><option value="5">May</option><option value="6">Jun</option><option value="7">Jul</option><option value="8">Aug</option><option value="9">Sep</option><option value="10">Oct</option><option value="11" selected="selected">Nov</option><option value="12">Dec</option></select><select id="form_DateTo_date_day" name="form[DateTo][date][day]" class="form-control"><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option><option value="6">6</option><option value="7">7</option><option value="8">8</option><option value="9">9</option><option value="10">10</option><option value="11">11</option><option value="12" selected="selected">12</option><option value="13">13</option><option value="14">14</option><option value="15">15</option><option value="16">16</option><option value="17">17</option><option value="18">18</option><option value="19">19</option><option value="20">20</option><option value="21">21</option><option value="22">22</option><option value="23">23</option><option value="24">24</option><option value="25">25</option><option value="26">26</option><option value="27">27</option><option value="28">28</option><option value="29">29</option><option value="30">30</option><option value="31">31</option></select><div class="sr-only"><label class="col-form-label col-sm-2 required" for="form_DateTo_time_hour">Hour</label></div><select id="form_DateTo_time_hour" name="form[DateTo][time][hour]" class="form-control"><option value="0">00</option><option value="1">01</option><option value="2">02</option><option value="3">03</option><option value="4">04</option><option value="5">05</option><option value="6">06</option><option value="7">07</option><option value="8">08</option><option value="9">09</option><option value="10">10</option><option value="11">11</option><option value="12">12</option><option value="13" selected="selected">13</option><option value="14">14</option><option value="15">15</option><option value="16">16</option><option value="17">17</option><option value="18">18</option><option value="19">19</option><option value="20">20</option><option value="21">21</option><option value="22">22</option><option value="23">23</option></select>:<div class="sr-only"><label class="col-form-label col-sm-2 required" for="form_DateTo_time_minute">Minute</label></div><select id="form_DateTo_time_minute" name="form[DateTo][time][minute]" class="form-control"><option value="0">00</option><option value="1">01</option><option value="2">02</option><option value="3">03</option><option value="4">04</option><option value="5">05</option><option value="6">06</option><option value="7">07</option><option value="8">08</option><option value="9">09</option><option value="10">10</option><option value="11">11</option><option value="12">12</option><option value="13">13</option><option value="14" selected="selected">14</option><option value="15">15</option><option value="16">16</option><option value="17">17</option><option value="18">18</option><option value="19">19</option><option value="20">20</option><option value="21">21</option><option value="22">22</option><option value="23">23</option><option value="24">24</option><option value="25">25</option><option value="26">26</option><option value="27">27</option><option value="28">28</option><option value="29">29</option><option value="30">30</option><option value="31">31</option><option value="32">32</option><option value="33">33</option><option value="34">34</option><option value="35">35</option><option value="36">36</option><option value="37">37</option><option value="38">38</option><option value="39">39</option><option value="40">40</option><option value="41">41</option><option value="42">42</option><option value="43">43</option><option value="44">44</option><option value="45">45</option><option value="46">46</option><option value="47">47</option><option value="48">48</option><option value="49">49</option><option value="50">50</option><option value="51">51</option><option value="52">52</option><option value="53">53</option><option value="54">54</option><option value="55">55</option><option value="56">56</option><option value="57">57</option><option value="58">58</option><option value="59">59</option></select></div></div>
+                </div><div class="form-group row"><label class="col-form-label col-sm-2 required" for="form_Place">Ort</label><div class="col-sm-10"><textarea id="form_Place" name="form[Place]" required="required" placeholder="Ort" class="form-control">Test Ort</textarea></div>
+                </div><div class="form-group row"><div class="col-sm-2"></div><div class="col-sm-10"><button type="submit" id="form_save" name="form[save]" class="btn btn-primary btn">Erstellen</button></div></div><input type="hidden" id="form__token" name="form[_token]" value="PW-tr2Oi7ORGa-EJm3yFuB5WN2xC-v0RXnc-c2chWqc" /></div>
+            </form>
+            <hr>
+
+            <footer>
+                <p>© NKPmedia 2017 (made by Paul Kruse, Niklas Krüger, Jonathan, Joel)</p>
+            </footer>
+        </div>
+    </div>
+</div>
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+
+<!-- Latest compiled and minified JavaScript -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+
+<!-- Intro JS -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/intro.js/2.9.3/intro.min.js" integrity="sha256-fOPHmaamqkHPv4QYGxkiSKm7O/3GAJ4554pQXYleoLo=" crossorigin="anonymous"></script>
+
+<!-- Imageviewer -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/imageviewer/0.5.1/viewer.min.js" integrity="sha256-vuRjTzX9oIbqZaluBVQSJsFEE1zQNuMxjLDYe2RCrW0=" crossorigin="anonymous"></script>
+
+<!-- Re-Captcher -->
+<script src="https://www.google.com/recaptcha/api.js" async defer></script>
+
+<!-- Tablesorter -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.tablesorter/2.29.0/js/jquery.tablesorter.min.js" integrity="sha256-UD/M/6ixbHIPJ/hTwhb9IXbHG2nZSiB97b4BSSAVm6o=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.tablesorter/2.29.0/js/jquery.tablesorter.widgets.min.js" integrity="sha256-/3WKCLORjkqCd7cddzHbnXGR31qqys81XQe2khfPvTY=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.tablesorter/2.29.0/js/extras/jquery.tablesorter.pager.min.js" integrity="sha256-jkVgfYuH8sw4gTXCDEJMANM9Kf2xZLFWALNiAQ1AyZQ=" crossorigin="anonymous"></script>
+
+<script src="/js/base.js"></script>
+
+<!-- Feedback -->
+<script src="/js/feedback.js"></script>
+
+<script type="text/javascript">
+    $(document).ready(function() {
+        Feedback({
+            h2cPath:'/js/html2canvas.js',
+            url:'/feedback/send',
+            label:'Fehler / Feedback',
+            header:'Sende Feedback',
+            nextLabel:'Weiter',
+            reviewLabel:'Vorschau',
+            sendLabel:'Senden',
+            closeLabel:'Schließen',
+            messageSuccess:'Dein Feedback hat uns erfolgreich erreicht und wird in Kürze bearbeitet.',
+            messageError:'Es trat leider ein Fehler auf, schreib uns am besten persönlich an.',
+            reCaptchaGlobalCoe:"gGlobalCode",
+            labelAfterSend:'Danke für dein Feedback!',
+            feedbackText:'Beschreibe uns hier kurz dein Anliegen (den Fehler, dein Lob, deinen Wunsch). Eine E-Mail Adresse für Rückfragen wäre sinnvoll.',
+            blackoutHighlightText:'Hebe ggf. noch wichtige Bereiche hervor und blende persönliche aus.'
+        });
+    });
+</script>
+</body>
+</html>

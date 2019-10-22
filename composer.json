@@ -17,6 +17,7 @@
         "php": ">=7.2",
         "doctrine/doctrine-bundle": "^1.6",
         "doctrine/orm": "^2.5",
+        "friendsofsymfony/rest-bundle": "^2.6",
         "incenteev/composer-parameter-handler": "^2.0",
         "ninsuo/symfony-collection": "^2.1",
         "ramsey/uuid": "^3.8",
