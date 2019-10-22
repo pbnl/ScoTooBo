@@ -509,7 +509,7 @@
                         punycode.hasOwnProperty(key) && (freeExports[key] = punycode[key]);
                     }
                 }
-            } else { // in Rhino or a web browser
+            } else { // in Rhino or a Web browser
                 root.punycode = punycode;
             }
 

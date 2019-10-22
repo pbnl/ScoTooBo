@@ -141,6 +141,19 @@ class PosixGroup extends LdapEntity
         return false;
     }
 
+    /**
+     * Returns true if th given user objects represens a user that is this group
+     * @param User $user
+     * @return bool
+     */
+    public function isUserMember(User $user): bool {
+        if (in_array($user->getDn(), $this->getMemberUid())) {
+            return true;
+        }
+
+        return false;
+    }
+
     public function fetchGroupMemberUserObjects(UserRepository $userRepository)
     {
         foreach ($this->getMemberUid() as $dn) {
@@ -164,6 +177,24 @@ class PosixGroup extends LdapEntity
     {
         if (!in_array($user->getDn(), $this->memberUid)) {
             array_push($this->memberUid, $user->getDn());
+        } else {
+            $uid = $user->getUid();
+            $cn = $this->getCn();
+            throw new UserAlreadyInGroupException("The user $uid is allready in the group $cn");
+        }
+    }
+
+    /**
+     * Removes the given user from this group
+     * @param User $user
+     */
+    public function removeUser(User $user)
+    {
+        if (($key = array_search($user->getDn(), $this->memberUid)) !== false) {
+            unset($this->memberUid[$key]);
+        }
+        else {
+            throw new UserIsNotAMemberException();
         }
     }
 

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Controller\UserManagment;
+namespace App\Controller\Web\UserManagment;
 
 use App\ArrayMethods;
 use App\Model\Filter;
@@ -110,7 +110,7 @@ class UserController extends AbstractController
         $staemme = json_decode($jsonStaemme, true);
         //TODO We need a better way to save or determine the names of the staemme!
 
-        $user = new User("", "", "", []);
+        $user = new User("", "", "", null);
         $addUserForm = $this->createFormBuilder($user, ['attr' => ['class' => 'form-addUser']])
             ->add(
                 "firstName",
