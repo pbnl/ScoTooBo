@@ -9,6 +9,15 @@
 {% block content %}
     {% include 'includes/showFlashes.html.twig' %}
     <h2>{% trans %}general.group{% endtrans %}</h2>
+
+    <div class="col-sm-4">
+        <h5>Füge eine neue Member hinzu</h5>
+        {%
+            form_theme addMemberForm 'bootstrap_4_horizontal_layout.html.twig'
+        %}
+        {{ form(addMemberForm) }}
+    </div>
+
     <div class="col-sm-8">
         <table class="table table-striped">
             <thead class="">
@@ -56,17 +65,37 @@
                         {{member.givenName}}
                     </td>
                     <td>
-
+                        <button class="btn btn-danger" uid="{{ member.uid }}" group_cn="{{ group.cn }}" data-href="{{ path("deleteGroupmember", {uid: member.uid, group_cn: group.cn}) }}" data-toggle="modal" data-target="#confirm-delete">
+                            {% trans %}general.delete{% endtrans %}
+                        </button>
                     </td>
                 </tr>
             {% endfor %}
             </tbody>
         </table>
     </div>
+
+    <div class="modal fade" id="confirm-delete" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    Löschen!?
+                </div>
+                <div class="modal-body">
+                    Willst du wirklich den User <span id="uid"></span> aus der Gruppe <span id="group_cn"></span> löschen?
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                    <a class="btn btn-danger btn-ok">{% trans %}general.delete{% endtrans %}</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
 {% endblock %}
 
 {% block javascripts %}
     {{ parent() }}
-    <script src="{{ asset('js/teamDetails.js') }}"></script>
+    <script src="{{ asset('js/showDetailGroup.js') }}"></script>
 
 {% endblock %}

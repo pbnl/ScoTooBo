@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Controller\Feedback;
+namespace App\Controller\Web\Feedback;
 
 use App\Entity\UserFeedback;
 use App\IpTools;

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Controller\EventManagement;
+namespace App\Controller\Web\EventManagement;
 
 use App\Entity\Event;
 use App\Entity\EventAttend;
