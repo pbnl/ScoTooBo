@@ -34,6 +34,7 @@ RUN curl -s https://getcomposer.org/composer.phar > /usr/local/bin/composer \
 WORKDIR /var/www/app
 
 # copy the source code
+COPY .env.* ./
 COPY composer.* ./
 COPY bin bin
 COPY config config
