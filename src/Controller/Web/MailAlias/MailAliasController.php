@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Controller\MailAlias;
+namespace App\Controller\Web\MailAlias;
 
 use App\Entity\LDAP\PbnlMailAlias;
 use App\Model\Services\MailAliasRepository;
