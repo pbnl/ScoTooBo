@@ -1,15 +1,6 @@
 security:
     # https://symfony.com/doc/current/security.html#where-do-users-come-from-user-providers
     providers:
-        chain_provider:
-            chain:
-                providers: [in_memory, user_db]
-        in_memory:
-            memory:
-                users:
-                    admin:
-                        password: "%env(ADMIN_PASSWORD)%"
-                        roles: ['ROLE_USER', "ROLE_ADMIN"]
         user_db:
             id: App\Model\Services\UserRepository
     firewalls:
@@ -19,7 +10,7 @@ security:
             security: false
             access_denied_handler: accessdeniedhandler
         main:
-            provider: chain_provider
+            provider: user_db
             switch_user: true
             pattern: ^/
             anonymous: true
