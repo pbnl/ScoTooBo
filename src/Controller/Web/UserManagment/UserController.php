@@ -425,7 +425,7 @@ class UserController extends AbstractController
      * @param UserRepository $userRepo
      * @return Response
      */
-    public function removeUser(Request $request, UserRepository $userRepo): Response
+    public function removeUser(Request $request, UserRepository $userRepo, GroupRepository $groupRepository): Response
     {
         $uid = $request->get("uid", "");
 
@@ -433,6 +433,11 @@ class UserController extends AbstractController
             $userToRemove = $userRepo->getUserByUid($uid);
 
             if ($this->isGranted("remove", $userToRemove)) {
+                $groups = $groupRepository->findAllWithDnInGroup($userToRemove->getDn());
+                foreach($groups as $group) {
+                    $group->removeUser($userToRemove);
+                    $groupRepository->updateGroup($group);
+                }
                 $userRepo->removeUser($userToRemove);
 
                 $this->addFlash("success", $uid . " wurde gelöscht");
