@@ -4,6 +4,7 @@ namespace App\Controller\Web\UserManagment;
 
 use App\ArrayMethods;
 use App\Model\Filter;
+use App\Model\Services\CorruptDataInDatabaseException;
 use App\Model\Services\GroupNotFoundException;
 use App\Model\Services\GroupRepository;
 use App\Model\Services\UserAlreadyExistException;
@@ -83,6 +84,9 @@ class UserController extends AbstractController
         } catch (GroupNotFoundException $e) {
             $users = [];
             $this->addFlash("info", $e->getMessage());
+        } catch (CorruptDataInDatabaseException $e) {
+            $users = [];
+            $this->addFlash("info", $e->getMessage());
         }
 
         return $this->render(
@@ -98,12 +102,13 @@ class UserController extends AbstractController
      * @Route("/users/add", name="addUser")
      * @Security("is_granted('ROLE_stavo')")
      * @param Request $request
+     * @param \Swift_Mailer $mailer
      * @param UserRepository $userRepo
      * @param GroupRepository $groupRepo
      * @param TranslatorInterface $translator
      * @return Response
      */
-    public function addUser(Request $request, UserRepository $userRepo, GroupRepository $groupRepo, TranslatorInterface $translator): Response
+    public function addUser(Request $request, \Swift_Mailer $mailer, UserRepository $userRepo, GroupRepository $groupRepo, TranslatorInterface $translator): Response
     {
         //Create the form
         $jsonStaemme = $this->getParameter('staemme');
@@ -266,7 +271,7 @@ class UserController extends AbstractController
                     $groupRepo->updateGroup($elderGroup);
                 }
                 if ($addUserForm->get("sendInvitationMail")->getData()) {
-                    $this->sendInventationMail($addUserForm, $this->get('swiftmailer.mailer'));
+                    $this->sendInventationMail($addUserForm, $mailer);
                 }
 
                 $this->addFlash("success", "Benutzer " . $user->getUid() . " hinzugefügt");
