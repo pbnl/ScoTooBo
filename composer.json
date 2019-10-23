@@ -23,6 +23,7 @@
         "ramsey/uuid": "^3.8",
         "sensio/framework-extra-bundle": "^5.5",
         "symfony/asset": "^4.3",
+        "symfony/dotenv": "^4.3",
         "symfony/expression-language": "^4.3",
         "symfony/flex": "^1.4",
         "symfony/form": "^4.3",
@@ -31,11 +32,10 @@
         "symfony/polyfill-apcu": "^1.0",
         "symfony/security-bundle": "^4.3",
         "symfony/serializer": "^4.3",
-        "symfony/swiftmailer-bundle": "^3.2",
+        "symfony/swiftmailer-bundle": "^3.3",
         "symfony/translation": "^4.3",
         "symfony/twig-pack": "^1.0",
         "symfony/validator": "^4.3",
-        "symfony/dotenv": "^4.3",
         "twig/twig": "^1.0||^2.0"
     },
     "require-dev": {
