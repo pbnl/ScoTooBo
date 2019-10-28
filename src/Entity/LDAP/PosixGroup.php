@@ -192,6 +192,7 @@ class PosixGroup extends LdapEntity
     {
         if (($key = array_search($user->getDn(), $this->memberUid)) !== false) {
             unset($this->memberUid[$key]);
+            $this->memberUid = array_values($this->memberUid);
         }
         else {
             throw new UserIsNotAMemberException();
