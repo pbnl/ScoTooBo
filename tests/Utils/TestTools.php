@@ -108,6 +108,30 @@ class TestTools extends WebtestCase
         }
     }
 
+    public static function getLoggedInAdminUser()
+    {
+        if (TestTools::$loggedInBuvoUser == null) {
+            //Correct login
+            $client = static::createClient();
+            $session = $client->getContainer()->get('session');
+
+            $firewall = 'main';
+            $user = TestTools::getUserFromFile("user-test-data/AdminUser.json");
+            $token = new UsernamePasswordToken($user, $user->getPassword(), $firewall, $user->getRoles());
+            $session->set('_security_' . $firewall, serialize($token));
+            $session->save();
+
+            $cookie = new Cookie($session->getName(), $session->getId());
+            $client->getCookieJar()->set($cookie);
+
+            TestTools::$loggedInStavoAmbrone = $client;
+
+            return $client;
+        } else {
+            return TestTools::$loggedInBuvoUser;
+        }
+    }
+
     public static function getLoggedInTestGrueppling()
     {
         if (TestTools::$loggedInTestGrueppling == null) {
