@@ -110,8 +110,7 @@ class FeedbackController extends AbstractController
             $entityManager->remove($userFeedback);
             $entityManager->flush();
             $this->addFlash("success", "Feedback wurde gelöscht");
-        }
-        catch (Exception $e) {
+        } catch (Exception $e) {
             $this->addFlash("error", "Feedback konte nicht gelöscht werden");
         }
         return $this->redirectToRoute("showAllFeedback");
