@@ -3,6 +3,7 @@
 namespace App\Tests\Controller;
 
 
+use App\Tests\Utils\TestTools;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
 class FeedbackControllerTest extends WebTestCase
@@ -20,6 +21,28 @@ class FeedbackControllerTest extends WebTestCase
             \"gukvzccukvuk\"]"
         ));
         $this->assertEquals("200", $client->getResponse()->getStatusCode());
+    }
+
+    public function testDeleteFeedbackDatabaseEntry()
+    {
+        $client = TestTools::getLoggedInAdminUser();
+
+        $client->request("POST", "/feedback/send", array(
+            "data" => "[{\"Text\":\"TO_DELETE\"},
+            \"picture\",
+            {\"href\":\"http://127.0.0.1:8000/\",\"ancestorOrigins\":{},\"origin\":\"http://127.0.0.1:8000\",\"protocol\":\"http:\",\"host\":\"127.0.0.1:8000\",\"hostname\":\"127.0.0.1\",\"port\":\"8000\",\"pathname\":\"/\",\"search\":\"\",\"hash\":\"\"},
+            \"browser\",
+            \"htmlText\",1506893323093,
+            \"gukvzccukvuk\"]"
+        ));
+
+        $crawler = $client->request('GET', '/feedback/show/all');
+        $link = ($crawler->filter('tr:contains("TO_DELETE")'))->selectLink("Löschen")->link()->getUri();
+        $client->request("POST", $link);
+        $this->assertEquals("302", $client->getResponse()->getStatusCode());
+        $client->followRedirect();
+        $this->assertEquals("200", $client->getResponse()->getStatusCode());
+        $this->assertStringContainsString("Feedback wurde gelöscht", $client->getResponse()->getContent());
     }
 
     public function testCreateFeedbackDatabaseEntryWithLoggedInUser()
