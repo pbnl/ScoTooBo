@@ -13,8 +13,8 @@
         <server name="SYMFONY_PHPUNIT_REMOVE" value=""/>
         <env name="SYMFONY_PHPUNIT_VERSION" value="7.5"/>
 
-        <env name="BOOTSTRAP_CLEAR_LDAP_DATABASE" value="true"/>
-        <env name="BOOTSTRAP_CLEAR_MYSQL_DATABASE" value="true"/>
+        <env name="BOOTSTRAP_CLEAR_LDAP_DATABASE" value="false"/>
+        <env name="BOOTSTRAP_CLEAR_MYSQL_DATABASE" value="false"/>
 
         <!-- ###+ symfony/framework-bundle ### -->
         <env name="APP_ENV" value="test" force="true"/>
