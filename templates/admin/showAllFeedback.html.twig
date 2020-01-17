@@ -42,6 +42,9 @@
             <th>
                 {% trans %}general.html{% endtrans %}
             </th>
+            <th>
+                Aktionen
+            </th>
         </tr>
         </thead>
         <tbody>
@@ -76,7 +79,9 @@
                 </td>
                 <td>
                     <textarea rows="3" cols="10">{{feedback.htmlContent}}</textarea>
-
+                </td>
+                <td>
+                    <a type="button" class="btn btn-outline-danger" href="{{ path('deleteFeedback', {'id': feedback.id}) }}">Löschen</a>
                 </td>
             </tr>
         {% endfor %}

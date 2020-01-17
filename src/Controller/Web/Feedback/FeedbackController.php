@@ -93,4 +93,27 @@ class FeedbackController extends AbstractController
             "feedbacks" => $userFeedbacks,
         ));
     }
+
+    /**
+     * @Route("/feedback/remove", name="deleteFeedback")
+     * @Security("is_granted('ROLE_admin')")
+     * @param Request $request
+     * @return Response
+     */
+    public function deleteFeedback(Request $request)
+    {
+        $id = $request->get("id");
+        $entityManager = $this->getDoctrine()->getManager();
+        $repository = $this->getDoctrine()->getRepository(UserFeedback::class);
+        try {
+            $userFeedback = $repository->find($id);
+            $entityManager->remove($userFeedback);
+            $entityManager->flush();
+            $this->addFlash("success", "Feedback wurde gelöscht");
+        }
+        catch (Exception $e) {
+            $this->addFlash("error", "Feedback konte nicht gelöscht werden");
+        }
+        return $this->redirectToRoute("showAllFeedback");
+    }
 }
