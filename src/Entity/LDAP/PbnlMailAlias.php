@@ -20,7 +20,6 @@ class PbnlMailAlias extends LdapEntity
      *
      * @Assert\Email(
      *     message = "The email '{{ value }}' is not a valid email.",
-     *     checkMX = false
      * )
      */
     protected $mail;
@@ -33,7 +32,6 @@ class PbnlMailAlias extends LdapEntity
      *     @Assert\NotBlank,
      *     @Assert\Email(
      *      message = "The email '{{ value }}' is not a valid email.",
-     *      checkMX = false
      *     )
      * })
      */
