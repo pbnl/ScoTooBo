@@ -49,9 +49,17 @@ class MailAliasController extends AbstractController
 
         $addMailAliasForm->handleRequest($request);
         if ($addMailAliasForm->isSubmitted() && $addMailAliasForm->isValid()) {
-            $this->denyAccessUnlessGranted("add", $newMailAlias);
-            $mailAlias = $addMailAliasForm->getData();
-            $mailAliasRepo->add($mailAlias);
+            try {
+                $this->denyAccessUnlessGranted("add", $newMailAlias);
+                $mailAlias = $addMailAliasForm->getData();
+                $mailAliasRepo->add($mailAlias);
+            } catch (\Exception $e) {
+                $this->addFlash("error", $e->getMessage());
+            }
+        }
+        if (empty($loggedInUser->getMail()) and $addMailAliasForm->isSubmitted()) {
+            $this->addFlash("error", "Die Mail des aktuellen Users ist leer! (Vielleicht, weil dein User eine Weiterleitung ist?)");
+            $this->redirectToRoute("showAllMailAlias");
         }
 
         return $this->render('mailAliasManagment/showAllMailAlias.html.twig', [

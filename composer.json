@@ -48,7 +48,7 @@
         "symfony/maker-bundle": "^1.13",
         "symfony/phpunit-bridge": "^3.0",
         "symfony/profiler-pack": "^1.0",
-        "symfony/web-server-bundle": "^4.3"
+        "symfony/web-server-bundle": "^4.4"
     },
     "conflict": {
         "symfony/symfony": "*"

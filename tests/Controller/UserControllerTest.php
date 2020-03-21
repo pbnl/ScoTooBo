@@ -189,7 +189,7 @@ class UserControllerTest extends WebTestCase
 
     public function testDelUser()
     {
-        $client = TestTools::getLoggedInStavoAmbrone();
+        $client = TestTools::getLoggedInAdminUser();
         $crawler = $client->request('GET', '/users/remove?uid=deletetestambrone');
 
         $client->request('GET', '/users/show/all');
@@ -216,11 +216,6 @@ class UserControllerTest extends WebTestCase
     public function testDelUserNotAllowedException()
     {
         $client = TestTools::getLoggedInStavoAmbrone();
-        $crawler = $client->request('GET', '/users/remove?uid=deletetestambrone');
-
-        $client->request('GET', '/users/show/all');
-
-        $this->assertStringNotContainsString('givenName=deleteTestAmbrone,ou=Ambronen,ou=People,dc=pbnl,dc=de', $client->getResponse()->getContent());
 
         $crawler = $client->request('GET', '/users/remove?uid=testtronjer');
 
