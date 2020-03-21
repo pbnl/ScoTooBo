@@ -79,11 +79,7 @@ class UserVoter extends Voter
     {
         if ($this->decisionManager->decide($token, array("ROLE_REMOVE_ALL_USERS"))) {
             return true;
-        } elseif ($this->decisionManager->decide($token, array("ROLE_stavo"))
-            && $user->getStamm() == $token->getUser()->getStamm()) {
-            return true;
         }
-
         return false;
     }
 
