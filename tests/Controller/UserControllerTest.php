@@ -237,4 +237,42 @@ class UserControllerTest extends WebTestCase
 
         $this->assertStringContainsString('TestTronjer', $client->getResponse()->getContent());
     }
+
+    public function testChangePasswordSelf()
+    {
+        $client = TestTools::getLoggedInBuvoUser();
+
+        $crawler = $client->request('GET', '/users/detail/changePassword');
+        $this->assertEquals("200", $client->getResponse()->getStatusCode());
+        $form = $crawler->selectButton('Ändern')->form();
+
+        $form['form[oldPassword]'] = 'test';
+        $form['form[newPassword][first]'] = 'baum';
+        $form['form[newPassword][second]'] = 'baum';
+
+        $client->submit($form);
+        $this->assertEquals("200", $client->getResponse()->getStatusCode());
+
+        $client->request('GET', '/logout');
+        $crawler = $client->request('GET', '/login');
+        $form = $crawler->selectButton('Login')->form();
+        $form['_username'] = 'TestBuvoUser';
+        $form['_password'] = 'baum';
+        $client->submit($form);
+        $this->assertEquals("302", $client->getResponse()->getStatusCode());
+        $client->followRedirect();
+        $client->followRedirect();
+        $this->assertEquals(200, $client->getResponse()->getStatusCode());
+        $this->assertStringNotContainsString('Login', $client->getResponse()->getContent());
+
+        $crawler = $client->request('GET', '/users/detail/changePassword');
+        $form = $crawler->selectButton('Ändern')->form();
+
+        $form['form[oldPassword]'] = 'baum';
+        $form['form[newPassword][first]'] = 'test';
+        $form['form[newPassword][second]'] = 'test';
+
+        $client->submit($form);
+        $this->assertEquals("200", $client->getResponse()->getStatusCode());
+    }
 }
