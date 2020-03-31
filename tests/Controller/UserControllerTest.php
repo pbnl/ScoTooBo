@@ -15,7 +15,7 @@ class UserControllerTest extends WebTestCase
 
         $this->assertStringContainsString('givenName=TestBuvoUser,ou=Ambronen,ou=People,dc=pbnl,dc=de', $client->getResponse()->getContent());
         $this->assertStringContainsString('givenName=TestTronjer,ou=Hagen von Tronje,ou=People,dc=pbnl,dc=de', $client->getResponse()->getContent());
-
+        $this->assertEquals("200", $client->getResponse()->getStatusCode());
     }
 
     public function testShowAllUsersSearchName()
@@ -31,6 +31,7 @@ class UserControllerTest extends WebTestCase
         $client->submit($form);
 
         $this->assertStringContainsString('givenName=TestAmbrone1,ou=Ambronen,ou=People,dc=pbnl,dc=de', $client->getResponse()->getContent());
+        $this->assertEquals("200", $client->getResponse()->getStatusCode());
     }
 
     public function testShowAllUsersSearchGroup()
@@ -47,6 +48,7 @@ class UserControllerTest extends WebTestCase
 
         $this->assertStringContainsString('givenName=TestAmbrone1,ou=Ambronen,ou=People,dc=pbnl,dc=de', $client->getResponse()->getContent());
         $this->assertStringContainsString('givenName=TestBuvoUser,ou=Ambronen,ou=People,dc=pbnl,dc=de', $client->getResponse()->getContent());
+        $this->assertEquals("200", $client->getResponse()->getStatusCode());
     }
 
     public function testShowAllUsersGroupNotFound()
@@ -62,6 +64,7 @@ class UserControllerTest extends WebTestCase
         $client->submit($form);
 
         $this->assertStringContainsString('We cant find the group WEgregg', $client->getResponse()->getContent());
+        $this->assertEquals("200", $client->getResponse()->getStatusCode());
     }
 
     public function testAddUser()
@@ -81,6 +84,7 @@ class UserControllerTest extends WebTestCase
         $respons = $client->getResponse()->getContent();
 
         $this->assertStringContainsString('Benutzer givenname123 hinzugefügt', $client->getResponse()->getContent());
+        $this->assertEquals("200", $client->getResponse()->getStatusCode());
     }
 
     public function testAddUserInNordlichtGroup()
@@ -102,6 +106,7 @@ class UserControllerTest extends WebTestCase
         $respons = $client->getResponse()->getContent();
 
         $this->assertStringContainsString('givenNameInNordlichtGroup', $respons);
+        $this->assertEquals("200", $client->getResponse()->getStatusCode());
     }
 
     public function testAddUserUserAlreadyExistException()
@@ -121,6 +126,7 @@ class UserControllerTest extends WebTestCase
         $respons = $client->getResponse()->getContent();
 
         $this->assertStringContainsString('The user testambrone1 already exists.', $client->getResponse()->getContent());
+        $this->assertEquals("200", $client->getResponse()->getStatusCode());
     }
 
     public function testAddUserUserWrongStamm()
@@ -139,6 +145,7 @@ class UserControllerTest extends WebTestCase
         $client->submit($form);
 
         $this->assertStringNotContainsString('testName55 hinzugefügt', $client->getResponse()->getContent());
+        $this->assertEquals("200", $client->getResponse()->getStatusCode());
     }
 
     public function testgetUserDetailsOfOwnUser()
@@ -146,7 +153,8 @@ class UserControllerTest extends WebTestCase
         $client = TestTools::getLoggedInStavoAmbrone();
         $crawler = $client->request('GET', '/users/detail');
 
-        $this->assertStringContainsString('givenName=TestAmbrone1,ou=Ambronen,ou=People,dc=pbnl,dc=de', $client->getResponse()->getContent());
+        $this->assertStringContainsString('TestAmbrone1', $client->getResponse()->getContent());
+        $this->assertEquals("200", $client->getResponse()->getStatusCode());
     }
 
     public function testgetUserDetailsOfOtherUser()
@@ -154,7 +162,8 @@ class UserControllerTest extends WebTestCase
         $client = TestTools::getLoggedInStavoAmbrone();
         $crawler = $client->request('GET', '/users/detail?uid=testambrone2');
 
-        $this->assertStringContainsString('givenName=TestAmbrone2,ou=Ambronen,ou=People,dc=pbnl,dc=de', $client->getResponse()->getContent());
+        $this->assertStringContainsString('TestAmbrone2', $client->getResponse()->getContent());
+        $this->assertEquals("200", $client->getResponse()->getStatusCode());
     }
 
     public function testgetUserDetailsOfOwenUserAndEdit()
@@ -185,6 +194,7 @@ class UserControllerTest extends WebTestCase
         $this->assertStringContainsString('testStreetE', $client->getResponse()->getContent());
         $this->assertStringContainsString('testMobileF', $client->getResponse()->getContent());
         $this->assertStringContainsString('testPhoneG', $client->getResponse()->getContent());
+        $this->assertEquals("200", $client->getResponse()->getStatusCode());
     }
 
     public function testDelUser()
@@ -194,7 +204,8 @@ class UserControllerTest extends WebTestCase
 
         $client->request('GET', '/users/show/all');
 
-        $this->assertStringNotContainsString('givenName=deleteTestAmbrone,ou=Ambronen,ou=People,dc=pbnl,dc=de', $client->getResponse()->getContent());
+        $this->assertStringNotContainsString('deleteTestAmbrone', $client->getResponse()->getContent());
+        $this->assertEquals("200", $client->getResponse()->getStatusCode());
     }
 
     public function testDelUserUserDoesNotExist()
@@ -224,6 +235,6 @@ class UserControllerTest extends WebTestCase
 
         $client->request('GET', '/users/show/all');
 
-        $this->assertStringContainsString('givenName=TestTronjer,ou=Hagen von Tronje,ou=People,dc=pbnl,dc=de', $client->getResponse()->getContent());
+        $this->assertStringContainsString('TestTronjer', $client->getResponse()->getContent());
     }
 }
