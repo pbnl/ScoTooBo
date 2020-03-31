@@ -366,6 +366,7 @@ class UserController extends AbstractController
         return $this->render(
             "userManagement/changeUserPassword.html.twig",
             array(
+                "user" => $changeUser,
                 "changePasswordForm" => $changePasswordForm->createView(),
             )
         );
