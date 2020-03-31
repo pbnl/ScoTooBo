@@ -4,7 +4,7 @@ namespace App\Tests\Entity;
 
 use App\Entity\LDAP\PbnlAccount;
 use BadMethodCallException;
-use Symfony\Bundle\FrameworkBundle\Tests\TestCase;
+use PHPUnit\Framework\TestCase;
 
 class PbnlAccountTest extends TestCase
 {
