@@ -13,6 +13,7 @@ class UserVoter extends Voter
     const EDIT = 'edit';
     const REMOVE = 'remove';
     const VIEW = 'view';
+    const CHANGEPASSWORD = 'changePassword';
 
     private $decisionManager;
 
@@ -24,7 +25,7 @@ class UserVoter extends Voter
     protected function supports($attribute, $subject)
     {
         // if the attribute isn't one we support, return false
-        if (!in_array($attribute, array(self::EDIT, self::REMOVE, self::VIEW))) {
+        if (!in_array($attribute, array(self::EDIT, self::REMOVE, self::VIEW, self::CHANGEPASSWORD))) {
             return false;
         }
 
@@ -57,6 +58,8 @@ class UserVoter extends Voter
                 return $this->canRemove($user, $token);
             case self::VIEW:
                 return $this->canView($user, $token);
+            case self::CHANGEPASSWORD:
+                return $this->canChangePassword($user, $token);
         }
 
         throw new \LogicException('This code should not be reached!');
@@ -86,6 +89,18 @@ class UserVoter extends Voter
     private function canView(User $user, TokenInterface $token)
     {
         if ($this->decisionManager->decide($token, array("ROLE_elder"))) {
+            return true;
+        }
+
+        return false;
+    }
+
+    private function canChangePassword(User $user, TokenInterface $token)
+    {
+        if ($this->decisionManager->decide($token, array("ROLE_CHANGEPASSWORD_ALL_USERS"))) {
+            return true;
+        } elseif ($this->decisionManager->decide($token, array("ROLE_stavo"))
+            && $user->getStamm() == $token->getUser()->getStamm()) {
             return true;
         }
 
