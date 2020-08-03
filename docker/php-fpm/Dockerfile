@@ -12,7 +12,7 @@ RUN apt-get update -qq && apt-get install -y -qq \
         libjpeg62-turbo-dev \
         libmcrypt-dev \
         libpng-dev git libxml2-dev \
-        zlib1g-dev nano\
+        zlib1g-dev nano libzip-dev\
         wget libpq-dev rsync
 
 RUN pecl install mcrypt-1.0.2\
