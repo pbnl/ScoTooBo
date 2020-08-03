@@ -18,11 +18,14 @@ use Symfony\Component\Form\Extension\Core\Type\ButtonType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
+use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\FormError;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use Symfony\Component\Translation\TranslatorInterface;
 
 class UserController extends AbstractController
@@ -293,6 +296,78 @@ class UserController extends AbstractController
                 "addAUserForm" => $addUserForm->createView(),
                 "addedPerson" => $user,
                 "addedSomeone" => $addedSomeone,
+            )
+        );
+    }
+
+    /**
+     * @Route("/users/detail/changePassword", name="changeUserPassword")
+     * @param Request $request
+     * @param UserRepository $userRepo
+     * @return Response
+     */
+    public function changeUserPassword(Request $request, UserRepository $userRepo, UserPasswordEncoderInterface $encoder): Response
+    {
+        $loggedInUser = $this->get('security.token_storage')->getToken()->getUser();
+
+        if ($request->get("uid", $loggedInUser->getUid()) != $loggedInUser->getUid()) {
+            $changeUser = $userRepo->getUserByUid($request->get("uid"));
+        } else {
+            $changeUser = $loggedInUser;
+        }
+
+        $this->denyAccessUnlessGranted('changePassword', $changeUser, 'Du kannst dieses Passwort nicht änder');
+
+        $changePasswordForm = $this->createFormBuilder(['attr' => ['class' => 'form-addUser']])
+            ->add(
+                "oldPassword",
+                PasswordType::class,
+                array(
+                    "attr" => ["placeholder" => "Altes Passwort"],
+                    'label' => "Altes Passwort",
+                )
+            )
+            ->add("newPassword", RepeatedType::class, [
+                'type' => PasswordType::class,
+                'invalid_message' => 'Die Passwörter müssen gleich sein',
+                'options' => ["attr" => ["placeholder" => "Neues Passwort"],],
+                'required' => true,
+                'first_options'  => ['label' => 'Passwort'],
+                'second_options' => ['label' => 'Passwort wiederholen'],
+            ])
+            ->add(
+                "send",
+                SubmitType::class,
+                array(
+                    "label" => "Ändern",
+                    "attr" => [
+                        "class" => "btn btn-lg btn-primary btn-block",
+                    ],
+                )
+            )
+            ->getForm();
+
+        //Handel the form input
+        $changePasswordForm->handleRequest($request);
+        if ($changePasswordForm->isSubmitted() && $changePasswordForm->isValid()) {
+            $data = $changePasswordForm->getData();
+            $oldEncoded = $encoder->encodePassword($changeUser, $data["oldPassword"]);
+            if ($oldEncoded === $changeUser->getPassword()) {
+                $newEncoded = $encoder->encodePassword($changeUser, $data["newPassword"]);
+                $changeUser->setPassword($newEncoded);
+                $userRepo->updateUser($changeUser);
+            } else {
+                $dateError = new FormError("Das alte Passwort muss übereinstimmen!");
+                $changePasswordForm->get('oldPassword')->addError($dateError);
+            }
+        }
+
+        //Render the page
+        return $this->render(
+            "userManagement/changeUserPassword.html.twig",
+            array(
+                "user" => $changeUser,
+                "changePasswordForm" => $changePasswordForm->createView(),
             )
         );
     }

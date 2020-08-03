@@ -165,7 +165,6 @@ class UserRepository implements UserProviderInterface
         $errors = $this->validator->validate($user);
 
         if (count($errors) > 0) {
-            $this->logger->addError((string)$errors);
             throw new CorruptDataInDatabaseException(
                 "The user " . $ldapPbnlAccount->getUid() . " is corrupt! " . (string)$errors
             );

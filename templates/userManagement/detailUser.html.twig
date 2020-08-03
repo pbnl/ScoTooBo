@@ -68,10 +68,10 @@
             </tr>
             <tr>
                 <th>
-                    DN
+                    Passwort
                 </th>
                 <td>
-                    {{user.dn}}
+                    -
                 </td>
             </tr>
             <tr>
@@ -192,13 +192,13 @@
             </tr>
             <tr>
                 <th>
-                    DN
+                    Passwort
                 </th>
                 <td>
-                    {{user.dn}}
+                    -
                 </td>
                 <td>
-                    {% trans %}general.not.editable{% endtrans %}
+                    <a href="{{ path('changeUserPassword', {"uid":user.uid}) }}" >Ändern</a>
                 </td>
             </tr>
             <tr>
