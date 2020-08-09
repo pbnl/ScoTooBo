@@ -53,8 +53,6 @@ class GroupControllerTest extends WebTestCase
         $client = TestTools::getLoggedInStavoAmbrone();
         $crawler = $client->request("GET", "/groups/detail?groupCn=groupWithMailingList");
 
-        var_dump($client->getResponse()->getContent());
-
         $this->assertEquals("200", $client->getResponse()->getStatusCode());
 
         $this->assertStringContainsString("TestAmbrone2", $client->getResponse()->getContent());
