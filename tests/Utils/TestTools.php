@@ -21,6 +21,8 @@ use Symfony\Component\Serializer\Serializer;
 
 class TestTools extends WebtestCase
 {
+    private static $lastClient = null;
+
     private static $loggedInStavoAmbrone = null;
     private static $loggedInTronjer = null;
     private static $loggedInBuvoUser = null;
@@ -56,7 +58,7 @@ class TestTools extends WebtestCase
         $client->getCookieJar()->set($cookie);
 
         TestTools::$loggedInStavoAmbrone = $client;
-
+        static::$lastClient = $client;
         return $client;
     }
 
@@ -77,9 +79,10 @@ class TestTools extends WebtestCase
             $client->getCookieJar()->set($cookie);
 
             TestTools::$loggedInStavoAmbrone = $client;
-
+            static::$lastClient = $client;
             return $client;
         } else {
+            static::$lastClient = TestTools::$loggedInTronjer;
             return TestTools::$loggedInTronjer;
         }
     }
@@ -101,9 +104,10 @@ class TestTools extends WebtestCase
             $client->getCookieJar()->set($cookie);
 
             TestTools::$loggedInStavoAmbrone = $client;
-
+            static::$lastClient = $client;
             return $client;
         } else {
+            static::$lastClient = TestTools::$loggedInBuvoUser;
             return TestTools::$loggedInBuvoUser;
         }
     }
@@ -125,9 +129,10 @@ class TestTools extends WebtestCase
             $client->getCookieJar()->set($cookie);
 
             TestTools::$loggedInStavoAmbrone = $client;
-
+            static::$lastClient = $client;
             return $client;
         } else {
+            static::$lastClient = TestTools::$loggedInBuvoUser;
             return TestTools::$loggedInBuvoUser;
         }
     }
@@ -149,9 +154,10 @@ class TestTools extends WebtestCase
             $client->getCookieJar()->set($cookie);
 
             TestTools::$loggedInStavoAmbrone = $client;
-
+            static::$lastClient = $client;
             return $client;
         } else {
+            static::$lastClient = TestTools::$loggedInTestGrueppling;
             return TestTools::$loggedInTestGrueppling;
         }
     }
@@ -164,5 +170,10 @@ class TestTools extends WebtestCase
             array_push($dataSet, [$object]);
         }
         return $dataSet;
+    }
+
+    public static function getLastClient()
+    {
+        return static::$lastClient;
     }
 }
