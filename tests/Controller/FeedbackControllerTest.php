@@ -96,28 +96,4 @@ class FeedbackControllerTest extends WebTestCase
 
         $this->assertEquals("403", $client->getResponse()->getStatusCode());
     }
-
-    public function testCreateFeedbackDatabaseEntryNotValidData500()
-    {
-        $client = static::createClient();
-        $client->request("POST", "/feedback/send", array(
-            "data" => "[{\"Text\":\"asdf\"},
-            \"\",
-            {\"href\":\"\",\"ancestorOrigins\":{},\"origin\":\"http://127.0.0.1:8000\",\"protocol\":\"http:\",\"host\":\"127.0.0.1:8000\",\"hostname\":\"127.0.0.1\",\"port\":\"8000\",\"pathname\":\"/\",\"search\":\"\",\"hash\":\"\"},
-            \"\",
-            \"efef\",
-            ,
-            \"ewfwewgerg\"]"
-        ));
-
-        $this->assertStringContainsString("Object(App\Entity\UserFeedback).browserData:", $client->getResponse()->getContent());
-        $this->assertStringContainsString("Dieser Wert sollte nicht leer sein.", $client->getResponse()->getContent());
-        $this->assertStringContainsString("Object(App\Entity\UserFeedback).url", $client->getResponse()->getContent());
-        $this->assertStringContainsString("Object(App\Entity\UserFeedback).htmlContent", $client->getResponse()->getContent());
-        $this->assertStringContainsString("Object(App\Entity\UserFeedback).picture:", $client->getResponse()->getContent());
-        $this->assertStringContainsString("Object(App\Entity\UserFeedback).browserData:", $client->getResponse()->getContent());
-
-
-        $this->assertEquals("406", $client->getResponse()->getStatusCode());
-    }
 }

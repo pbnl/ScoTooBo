@@ -39,7 +39,6 @@
 
     <listeners>
         <listener class="Symfony\Bridge\PhpUnit\SymfonyTestsListener" />
-        <listener class="App\Tests\Utils\PrintFailedHTMLListener"/>
     </listeners>
 
     <filter>
