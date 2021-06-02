@@ -9,8 +9,8 @@ jobs:
         steps:
             - run: sudo add-apt-repository -y ppa:ondrej/php
             - run: sudo apt-get update
-            - run: sudo apt-get -y install git unzip zlib1g-dev sudo php7.4 php7.4-mbstring php7.4-zip php7.4-xml php7.4-xdebug php7.4-curl php7.4-sqlite
-            - run: sudo sudo update-alternatives --set php /usr/bin/php7.4
+            - run: sudo apt-get -y install git unzip zlib1g-dev sudo php8.0 php8.0-mbstring php8.0-zip php8.0-xml php8.0-xdebug php8.0-curl php8.0-sqlite php8.0-ldap
+            - run: sudo sudo update-alternatives --set php /usr/bin/php8.0
             - checkout
             - run:
                 name: Install LDAP
@@ -26,11 +26,12 @@ jobs:
             - run: rm var/data/data.sqlite -f
             - run: mkdir var/data/ -p
             - run: cp developerEnv/mysql-test-database/data.sqlite var/data/data.sqlite
-            - run: sudo phpenmod -v 7.4 pdo_sqlite
-            - run: sudo phpenmod -v 7.4 xml
-            - run: sudo phpenmod -v 7.4 mbstring
-            - run: sudo phpenmod -v 7.4 curl
-            - run: sudo phpenmod -v 7.4 mcrypt
+            - run: sudo phpenmod -v 8.0 pdo_sqlite
+            - run: sudo phpenmod -v 8.0 xml
+            - run: sudo phpenmod -v 8.0 mbstring
+            - run: sudo phpenmod -v 8.0 curl
+            - run: sudo phpenmod -v 8.0 mcrypt
+            - run: sudo phpenmod -v 8.0 ldap
             - run: curl -sS https://getcomposer.org/installer | sudo php -- --install-dir=/usr/local/bin --filename=composer
             - run: php /usr/local/bin/composer install --no-interaction --dev
             - run: ./vendor/bin/phpunit
