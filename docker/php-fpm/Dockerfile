@@ -11,16 +11,17 @@ RUN apt-get update -qq && apt-get install -y -qq \
         libfreetype6-dev curl\
         libjpeg62-turbo-dev \
         libmcrypt-dev \
+        libonig-dev \
         libpng-dev git libxml2-dev \
         zlib1g-dev nano libzip-dev\
         wget libpq-dev rsync
 
-RUN pecl install mcrypt-1.0.2\
+RUN pecl install mcrypt-1.0.4\
     && docker-php-ext-enable mcrypt
 
 # install some php extensions
 RUN docker-php-ext-install -j$(nproc) mbstring iconv bcmath intl xml zip opcache pdo_pgsql\
-    && docker-php-ext-configure gd --with-freetype-dir=/usr/include/ --with-jpeg-dir=/usr/include/ \
+    && docker-php-ext-configure gd  \
     && docker-php-ext-install -j$(nproc) gd \
     && docker-php-ext-enable opcache \
     && docker-php-ext-configure ldap --with-libdir=lib/x86_64-linux-gnu/ \
