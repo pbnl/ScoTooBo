@@ -2,7 +2,7 @@
 
 namespace App\Entity\LDAP;
 
-use Guzzle\Common\Exception\BadMethodCallException;
+use BadMethodCallException;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**

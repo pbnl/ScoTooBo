@@ -35,7 +35,6 @@ class UserFeedback
 
     /**
      * @var \DateTime
-     * @Assert\DateTime()
      * @ORM\Column(type="datetime")
      */
     private $date = "";

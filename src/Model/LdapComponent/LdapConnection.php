@@ -79,7 +79,8 @@ class LdapConnection
 
     public function ldap_search(string $base_dn, string $filter)
     {
-        $ret = ldap_search($this->ldapConnection, $base_dn, $filter);
+        //TODO: Find better way to handle not existing dn!
+        $ret = @ldap_search($this->ldapConnection, $base_dn, $filter);
         if (!$ret) {
             ldap_get_option($this->ldapConnection, LDAP_OPT_DIAGNOSTIC_MESSAGE, $err);
             $this->logger->error("LDAP ERROR: $err");
@@ -139,6 +140,9 @@ class LdapConnection
 
     public function ldap_get_entries($result)
     {
+        if (gettype($result) == "boolean") {
+            print "efe";
+        }
         $ret = ldap_get_entries($this->ldapConnection, $result);
         if (!$ret) {
             ldap_get_option($this->ldapConnection, LDAP_OPT_DIAGNOSTIC_MESSAGE, $err);

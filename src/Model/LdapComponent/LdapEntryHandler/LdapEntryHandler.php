@@ -52,11 +52,14 @@ abstract class LdapEntryHandler
 
     public function retriveByDn($dn, LdapConnection $ldapConnection)
     {
-        //TODO: Kann man dieses Filter benutzen : "" ?
         $searchResult = $ldapConnection->ldap_search($dn, "(objectClass=*)");
-        $ldapEntries = $ldapConnection->ldap_get_entries($searchResult);
-
-        return $this->ldapEntriesResultToObjects($ldapEntries);
+        if ($searchResult != false) {
+            $ldapEntries = $ldapConnection->ldap_get_entries($searchResult);
+            return $this->ldapEntriesResultToObjects($ldapEntries);
+        }
+        else {
+            return [];
+        }
     }
 
     protected abstract function ldapEntriesResultToObjects($ldapEntries);
