@@ -32,10 +32,10 @@ jobs:
             - run: sudo phpenmod -v 8.0 curl
             - run: sudo phpenmod -v 8.0 mcrypt
             - run: sudo phpenmod -v 8.0 ldap
+              -
             - run: curl -sS https://getcomposer.org/installer | sudo php -- --install-dir=/usr/local/bin --filename=composer
             - run: php /usr/local/bin/composer install --no-interaction --dev
             - run: ./vendor/bin/phpunit
-            - run: CODECLIMATE_REPO_TOKEN=1332fe188e0bb31283eeed1c18696c4e1a4b4be231ff9393e569c8b02a2f73d7 ./vendor/bin/test-reporter
     build:
         docker:
         - image: circleci/buildpack-deps
