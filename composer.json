@@ -14,7 +14,7 @@
         }
     },
     "require": {
-        "php": ">=7.3",
+        "php": ">=7.4",
         "doctrine/doctrine-bundle": "^1.6||^2.0",
         "doctrine/orm": "^2.5",
         "friendsofsymfony/rest-bundle": "^3.0.5",
