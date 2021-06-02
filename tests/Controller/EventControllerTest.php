@@ -36,7 +36,7 @@ class EventControllerTest extends WebTestCase
         $form['form[Name]'] = 'Test Name';
         $form['form[Description]'] = 'Test Beschreibung';
         $form['form[PriceInCent]'] = '12345';
-        $form['form[DateFrom][date][year]'] = '2015';
+        $form['form[DateFrom][date][year]'] = '2020';
         $form['form[DateFrom][date][month]'] = '1';
         $form['form[DateFrom][date][day]'] = '2';
         $form['form[DateFrom][time][hour]'] = '3';

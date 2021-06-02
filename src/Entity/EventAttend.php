@@ -51,7 +51,6 @@ class EventAttend
     /**
      * @Assert\Email(
      *     message = "The email '{{ value }}' is not a valid email.",
-     *     checkMX = true
      * )
      * @var string
      * @ORM\Column(type="string", length=255, nullable=true)

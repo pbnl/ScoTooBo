@@ -41,7 +41,7 @@ class GroupControllerTest extends WebTestCase
     }
 
 
-    public function testShowDetailGroup()
+    public function testShowDetailGroup1()
     {
         $client = TestTools::getLoggedInStavoAmbrone();
         $crawler = $client->request("GET", "/groups/detail?groupCn=schulung");
@@ -49,7 +49,11 @@ class GroupControllerTest extends WebTestCase
         $this->assertEquals("200", $client->getResponse()->getStatusCode());
 
         $this->assertStringContainsString("TestAmbrone1", $client->getResponse()->getContent());
+    }
 
+
+    public function testShowDetailGroup2()
+    {
         $client = TestTools::getLoggedInStavoAmbrone();
         $crawler = $client->request("GET", "/groups/detail?groupCn=groupWithMailingList");
 
