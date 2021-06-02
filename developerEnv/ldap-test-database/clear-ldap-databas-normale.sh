@@ -16,8 +16,10 @@ if [ $EUID != 0 ]; then
 fi
 echo "Clearing..."
 sudo systemctl stop slapd
-sudo rm /etc/openldap/slapd.d/* -R
-sudo rm /var/lib/openldap/* -rf
+sudo rm /etc/openldap/slapd.d/ -R
+sudo rm /var/lib/openldap/ -rf
+sudo mkdir /etc/openldap/slapd.d/
+sudo mkdir /var/lib/openldap/
 sudo slapadd -n 0 -F /etc/openldap/slapd.d -l ./ldif/ldap-test-database-config.ldif
 sudo slapadd -n 1 -l ./ldif/ldap-test-database-data.ldif
 sudo chown ldap:ldap /etc/openldap/slapd.d/ -R
