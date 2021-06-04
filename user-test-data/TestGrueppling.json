@@ -16,7 +16,7 @@
   "generatedPassword":"",
   "shaHashedPassword":"",
   "stamm":"Ambronen",
-  "roles":["ROLE_ambronen",
+  "roles":[
     "ROLE_USER"],
   "password":"{SSHA}O5DgG6qpk1Hi0IgQmBkxqM6HZkCT3tBhzxWksQ==",
   "salt":"",

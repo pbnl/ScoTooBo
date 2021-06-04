@@ -16,9 +16,7 @@
   "generatedPassword":"",
   "shaHashedPassword":"",
   "stamm":"Ambronen",
-  "roles":["ROLE_tronjer",
-    "ROLE_nordlichter",
-    "ROLE_wiki",
+  "roles":[
     "ROLE_elder",
     "ROLE_USER"],
   "password":"{ssha}LM4w1hwY2HatuRn8e79AfxV3dt43p3zB9ass0g==",

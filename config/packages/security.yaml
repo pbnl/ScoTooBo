@@ -22,12 +22,10 @@ security:
                 target: /
             access_denied_handler: accessdeniedhandler
 
-    encoders:
+
+    password_hashers:
         App\Model\User:
             id: ssha_encoder
-        Symfony\Component\Security\Core\User\User:
-            algorithm: auto
-            cost: 12
 
     # Easy way to control access for large sections of your site
     # Note: Only the *first* access control that matches will be used

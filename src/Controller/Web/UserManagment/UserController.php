@@ -24,6 +24,7 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormError;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
@@ -306,7 +307,7 @@ class UserController extends AbstractController
      * @param UserRepository $userRepo
      * @return Response
      */
-    public function changeUserPassword(Request $request, UserRepository $userRepo, UserPasswordEncoderInterface $encoder): Response
+    public function changeUserPassword(Request $request, UserRepository $userRepo, UserPasswordHasherInterface $encoder): Response
     {
         $loggedInUser = $this->get('security.token_storage')->getToken()->getUser();
 
@@ -351,9 +352,8 @@ class UserController extends AbstractController
         $changePasswordForm->handleRequest($request);
         if ($changePasswordForm->isSubmitted() && $changePasswordForm->isValid()) {
             $data = $changePasswordForm->getData();
-            $oldEncoded = $encoder->encodePassword($changeUser, $data["oldPassword"]);
-            if ($oldEncoded === $changeUser->getPassword()) {
-                $newEncoded = $encoder->encodePassword($changeUser, $data["newPassword"]);
+            if ($encoder->isPasswordValid($changeUser, $data["oldPassword"])) {
+                $newEncoded = $encoder->hashPassword($changeUser, $data["newPassword"]);
                 $changeUser->setPassword($newEncoded);
                 $userRepo->updateUser($changeUser);
             } else {
