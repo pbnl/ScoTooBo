@@ -3,11 +3,12 @@
 namespace App\Model;
 
 use App\Model\Services\UserLazyLoader;
-use Symfony\Component\Security\Core\User\EquatableInterface;
+use phpDocumentor\Reflection\Utils;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Validator\Constraints as Assert;
 
-class User implements UserInterface, EquatableInterface
+
+class User implements UserInterface
 {
 
     /**
@@ -620,5 +621,19 @@ class User implements UserInterface, EquatableInterface
     {
         $this->salt = SSHA::sshaGetSalt($ssha);
         $this->shaHashedPassword = SSHA::sshaGetHash($ssha);
+    }
+
+    public function getUserIdentifier()
+    {
+        return $this->getUid();
+    }
+
+
+    public function __serialize(): array
+    {
+        $copy = clone $this;
+        $copy->lazyLoader = null;
+        $copy = (array) $copy;
+        return $copy;
     }
 }

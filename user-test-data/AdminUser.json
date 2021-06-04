@@ -16,10 +16,7 @@
   "generatedPassword":"",
   "shaHashedPassword":"",
   "stamm":"Ambronen",
-  "roles":["ROLE_ambrone",
-    "ROLE_nordlichter",
-    "ROLE_wiki",
-    "ROLE_elder",
+  "roles":[
     "ROLE_admin",
     "ROLE_USER"],
   "password":"{ssha}ywaKEeCyEQEkO4rcqPRPIpRZiMyoZJc6B93n8g==",

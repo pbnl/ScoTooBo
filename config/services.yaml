@@ -58,7 +58,7 @@ services:
 
     ssha_encoder:
         public: true
-        class: App\Security\MessageDigestPasswordEncoder
+        class: App\Security\SSHAPasswordHasher
 
     accessdeniedhandler:
         public: true
