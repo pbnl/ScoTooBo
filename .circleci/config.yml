@@ -2,7 +2,7 @@ version: 2
 jobs:
     test:
         machine:
-            image: ubuntu-1604:201903-01
+            image: ubuntu-2004:202010-01
         environment:
             TZ: "/usr/share/zoneinfo/America/Los_Angeles"
             DEBIAN_FRONTEND: "noninteractive"
@@ -15,7 +15,7 @@ jobs:
             - run:
                 name: Install LDAP
                 command: |
-                    sudo DEBIAN_FRONTEND=noninteractive apt-get -yq --no-install-suggests --no-install-recommends install ldap-utils slapd php7.3-ldap ; \
+                    sudo DEBIAN_FRONTEND=noninteractive apt-get -yq --no-install-suggests --no-install-recommends install ldap-utils slapd ; \
                     sudo service slapd stop ; \
                     sudo rm /etc/ldap/slapd.d/* -R ; \
                     sudo slapadd -n 0 -F /etc/ldap/slapd.d -l ./developerEnv/ldap-test-database/ldif/ldap-test-ubuntudatabase-config.ldif ; \
