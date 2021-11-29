@@ -16,7 +16,7 @@ RUN apt-get update -qq && apt-get install -y -qq \
         zlib1g-dev nano libzip-dev\
         wget libpq-dev rsync
 
-RUN pecl install mcrypt-1.0.4\
+RUN docker-php-ext-install -j$(nproc) mcrypt
     && docker-php-ext-enable mcrypt
 
 # install some php extensions
