@@ -16,9 +16,6 @@ RUN apt-get update -qq && apt-get install -y -qq \
         zlib1g-dev nano libzip-dev\
         wget libpq-dev rsync
 
-RUN docker-php-ext-install -j$(nproc) mcrypt\
-    && docker-php-ext-enable mcrypt
-
 # install some php extensions
 RUN docker-php-ext-install -j$(nproc) mbstring iconv bcmath intl xml zip opcache pdo_pgsql\
     && docker-php-ext-configure gd  \
