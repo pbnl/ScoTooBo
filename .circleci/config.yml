@@ -30,7 +30,6 @@ jobs:
             - run: sudo phpenmod -v 8.0 xml
             - run: sudo phpenmod -v 8.0 mbstring
             - run: sudo phpenmod -v 8.0 curl
-            - run: sudo phpenmod -v 8.0 mcrypt
             - run: sudo phpenmod -v 8.0 ldap
             - run: curl -sS https://getcomposer.org/installer | sudo php -- --install-dir=/usr/local/bin --filename=composer
             - run: php /usr/local/bin/composer install --no-interaction --dev
