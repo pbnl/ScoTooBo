@@ -434,9 +434,6 @@
     "symfony/options-resolver": {
         "version": "v4.3.5"
     },
-    "symfony/orm-pack": {
-        "version": "v1.0.6"
-    },
     "symfony/password-hasher": {
         "version": "v5.3.0"
     },
@@ -498,9 +495,6 @@
     },
     "symfony/process": {
         "version": "v5.3.0"
-    },
-    "symfony/profiler-pack": {
-        "version": "v1.0.4"
     },
     "symfony/property-access": {
         "version": "v4.3.5"
@@ -605,9 +599,6 @@
             "config/routes/dev/twig.yaml",
             "templates/base.html.twig"
         ]
-    },
-    "symfony/twig-pack": {
-        "version": "v1.0.0"
     },
     "symfony/validator": {
         "version": "4.3",
