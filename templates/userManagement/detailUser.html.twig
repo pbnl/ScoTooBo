@@ -199,6 +199,10 @@
                 </td>
                 <td>
                     <a href="{{ path('changeUserPassword', {"uid":user.uid}) }}" >Ändern</a>
+                    {% if is_granted('ROLE_resetPasswordAllUsers') %}
+                        <a href="{{ path('resetUserPassword', {"uid":user.uid}) }}" >Zurücksetzen</a>
+                    {% endif %}
+
                 </td>
             </tr>
             <tr>

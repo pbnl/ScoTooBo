@@ -373,6 +373,63 @@ class UserController extends AbstractController
     }
 
     /**
+     * @Route("/users/detail/resetPassword", name="resetUserPassword")
+     * @Security("is_granted('ROLE_resetPasswordAllUsers')")
+     * @param Request $request
+     * @param UserRepository $userRepo
+     * @return Response
+     */
+    public function resetUserPassword(Request $request, UserRepository $userRepo, UserPasswordHasherInterface $encoder): Response
+    {
+        $loggedInUser = $this->get('security.token_storage')->getToken()->getUser();
+
+        if ($request->get("uid", $loggedInUser->getUid()) != $loggedInUser->getUid()) {
+            $resettedUser = $userRepo->getUserByUid($request->get("uid"));
+        } else {
+            $resettedUser = $loggedInUser;
+        }
+
+        $resetPasswordForm = $this->createFormBuilder(['attr' => ['class' => 'form-addUser']])
+            ->add("newPassword", RepeatedType::class, [
+                'type' => PasswordType::class,
+                'invalid_message' => 'Die Passwörter müssen gleich sein',
+                'options' => ["attr" => ["placeholder" => "Neues Passwort"],],
+                'required' => true,
+                'first_options'  => ['label' => 'Passwort'],
+                'second_options' => ['label' => 'Passwort wiederholen'],
+            ])
+            ->add(
+                "send",
+                SubmitType::class,
+                array(
+                    "label" => "Zurücksetzen",
+                    "attr" => [
+                        "class" => "btn btn-lg btn-primary btn-block",
+                    ],
+                )
+            )
+            ->getForm();
+
+        //Handel the form input
+        $resetPasswordForm->handleRequest($request);
+        if ($resetPasswordForm->isSubmitted() && $resetPasswordForm->isValid()) {
+            $data = $resetPasswordForm->getData();
+            $newEncoded = $encoder->hashPassword($resettedUser, $data["newPassword"]);
+            $resettedUser->setPassword($newEncoded);
+            $userRepo->updateUser($resettedUser);
+        }
+
+        //Render the page
+        return $this->render(
+            "userManagement/resetUserPassword.html.twig",
+            array(
+                "user" => $resettedUser,
+                "resetPasswordForm" => $resetPasswordForm->createView(),
+            )
+        );
+    }
+
+    /**
      * @Route("/users/detail", name="detailUser")
      * @param Request $request
      * @param UserRepository $userRepo
