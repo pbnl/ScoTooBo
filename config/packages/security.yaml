@@ -56,3 +56,4 @@ security:
         ROLE_VIEW_ALL_MAILALIAS:
         ROLE_EDIT_ALL_MAILALIAS:
         ROLE_CHANGEPASSWORD_ALL_USERS:
+        ROLE_resetPasswordAllUsers:
