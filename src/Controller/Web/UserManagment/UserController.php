@@ -356,6 +356,7 @@ class UserController extends AbstractController
                 $newEncoded = $encoder->hashPassword($changeUser, $data["newPassword"]);
                 $changeUser->setPassword($newEncoded);
                 $userRepo->updateUser($changeUser);
+                $this->addFlash("success", "Passwort geändert");
             } else {
                 $dateError = new FormError("Das alte Passwort muss übereinstimmen!");
                 $changePasswordForm->get('oldPassword')->addError($dateError);
@@ -417,6 +418,7 @@ class UserController extends AbstractController
             $newEncoded = $encoder->hashPassword($resettedUser, $data["newPassword"]);
             $resettedUser->setPassword($newEncoded);
             $userRepo->updateUser($resettedUser);
+            $this->addFlash("success", "Passwort zurückgesetzt");
         }
 
         //Render the page
