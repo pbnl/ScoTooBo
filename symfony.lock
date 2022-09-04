@@ -175,18 +175,6 @@
     "php": {
         "version": "7.3"
     },
-    "phpdocumentor/reflection-common": {
-        "version": "2.0.0"
-    },
-    "phpdocumentor/reflection-docblock": {
-        "version": "4.3.2"
-    },
-    "phpdocumentor/type-resolver": {
-        "version": "1.0.1"
-    },
-    "phpspec/prophecy": {
-        "version": "1.9.0"
-    },
     "phpunit/php-code-coverage": {
         "version": "7.0.8"
     },
@@ -653,9 +641,6 @@
     },
     "twig/twig": {
         "version": "v2.12.1"
-    },
-    "webmozart/assert": {
-        "version": "1.5.0"
     },
     "willdurand/jsonp-callback-validator": {
         "version": "v1.1.0"
