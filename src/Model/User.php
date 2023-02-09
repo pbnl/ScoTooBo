@@ -4,11 +4,11 @@ namespace App\Model;
 
 use App\Model\Services\UserLazyLoader;
 use phpDocumentor\Reflection\Utils;
-use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
+use Symfony\Component\Security\Core\User\LegacyPasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Validator\Constraints as Assert;
 
-class User implements UserInterface, PasswordAuthenticatedUserInterface
+class User implements LegacyPasswordAuthenticatedUserInterface, UserInterface
 {
 
     /**
@@ -68,7 +68,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     /**
      * The salt of the password
      *
-     * @var string
+     * @var null|string
      */
     private $salt = "";
 
@@ -506,9 +506,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      *
      * This can return null if the password was not encoded using a salt.
      *
-     * @return string|null The salt
+     * @return null|string
      */
-    public function getSalt()
+    public function getSalt(): null|string
     {
         return $this->salt;
     }
