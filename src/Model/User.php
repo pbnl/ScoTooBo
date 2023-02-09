@@ -4,11 +4,10 @@ namespace App\Model;
 
 use App\Model\Services\UserLazyLoader;
 use phpDocumentor\Reflection\Utils;
+use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
-use Symfony\Component\Validator\Constraints as Assert;
 
-
-class User implements UserInterface
+class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
 
     /**
