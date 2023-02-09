@@ -4,15 +4,6 @@ use Symfony\Component\Dotenv\Dotenv;
 
 require dirname(__DIR__) . '/vendor/autoload.php';
 
-if (isset($_ENV['BOOTSTRAP_CLEAR_LDAP_DATABASE']) && $_ENV['BOOTSTRAP_CLEAR_LDAP_DATABASE']) {
-    $passwd = getenv("sudopasswd");
-    passthru(sprintf("developerEnv/ldap-test-database/clear-ldap-database.sh '$passwd'"));
-}
-if (isset($_ENV['BOOTSTRAP_CLEAR_MYSQL_DATABASE']) && $_ENV['BOOTSTRAP_CLEAR_MYSQL_DATABASE']) {
-    $passwd = getenv("sudopasswd");
-    passthru(sprintf("developerEnv/mysql-test-database/clear-sqlite-database.sh '$passwd'"));
-}
-
 // Load cached env vars if the .env.local.php file exists
 // Run "composer dump-env prod" to create it (requires symfony/flex >=1.2)
 if (is_array($env = @include dirname(__DIR__) . '/.env.local.php')) {

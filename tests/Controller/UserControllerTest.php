@@ -241,6 +241,7 @@ class UserControllerTest extends WebTestCase
     public function testChangePasswordSelf()
     {
         $client = TestTools::getLoggedInBuvoUser();
+        $client->followRedirects(true);
 
         $crawler = $client->request('GET', '/users/detail/changePassword');
         $this->assertEquals("200", $client->getResponse()->getStatusCode());
@@ -259,9 +260,6 @@ class UserControllerTest extends WebTestCase
         $form['_username'] = 'TestBuvoUser';
         $form['_password'] = 'baum';
         $client->submit($form);
-        $this->assertEquals("302", $client->getResponse()->getStatusCode());
-        $client->followRedirect();
-        $client->followRedirect();
         $this->assertEquals(200, $client->getResponse()->getStatusCode());
         $this->assertStringNotContainsString('Login', $client->getResponse()->getContent());
 
