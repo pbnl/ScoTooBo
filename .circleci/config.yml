@@ -2,7 +2,9 @@ version: 2
 jobs:
     test:
         machine:
-            image: cimg/base:current
+            image: ubuntu-2004:current
+        resource_class: medium
+
         environment:
             TZ: "/usr/share/zoneinfo/America/Los_Angeles"
             DEBIAN_FRONTEND: "noninteractive"
@@ -36,7 +38,7 @@ jobs:
             - run: ./vendor/bin/phpunit
     build:
         docker:
-        - image: cimg/base:current
+        - image: circleci/buildpack-deps
         steps:
         - checkout
         - setup_remote_docker:
