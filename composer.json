@@ -16,8 +16,6 @@
     "require": {
         "php": ">=8.0",
         "ext-ldap": "*",
-        "ext-pdo_mysql": "*",
-        "ext-pdo_sqlite": "*",
         "composer/package-versions-deprecated": "1.11.99.5",
         "doctrine/doctrine-bundle": "^1.6||^2.0",
         "doctrine/doctrine-migrations-bundle": "^2",
