@@ -54,8 +54,8 @@ jobs:
         - run:
               name: Push docker images
               command: |
-                docker push pbnl/scotoobo-php
-                docker push pbnl/scotoobo-nginx
+                docker push pbnl/scotoobo-php:dev
+                docker push pbnl/scotoobo-nginx:dev
 workflows:
     version: 2
     test_and_build:
