@@ -102,9 +102,6 @@
     "fakerphp/faker": {
         "version": "v1.14.1"
     },
-    "friendsofphp/proxy-manager-lts": {
-        "version": "v1.0.5"
-    },
     "friendsofsymfony/rest-bundle": {
         "version": "2.2",
         "recipe": {
@@ -122,9 +119,6 @@
     },
     "incenteev/composer-parameter-handler": {
         "version": "v2.1.3"
-    },
-    "laminas/laminas-code": {
-        "version": "4.3.0"
     },
     "laminas/laminas-eventmanager": {
         "version": "3.3.1"
