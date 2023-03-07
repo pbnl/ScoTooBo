@@ -1,3 +1,5 @@
+docker-compose.yml.local
+
 /.web-server-pid
 /app/config/parameters.yml
 /build/
